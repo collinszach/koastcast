@@ -11,7 +11,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import buoys, forecast, nlq, optimal, safety, sessions, spots, stoke
+from routers import buoys, forecast, gear, nlq, optimal, safety, sessions, spots, stoke
 from scheduler.jobs import register_jobs
 from config import settings
 
@@ -68,6 +68,7 @@ app.include_router(nlq.router,      prefix="/api/v1", tags=["nlq"])
 app.include_router(stoke.router,    prefix="/api/v1", tags=["stoke"])
 app.include_router(optimal.router,  prefix="/api/v1", tags=["optimal"])
 app.include_router(safety.router,   prefix="/api/v1", tags=["safety"])
+app.include_router(gear.router,     prefix="/api/v1", tags=["gear"])
 
 
 @app.get("/health")

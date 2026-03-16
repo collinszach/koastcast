@@ -20,6 +20,7 @@ import {
 import type { ForecastHour } from '@/types'
 import ConditionsIntelligence from '@/components/forecast/ConditionsIntelligence'
 import SafetyPanel from '@/components/forecast/SafetyPanel'
+import GearRecommendation from '@/components/forecast/GearRecommendation'
 import { generateConditionsIntelligence } from '@/lib/conditions-intelligence'
 
 export const revalidate = 300
@@ -252,6 +253,16 @@ export default async function SpotPage({ params }: PageProps) {
             currentTime={currentHour?.forecast_time}
           />
         </div>
+      </div>
+
+      {/* Gear Recommendation */}
+      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+        <h2 className="text-sm font-semibold text-gray-300 mb-4">What to Grab</h2>
+        <GearRecommendation
+          spotId={spot.slug}
+          faceHeightM={currentHour?.wave_height_face_m ?? currentHour?.wave_height_m}
+          wavePeriodS={currentHour?.wave_period_s}
+        />
       </div>
 
       {/* Swell Spectrum */}
