@@ -1,0 +1,102 @@
+version: "3.9"
+
+services:
+  # ─── Open-Meteo (self-hosted, free for commercial use) ───────────────────
+  open-meteo-api:
+    image: ghcr.io/open-meteo/open-meteo:latest
+    container_name: swellstack_open_meteo
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - open_meteo_data:/app/data
+    environment:
+      - DOMAIN=localhost
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/v1/marine?latitude=37.5&longitude=-122.5&hourly=wave_height"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+
+  # ─── SwellStack FastAPI Backend ───────────────────────────────────────────
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: swellstack_api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./apps/api/models:/app/models  # ML models persist
+      - ./data:/app/data               # bathymetry, SWAN configs
+    env_file:
+      - .env
+    environment:
+      - OPEN_METEO_BASE_URL=http://open-meteo-api:8080
+      - LLAMA_CPP_BASE_URL=http://llm:8081/v1
+    depends_on:
+      - open-meteo-api
+      - llm
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ─── llama.cpp LLM Server (Phi-4-mini, on-device) ────────────────────────
+  llm:
+    image: ghcr.io/ggerganov/llama.cpp:server
+    container_name: swellstack_llm
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./models:/models  # place phi-4-mini-q4_k_m.gguf here
+    command: >
+      -m /models/phi-4-mini-q4_k_m.gguf
+      --host 0.0.0.0
+      --port 8081
+      --ctx-size 4096
+      --threads 4
+      --n-predict 512
+      -ngl 0
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 60s
+      timeout: 15s
+      retries: 3
+
+  # ─── FUTURE INTEGRATION: Cloudflare Tunnel ───────────────────────────────
+  # Disabled for local development — API is available directly on localhost:8000.
+  # To re-enable for production: uncomment this block and set CLOUDFLARE_TUNNEL_TOKEN.
+  # cloudflared:
+  #   image: cloudflare/cloudflared:latest
+  #   container_name: swellstack_tunnel
+  #   restart: unless-stopped
+  #   command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+  #   environment:
+  #     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+  #   depends_on:
+  #     - api
+
+  # ─── SWAN Wave Model Runner ───────────────────────────────────────────────
+  # NOTE: Build this image from ./docker/swan/Dockerfile which installs SWAN
+  # Only enable after Phase 3
+  # swan:
+  #   build:
+  #     context: ./docker/swan
+  #   container_name: swellstack_swan
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./data/swan_configs:/app/configs
+  #     - ./data/bathymetry:/app/bathy
+  #     - swan_output:/app/output
+
+volumes:
+  open_meteo_data:
+  # swan_output:
+
+networks:
+  default:
+    name: swellstack_net
