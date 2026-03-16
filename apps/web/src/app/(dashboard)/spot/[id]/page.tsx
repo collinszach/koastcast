@@ -19,6 +19,7 @@ import {
 } from '@/types'
 import type { ForecastHour } from '@/types'
 import ConditionsIntelligence from '@/components/forecast/ConditionsIntelligence'
+import SafetyPanel from '@/components/forecast/SafetyPanel'
 import { generateConditionsIntelligence } from '@/lib/conditions-intelligence'
 
 export const revalidate = 300
@@ -213,6 +214,9 @@ export default async function SpotPage({ params }: PageProps) {
           )}
         </div>
       </div>
+
+      {/* Safety & Hazards Panel */}
+      <SafetyPanel spotId={spot.slug} spotName={spot.name} />
 
       {/* Conditions Intelligence — plain-English summary */}
       {intelligence && (
