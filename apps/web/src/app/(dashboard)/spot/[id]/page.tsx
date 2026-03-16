@@ -18,6 +18,7 @@ import {
   getConditionLabel,
 } from '@/types'
 import type { ForecastHour } from '@/types'
+import type { ReactNode } from 'react'
 import ConditionsIntelligence from '@/components/forecast/ConditionsIntelligence'
 import SafetyPanel from '@/components/forecast/SafetyPanel'
 import GearRecommendation from '@/components/forecast/GearRecommendation'
@@ -58,299 +59,249 @@ async function getUserTier(): Promise<'free' | 'pro' | 'explorer'> {
   }
 }
 
+const CONDITION_CONFIG = {
+  firing:   { text: 'text-red-400',    badge: 'bg-red-500/20 text-red-300 border border-red-500/30',           heroGrad: 'from-red-950/80 via-slate-950/60 to-transparent',    label: '🔥 FIRING'   },
+  pumping:  { text: 'text-orange-400', badge: 'bg-orange-500/20 text-orange-300 border border-orange-500/30',  heroGrad: 'from-orange-950/80 via-slate-950/60 to-transparent', label: '🤙 PUMPING'  },
+  fun:      { text: 'text-green-400',  badge: 'bg-green-500/20 text-green-300 border border-green-500/30',     heroGrad: 'from-green-950/80 via-slate-950/60 to-transparent',  label: '😎 FUN'      },
+  worth_it: { text: 'text-blue-400',   badge: 'bg-blue-500/20 text-blue-300 border border-blue-500/30',        heroGrad: 'from-blue-950/80 via-slate-950/60 to-transparent',   label: '🏄 WORTH IT' },
+  flat:     { text: 'text-slate-400',  badge: 'bg-slate-700/50 text-slate-400 border border-slate-600/30',     heroGrad: 'from-slate-900/80 via-slate-950/60 to-transparent',  label: '😴 FLAT'     },
+  no_data:  { text: 'text-slate-500',  badge: 'bg-slate-800/50 text-slate-500 border border-slate-700/30',     heroGrad: 'from-slate-900/80 via-slate-950/60 to-transparent',  label: '— NO DATA'   },
+}
+
 export default async function SpotPage({ params }: PageProps) {
   const { id } = await params
   const tier = await getUserTier()
   const isPremium = tier === 'pro' || tier === 'explorer'
   const { spot, forecast, error } = await loadData(id, isPremium)
 
-  if (!spot) {
-    notFound()
-  }
+  if (!spot) notFound()
 
   const currentHour: ForecastHour | undefined = forecast?.hours[0]
-  const label = getConditionLabel(currentHour?.quality_score)
+  const label  = getConditionLabel(currentHour?.quality_score)
+  const config = CONDITION_CONFIG[label]
 
-  // Conditions Intelligence: plain-English summary
   const intelligence = forecast ? generateConditionsIntelligence(spot, forecast.hours) : null
 
-  const CONDITION_COLORS: Record<string, string> = {
-    firing: 'text-red-400',
-    pumping: 'text-orange-400',
-    fun: 'text-green-400',
-    worth_it: 'text-blue-400',
-    flat: 'text-gray-400',
-    no_data: 'text-gray-500',
-  }
-
-  const CONDITION_LABELS: Record<string, string> = {
-    firing: 'FIRING',
-    pumping: 'PUMPING',
-    fun: 'FUN',
-    worth_it: 'WORTH IT',
-    flat: 'FLAT',
-    no_data: 'NO DATA',
-  }
-
-  // Build wind readings for WindRose (24h)
   const windReadings = (forecast?.hours ?? [])
     .slice(0, 24)
     .filter(h => h.wind_direction != null && h.wind_speed_ms != null)
-    .map(h => ({
-      direction: h.wind_direction!,
-      speed_ms: h.wind_speed_ms!,
-      time: h.forecast_time,
-    }))
+    .map(h => ({ direction: h.wind_direction!, speed_ms: h.wind_speed_ms!, time: h.forecast_time }))
 
-  // Build tide points from forecast hours
   const tidePoints = (forecast?.hours ?? [])
     .filter(h => h.tide_height_m != null)
-    .map(h => ({
-      time: h.forecast_time,
-      height_m: h.tide_height_m!,
-      is_high: h.tide_state === 'high',
-      is_low: h.tide_state === 'low',
-    }))
+    .map(h => ({ time: h.forecast_time, height_m: h.tide_height_m!, is_high: h.tide_state === 'high', is_low: h.tide_state === 'low' }))
 
-  // Build spectrum snapshots (now + 6h + 12h + 24h)
-  const spectrumHours = [0, 6, 12, 24]
-  const spectrumSnapshots = spectrumHours
+  const spectrumSnapshots = [0, 6, 12, 24]
     .map(offset => {
       const hour = forecast?.hours[offset]
       if (!hour?.wave_spectrum) return null
-      const label = offset === 0 ? 'Now' : `+${offset}h`
-      return { label, spectrum: hour.wave_spectrum }
+      return { label: offset === 0 ? 'Now' : `+${offset}h`, spectrum: hour.wave_spectrum }
     })
     .filter(Boolean) as Array<{ label: string; spectrum: Record<string, number> }>
 
+  const heightFt  = currentHour?.wave_height_face_m != null
+    ? (currentHour.wave_height_face_m * 3.281).toFixed(0)
+    : currentHour?.wave_height_m != null
+    ? (currentHour.wave_height_m * 3.281).toFixed(0)
+    : null
+
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
-      {/* Back nav */}
-      <Link href="/map" className="text-gray-400 hover:text-white text-sm flex items-center gap-2 transition-colors">
-        ← Back to map
-      </Link>
+    <div className="min-h-full">
 
-      {/* Hero */}
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-        <div className="flex items-start justify-between flex-wrap gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-white">{spot.name}</h1>
-            <p className="text-gray-400 mt-1 flex items-center gap-2 flex-wrap">
-              <span>{spot.region} · {spot.break_type} break{spot.skill_minimum && ` · ${spot.skill_minimum}+`}</span>
-              {spot.swan_enabled && (
-                <span className="text-xs bg-cyan-900/50 text-cyan-400 px-2 py-0.5 rounded-full font-medium">
-                  Physics Model
-                </span>
-              )}
-            </p>
-            {spot.description && (
-              <p className="text-gray-500 text-sm mt-2 max-w-xl">{spot.description}</p>
-            )}
-          </div>
+      {/* ── HERO ── */}
+      <div className="relative overflow-hidden" style={{ background: '#020b18' }}>
+        {/* Condition color gradient overlay */}
+        <div className={`absolute inset-0 bg-gradient-to-b ${config.heroGrad} pointer-events-none`} />
 
-          <div className="text-right">
-            <div className={`text-2xl font-black ${CONDITION_COLORS[label]}`}>
-              {CONDITION_LABELS[label]}
-            </div>
-            {currentHour?.quality_score != null && (
-              <div className="text-gray-500 text-sm">
-                Quality {currentHour.quality_score.toFixed(1)}/10
+        {/* Wave pattern decoration */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+             style={{ backgroundImage: `repeating-linear-gradient(45deg, #0ea5e9 0, #0ea5e9 1px, transparent 0, transparent 50%)`, backgroundSize: '20px 20px' }} />
+
+        <div className="relative max-w-4xl mx-auto px-4 pt-6 pb-8">
+          {/* Back */}
+          <Link href="/map" className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-200 text-sm transition-colors mb-6">
+            ← Map
+          </Link>
+
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{spot.region}</span>
+                <span className="text-slate-700">·</span>
+                <span className="text-xs text-slate-500 capitalize">{spot.break_type} break</span>
+                {spot.skill_minimum && (
+                  <>
+                    <span className="text-slate-700">·</span>
+                    <span className="text-xs text-slate-500 capitalize">{spot.skill_minimum}+</span>
+                  </>
+                )}
+                {spot.swan_enabled && (
+                  <span className="text-xs bg-cyan-900/50 text-cyan-300 px-2 py-0.5 rounded-full border border-cyan-800/50 font-medium">
+                    Physics Model
+                  </span>
+                )}
               </div>
-            )}
-          </div>
-        </div>
 
-        {/* Current conditions grid */}
-        {currentHour && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-gray-800">
-            <ConditionStat
-              label="Wave Height"
-              value={formatWaveHeight(currentHour.wave_height_face_m ?? currentHour.wave_height_m)}
-            />
-            <ConditionStat
-              label="Period"
-              value={formatPeriod(currentHour.wave_period_s)}
-            />
-            <ConditionStat
-              label="Swell"
-              value={directionArrow(currentHour.swell_direction ?? currentHour.wave_direction)}
-            />
-            <ConditionStat
-              label="Wind"
-              value={`${directionArrow(currentHour.wind_direction)} ${formatWindSpeed(currentHour.wind_speed_ms)}`}
-            />
-            {currentHour.tide_height_m != null && (
-              <ConditionStat
-                label="Tide"
-                value={`${currentHour.tide_height_m.toFixed(1)}m ${currentHour.tide_state ?? ''}`}
-              />
-            )}
-            {currentHour.swell_height_m != null && (
-              <ConditionStat
-                label="Swell Height"
-                value={formatWaveHeight(currentHour.swell_height_m)}
-              />
-            )}
-            {currentHour.swell_period_s != null && (
-              <ConditionStat
-                label="Swell Period"
-                value={formatPeriod(currentHour.swell_period_s)}
-              />
-            )}
-            {currentHour.confidence != null && (
-              <ConditionStat
-                label="Confidence"
-                value={`${(currentHour.confidence * 100).toFixed(0)}%`}
-              />
-            )}
-          </div>
-        )}
+              <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+                {spot.name}
+              </h1>
+              {spot.description && (
+                <p className="text-slate-400 text-sm mt-2 max-w-lg">{spot.description}</p>
+              )}
+            </div>
 
-        {/* Spot metadata */}
-        <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-gray-800 text-xs text-gray-500">
-          <div>Optimal swell: {spot.optimal_swell_direction ?? '--'}° ± {spot.optimal_swell_direction_range}°</div>
-          <div>Optimal period: {spot.optimal_period_min}-{spot.optimal_period_max}s</div>
-          <div>Optimal size: {formatWaveHeight(spot.optimal_size_min)}-{formatWaveHeight(spot.optimal_size_max)}</div>
-          {spot.nearest_buoy_id && (
-            <div>Nearest buoy: {spot.nearest_buoy_id}</div>
+            {/* Current condition badge + height */}
+            <div className="flex items-end gap-5 flex-shrink-0">
+              {heightFt && (
+                <div className="text-right">
+                  <div className="text-6xl font-black text-white leading-none animate-count">
+                    {heightFt}
+                    <span className="text-2xl text-slate-400 font-bold">ft</span>
+                  </div>
+                  <div className="text-slate-500 text-sm mt-0.5">face height</div>
+                </div>
+              )}
+              <div className="text-right">
+                <span className={`inline-block text-sm font-black px-3 py-1.5 rounded-xl ${config.badge}`}>
+                  {config.label}
+                </span>
+                {currentHour?.quality_score != null && (
+                  <div className="text-slate-500 text-xs mt-1">
+                    {currentHour.quality_score.toFixed(1)} / 10
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Conditions strip */}
+          {currentHour && (
+            <div className="mt-6 pt-6 border-t border-slate-800/60">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <CondStat icon="🌊" label="Wave Height"
+                  value={formatWaveHeight(currentHour.wave_height_face_m ?? currentHour.wave_height_m)} />
+                <CondStat icon="⏱️" label="Period"
+                  value={formatPeriod(currentHour.wave_period_s)} />
+                <CondStat icon="🧭" label="Swell Direction"
+                  value={directionArrow(currentHour.swell_direction ?? currentHour.wave_direction)} />
+                <CondStat icon="💨" label="Wind"
+                  value={`${directionArrow(currentHour.wind_direction)} ${formatWindSpeed(currentHour.wind_speed_ms)}`} />
+                {currentHour.tide_height_m != null && (
+                  <CondStat icon="🌊" label="Tide"
+                    value={`${currentHour.tide_height_m.toFixed(1)}m ${currentHour.tide_state ?? ''}`} />
+                )}
+                {currentHour.swell_height_m != null && (
+                  <CondStat icon="↗️" label="Swell Height"
+                    value={formatWaveHeight(currentHour.swell_height_m)} />
+                )}
+                {currentHour.confidence != null && (
+                  <CondStat icon="🎯" label="Confidence"
+                    value={`${(currentHour.confidence * 100).toFixed(0)}%`} />
+                )}
+              </div>
+            </div>
           )}
         </div>
       </div>
 
-      {/* Safety & Hazards Panel */}
-      <SafetyPanel spotId={spot.slug} spotName={spot.name} />
+      {/* ── CONTENT ── */}
+      <div className="max-w-4xl mx-auto px-4 py-6 space-y-5">
 
-      {/* Conditions Intelligence — plain-English summary */}
-      {intelligence && (
-        <ConditionsIntelligence data={intelligence} spotName={spot.name} />
-      )}
+        {/* Safety */}
+        <SafetyPanel spotId={spot.slug} spotName={spot.name} />
 
-      {/* Phase 2 visualizations row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Stoke Score */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-          <h2 className="text-sm font-semibold text-gray-300 mb-4">Stoke Score™</h2>
-          <StokeScoreWidget
+        {/* Conditions Intelligence */}
+        {intelligence && <ConditionsIntelligence data={intelligence} spotName={spot.name} />}
+
+        {/* Stoke / Wind / Tide */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card title="Stoke Score™">
+            <StokeScoreWidget spotId={spot.slug} spotName={spot.name} currentHour={currentHour} />
+          </Card>
+          <Card title="Wind (24h)">
+            <WindRoseWidget readings={windReadings} offshoreDirection={spot.optimal_wind_direction} />
+          </Card>
+          <Card title="Tides">
+            <TideChartWidget points={tidePoints} currentTime={currentHour?.forecast_time} />
+          </Card>
+        </div>
+
+        {/* Gear */}
+        <Card title="What to Grab">
+          <GearRecommendation
             spotId={spot.slug}
-            spotName={spot.name}
-            currentHour={currentHour}
+            faceHeightM={currentHour?.wave_height_face_m ?? currentHour?.wave_height_m}
+            wavePeriodS={currentHour?.wave_period_s}
           />
-        </div>
+        </Card>
 
-        {/* Wind Rose */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-          <h2 className="text-sm font-semibold text-gray-300 mb-4">Wind (24h)</h2>
-          <WindRoseWidget
-            readings={windReadings}
-            offshoreDirection={spot.optimal_wind_direction}
-          />
-        </div>
-
-        {/* Tide Chart */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-          <h2 className="text-sm font-semibold text-gray-300 mb-4">Tides</h2>
-          <TideChartWidget
-            points={tidePoints}
-            currentTime={currentHour?.forecast_time}
-          />
-        </div>
-      </div>
-
-      {/* Gear Recommendation */}
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-        <h2 className="text-sm font-semibold text-gray-300 mb-4">What to Grab</h2>
-        <GearRecommendation
-          spotId={spot.slug}
-          faceHeightM={currentHour?.wave_height_face_m ?? currentHour?.wave_height_m}
-          wavePeriodS={currentHour?.wave_period_s}
-        />
-      </div>
-
-      {/* Swell Spectrum */}
-      {spectrumSnapshots.length > 0 && (
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-          <h2 className="text-lg font-semibold text-white mb-4">
-            Swell Spectrum
-            <span className="text-gray-500 text-sm font-normal ml-2">wave energy by period</span>
-          </h2>
-          <SwellSpectrumWidget snapshots={spectrumSnapshots} />
-        </div>
-      )}
-
-      {/* Model Comparison (premium) */}
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-        <h2 className="text-lg font-semibold text-white mb-4">
-          Model Comparison
-          <span className="text-gray-500 text-sm font-normal ml-2">ECMWF · GFS · ICON</span>
-        </h2>
-        <ModelComparison
-          modelForecasts={forecast?.model_forecasts ?? {}}
-          isPremium={isPremium}
-        />
-      </div>
-
-      {/* Optimal Windows */}
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-        <h2 className="text-lg font-semibold text-white mb-4">
-          Optimal Windows
-          <span className="text-gray-500 text-sm font-normal ml-2">best sessions next 14 days</span>
-        </h2>
-        <OptimalWindows
-          spotId={spot.slug}
-          spotName={spot.name}
-          isPremium={isPremium}
-        />
-      </div>
-
-      {/* Swell Event Tracker */}
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-        <h2 className="text-lg font-semibold text-white mb-1">
-          Swell Tracker
-          <span className="text-gray-500 text-sm font-normal ml-2">upcoming events · 16-day</span>
-        </h2>
-        <p className="text-gray-600 text-xs mb-4">
-          Watch swell events build from 10+ days out. Confidence increases as they approach.
-        </p>
-        <SwellTracker spotId={spot.slug} />
-      </div>
-
-      {/* 7-Day Forecast Timeline */}
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-        <h2 className="text-lg font-semibold text-white mb-4">
-          7-Day Forecast
-          {forecast && (
-            <span className="text-gray-500 text-sm font-normal ml-2">
-              via {forecast.model_sources.join(', ')}
-            </span>
-          )}
-        </h2>
-
-        {error ? (
-          <div className="text-red-400 text-sm">
-            Failed to load forecast: {error}
-          </div>
-        ) : forecast ? (
-          <ForecastTimeline hours={forecast.hours} />
-        ) : (
-          <div className="text-gray-500 text-sm">Loading forecast...</div>
+        {/* Swell Spectrum */}
+        {spectrumSnapshots.length > 0 && (
+          <Card title="Swell Spectrum" subtitle="wave energy by period">
+            <SwellSpectrumWidget snapshots={spectrumSnapshots} />
+          </Card>
         )}
+
+        {/* Model Comparison */}
+        <Card title="Model Comparison" subtitle="ECMWF · GFS · ICON">
+          <ModelComparison modelForecasts={forecast?.model_forecasts ?? {}} isPremium={isPremium} />
+        </Card>
+
+        {/* Optimal Windows */}
+        <Card title="Optimal Windows" subtitle="best sessions next 14 days">
+          <OptimalWindows spotId={spot.slug} spotName={spot.name} isPremium={isPremium} />
+        </Card>
+
+        {/* Swell Tracker */}
+        <Card title="Swell Tracker" subtitle="upcoming events · 16-day">
+          <SwellTracker spotId={spot.slug} />
+        </Card>
+
+        {/* Forecast Timeline */}
+        <Card title="7-Day Forecast" subtitle={forecast ? `via ${forecast.model_sources.join(', ')}` : undefined}>
+          {error ? (
+            <div className="text-red-400 text-sm">Failed to load forecast: {error}</div>
+          ) : forecast ? (
+            <ForecastTimeline hours={forecast.hours} />
+          ) : (
+            <div className="text-slate-500 text-sm">Loading forecast...</div>
+          )}
+        </Card>
+
+        {/* Spot metadata footer */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs text-slate-600 pb-6">
+          <div>Optimal swell: {spot.optimal_swell_direction ?? '--'}° ± {spot.optimal_swell_direction_range}°</div>
+          <div>Optimal period: {spot.optimal_period_min}–{spot.optimal_period_max}s</div>
+          <div>Optimal size: {formatWaveHeight(spot.optimal_size_min)}–{formatWaveHeight(spot.optimal_size_max)}</div>
+          {spot.nearest_buoy_id && <div>Buoy: {spot.nearest_buoy_id}</div>}
+        </div>
       </div>
 
-      {/* Ask Stoke — NLQ chat */}
-      <AskStoke
-        spotId={spot.slug}
-        spotName={spot.name}
-        isPremium={isPremium}
-      />
+      {/* Ask Stoke */}
+      <AskStoke spotId={spot.slug} spotName={spot.name} isPremium={isPremium} />
     </div>
   )
 }
 
-function ConditionStat({ label, value }: { label: string; value: string }) {
+function CondStat({ icon, label, value }: { icon: string; label: string; value: string }) {
   return (
     <div>
-      <div className="text-gray-500 text-xs mb-1">{label}</div>
-      <div className="text-white font-semibold text-lg">{value}</div>
+      <div className="text-slate-500 text-xs mb-1 flex items-center gap-1">
+        <span>{icon}</span> {label}
+      </div>
+      <div className="text-white font-bold text-xl">{value}</div>
+    </div>
+  )
+}
+
+function Card({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
+  return (
+    <div className="rounded-2xl border border-slate-800/60 bg-slate-900/50 p-5">
+      <div className="flex items-baseline gap-2 mb-4">
+        <h2 className="text-base font-bold text-white">{title}</h2>
+        {subtitle && <span className="text-slate-500 text-xs">{subtitle}</span>}
+      </div>
+      {children}
     </div>
   )
 }

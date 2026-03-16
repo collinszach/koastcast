@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+:root {
+  --background: #020b18;
+  --foreground: #f0f9ff;
+  --ocean-deep: #020b18;
+  --ocean-mid: #0c1a2e;
+  --ocean-surface: #0f2744;
+  --teal-glow: #0ea5e9;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* MapLibre GL overrides */
+.maplibregl-map {
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+.maplibregl-ctrl-attrib {
+  font-size: 10px;
+  background: rgba(2, 11, 24, 0.85) !important;
+  color: #6b7280 !important;
+}
+
+/* Pulse animations for firing/pumping spot markers */
+@keyframes pulse-ring-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7), 0 2px 10px rgba(0,0,0,0.6); }
+  50%       { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0), 0 2px 10px rgba(0,0,0,0.6); }
+}
+@keyframes pulse-ring-orange {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.6), 0 2px 10px rgba(0,0,0,0.6); }
+  50%       { box-shadow: 0 0 0 10px rgba(249, 115, 22, 0), 0 2px 10px rgba(0,0,0,0.6); }
+}
+
+.marker-firing  { animation: pulse-ring-red    2s ease-in-out infinite; }
+.marker-pumping { animation: pulse-ring-orange 2.5s ease-in-out infinite; }
+
+/* MapLibre popup overrides */
+.maplibregl-popup-content {
+  background: #0c1a2e !important;
+  border: 1px solid #1e3a5f !important;
+  border-radius: 14px !important;
+  padding: 0 !important;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.7) !important;
+  overflow: hidden;
+  min-width: 220px;
+}
+.maplibregl-popup-tip {
+  border-top-color: #0c1a2e !important;
+}
+.maplibregl-popup-close-button {
+  color: #64748b !important;
+  font-size: 20px !important;
+  padding: 8px 12px !important;
+  line-height: 1 !important;
+  top: 4px !important;
+  right: 4px !important;
+}
+.maplibregl-popup-close-button:hover {
+  color: #f0f9ff !important;
+  background: transparent !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #020b18; }
+::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2d5a8e; }
+
+/* Wave height animated number */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-count { animation: count-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* Hero gradient backgrounds */
+.hero-firing   { background: linear-gradient(135deg, #1a0a0a 0%, #2d0a0a 50%, #020b18 100%); }
+.hero-pumping  { background: linear-gradient(135deg, #1a0e00 0%, #2d1800 50%, #020b18 100%); }
+.hero-fun      { background: linear-gradient(135deg, #001a0a 0%, #003d1a 50%, #020b18 100%); }
+.hero-worth_it { background: linear-gradient(135deg, #00091a 0%, #001538 50%, #020b18 100%); }
+.hero-flat     { background: linear-gradient(135deg, #080b0f 0%, #0c1520 50%, #020b18 100%); }
+.hero-no_data  { background: linear-gradient(135deg, #080b0f 0%, #0c1520 50%, #020b18 100%); }
