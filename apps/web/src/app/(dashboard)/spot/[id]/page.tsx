@@ -21,6 +21,7 @@ import type { ForecastHour } from '@/types'
 import ConditionsIntelligence from '@/components/forecast/ConditionsIntelligence'
 import SafetyPanel from '@/components/forecast/SafetyPanel'
 import GearRecommendation from '@/components/forecast/GearRecommendation'
+import SwellTracker from '@/components/forecast/SwellTracker'
 import { generateConditionsIntelligence } from '@/lib/conditions-intelligence'
 
 export const revalidate = 300
@@ -299,6 +300,18 @@ export default async function SpotPage({ params }: PageProps) {
           spotName={spot.name}
           isPremium={isPremium}
         />
+      </div>
+
+      {/* Swell Event Tracker */}
+      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+        <h2 className="text-lg font-semibold text-white mb-1">
+          Swell Tracker
+          <span className="text-gray-500 text-sm font-normal ml-2">upcoming events · 16-day</span>
+        </h2>
+        <p className="text-gray-600 text-xs mb-4">
+          Watch swell events build from 10+ days out. Confidence increases as they approach.
+        </p>
+        <SwellTracker spotId={spot.slug} />
       </div>
 
       {/* 7-Day Forecast Timeline */}
