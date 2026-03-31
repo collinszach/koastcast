@@ -1,94 +1,292 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────
+   OCEAN DESIGN SYSTEM — SwellStack
+   ───────────────────────────────────────────── */
+
 :root {
-  --background: #020b18;
-  --foreground: #f0f9ff;
-  --ocean-deep: #020b18;
-  --ocean-mid: #0c1a2e;
-  --ocean-surface: #0f2744;
-  --teal-glow: #0ea5e9;
+  /* Core palette */
+  --abyss:        #030810;
+  --deep:         #060D1A;
+  --mid:          #0A1628;
+  --surface:      #0F2040;
+  --elevated:     #132845;
+
+  /* Cyan bioluminescent accent */
+  --cyan:         #06B6D4;
+  --cyan-bright:  #22D3EE;
+  --cyan-dim:     #0891B2;
+  --cyan-muted:   #164E63;
+
+  /* Teal secondary */
+  --teal:         #14B8A6;
+  --teal-dim:     #0F766E;
+
+  /* Text */
+  --foam:         #E0F7FA;       /* near-white headings */
+  --mist:         #B0D4DC;       /* body text */
+  --spray:        #6B9BAD;       /* secondary text */
+  --deep-text:    #2E5568;       /* disabled / very muted */
+
+  /* Quality color system */
+  --q-firing:     #F97316;       /* 9-10: fire */
+  --q-pumping:    #06B6D4;       /* 7-8: teal = pumping */
+  --q-good:       #3B82F6;       /* 5-6: blue = fun */
+  --q-ok:         #6366F1;       /* 3-4: indigo = worth it */
+  --q-flat:       #475569;       /* <3: slate = flat */
+
+  /* Glass card */
+  --glass-bg:     rgba(6, 13, 26, 0.72);
+  --glass-border: rgba(6, 182, 212, 0.13);
+  --glass-glow:   rgba(6, 182, 212, 0.06);
+
+  /* Fonts */
+  --font-display: var(--font-syne), 'Syne', system-ui, sans-serif;
+  --font-body:    var(--font-inter), 'Inter', system-ui, sans-serif;
+  --font-data:    var(--font-jetbrains), 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Legacy compat */
+  --background:      var(--deep);
+  --foreground:      var(--foam);
+  --ocean-deep:      var(--deep);
+  --ocean-mid:       var(--mid);
+  --ocean-surface:   var(--surface);
+  --teal-glow:       var(--cyan);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--deep);
+  --color-foreground: var(--foam);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
 }
+
+/* ─── Base ─── */
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  background: var(--deep);
+  color: var(--mist);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* MapLibre GL overrides */
-.maplibregl-map {
-  font-family: var(--font-geist-sans), sans-serif;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--foam);
+  letter-spacing: -0.02em;
 }
+
+/* Data numbers — JetBrains Mono everywhere */
+.font-data,
+.wave-number,
+.period-number,
+.wind-number {
+  font-family: var(--font-data);
+}
+
+/* ─── Glass Card Utility ─── */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(6,182,212,0.06);
+}
+
+.glass-card-elevated {
+  background: rgba(10, 22, 40, 0.85);
+  border: 1px solid rgba(6, 182, 212, 0.18);
+  border-radius: 16px;
+  backdrop-filter: blur(32px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(6,182,212,0.08);
+}
+
+/* ─── Buttons ─── */
+.btn-ocean {
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--cyan-dim) 100%);
+  color: var(--deep);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 0 4px 16px rgba(6,182,212,0.3);
+}
+.btn-ocean:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(6,182,212,0.45);
+}
+.btn-ocean:active { transform: translateY(0); }
+
+/* ─── Form inputs ─── */
+.ocean-input {
+  width: 100%;
+  background: rgba(6, 13, 26, 0.8);
+  border: 1px solid rgba(6,182,212,0.15);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--foam);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.ocean-input:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(6,182,212,0.12);
+}
+.ocean-input::placeholder { color: var(--deep-text); }
+
+/* ─── MapLibre Overrides ─── */
+.maplibregl-map { font-family: var(--font-body), sans-serif; }
 
 .maplibregl-ctrl-attrib {
   font-size: 10px;
-  background: rgba(2, 11, 24, 0.85) !important;
-  color: #6b7280 !important;
+  background: rgba(6, 13, 26, 0.9) !important;
+  color: var(--deep-text) !important;
 }
 
-/* Pulse animations for firing/pumping spot markers */
-@keyframes pulse-ring-red {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7), 0 2px 10px rgba(0,0,0,0.6); }
-  50%       { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0), 0 2px 10px rgba(0,0,0,0.6); }
-}
-@keyframes pulse-ring-orange {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.6), 0 2px 10px rgba(0,0,0,0.6); }
-  50%       { box-shadow: 0 0 0 10px rgba(249, 115, 22, 0), 0 2px 10px rgba(0,0,0,0.6); }
-}
-
-.marker-firing  { animation: pulse-ring-red    2s ease-in-out infinite; }
-.marker-pumping { animation: pulse-ring-orange 2.5s ease-in-out infinite; }
-
-/* MapLibre popup overrides */
 .maplibregl-popup-content {
-  background: #0c1a2e !important;
-  border: 1px solid #1e3a5f !important;
+  background: rgba(10, 22, 40, 0.97) !important;
+  border: 1px solid rgba(6,182,212,0.2) !important;
   border-radius: 14px !important;
   padding: 0 !important;
   box-shadow: 0 24px 48px rgba(0,0,0,0.7) !important;
   overflow: hidden;
   min-width: 220px;
 }
-.maplibregl-popup-tip {
-  border-top-color: #0c1a2e !important;
-}
+.maplibregl-popup-tip { border-top-color: rgba(10, 22, 40, 0.97) !important; }
 .maplibregl-popup-close-button {
-  color: #64748b !important;
+  color: var(--spray) !important;
   font-size: 20px !important;
   padding: 8px 12px !important;
-  line-height: 1 !important;
   top: 4px !important;
   right: 4px !important;
 }
 .maplibregl-popup-close-button:hover {
-  color: #f0f9ff !important;
+  color: var(--foam) !important;
   background: transparent !important;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: #020b18; }
-::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #2d5a8e; }
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--abyss); }
+::-webkit-scrollbar-thumb { background: var(--cyan-muted); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cyan-dim); }
 
-/* Wave height animated number */
+/* ─── Animations ─── */
+
+/* Wave height count-up */
 @keyframes count-up {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.animate-count { animation: count-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-count { animation: count-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-/* Hero gradient backgrounds */
-.hero-firing   { background: linear-gradient(135deg, #1a0a0a 0%, #2d0a0a 50%, #020b18 100%); }
-.hero-pumping  { background: linear-gradient(135deg, #1a0e00 0%, #2d1800 50%, #020b18 100%); }
-.hero-fun      { background: linear-gradient(135deg, #001a0a 0%, #003d1a 50%, #020b18 100%); }
-.hero-worth_it { background: linear-gradient(135deg, #00091a 0%, #001538 50%, #020b18 100%); }
-.hero-flat     { background: linear-gradient(135deg, #080b0f 0%, #0c1520 50%, #020b18 100%); }
-.hero-no_data  { background: linear-gradient(135deg, #080b0f 0%, #0c1520 50%, #020b18 100%); }
+/* Fade up entrance */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up       { animation: fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-fade-up-delay { animation: fade-up 0.55s 0.18s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Bioluminescent pulse for live indicator */
+@keyframes bio-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(6,182,212,0.6); }
+  50%       { opacity: 0.7; box-shadow: 0 0 0 6px rgba(6,182,212,0); }
+}
+.animate-bio-pulse { animation: bio-pulse 2s ease-in-out infinite; }
+
+/* Horizontal wave drift */
+@keyframes wave-drift {
+  0%, 100% { transform: translateX(0) scaleY(1); }
+  33%       { transform: translateX(-2.5%) scaleY(1.04); }
+  66%       { transform: translateX(2.5%) scaleY(0.97); }
+}
+.animate-wave-drift { animation: wave-drift 10s ease-in-out infinite; }
+
+/* Spot marker pulses */
+@keyframes pulse-cyan {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(6,182,212,0.7), 0 2px 10px rgba(0,0,0,0.6); }
+  50%       { box-shadow: 0 0 0 12px rgba(6,182,212,0), 0 2px 10px rgba(0,0,0,0.6); }
+}
+@keyframes pulse-fire {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.7), 0 2px 10px rgba(0,0,0,0.6); }
+  50%       { box-shadow: 0 0 0 12px rgba(249,115,22,0), 0 2px 10px rgba(0,0,0,0.6); }
+}
+.marker-firing  { animation: pulse-fire 2s ease-in-out infinite; }
+.marker-pumping { animation: pulse-cyan 2.5s ease-in-out infinite; }
+
+/* Compass needle spin */
+@keyframes compass-settle {
+  0%   { transform: rotate(calc(var(--deg) - 30deg)); }
+  60%  { transform: rotate(calc(var(--deg) + 8deg)); }
+  80%  { transform: rotate(calc(var(--deg) - 3deg)); }
+  100% { transform: rotate(var(--deg)); }
+}
+
+/* Shimmer for skeleton loaders */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(6,182,212,0.06) 25%,
+    rgba(6,182,212,0.12) 50%,
+    rgba(6,182,212,0.06) 75%
+  );
+  background-size: 200% auto;
+  animation: shimmer 1.8s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* ─── Hero gradient classes (condition-based) ─── */
+.hero-firing   { background: linear-gradient(160deg, #1a0800 0%, #0e0500 40%, var(--deep) 100%); }
+.hero-pumping  { background: linear-gradient(160deg, #001a26 0%, #000f1a 40%, var(--deep) 100%); }
+.hero-fun      { background: linear-gradient(160deg, #001226 0%, #000d1e 40%, var(--deep) 100%); }
+.hero-worth_it { background: linear-gradient(160deg, #080e26 0%, #04081a 40%, var(--deep) 100%); }
+.hero-flat     { background: linear-gradient(160deg, #080c14 0%, #060910 40%, var(--deep) 100%); }
+.hero-no_data  { background: var(--deep); }
+
+/* ─── Cyan glow accents ─── */
+.cyan-glow-text {
+  color: var(--cyan);
+  text-shadow: 0 0 20px rgba(6,182,212,0.5);
+}
+
+.cyan-glow-border {
+  border-color: rgba(6,182,212,0.25);
+  box-shadow: 0 0 0 1px rgba(6,182,212,0.1), 0 4px 16px rgba(6,182,212,0.08);
+}
+
+/* ─── Nav active pill ─── */
+.nav-active {
+  background: rgba(6,182,212,0.1);
+  border: 1px solid rgba(6,182,212,0.2);
+  color: var(--cyan-bright);
+}
+
+/* ─── Range inputs ─── */
+input[type="range"] { accent-color: var(--cyan); }
+
+/* ─── Toggle switch ─── */
+.ocean-toggle-on  { background: var(--cyan); }
+.ocean-toggle-off { background: var(--mid); border: 1px solid rgba(6,182,212,0.15); }
+
+/* ─── Forecast card quality bar colors (CSS vars for easy theming) ─── */
+.q-firing  { --q-color: var(--q-firing); }
+.q-pumping { --q-color: var(--q-pumping); }
+.q-good    { --q-color: var(--q-good); }
+.q-ok      { --q-color: var(--q-ok); }
+.q-flat    { --q-color: var(--q-flat); }
