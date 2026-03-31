@@ -134,7 +134,13 @@ export default function ProfilePage() {
     try {
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) throw new Error('Not authenticated')
+      if (!user) {
+        // No auth — save to localStorage as guest preferences
+        localStorage.setItem('swellstack_guest_prefs', JSON.stringify({ ...profile, notification_prefs: notifPrefs }))
+        setSaved(true)
+        setSaving(false)
+        return
+      }
 
       const { error: upsertError } = await supabase.from('user_profiles').upsert({
         user_id: user.id,
@@ -155,19 +161,26 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="max-w-xl mx-auto px-4 py-6 space-y-4">
-        {[1, 2, 3].map(i => <div key={i} className="bg-gray-800 rounded-xl h-24 animate-pulse" />)}
+        {[1, 2, 3].map(i => <div key={i} className="skeleton rounded-xl h-24" />)}
       </div>
     )
   }
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold text-white mb-1">Profile</h1>
-      <p className="text-gray-400 text-sm mb-6">
+      <h1 style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 28,
+        fontWeight: 800,
+        color: 'var(--foam)',
+        letterSpacing: '-0.02em',
+        marginBottom: 5,
+      }}>Profile</h1>
+      <p style={{ fontSize: 13, color: 'var(--spray)', marginBottom: 24 }}>
         Your surf preferences power the personalized Stoke Score™
       </p>
 
-      <form onSubmit={handleSave} className="space-y-5">
+      <form onSubmit={handleSave} className="space-y-4">
         {/* Identity */}
         <Section title="Identity">
           <Field label="Display name">
@@ -176,12 +189,12 @@ export default function ProfilePage() {
               value={profile.display_name}
               onChange={e => update('display_name', e.target.value)}
               placeholder="How you want to be called"
-              className="input"
+              className="ocean-input"
             />
           </Field>
           {email && (
             <Field label="Email">
-              <input type="email" value={email} disabled className="input opacity-50" />
+              <input type="email" value={email} disabled className="ocean-input" style={{ opacity: 0.4 }} />
             </Field>
           )}
         </Section>
@@ -195,11 +208,24 @@ export default function ProfilePage() {
                   key={level}
                   type="button"
                   onClick={() => update('skill_level', level)}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium capitalize transition-colors ${
-                    profile.skill_level === level
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-800 text-gray-400 hover:text-white'
-                  }`}
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 11,
+                    fontWeight: 600,
+                    textTransform: 'capitalize',
+                    letterSpacing: '0.04em',
+                    padding: '6px 14px',
+                    borderRadius: 8,
+                    border: profile.skill_level === level
+                      ? '1px solid rgba(6,182,212,0.5)'
+                      : '1px solid rgba(6,182,212,0.1)',
+                    background: profile.skill_level === level
+                      ? 'rgba(6,182,212,0.15)'
+                      : 'rgba(6,13,26,0.6)',
+                    color: profile.skill_level === level ? 'var(--cyan-bright)' : 'var(--spray)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                  }}
                 >
                   {level}
                 </button>
@@ -214,11 +240,24 @@ export default function ProfilePage() {
                   key={board}
                   type="button"
                   onClick={() => update('board_type', board)}
-                  className={`px-3 py-1.5 rounded-lg text-sm capitalize transition-colors ${
-                    profile.board_type === board
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-800 text-gray-400 hover:text-white'
-                  }`}
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 11,
+                    fontWeight: 600,
+                    textTransform: 'capitalize',
+                    letterSpacing: '0.04em',
+                    padding: '6px 14px',
+                    borderRadius: 8,
+                    border: profile.board_type === board
+                      ? '1px solid rgba(6,182,212,0.5)'
+                      : '1px solid rgba(6,182,212,0.1)',
+                    background: profile.board_type === board
+                      ? 'rgba(6,182,212,0.15)'
+                      : 'rgba(6,13,26,0.6)',
+                    color: profile.board_type === board ? 'var(--cyan-bright)' : 'var(--spray)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                  }}
                 >
                   {board}
                 </button>
@@ -229,26 +268,30 @@ export default function ProfilePage() {
 
         {/* Wave preferences */}
         <Section title="Wave Preferences">
-          <Field label={`Preferred height: ${mToFt(profile.pref_min_height_m)}–${mToFt(profile.pref_max_height_m)}ft`}>
+          <Field label={`Preferred height: ${mToFt(profile.pref_min_height_m)}–${mToFt(profile.pref_max_height_m)} ft`}>
             <div className="flex items-center gap-3">
-              <span className="text-xs text-gray-500 w-8">Min</span>
+              <span style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--deep-text)', width: 28 }}>Min</span>
               <input
                 type="range" min={0.2} max={4} step={0.1}
                 value={profile.pref_min_height_m}
                 onChange={e => update('pref_min_height_m', parseFloat(e.target.value))}
-                className="flex-1 accent-blue-500"
+                className="flex-1"
               />
-              <span className="text-xs text-gray-400 w-10">{mToFt(profile.pref_min_height_m)}ft</span>
+              <span style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: 'var(--spray)', width: 36, textAlign: 'right' }}>
+                {mToFt(profile.pref_min_height_m)}ft
+              </span>
             </div>
             <div className="flex items-center gap-3 mt-2">
-              <span className="text-xs text-gray-500 w-8">Max</span>
+              <span style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--deep-text)', width: 28 }}>Max</span>
               <input
                 type="range" min={0.5} max={10} step={0.1}
                 value={profile.pref_max_height_m}
                 onChange={e => update('pref_max_height_m', parseFloat(e.target.value))}
-                className="flex-1 accent-blue-500"
+                className="flex-1"
               />
-              <span className="text-xs text-gray-400 w-10">{mToFt(profile.pref_max_height_m)}ft</span>
+              <span style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: 'var(--spray)', width: 36, textAlign: 'right' }}>
+                {mToFt(profile.pref_max_height_m)}ft
+              </span>
             </div>
           </Field>
 
@@ -257,24 +300,24 @@ export default function ProfilePage() {
               type="range" min={5} max={18} step={0.5}
               value={profile.pref_min_period_s}
               onChange={e => update('pref_min_period_s', parseFloat(e.target.value))}
-              className="w-full accent-blue-500"
+              className="w-full"
             />
-            <div className="flex justify-between text-xs text-gray-600 mt-0.5">
-              <span>5s (choppy)</span><span>18s (groundswell)</span>
+            <div className="flex justify-between mt-1" style={{ fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.04em' }}>
+              <span>5s · choppy</span><span>18s · groundswell</span>
             </div>
           </Field>
         </Section>
 
-        {/* Wind & crowd preferences */}
+        {/* Wind & crowd */}
         <Section title="Wind & Crowd">
           <Field label={`Offshore importance: ${Math.round(profile.pref_offshore_importance * 100)}%`}>
             <input
               type="range" min={0} max={1} step={0.05}
               value={profile.pref_offshore_importance}
               onChange={e => update('pref_offshore_importance', parseFloat(e.target.value))}
-              className="w-full accent-green-500"
+              className="w-full"
             />
-            <div className="flex justify-between text-xs text-gray-600 mt-0.5">
+            <div className="flex justify-between mt-1" style={{ fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.04em' }}>
               <span>Don&apos;t care</span><span>Must have offshore</span>
             </div>
           </Field>
@@ -284,32 +327,42 @@ export default function ProfilePage() {
               type="range" min={0} max={1} step={0.05}
               value={profile.pref_crowd_tolerance}
               onChange={e => update('pref_crowd_tolerance', parseFloat(e.target.value))}
-              className="w-full accent-orange-500"
+              className="w-full"
             />
-            <div className="flex justify-between text-xs text-gray-600 mt-0.5">
+            <div className="flex justify-between mt-1" style={{ fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.04em' }}>
               <span>Hate crowds</span><span>Don&apos;t mind</span>
             </div>
           </Field>
         </Section>
 
-        {/* Push notifications */}
+        {/* Notifications */}
         <Section title="Notifications">
-          {/* Enable / disable push */}
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm text-gray-200">Push notifications</div>
-              <div className="text-xs text-gray-500 mt-0.5">
+              <div style={{ fontSize: 13, color: 'var(--mist)' }}>Push notifications</div>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--spray)', marginTop: 3 }}>
                 {pushEnabled ? 'Enabled — browser will notify you' : 'Disabled — click to enable'}
               </div>
             </div>
             {pushEnabled ? (
-              <span className="text-xs bg-green-900/60 text-green-400 px-2.5 py-1 rounded-full">On</span>
+              <span style={{
+                fontFamily: 'var(--font-data)',
+                fontSize: 10,
+                background: 'rgba(6,182,212,0.12)',
+                color: 'var(--cyan)',
+                border: '1px solid rgba(6,182,212,0.25)',
+                padding: '3px 10px',
+                borderRadius: 20,
+                letterSpacing: '0.06em',
+                fontWeight: 600,
+              }}>ON</span>
             ) : (
               <button
                 type="button"
                 onClick={handleEnablePush}
                 disabled={pushLoading}
-                className="text-xs bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg transition-colors"
+                className="btn-ocean"
+                style={{ padding: '6px 14px', fontSize: 11, opacity: pushLoading ? 0.5 : 1 }}
               >
                 {pushLoading ? 'Enabling…' : 'Enable'}
               </button>
@@ -317,50 +370,61 @@ export default function ProfilePage() {
           </div>
 
           {/* Alert toggles */}
-          <div className="space-y-3 pt-2 border-t border-gray-800">
+          <div className="space-y-3 pt-3" style={{ borderTop: '1px solid rgba(6,182,212,0.08)' }}>
             {([
-              { key: 'optimal_windows', label: 'Optimal window alerts', desc: '18h notice when your top-rated session window is confirmed' },
+              { key: 'optimal_windows', label: 'Optimal window alerts', desc: '18h notice when your top-rated window is confirmed' },
               { key: 'swell_alerts',    label: 'Swell alerts',          desc: 'When a buoy exceeds your preferred height' },
               { key: 'crowd_alerts',   label: 'Low-crowd alerts',       desc: 'When a good day is predicted to be uncrowded' },
             ] as Array<{ key: keyof NotificationPrefs; label: string; desc: string }>).map(({ key, label, desc }) => (
               <div key={key} className="flex items-start justify-between gap-4">
                 <div>
-                  <div className="text-sm text-gray-300">{label}</div>
-                  <div className="text-xs text-gray-500">{desc}</div>
+                  <div style={{ fontSize: 13, color: 'var(--mist)' }}>{label}</div>
+                  <div style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--spray)', marginTop: 2 }}>{desc}</div>
                 </div>
                 <button
                   type="button"
                   onClick={() => updateNotif(key, !notifPrefs[key])}
-                  className={`flex-shrink-0 w-10 h-5 rounded-full transition-colors relative ${
-                    notifPrefs[key] ? 'bg-blue-600' : 'bg-gray-700'
-                  }`}
+                  className="flex-shrink-0 relative transition-all"
+                  style={{
+                    width: 40,
+                    height: 20,
+                    borderRadius: 10,
+                    background: notifPrefs[key] ? 'var(--cyan)' : 'rgba(15,32,64,0.8)',
+                    border: notifPrefs[key] ? 'none' : '1px solid rgba(6,182,212,0.15)',
+                    cursor: 'pointer',
+                  }}
                   aria-checked={!!notifPrefs[key]}
                   role="switch"
                 >
-                  <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
-                    notifPrefs[key] ? 'left-5' : 'left-0.5'
-                  }`} />
+                  <span className="absolute top-[3px] w-[14px] h-[14px] bg-white rounded-full shadow transition-all"
+                        style={{ left: notifPrefs[key] ? 23 : 3 }} />
                 </button>
               </div>
             ))}
           </div>
 
-          {/* Min stoke threshold */}
           <Field label={`Alert threshold: Stoke ${notifPrefs.min_stoke_threshold}+`}>
             <input
               type="range" min={40} max={90} step={5}
               value={notifPrefs.min_stoke_threshold}
               onChange={e => updateNotif('min_stoke_threshold', parseInt(e.target.value))}
-              className="w-full accent-blue-500"
+              className="w-full"
             />
-            <div className="flex justify-between text-xs text-gray-600 mt-0.5">
-              <span>40 (anything)</span><span>90 (only epic)</span>
+            <div className="flex justify-between mt-1" style={{ fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.04em' }}>
+              <span>40 · anything</span><span>90 · only epic</span>
             </div>
           </Field>
         </Section>
 
         {error && (
-          <div className="text-red-400 text-sm bg-red-950/50 border border-red-800 rounded-lg px-3 py-2">
+          <div style={{
+            fontSize: 13,
+            color: '#FCA5A5',
+            background: 'rgba(239,68,68,0.08)',
+            border: '1px solid rgba(239,68,68,0.25)',
+            borderRadius: 10,
+            padding: '10px 14px',
+          }}>
             {error}
           </div>
         )}
@@ -368,44 +432,44 @@ export default function ProfilePage() {
         <button
           type="submit"
           disabled={saving}
-          className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-semibold py-3 rounded-xl transition-colors"
+          className="btn-ocean w-full"
+          style={{ padding: '13px', fontSize: 13, opacity: saving ? 0.6 : 1 }}
         >
           {saving ? 'Saving...' : saved ? '✓ Saved' : 'Save Preferences'}
         </button>
       </form>
 
-      {/* Quiver Manager */}
-      <div id="quiver" className="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-4">
-        <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">My Quiver</h2>
-        <p className="text-xs text-gray-500">
-          Add your boards and wetsuits — the app will recommend what to grab based on today&apos;s conditions.
-        </p>
+      {/* Quiver */}
+      <div id="quiver" className="glass-card p-5 space-y-4 mt-4">
+        <div>
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 13,
+            fontWeight: 700,
+            color: 'var(--foam)',
+            letterSpacing: '0.01em',
+          }}>My Quiver</h2>
+          <p style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--spray)', marginTop: 4 }}>
+            Add boards & wetsuits — we&apos;ll recommend what to grab based on today&apos;s conditions.
+          </p>
+        </div>
         <QuiverManager />
       </div>
-
-      <style jsx>{`
-        .input {
-          width: 100%;
-          background: #1f2937;
-          border: 1px solid #374151;
-          border-radius: 0.5rem;
-          padding: 0.5rem 0.75rem;
-          color: white;
-          font-size: 0.875rem;
-          outline: none;
-        }
-        .input:focus {
-          border-color: #3b82f6;
-        }
-      `}</style>
     </div>
   )
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-4">
-      <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">{title}</h2>
+    <div className="glass-card p-5 space-y-4">
+      <h2 style={{
+        fontFamily: 'var(--font-data)',
+        fontSize: 10,
+        fontWeight: 600,
+        color: 'var(--spray)',
+        letterSpacing: '0.12em',
+        textTransform: 'uppercase',
+      }}>{title}</h2>
       {children}
     </div>
   )
@@ -414,7 +478,14 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-xs text-gray-400 mb-2">{label}</label>
+      <label style={{
+        display: 'block',
+        fontFamily: 'var(--font-data)',
+        fontSize: 10,
+        color: 'var(--spray)',
+        letterSpacing: '0.04em',
+        marginBottom: 8,
+      }}>{label}</label>
       {children}
     </div>
   )
