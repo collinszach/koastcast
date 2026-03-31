@@ -1,26 +1,21 @@
 'use client'
 
-/**
- * Sessions page — log sessions + view history.
- */
-
 import { useState } from 'react'
 import SessionLogger from '@/components/sessions/SessionLogger'
 import SessionHistory from '@/components/sessions/SessionHistory'
 import ForecastAccuracyPrompt from '@/components/forecast/ForecastAccuracyPrompt'
 import SurfInsights from '@/components/sessions/SurfInsights'
 
-// Hardcoded spot list — in production this would come from the API/Supabase
 const SPOTS = [
-  { id: 'mavericks-ca', name: 'Mavericks', slug: 'mavericks-ca' },
-  { id: 'steamer-lane-ca', name: 'Steamer Lane', slug: 'steamer-lane-ca' },
-  { id: 'ocean-beach-sf-ca', name: 'Ocean Beach SF', slug: 'ocean-beach-sf-ca' },
-  { id: 'rincon-ca', name: 'Rincon', slug: 'rincon-ca' },
-  { id: 'trestles-ca', name: 'Trestles', slug: 'trestles-ca' },
-  { id: 'blacks-beach-ca', name: "Blacks Beach", slug: 'blacks-beach-ca' },
-  { id: 'sebastian-inlet-fl', name: 'Sebastian Inlet', slug: 'sebastian-inlet-fl' },
-  { id: 'outer-banks-nc', name: 'Outer Banks', slug: 'outer-banks-nc' },
-  { id: 'montauk-ny', name: 'Montauk', slug: 'montauk-ny' },
+  { id: 'mavericks-ca',       name: 'Mavericks',       slug: 'mavericks-ca'       },
+  { id: 'steamer-lane-ca',    name: 'Steamer Lane',    slug: 'steamer-lane-ca'    },
+  { id: 'ocean-beach-sf-ca',  name: 'Ocean Beach SF',  slug: 'ocean-beach-sf-ca'  },
+  { id: 'rincon-ca',          name: 'Rincon',           slug: 'rincon-ca'          },
+  { id: 'lower-trestles-ca',  name: 'Trestles',         slug: 'lower-trestles-ca'  },
+  { id: 'blacks-beach-ca',    name: "Blacks Beach",     slug: 'blacks-beach-ca'    },
+  { id: 'sebastian-inlet-fl', name: 'Sebastian Inlet',  slug: 'sebastian-inlet-fl' },
+  { id: 'outer-banks-nc',     name: 'Outer Banks',      slug: 'outer-banks-nc'     },
+  { id: 'montauk-ny',         name: 'Montauk',          slug: 'montauk-ny'         },
 ]
 
 interface LastSession {
@@ -41,41 +36,83 @@ export default function SessionsPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-6">
-      <div className="flex items-start justify-between mb-6">
+
+      {/* Header */}
+      <div className="flex items-start justify-between mb-7">
         <div>
-          <h1 className="text-2xl font-bold text-white">Sessions</h1>
-          <p className="text-gray-400 text-sm mt-1">
-            Log your surf sessions to train your personalized Stoke Score™
+          <h1 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 28,
+            fontWeight: 800,
+            color: 'var(--foam)',
+            letterSpacing: '-0.02em',
+            lineHeight: 1.1,
+          }}>Sessions</h1>
+          <p style={{ fontSize: 13, color: 'var(--spray)', marginTop: 5 }}>
+            Log sessions to train your personalized Stoke Score™
           </p>
         </div>
         <button
           onClick={() => setShowLogger(true)}
-          className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors flex-shrink-0"
+          className="btn-ocean flex-shrink-0"
+          style={{ padding: '10px 18px', fontSize: 12 }}
         >
           + Log Session
         </button>
       </div>
 
-      {/* Stats bar */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        <StatCard label="Sessions" value="—" />
-        <StatCard label="Avg Quality" value="—" />
-        <StatCard label="Favorite Spot" value="—" />
-      </div>
-
-      {/* Surf Insights — pattern recognition from session history */}
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 mb-6">
-        <h2 className="text-sm font-semibold text-gray-300 mb-1">My Surf Insights</h2>
-        <p className="text-xs text-gray-600 mb-4">
-          What conditions produce your best sessions?
-        </p>
+      {/* My Surf Insights */}
+      <div className="glass-card p-5 mb-4">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 13,
+              fontWeight: 700,
+              color: 'var(--foam)',
+            }}>My Surf Insights</h2>
+            <p style={{ fontSize: 11, color: 'var(--deep-text)', marginTop: 3 }}>
+              Patterns from your session history
+            </p>
+          </div>
+          <div style={{
+            fontFamily: 'var(--font-data)',
+            fontSize: 10,
+            color: 'var(--cyan)',
+            background: 'rgba(6,182,212,0.1)',
+            border: '1px solid rgba(6,182,212,0.2)',
+            padding: '3px 10px',
+            borderRadius: 20,
+            letterSpacing: '0.08em',
+            fontWeight: 600,
+          }}>
+            AI
+          </div>
+        </div>
         <SurfInsights />
       </div>
 
       {/* Session history */}
-      <SessionHistory refresh={refreshCount} />
+      <div className="glass-card p-5">
+        <div className="flex items-center justify-between mb-4">
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 13,
+            fontWeight: 700,
+            color: 'var(--foam)',
+          }}>Session History</h2>
+          <span style={{
+            fontFamily: 'var(--font-data)',
+            fontSize: 9,
+            color: 'var(--deep-text)',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+          }}>LOG</span>
+        </div>
+        <SessionHistory refresh={refreshCount} />
+      </div>
 
-      {/* Session logger modal */}
+      {/* Logger modal */}
       {showLogger && (
         <SessionLogger
           spots={SPOTS}
@@ -84,7 +121,7 @@ export default function SessionsPage() {
         />
       )}
 
-      {/* Forecast accuracy prompt — shown after logging a session */}
+      {/* Accuracy prompt */}
       {lastSession && (
         <ForecastAccuracyPrompt
           spotSlug={lastSession.spotSlug}
@@ -93,15 +130,6 @@ export default function SessionsPage() {
           onDismiss={() => setLastSession(null)}
         />
       )}
-    </div>
-  )
-}
-
-function StatCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
-      <div className="text-xs text-gray-500 mb-1">{label}</div>
-      <div className="text-xl font-bold text-white">{value}</div>
     </div>
   )
 }
