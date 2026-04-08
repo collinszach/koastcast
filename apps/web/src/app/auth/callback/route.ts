@@ -3,11 +3,12 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // Only allow redirects to same-origin paths — prevents open redirect attacks
 function sanitizeRedirectPath(path: string | null): string {
-  if (!path) return '/dashboard'
+  if (!path) return '/home'
   // Must start with / and not be protocol-relative or external
-  if (!path.startsWith('/') || path.startsWith('//')) return '/dashboard'
+  if (!path.startsWith('/') || path.startsWith('//')) return '/home'
   // Allowlist of valid destination path prefixes
   const allowed = [
+    '/home',
     '/dashboard',
     '/map',
     '/sessions',

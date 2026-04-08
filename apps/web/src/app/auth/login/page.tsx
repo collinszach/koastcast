@@ -103,7 +103,7 @@ function LoginPageInner() {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`,
       },
     })
     if (error) {
