@@ -5,6 +5,8 @@ import type { NextConfig } from "next";
 // client bundles (NEXT_PUBLIC_*) and server-side API routes.
 // Run dev/build with:  bws run -- pnpm dev  (or pnpm build)
 const nextConfig: NextConfig = {
+  // fuse.js v7 is ESM-only — Next.js must transpile it for CJS bundles
+  transpilePackages: ['fuse.js'],
   env: {
     // Supabase: bws uses bare names, Next.js client bundles need NEXT_PUBLIC_ prefix
     NEXT_PUBLIC_SUPABASE_URL:
