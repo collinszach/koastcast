@@ -1,13 +1,11 @@
-version: "3.9"
-
 services:
   # ─── Open-Meteo (self-hosted, free for commercial use) ───────────────────
   open-meteo-api:
     image: ghcr.io/open-meteo/open-meteo:latest
     container_name: swellstack_open_meteo
     restart: unless-stopped
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"  # only accessible within Docker network; no host port binding
     volumes:
       - open_meteo_data:/app/data
     environment:
@@ -18,6 +16,29 @@ services:
       timeout: 10s
       retries: 3
 
+  # ─── SwellStack Next.js Frontend ─────────────────────────────────────────
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: swellstack_web
+    restart: unless-stopped
+    ports:
+      - "3002:3001"
+    volumes:
+      - ./apps/web:/app          # hot reload
+      - /app/node_modules        # keep container's node_modules
+      - ./data:/data             # spots, resorts, bathymetry
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - NEXT_PUBLIC_API_URL=http://localhost:8002
+      - NUC_API_BASE_URL=http://api:8000  # internal Docker network
+    depends_on:
+      - api
+
   # ─── SwellStack FastAPI Backend ───────────────────────────────────────────
   api:
     build:
@@ -26,45 +47,51 @@ services:
     container_name: swellstack_api
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "8002:8000"
     volumes:
       - ./apps/api/models:/app/models  # ML models persist
       - ./data:/app/data               # bathymetry, SWAN configs
-    env_file:
-      - .env
+    # Secrets are injected by Bitwarden Secrets Manager at startup.
+    # Launch with: bws run -- docker compose up -d
+    # bws injects: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, SUPABASE_ANON_KEY,
+    #              NOAA_TIDES_API_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, SECRET_KEY
     environment:
-      - OPEN_METEO_BASE_URL=http://open-meteo-api:8080
-      - LLAMA_CPP_BASE_URL=http://llm:8081/v1
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - DEBUG=${DEBUG:-false}
+      - CORS_ORIGINS=${CORS_ORIGINS:-["https://swellstack.io"]}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - NOAA_TIDES_API_KEY=${NOAA_TIDES_API_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - SECRET_KEY=${SECRET_KEY}
+      - OPEN_METEO_BASE_URL=http://open-meteo-api:8080  # internal Docker port (container-to-container)
+      - OPEN_METEO_FORECAST_BASE_URL=https://api.open-meteo.com  # wind/atmosphere (marine container doesn't serve this)
+      - LLAMA_CPP_BASE_URL=http://llm:11434/v1
     depends_on:
       - open-meteo-api
-      - llm
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  # ─── llama.cpp LLM Server (Phi-4-mini, on-device) ────────────────────────
+  # ─── LLM Server (Ollama — OpenAI-compatible API) ────────────────────────
+  # NOTE: Set LLAMA_CPP_BASE_URL=http://llm:11434/v1 in the api service env.
+  # Pull the model after first start: docker exec swellstack_llm ollama pull phi4-mini
   llm:
-    image: ghcr.io/ggerganov/llama.cpp:server
+    image: ollama/ollama:latest
     container_name: swellstack_llm
     restart: unless-stopped
-    ports:
-      - "8081:8081"
+    expose:
+      - "11434"  # only accessible within Docker network; no host port binding
     volumes:
-      - ./models:/models  # place phi-4-mini-q4_k_m.gguf here
-    command: >
-      -m /models/phi-4-mini-q4_k_m.gguf
-      --host 0.0.0.0
-      --port 8081
-      --ctx-size 4096
-      --threads 4
-      --n-predict 512
-      -ngl 0
+      - ollama_data:/root/.ollama
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
-      interval: 60s
-      timeout: 15s
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
       retries: 3
 
   # ─── FUTURE INTEGRATION: Cloudflare Tunnel ───────────────────────────────
@@ -79,6 +106,32 @@ services:
   #     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
   #   depends_on:
   #     - api
+
+  # ─── Nginx Reverse Proxy (SSL termination) ───────────────────────────────
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: swellstack_nginx
+    ports:
+      - "8880:80"   # HTTP → HTTPS redirect  (8880 avoids conflict with hive-nginx on :80)
+      - "8443:443"  # HTTPS (self-signed cert for LAN; Cloudflare Tunnel handles external TLS)
+    volumes:
+      # Bind-mount ./nginx/certs/ → /etc/nginx/certs inside the container.
+      # generate-certs.sh (docker-entrypoint.d hook) writes cert.pem + key.pem
+      # here on first start.  The files persist on the NUC host and survive
+      # container restarts and rebuilds.  Copy cert.pem to LAN device trust
+      # stores to suppress browser warnings (see RUNBOOK §13).
+      - ./nginx/certs:/etc/nginx/certs
+    depends_on:
+      - web
+      - api
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fk", "https://localhost:443/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   # ─── SWAN Wave Model Runner ───────────────────────────────────────────────
   # NOTE: Build this image from ./docker/swan/Dockerfile which installs SWAN
@@ -95,8 +148,10 @@ services:
 
 volumes:
   open_meteo_data:
+  ollama_data:
   # swan_output:
 
 networks:
   default:
     name: swellstack_net
+    enable_ipv6: false

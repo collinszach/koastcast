@@ -9,7 +9,7 @@ from typing import Annotated
 
 import structlog
 
-from db.supabase_client import get_supabase
+from db.supabase_client import get_client as get_supabase
 from services.surf_insights import generate_insights
 
 logger = structlog.get_logger(__name__)

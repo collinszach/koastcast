@@ -1,6 +1,11 @@
+'use client'
+
+import { useRef } from 'react'
 import Link from 'next/link'
+import { Bookmark } from 'lucide-react'
 import type { Spot } from '@/types'
 import { formatWaveHeight, formatPeriod, formatWindSpeed, directionArrow, getConditionLabel } from '@/types'
+import { useSavedSpots } from '@/lib/useSavedSpots'
 
 interface SpotCardProps {
   spot: Spot
@@ -19,6 +24,24 @@ export default function SpotCard({ spot }: SpotCardProps) {
   const label = getConditionLabel(spot.current_conditions?.quality_score)
   const s = CONDITION_STYLES[label] ?? CONDITION_STYLES.no_data
   const cc = spot.current_conditions
+  const { isSaved, toggle } = useSavedSpots()
+  const saved = isSaved('spots', spot.slug)
+  const btnRef = useRef<HTMLButtonElement>(null)
+
+  function handleBookmark(e: React.MouseEvent) {
+    e.preventDefault()
+    e.stopPropagation()
+    toggle('spots', spot.slug)
+    // Scale pulse animation
+    const el = btnRef.current
+    if (!el) return
+    el.style.transform = 'scale(0.8)'
+    requestAnimationFrame(() => {
+      el.style.transition = 'transform 0.15s ease'
+      el.style.transform = 'scale(1.1)'
+      setTimeout(() => { el.style.transform = 'scale(1.0)' }, 150)
+    })
+  }
 
   return (
     <Link href={`/spot/${spot.slug}`} className="block group">
@@ -65,30 +88,52 @@ export default function SpotCard({ spot }: SpotCardProps) {
                 {spot.region}
               </p>
             </div>
-            <span style={{
-              fontFamily: 'var(--font-data)',
-              fontSize: 9,
-              fontWeight: 700,
-              color: s.color,
-              background: s.bg,
-              border: `1px solid ${s.border}`,
-              padding: '3px 8px',
-              borderRadius: 8,
-              letterSpacing: '0.06em',
-              flexShrink: 0,
-              whiteSpace: 'nowrap',
-            }}>
-              {s.label}
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+              <span style={{
+                fontFamily: 'var(--font-data)',
+                fontSize: 9,
+                fontWeight: 700,
+                color: s.color,
+                background: s.bg,
+                border: `1px solid ${s.border}`,
+                padding: '3px 8px',
+                borderRadius: 8,
+                letterSpacing: '0.06em',
+                whiteSpace: 'nowrap',
+              }}>
+                {s.label}
+              </span>
+              <button
+                ref={btnRef}
+                onClick={handleBookmark}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  padding: 2, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: saved ? '#06B6D4' : '#2E5568',
+                  transition: 'color 0.15s',
+                }}
+                aria-label={saved ? 'Remove from saved' : 'Save spot'}
+              >
+                <Bookmark
+                  size={14}
+                  style={{
+                    fill: saved ? '#06B6D4' : 'none',
+                    stroke: saved ? '#06B6D4' : '#2E5568',
+                    transition: 'fill 0.15s, stroke 0.15s',
+                  }}
+                />
+              </button>
+            </div>
           </div>
 
           {/* Conditions grid — JetBrains Mono for all numbers */}
           {cc?.wave_height_face_m != null ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, textAlign: 'center', marginBottom: 10 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, textAlign: 'center', marginBottom: 10 }}>
               {[
-                { value: formatWaveHeight(cc.wave_height_face_m), label: 'HT' },
-                { value: formatPeriod(cc.wave_period_s),          label: 'PD' },
-                { value: directionArrow(cc.wave_direction),       label: 'DIR' },
+                { value: formatWaveHeight(cc.wave_height_face_m),                                      label: 'HT'   },
+                { value: formatPeriod(cc.wave_period_s),                                               label: 'PD'   },
+                { value: cc.wind_speed_ms != null ? formatWindSpeed(cc.wind_speed_ms) : '—',          label: 'WIND' },
+                { value: directionArrow(cc.wave_direction),                                            label: 'DIR'  },
               ].map(({ value, label: lbl }) => (
                 <div key={lbl}>
                   <div style={{ fontFamily: 'var(--font-data)', fontSize: 15, fontWeight: 600, color: 'var(--foam)', lineHeight: 1 }}>

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getForecast, getSpot } from '@/lib/api'
+import { getForecast, getForecastFallback, getSpot } from '@/lib/api'
 import ForecastTimeline from '@/components/forecast/ForecastTimeline'
 import StokeScoreWidget from '@/components/forecast/StokeScoreWidget'
 import SwellSpectrumWidget from '@/components/forecast/SwellSpectrumWidget'
@@ -10,6 +10,8 @@ import OptimalWindows from '@/components/forecast/OptimalWindows'
 import AskStoke from '@/components/forecast/AskStoke'
 import ModelComparison from '@/components/forecast/ModelComparison'
 import WeekQualityBar from '@/components/forecast/WeekQualityBar'
+import BuoyReadings from '@/components/forecast/BuoyReadings'
+import SpotCams from '@/components/spots/SpotCams'
 import {
   formatWaveHeight,
   formatPeriod,
@@ -24,6 +26,8 @@ import SafetyPanel from '@/components/forecast/SafetyPanel'
 import GearRecommendation from '@/components/forecast/GearRecommendation'
 import SwellTracker from '@/components/forecast/SwellTracker'
 import { generateConditionsIntelligence } from '@/lib/conditions-intelligence'
+import SessionLogButton from '@/components/sessions/SessionLogButton'
+import SpotActions from './SpotActions'
 
 export const revalidate = 300
 
@@ -32,15 +36,30 @@ interface PageProps {
 }
 
 async function loadData(slug: string) {
+  // Fetch spot and forecast independently — a forecast failure should not 404 the page
+  let spot = null
+  let forecast = null
+  let error: string | null = null
+
   try {
-    const [spot, forecast] = await Promise.all([
-      getSpot(slug),
-      getForecast(slug, 16, true),
-    ])
-    return { spot, forecast, error: null }
+    spot = await getSpot(slug)
   } catch (err) {
     return { spot: null, forecast: null, error: String(err) }
   }
+
+  try {
+    // Request 7 days — ensemble models are capped at 7d anyway
+    forecast = await getForecast(slug, 7, true)
+  } catch {
+    // NUC offline — fall back to Open-Meteo marine directly
+    try {
+      forecast = await getForecastFallback(spot, 7)
+    } catch (fallbackErr) {
+      error = String(fallbackErr)
+    }
+  }
+
+  return { spot, forecast, error }
 }
 
 const CONDITION_CONFIG = {
@@ -49,7 +68,7 @@ const CONDITION_CONFIG = {
   fun:      { textColor: '#3B82F6', badgeBg: 'rgba(59,130,246,0.15)',   badgeBorder: 'rgba(59,130,246,0.35)',  heroClass: 'hero-fun',      label: '😎 FUN',      glow: '#3B82F6' },
   worth_it: { textColor: '#6366F1', badgeBg: 'rgba(99,102,241,0.15)',   badgeBorder: 'rgba(99,102,241,0.35)',  heroClass: 'hero-worth_it', label: '🏄 WORTH IT', glow: '#6366F1' },
   flat:     { textColor: '#475569', badgeBg: 'rgba(71,85,105,0.2)',     badgeBorder: 'rgba(71,85,105,0.3)',    heroClass: 'hero-flat',     label: '😴 FLAT',     glow: '#475569' },
-  no_data:  { textColor: '#2E5568', badgeBg: 'rgba(15,32,64,0.5)',      badgeBorder: 'rgba(46,85,104,0.3)',    heroClass: 'hero-no_data',  label: '— NO DATA',   glow: '#2E5568' },
+  no_data:  { textColor: '#F59E0B', badgeBg: 'rgba(245,158,11,0.15)',   badgeBorder: 'rgba(245,158,11,0.3)',   heroClass: 'hero-no_data',  label: '📡 BASIC FORECAST', glow: '#2E5568' },
 }
 
 export default async function SpotPage({ params }: PageProps) {
@@ -59,9 +78,15 @@ export default async function SpotPage({ params }: PageProps) {
 
   if (!spot) notFound()
 
+  const isFallback = forecast?.model_sources?.includes('open_meteo_fallback') ?? false
   const currentHour: ForecastHour | undefined = forecast?.hours[0]
   const label  = getConditionLabel(currentHour?.quality_score)
-  const config = CONDITION_CONFIG[label as keyof typeof CONDITION_CONFIG] ?? CONDITION_CONFIG.no_data
+  const config = {
+    ...(CONDITION_CONFIG[label as keyof typeof CONDITION_CONFIG] ?? CONDITION_CONFIG.no_data),
+    // When on fallback, override the badge label to be more informative
+    ...(label === 'no_data' && isFallback ? { label: '📡 BASIC FORECAST' } : {}),
+    ...(label === 'no_data' && !isFallback && !forecast ? { label: '⚠️ NO DATA' } : {}),
+  }
 
   const intelligence = forecast ? generateConditionsIntelligence(spot, forecast.hours) : null
 
@@ -89,6 +114,7 @@ export default async function SpotPage({ params }: PageProps) {
     : null
 
   return (
+    <div className="h-full overflow-y-auto">
     <div className="min-h-full">
 
       {/* ── HERO ── */}
@@ -166,6 +192,22 @@ export default async function SpotPage({ params }: PageProps) {
                   {spot.description}
                 </p>
               )}
+
+              <SpotActions
+                spotSlug={spot.slug}
+                spotName={spot.name}
+                region={spot.region}
+                currentConditions={currentHour ? {
+                  wave_height_face_m: currentHour.wave_height_face_m,
+                  wave_height_m: currentHour.wave_height_m,
+                  wave_period_s: currentHour.wave_period_s,
+                  wind_speed_ms: currentHour.wind_speed_ms,
+                  wind_direction: currentHour.wind_direction,
+                  quality_score: currentHour.quality_score,
+                  forecast_time: currentHour.forecast_time,
+                  water_temp_c: currentHour.water_temp_c,
+                } : spot.current_conditions}
+              />
             </div>
 
             {/* Right: dominant wave height */}
@@ -204,7 +246,8 @@ export default async function SpotPage({ params }: PageProps) {
                   border: `1px solid ${config.badgeBorder}`,
                   padding: '6px 14px',
                   borderRadius: 10,
-                  boxShadow: `0 4px 20px ${config.glow}20`,
+                  boxShadow: label === 'no_data' ? `0 0 0 0 rgba(245,158,11,0.4)` : `0 4px 20px ${config.glow}20`,
+                  animation: label === 'no_data' ? 'offlinePulse 2s ease-in-out infinite' : undefined,
                 }}>
                   {config.label}
                 </span>
@@ -223,7 +266,7 @@ export default async function SpotPage({ params }: PageProps) {
           </div>
 
           {/* Conditions data strip */}
-          {currentHour && (
+          {currentHour ? (
             <div className="mt-6 pt-5 flex flex-wrap gap-x-7 gap-y-3"
                  style={{ borderTop: '1px solid rgba(6,182,212,0.08)' }}>
               <CondStat label="Height"
@@ -253,6 +296,26 @@ export default async function SpotPage({ params }: PageProps) {
                   value={`${(currentHour.confidence * 100).toFixed(0)}%`}
                   color={config.textColor} />
               )}
+              {currentHour.water_temp_c != null && (
+                <WaterTempStat tempC={currentHour.water_temp_c} color={config.textColor} />
+              )}
+            </div>
+          ) : (
+            <div className="mt-6 pt-5" style={{ borderTop: '1px solid rgba(6,182,212,0.08)' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '28px 28px', marginBottom: 10 }}>
+                {['Height', 'Period', 'Swell', 'Wind', 'Tide'].map(lbl => (
+                  <CondStat key={lbl} label={lbl} value="--" color="rgba(245,158,11,0.35)" offline />
+                ))}
+              </div>
+              <p style={{
+                fontFamily: 'var(--font-data)',
+                fontSize: 10,
+                color: 'rgba(245,158,11,0.55)',
+                letterSpacing: '0.06em',
+                marginTop: 6,
+              }}>
+                Awaiting live data — NUC server offline
+              </p>
             </div>
           )}
         </div>
@@ -269,90 +332,322 @@ export default async function SpotPage({ params }: PageProps) {
       {/* ── CONTENT ── */}
       <div className="max-w-5xl mx-auto px-4 py-6 space-y-5">
 
-        {/* Conditions intelligence — first thing to read */}
-        {intelligence && <ConditionsIntelligence data={intelligence} spotName={spot.name} />}
+        {/* ── CAMS (Surfline-style, primary section) ── */}
+        <div>
+          <SectionHeader label="Surf Cams" />
+          <SpotCams spot={spot} />
+        </div>
 
-        {/* 7-day overview — click to jump to day */}
-        {forecast && forecast.hours.length > 0 && (
-          <WeekQualityBar hours={forecast.hours} />
+        {/* ── REPORT / AI ANALYSIS ── */}
+        {intelligence ? (
+          <div>
+            <SectionHeader label="Conditions Report" />
+            <ConditionsIntelligence data={intelligence} spotName={spot.name} />
+          </div>
+        ) : (
+          <div>
+            <SectionHeader label="Conditions Report" />
+            <div className="glass-card p-5" style={{
+              border: '1px solid rgba(245,158,11,0.2)',
+              background: 'rgba(245,158,11,0.04)',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: 14,
+            }}>
+              <div style={{
+                width: 36,
+                height: 36,
+                borderRadius: 8,
+                background: 'rgba(245,158,11,0.12)',
+                border: '1px solid rgba(245,158,11,0.25)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 18,
+                flexShrink: 0,
+              }}>⚠️</div>
+              <div>
+                <div style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: '#F59E0B',
+                  marginBottom: 4,
+                }}>NUC server offline</div>
+                <p style={{
+                  fontSize: 12,
+                  color: 'var(--spray)',
+                  lineHeight: 1.6,
+                  margin: 0,
+                }}>
+                  Showing last known data for {spot.name}. Live conditions, AI analysis, and real-time updates will resume when the forecast server reconnects.
+                </p>
+              </div>
+            </div>
+          </div>
         )}
 
-        {/* Stoke / Wind / Tide trinity */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card title="Stoke Score™" accent={config.glow}>
-            <StokeScoreWidget spotId={spot.slug} spotName={spot.name} currentHour={currentHour} />
-          </Card>
-          <Card title="Wind Rose" subtitle="24h">
-            <WindRoseWidget readings={windReadings} offshoreDirection={spot.optimal_wind_direction} />
-          </Card>
-          <Card title="Tides" subtitle="48h">
-            <TideChartWidget points={tidePoints} currentTime={currentHour?.forecast_time} />
+        {/* ── FORECAST (main feature — Surfline-style with day tabs + chart + table) ── */}
+        <div>
+          <SectionHeader
+            label={`${forecast?.days_available ?? 7}-Day Forecast`}
+            sub={
+              forecast
+                ? forecast.model_sources?.includes('open_meteo_fallback')
+                  ? 'Open-Meteo · NUC offline — basic forecast'
+                  : `Open-Meteo · ML-corrected`
+                : undefined
+            }
+          />
+          {error ? (
+            <div className="glass-card p-5" style={{ color: '#EF4444', fontSize: 13 }}>
+              Forecast unavailable — backend may be starting up
+            </div>
+          ) : forecast ? (
+            <div className="glass-card" style={{ padding: '20px 20px 12px' }}>
+              <ForecastTimeline hours={forecast.hours} />
+            </div>
+          ) : (
+            <div className="glass-card p-8" style={{ textAlign: 'center', color: 'var(--deep-text)', fontSize: 13 }}>
+              Loading forecast...
+            </div>
+          )}
+        </div>
+
+        {/* ── WIND / TIDE / STOKE trinity ── */}
+        <div>
+          <SectionHeader label="Conditions Detail" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card title="Stoke Score™" accent={config.glow}>
+              <StokeScoreWidget spotId={spot.slug} spotName={spot.name} currentHour={currentHour} />
+            </Card>
+            <Card title="Wind Rose" subtitle="24h">
+              <WindRoseWidget readings={windReadings} offshoreDirection={spot.optimal_wind_direction} />
+            </Card>
+            <Card title="Tides" subtitle="48h">
+              <TideChartWidget points={tidePoints} currentTime={currentHour?.forecast_time} />
+            </Card>
+          </div>
+        </div>
+
+        {/* ── WEEK OVERVIEW ── */}
+        {forecast && forecast.hours.length > 0 && (
+          <div>
+            <SectionHeader label="7-Day Overview" />
+            <div className="glass-card p-4">
+              <WeekQualityBar hours={forecast.hours} />
+            </div>
+          </div>
+        )}
+
+        {/* ── LIVE BUOY DATA ── */}
+        {spot.nearest_buoy_id && (
+          <div>
+            <SectionHeader label="Live Buoy Data" sub={`NDBC Station ${spot.nearest_buoy_id}`} />
+            <BuoyReadings buoyId={spot.nearest_buoy_id} spotName={spot.name} />
+          </div>
+        )}
+
+        {/* ── OPTIMAL WINDOWS ── */}
+        <div>
+          <SectionHeader label="Optimal Sessions" sub="best windows next 14 days" />
+          <Card>
+            <OptimalWindows spotId={spot.slug} spotName={spot.name} isPremium={isPremium} />
           </Card>
         </div>
 
-        {/* 7-Day Forecast Timeline — moved up, it's the core feature */}
-        <Card title={`${forecast?.days_available ?? 7}-Day Forecast`}
-              subtitle={forecast ? `via ${forecast.model_sources.join(', ')}` : undefined}>
-          {error ? (
-            <div className="text-red-400 text-sm py-2">Failed to load forecast: {error}</div>
-          ) : forecast ? (
-            <ForecastTimeline hours={forecast.hours} />
-          ) : (
-            <div className="text-slate-500 text-sm py-8 text-center">Loading forecast...</div>
-          )}
-        </Card>
-
-        {/* Optimal Windows */}
-        <Card title="Optimal Windows" subtitle="best sessions next 14 days">
-          <OptimalWindows spotId={spot.slug} spotName={spot.name} isPremium={isPremium} />
-        </Card>
-
-        {/* Model Comparison */}
-        <Card title="Model Comparison" subtitle="ECMWF · GFS · ICON">
-          <ModelComparison modelForecasts={forecast?.model_forecasts ?? {}} isPremium={isPremium} />
-        </Card>
-
-        {/* Swell Spectrum */}
+        {/* ── SWELL SPECTRUM ── */}
         {spectrumSnapshots.length > 0 && (
-          <Card title="Swell Spectrum" subtitle="wave energy by period">
-            <SwellSpectrumWidget snapshots={spectrumSnapshots} />
-          </Card>
+          <div>
+            <SectionHeader label="Swell Spectrum" sub="wave energy by period" />
+            <Card>
+              <SwellSpectrumWidget snapshots={spectrumSnapshots} />
+            </Card>
+          </div>
         )}
 
-        {/* Gear */}
-        <Card title="What to Grab">
-          <GearRecommendation
-            spotId={spot.slug}
-            faceHeightM={currentHour?.wave_height_face_m ?? currentHour?.wave_height_m}
-            wavePeriodS={currentHour?.wave_period_s}
-          />
-        </Card>
+        {/* ── SWELL TRACKER ── */}
+        <div>
+          <SectionHeader label="Swell Tracker" sub="named events · 16-day" />
+          <Card>
+            <SwellTracker spotId={spot.slug} />
+          </Card>
+        </div>
 
-        {/* Swell Tracker */}
-        <Card title="Swell Tracker" subtitle="named events · 16-day">
-          <SwellTracker spotId={spot.slug} />
-        </Card>
+        {/* ── MODEL COMPARISON ── */}
+        <div>
+          <SectionHeader label="Model Comparison" sub="ECMWF · GFS · ICON" />
+          <Card>
+            <ModelComparison modelForecasts={forecast?.model_forecasts ?? {}} isPremium={isPremium} />
+          </Card>
+        </div>
 
-        {/* Safety */}
+        {/* ── GEAR ── */}
+        <div>
+          <SectionHeader label="Gear Recommendation" />
+          <Card>
+            <GearRecommendation
+              spotId={spot.slug}
+              faceHeightM={(currentHour?.wave_height_face_m ?? currentHour?.wave_height_m) ?? undefined}
+              wavePeriodS={currentHour?.wave_period_s ?? undefined}
+            />
+          </Card>
+        </div>
+
+        {/* ── SAFETY ── */}
         <SafetyPanel spotId={spot.slug} spotName={spot.name} />
 
-        {/* Spot metadata */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pb-6 px-1"
-             style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--deep-text)', letterSpacing: '0.04em' }}>
-          <div>Optimal swell: {spot.optimal_swell_direction ?? '--'}° ± {spot.optimal_swell_direction_range}°</div>
-          <div>Period: {spot.optimal_period_min}–{spot.optimal_period_max}s</div>
-          <div>Size: {formatWaveHeight(spot.optimal_size_min)}–{formatWaveHeight(spot.optimal_size_max)}</div>
-          {spot.nearest_buoy_id && <div>Buoy: {spot.nearest_buoy_id}</div>}
+        {/* ── SPOT INFO FOOTER ── */}
+        <div
+          className="glass-card"
+          style={{ padding: '14px 18px', marginBottom: 8 }}
+        >
+          <div style={{
+            fontFamily: 'var(--font-data)',
+            fontSize: 9,
+            color: 'var(--deep-text)',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            marginBottom: 10,
+          }}>Spot Details</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <MetaItem label="Optimal Swell" value={`${spot.optimal_swell_direction ?? '--'}° ± ${spot.optimal_swell_direction_range}°`} />
+            <MetaItem label="Period" value={`${spot.optimal_period_min}–${spot.optimal_period_max}s`} />
+            <MetaItem label="Size" value={`${formatWaveHeight(spot.optimal_size_min)} – ${formatWaveHeight(spot.optimal_size_max)}`} />
+            <MetaItem label="Break Type" value={spot.break_type} />
+            {spot.nearest_buoy_id && <MetaItem label="Nearest Buoy" value={`NDBC ${spot.nearest_buoy_id}`} />}
+            {spot.skill_minimum && <MetaItem label="Skill Level" value={`${spot.skill_minimum}+`} />}
+            <MetaItem label="Timezone" value={spot.timezone.replace('America/', '')} />
+            {spot.swan_enabled && <MetaItem label="Physics Model" value="⚡ SWAN enabled" />}
+          </div>
         </div>
+
       </div>
 
       {/* Ask Stoke — floating AI chat */}
       <AskStoke spotId={spot.slug} spotName={spot.name} isPremium={isPremium} />
+
+      {/* Sticky Log Session bar */}
+      <SessionLogButton
+        spotSlug={spot.slug}
+        spotName={spot.name}
+        conditionsSummary={buildConditionsSummary(currentHour)}
+        prefilledConditions={{
+          wave_height_face_m: (currentHour?.wave_height_face_m ?? currentHour?.wave_height_m) ?? undefined,
+          wave_period_s: currentHour?.wave_period_s ?? undefined,
+        }}
+      />
+    </div>
     </div>
   )
 }
 
-function CondStat({ label, value, color }: { label: string; value: string; color: string }) {
+function buildConditionsSummary(hour: ForecastHour | undefined): string {
+  if (!hour) return ''
+  const parts: string[] = []
+  const h = hour.wave_height_face_m ?? hour.wave_height_m
+  if (h != null) parts.push(`${(h * 3.28084).toFixed(0)}ft`)
+  if (hour.wave_period_s != null) parts.push(`${hour.wave_period_s.toFixed(0)}s`)
+  if (hour.wind_speed_ms != null) {
+    const w = hour.wind_speed_ms
+    parts.push(w < 5 ? 'calm' : w < 10 ? 'light winds' : w < 15 ? 'moderate' : 'windy')
+  }
+  return parts.join(' · ')
+}
+
+function SectionHeader({ label, sub }: { label: string; sub?: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10 }}>
+      <h2 style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 15,
+        fontWeight: 700,
+        color: 'var(--foam)',
+        letterSpacing: '0.01em',
+      }}>{label}</h2>
+      {sub && (
+        <span style={{
+          fontFamily: 'var(--font-data)',
+          fontSize: 10,
+          color: 'var(--deep-text)',
+          letterSpacing: '0.04em',
+        }}>{sub}</span>
+      )}
+    </div>
+  )
+}
+
+function MetaItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <div style={{
+        fontFamily: 'var(--font-data)',
+        fontSize: 9,
+        color: 'var(--deep-text)',
+        textTransform: 'uppercase',
+        letterSpacing: '0.1em',
+        marginBottom: 3,
+      }}>{label}</div>
+      <div style={{
+        fontFamily: 'var(--font-data)',
+        fontSize: 12,
+        color: 'var(--spray)',
+        textTransform: 'capitalize',
+      }}>{value}</div>
+    </div>
+  )
+}
+
+function wetsuitRecommendation(tempF: number): string {
+  if (tempF < 55) return '4/3mm+'
+  if (tempF < 62) return '3/2mm'
+  if (tempF < 68) return 'Spring suit'
+  return 'Boardshorts'
+}
+
+function WaterTempStat({ tempC, color }: { tempC: number; color: string }) {
+  const tempF = Math.round(tempC * 9 / 5 + 32)
+  const wetsuit = wetsuitRecommendation(tempF)
+  return (
+    <div>
+      <div style={{
+        fontFamily: 'var(--font-data)',
+        fontSize: 9,
+        color: 'var(--deep-text)',
+        textTransform: 'uppercase',
+        letterSpacing: '0.12em',
+        marginBottom: 4,
+      }}>
+        Water Temp
+      </div>
+      <div style={{
+        fontFamily: 'var(--font-data)',
+        fontSize: 18,
+        fontWeight: 600,
+        color: color,
+        lineHeight: 1,
+      }}>
+        {tempF}°F
+      </div>
+      <div style={{
+        fontFamily: 'var(--font-data)',
+        fontSize: 9,
+        color: 'var(--spray)',
+        letterSpacing: '0.06em',
+        marginTop: 4,
+        background: 'rgba(6,182,212,0.08)',
+        border: '1px solid rgba(6,182,212,0.15)',
+        borderRadius: 4,
+        padding: '2px 6px',
+        display: 'inline-block',
+      }}>
+        {wetsuit}
+      </div>
+    </div>
+  )
+}
+
+function CondStat({ label, value, color, offline }: { label: string; value: string; color: string; offline?: boolean }) {
   return (
     <div>
       <div style={{
@@ -371,6 +666,12 @@ function CondStat({ label, value, color }: { label: string; value: string; color
         fontWeight: 600,
         color: color,
         lineHeight: 1,
+        opacity: offline ? 0.45 : 1,
+        background: offline ? 'linear-gradient(90deg, rgba(245,158,11,0.08) 0%, rgba(245,158,11,0.18) 50%, rgba(245,158,11,0.08) 100%)' : undefined,
+        backgroundSize: offline ? '200% 100%' : undefined,
+        animation: offline ? 'shimmer 2.4s ease-in-out infinite' : undefined,
+        borderRadius: offline ? 4 : undefined,
+        padding: offline ? '2px 6px' : undefined,
       }}>
         {value}
       </div>
@@ -378,24 +679,26 @@ function CondStat({ label, value, color }: { label: string; value: string; color
   )
 }
 
-function Card({ title, subtitle, children, accent }: { title: string; subtitle?: string; children: ReactNode; accent?: string }) {
+function Card({ title, subtitle, children, accent }: { title?: string; subtitle?: string; children: ReactNode; accent?: string }) {
   return (
     <div className="glass-card p-5"
          style={accent ? { boxShadow: `0 0 0 1px ${accent}12, 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(6,182,212,0.06)` } : {}}>
-      <div className="flex items-baseline gap-2.5 mb-4">
-        <h2 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 13,
-          fontWeight: 700,
-          color: 'var(--foam)',
-          letterSpacing: '0.01em',
-        }}>{title}</h2>
-        {subtitle && (
-          <span style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--deep-text)', letterSpacing: '0.04em' }}>
-            {subtitle}
-          </span>
-        )}
-      </div>
+      {title && (
+        <div className="flex items-baseline gap-2.5 mb-4">
+          <h3 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 13,
+            fontWeight: 700,
+            color: 'var(--foam)',
+            letterSpacing: '0.01em',
+          }}>{title}</h3>
+          {subtitle && (
+            <span style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--deep-text)', letterSpacing: '0.04em' }}>
+              {subtitle}
+            </span>
+          )}
+        </div>
+      )}
       {children}
     </div>
   )

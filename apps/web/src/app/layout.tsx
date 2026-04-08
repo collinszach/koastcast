@@ -22,25 +22,25 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'SwellStack — AI Surf Forecasting',
-    template: '%s | SwellStack',
+    default: 'TERRAIN — AI Outdoor Intelligence',
+    template: '%s | TERRAIN',
   },
   description:
-    'More accurate, more personal surf forecasts powered by AI and full spectral wave analysis. Personalized Stoke Score™, optimal window finder, real-time NOAA buoy data.',
-  keywords: ['surf forecast', 'surf report', 'wave forecast', 'surf conditions', 'AI surf'],
-  authors: [{ name: 'SwellStack' }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://swellstack.io'),
+    'More accurate, more personal surf and outdoor forecasts powered by AI and full spectral wave analysis. Personalized Stoke Score™, optimal window finder, real-time NOAA buoy data.',
+  keywords: ['surf forecast', 'surf report', 'wave forecast', 'surf conditions', 'AI surf', 'outdoor intelligence'],
+  authors: [{ name: 'TERRAIN' }],
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://terrain.app'),
   openGraph: {
-    title: 'SwellStack — AI Surf Forecasting',
+    title: 'TERRAIN — AI Outdoor Intelligence',
     description: 'Personalized surf forecasts powered by AI. Stoke Score™, optimal windows, full spectral analysis.',
     type: 'website',
-    siteName: 'SwellStack',
-    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'SwellStack' }],
+    siteName: 'TERRAIN',
+    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'TERRAIN' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SwellStack — AI Surf Forecasting',
-    description: 'Personalized surf forecasts powered by AI.',
+    title: 'TERRAIN — AI Outdoor Intelligence',
+    description: 'Personalized outdoor forecasts powered by AI.',
   },
   manifest: '/manifest.json',
   icons: {
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'SwellStack',
+    title: 'TERRAIN',
   },
 }
 
@@ -66,10 +66,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={`${syne.variable} ${jetbrainsMono.variable} ${inter.variable} antialiased min-h-screen`}
         style={{ background: '#060D1A', color: '#E0F7FA' }}
+        suppressHydrationWarning
       >
         {children}
       </body>

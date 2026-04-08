@@ -50,6 +50,7 @@ export default function QuiverManager() {
   const [boards, setBoards] = useState<Board[]>([])
   const [wetsuits, setWetsuits] = useState<Wetsuit[]>([])
   const [loading, setLoading] = useState(true)
+  const [isGuest, setIsGuest] = useState(false)
   const [tab, setTab] = useState<'boards' | 'wetsuits'>('boards')
   const [showAddBoard, setShowAddBoard] = useState(false)
   const [showAddWetsuit, setShowAddWetsuit] = useState(false)
@@ -75,15 +76,21 @@ export default function QuiverManager() {
     setLoading(true)
     try {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
+      if (!user) {
+        setIsGuest(true)
+        setLoading(false)
+        return
+      }
 
       const [{ data: boardData }, { data: wsData }] = await Promise.all([
-        supabase.from('boards').select('*').eq('user_id', user.id).eq('active', true).order('primary_board', { ascending: false }),
+        supabase.from('boards').select('*').eq('user_id', user.id).eq('active', true),
         supabase.from('wetsuits').select('*').eq('user_id', user.id).eq('active', true),
       ])
 
-      setBoards(boardData ?? [])
-      setWetsuits(wsData ?? [])
+      setBoards((boardData ?? []) as Board[])
+      setWetsuits((wsData ?? []) as Wetsuit[])
+    } catch {
+      // DB not available
     } finally {
       setLoading(false)
     }
@@ -162,6 +169,14 @@ export default function QuiverManager() {
     return <div className="animate-pulse space-y-2">
       {[1,2,3].map(i => <div key={i} className="h-12 bg-gray-800 rounded-lg" />)}
     </div>
+  }
+
+  if (isGuest) {
+    return (
+      <div style={{ textAlign: 'center', padding: '24px 0', color: 'var(--spray)', fontSize: 13 }}>
+        Sign in to manage your quiver — boards and wetsuits help us recommend the right gear for the forecast.
+      </div>
+    )
   }
 
   return (

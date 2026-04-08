@@ -1,0 +1,29 @@
+# Secrets — never commit
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+# Nginx certs (auto-generated at container startup)
+nginx/certs/*.pem
+nginx/certs/*.crt
+nginx/certs/*.key
+nginx/certs/*.der
+nginx/certs/*
+!nginx/certs/.gitkeep
+venv/
+__pycache__/
+*.pyc
+.next/
+node_modules/
+
+# Large model / data files — never commit to git
+models/*.gguf
+models/*.bin
+models/*.safetensors
+data/ndbc_historical/
+data/bathymetry/
+data/swan_configs/
+*.parquet
+*.pkl
+supabase/.temp/

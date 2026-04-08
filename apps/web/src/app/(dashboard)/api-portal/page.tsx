@@ -100,7 +100,7 @@ export default function ApiPortalPage() {
           <h2 className="text-lg font-semibold text-white mb-2">Explorer Tier Required</h2>
           <p className="text-gray-400 text-sm mb-4">
             B2B API access is available on the Explorer plan. Get programmatic access to
-            SwellStack forecasts for your app or research.
+            TERRAIN forecasts for your app or research.
           </p>
           <a
             href="/upgrade"
@@ -118,7 +118,7 @@ export default function ApiPortalPage() {
       <div>
         <h1 className="text-2xl font-bold text-white">API Portal</h1>
         <p className="text-gray-400 text-sm mt-1">
-          Programmatic access to SwellStack surf forecasts.
+          Programmatic access to TERRAIN surf forecasts.
         </p>
       </div>
 

@@ -11,7 +11,8 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import buoys, forecast, gear, insights, nlq, optimal, safety, sessions, spots, stoke, swell_events
+from middleware.auth import APISecretMiddleware
+from routers import buoys, forecast, gear, insights, nlq, optimal, safety, sessions, snow, spots, stoke, swell_events
 from scheduler.jobs import register_jobs
 from config import settings
 
@@ -53,11 +54,12 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins,
+    allow_origins=settings.cors_origins_list,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(APISecretMiddleware, secret=settings.secret_key)
 
 # ─── Routers ──────────────────────────────────────────────────────────────
 app.include_router(spots.router,    prefix="/api/v1", tags=["spots"])
@@ -71,6 +73,7 @@ app.include_router(safety.router,   prefix="/api/v1", tags=["safety"])
 app.include_router(gear.router,        prefix="/api/v1", tags=["gear"])
 app.include_router(swell_events.router, prefix="/api/v1", tags=["swell_events"])
 app.include_router(insights.router,     prefix="/api/v1", tags=["insights"])
+app.include_router(snow.router,         prefix="/api/v1", tags=["snow"])
 
 
 @app.get("/health")

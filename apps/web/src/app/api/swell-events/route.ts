@@ -3,7 +3,7 @@
  */
 import { NextRequest, NextResponse } from 'next/server'
 
-const NUC_BASE = process.env.NUC_API_BASE_URL || 'http://localhost:8000'
+const NUC_BASE = process.env.NUC_API_BASE_URL || 'http://localhost:8002'
 const NUC_SECRET = process.env.NUC_API_SECRET || ''
 
 export async function GET(request: NextRequest) {
