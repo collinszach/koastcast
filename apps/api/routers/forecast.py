@@ -10,7 +10,7 @@ from fastapi import APIRouter, HTTPException, Query
 
 import structlog
 
-from db.supabase_client import get_spot_by_id, get_spot_by_slug, get_spots
+from db.supabase_client import get_latest_buoy_observation, get_spot_by_id, get_spot_by_slug, get_spots
 from models.schemas import ForecastHour, ForecastResponse
 from services.bias_correction import SpotBiasCorrector, compute_angle_diff
 from services.crowd_model import get_crowd_predictor
@@ -21,6 +21,7 @@ from services.stoke_score import (
     StokeInput,
     compute_stoke_score,
 )
+from services.nowcast import extract_spectral_bands, nowcast_blend
 from services.tides import build_tide_lookup, fetch_tide_predictions
 
 logger = structlog.get_logger(__name__)
@@ -85,6 +86,15 @@ async def get_forecast(
         log.error("Failed to fetch forecast data", error=str(exc))
         raise HTTPException(status_code=503, detail="Forecast data unavailable") from exc
 
+    # Fetch live buoy observation (for nowcasting + spectral bands for ML corrector)
+    buoy_obs = None
+    if spot.nearest_buoy_id:
+        try:
+            buoy_obs = await get_latest_buoy_observation(spot.nearest_buoy_id)
+        except Exception as exc:
+            log.warning("Buoy obs fetch failed", error=str(exc))
+    spectral_bands = extract_spectral_bands(buoy_obs)
+
     # Fetch tide predictions
     tide_station = _get_tide_station(spot)
     tides: dict[str, dict] = {}
@@ -125,6 +135,28 @@ async def get_forecast(
         wind_spd = _safe_float(merged.get("wind_speed_ms", []), i)
         wind_dir = _safe_float(merged.get("wind_direction", []), i)
         wind_gust = _safe_float(merged.get("wind_gust_ms", []), i)
+        swell_h2 = _safe_float(merged.get("swell_wave_height_2", []), i)
+        swell_p2 = _safe_float(merged.get("swell_wave_period_2", []), i)
+        swell_d2 = _safe_float(merged.get("swell_wave_direction_2", []), i)
+        ocean_cur_v = _safe_float(merged.get("ocean_current_velocity", []), i)
+        ocean_cur_d = _safe_float(merged.get("ocean_current_direction", []), i)
+
+        # Nowcast: blend live buoy into model for hours 0–6
+        lead_hours = max(0.0, (ts - datetime.now(timezone.utc)).total_seconds() / 3600)
+        is_nowcast = False
+        if buoy_obs is not None:
+            if buoy_obs.wvht is not None:
+                wave_h, nw_h = nowcast_blend(wave_h, buoy_obs.wvht, lead_hours)
+                if nw_h:
+                    is_nowcast = True
+            if buoy_obs.dpd is not None:
+                wave_p, _ = nowcast_blend(wave_p, buoy_obs.dpd, lead_hours)
+
+        # Look up tide (before corrector so we can pass tide_h to ML model)
+        hour_key = ts.strftime("%Y-%m-%dT%H")
+        tide_entry = tides.get(hour_key, {})
+        tide_h = tide_entry.get("height_m")
+        tide_state = tide_entry.get("tide_state")
 
         # Compute face height using bias corrector
         face_h: float | None = None
@@ -140,14 +172,10 @@ async def get_forecast(
                 swell_angle_diff=angle_diff,
                 wind_speed=wind_spd or 0.0,
                 wind_dir=wind_dir or 0.0,
+                tide_height=tide_h or 0.0,
+                spectral_bands=spectral_bands,
                 doy=ts.timetuple().tm_yday,
             )
-
-        # Look up tide
-        hour_key = ts.strftime("%Y-%m-%dT%H")
-        tide_entry = tides.get(hour_key, {})
-        tide_h = tide_entry.get("height_m")
-        tide_state = tide_entry.get("tide_state")
 
         # Compute quality score using stoke engine with default prefs
         quality_score: float | None = None
@@ -169,6 +197,7 @@ async def get_forecast(
                     prefs=DEFAULT_PREFERENCES,
                     spot_optimal_swell_dir=spot.optimal_swell_direction or 270.0,
                     spot_optimal_swell_range=getattr(spot, "optimal_swell_direction_range", None) or 45.0,
+                    break_type=spot.break_type,
                 )
                 quality_score = round(stoke_result.stoke_score / 10.0, 2)
             except Exception:
@@ -209,6 +238,12 @@ async def get_forecast(
             crowd_label=crowd_lbl,
             model_agreement=model_agree,
             model_agreement_label=agreement_label(model_agree),
+            swell_height_2_m=swell_h2,
+            swell_period_2_s=swell_p2,
+            swell_direction_2=swell_d2,
+            ocean_current_velocity_ms=ocean_cur_v,
+            ocean_current_direction=ocean_cur_d,
+            is_nowcast=is_nowcast,
         ))
 
     log.info("Forecast assembled", hours=len(hours))
