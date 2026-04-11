@@ -29,6 +29,12 @@ data/swan_configs/
 supabase/.temp/
 
 # ─── Proprietary / Not for public repo ───────────────────────────────────────
+# Tuned scoring weights (calibrated from 9 years of session data — not public)
+apps/api/config/weights.py
+
+# Spot database with proprietary buoy mappings + optimal conditions research
+data/spots.private.json
+
 # ML training scripts (feature engineering + training pipeline is proprietary IP)
 # The inference code in apps/api/services/bias_correction.py is public;
 # the training pipeline that produces the .pkl models is not.

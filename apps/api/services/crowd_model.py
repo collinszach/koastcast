@@ -11,6 +11,21 @@ from __future__ import annotations
 
 from datetime import datetime, date
 
+try:
+    from config.weights import (
+        DOW_MULTIPLIERS as _DOW_MULTIPLIERS,
+        HOUR_MULTIPLIERS as _HOUR_MULTIPLIERS,
+        MONTH_MULTIPLIERS as _MONTH_MULTIPLIERS,
+        QUALITY_CROWD_TIERS as _QUALITY_CROWD_TIERS,
+        HOLIDAY_MULTIPLIER as _HOLIDAY_MULTIPLIER,
+    )
+except ImportError:
+    _DOW_MULTIPLIERS = {i: 1.0 for i in range(7)}
+    _HOUR_MULTIPLIERS = {h: 1.0 for h in range(5, 19)}
+    _MONTH_MULTIPLIERS = {m: 1.0 for m in range(1, 13)}
+    _QUALITY_CROWD_TIERS: list[tuple[float, float]] = [(8.0, 1.0), (6.0, 1.0), (4.0, 1.0), (2.0, 1.0), (0.0, 1.0)]
+    _HOLIDAY_MULTIPLIER = 1.0
+
 
 # US public holidays (month, day) — approximate
 US_HOLIDAYS = {
@@ -38,47 +53,18 @@ class CrowdPredictor:
       5. Holidays: national holidays boost crowd ~2x
     """
 
-    # Base multiplier by day of week (0=Monday ... 6=Sunday)
-    DOW_MULTIPLIERS = {
-        0: 0.50,   # Monday
-        1: 0.50,   # Tuesday
-        2: 0.60,   # Wednesday
-        3: 0.65,   # Thursday
-        4: 0.80,   # Friday (pre-weekend)
-        5: 1.50,   # Saturday
-        6: 1.40,   # Sunday
-    }
+    DOW_MULTIPLIERS = _DOW_MULTIPLIERS
+    HOUR_MULTIPLIERS = _HOUR_MULTIPLIERS
+    MONTH_MULTIPLIERS = _MONTH_MULTIPLIERS
 
-    # Hour of day multiplier (0-23)
-    # Early morning glass sessions = lower crowd
-    HOUR_MULTIPLIERS = {
-        5: 0.50, 6: 0.55, 7: 0.65, 8: 0.80, 9: 0.90,
-        10: 1.0, 11: 1.1, 12: 1.2, 13: 1.2, 14: 1.1,
-        15: 1.0, 16: 0.90, 17: 0.85, 18: 0.70,
-    }
-
-    # Monthly seasonality (1-12): summer months busier for CA spots
-    MONTH_MULTIPLIERS = {
-        1: 0.7, 2: 0.7, 3: 0.8, 4: 0.9, 5: 1.0,
-        6: 1.3, 7: 1.5, 8: 1.5, 9: 1.2, 10: 1.0,
-        11: 0.8, 12: 0.7,
-    }
-
-    # Quality score → crowd boost (better surf = more people)
-    # quality_score is 0-10
     @staticmethod
     def _quality_multiplier(quality_score: float | None) -> float:
         if quality_score is None:
             return 1.0
-        if quality_score >= 8:
-            return 1.8
-        if quality_score >= 6:
-            return 1.4
-        if quality_score >= 4:
-            return 1.1
-        if quality_score >= 2:
-            return 0.9
-        return 0.7  # bad surf → empty
+        for threshold, mult in _QUALITY_CROWD_TIERS:
+            if quality_score >= threshold:
+                return mult
+        return 0.7
 
     @staticmethod
     def _is_holiday(dt: datetime | date) -> bool:
@@ -120,7 +106,7 @@ class CrowdPredictor:
         raw *= self._quality_multiplier(quality_score)
 
         if self._is_holiday(forecast_time):
-            raw *= 2.0
+            raw *= _HOLIDAY_MULTIPLIER
 
         # Clamp to [0.05, 0.98]
         return round(max(0.05, min(0.98, raw)), 3)

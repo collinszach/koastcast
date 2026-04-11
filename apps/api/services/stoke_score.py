@@ -13,6 +13,31 @@ import math
 from dataclasses import dataclass, field
 from typing import Literal
 
+try:
+    from config.weights import (
+        STOKE_WEIGHTS,
+        SKILL_MULTIPLIERS,
+        TIDE_PROFILES as _TIDE_PROFILES,
+        DEFAULT_TIDE_PROFILE as _DEFAULT_TIDE_PROFILE,
+        GROUNDSWELL_THRESHOLD_S,
+        PERIOD_SHORT_MIN_S,
+    )
+except ImportError:
+    # weights.py is proprietary and not included in the public repo.
+    # App starts but scoring will not reflect tuned production values.
+    import warnings
+    warnings.warn(
+        "config/weights.py not found — using untuned placeholder values. "
+        "See apps/api/config/weights.example.py.",
+        stacklevel=1,
+    )
+    STOKE_WEIGHTS = {"height": 0.143, "period": 0.143, "direction": 0.143, "wind": 0.143, "steepness": 0.143, "tide": 0.143, "crowd": 0.142}
+    SKILL_MULTIPLIERS = {"beginner": 1.0, "intermediate": 1.0, "advanced": 1.0, "pro": 1.0}
+    _TIDE_PROFILES: dict = {}
+    _DEFAULT_TIDE_PROFILE: dict = {"rising": 0.70, "falling": 0.70, "high": 0.70, "low": 0.70, "unknown": 0.70}
+    GROUNDSWELL_THRESHOLD_S = 12.0
+    PERIOD_SHORT_MIN_S = 6.0
+
 
 TideState = Literal["rising", "falling", "high", "low", "unknown"]
 
@@ -82,11 +107,11 @@ def _score_height(h: float, pref_min: float, pref_max: float) -> float:
 
 
 def _score_period(period_s: float, pref_min: float = 8.0) -> float:
-    """Logarithmic period score with step-change bonus at groundswell threshold (~14s)."""
-    if period_s < 6:
+    """Logarithmic period score with step-change bonus at groundswell threshold."""
+    if period_s < PERIOD_SHORT_MIN_S:
         return 0.1  # choppy wind chop
-    if period_s >= 14:
-        base = min(1.0, math.log(period_s / 14.0) * 2 + 0.85)
+    if period_s >= GROUNDSWELL_THRESHOLD_S:
+        base = min(1.0, math.log(period_s / GROUNDSWELL_THRESHOLD_S) * 2 + 0.85)
     elif period_s >= 10:
         base = 0.5 + 0.35 * (period_s - 10.0) / 4.0
     else:
@@ -160,15 +185,7 @@ def _score_tide(tide_state: str | None, tide_height_m: float | None, break_type:
     - Jetty: similar to beach
     - Rivermouth: best at low-mid; high = murky/flat
     """
-    _PROFILES: dict[str | None, dict[str, float]] = {
-        "reef":       {"rising": 0.90, "falling": 0.70, "high": 0.50, "low": 0.55, "unknown": 0.65},
-        "point":      {"rising": 0.90, "falling": 0.80, "high": 0.60, "low": 0.75, "unknown": 0.70},
-        "beach":      {"rising": 0.85, "falling": 0.75, "high": 0.65, "low": 0.75, "unknown": 0.70},
-        "jetty":      {"rising": 0.80, "falling": 0.75, "high": 0.70, "low": 0.70, "unknown": 0.70},
-        "rivermouth": {"rising": 0.85, "falling": 0.80, "high": 0.55, "low": 0.80, "unknown": 0.70},
-    }
-    _DEFAULT = {"rising": 0.85, "falling": 0.75, "high": 0.65, "low": 0.70, "unknown": 0.70}
-    profile = _PROFILES.get(break_type, _DEFAULT)  # type: ignore[call-overload]
+    profile = _TIDE_PROFILES.get(break_type, _DEFAULT_TIDE_PROFILE)  # type: ignore[call-overload]
     if not tide_state:
         return profile["unknown"]
     state = tide_state.lower()
@@ -205,10 +222,7 @@ def compute_stoke_score(
     )
     # Skill-level adjustment: advanced/pro users tolerate bigger surf
     skill_multiplier = {
-        "beginner": 0.8,
-        "intermediate": 1.0,
-        "advanced": 1.1,
-        "pro": 1.2,
+        **SKILL_MULTIPLIERS,
     }.get(prefs.skill_level, 1.0)
     height_score = min(1.0, height_score * skill_multiplier)
 
@@ -251,15 +265,7 @@ def compute_stoke_score(
     crowd_component = min(1.0, max(0.0, crowd_component))
 
     # ── Composite (weights sum to 1.0) ────────────────────────────────────────
-    weights = {
-        "height":     0.28,
-        "period":     0.18,
-        "direction":  0.22,
-        "wind":       0.14,
-        "steepness":  0.05,
-        "tide":       0.08,
-        "crowd":      0.05,
-    }
+    weights = STOKE_WEIGHTS
     raw_score = (
         weights["height"]    * height_score
         + weights["period"]    * period_score

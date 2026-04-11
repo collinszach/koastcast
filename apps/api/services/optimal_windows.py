@@ -14,6 +14,25 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
 
+try:
+    from config.weights import (
+        TIDE_BONUS_RISING,
+        TIDE_BONUS_EXTREME,
+        TOD_MORNING_BONUS,
+        TOD_AFTERNOON_MULT,
+        TOD_EVENING_MULT,
+        OPTIMAL_WINDOW_GAP_HOURS,
+        OPTIMAL_WINDOW_MIN_SCORE,
+    )
+except ImportError:
+    TIDE_BONUS_RISING = 1.0
+    TIDE_BONUS_EXTREME = 1.0
+    TOD_MORNING_BONUS = 1.0
+    TOD_AFTERNOON_MULT = 1.0
+    TOD_EVENING_MULT = 1.0
+    OPTIMAL_WINDOW_GAP_HOURS = 2.0
+    OPTIMAL_WINDOW_MIN_SCORE = 55.0
+
 from services.stoke_score import (
     DEFAULT_PREFERENCES,
     StokeInput,
@@ -43,26 +62,19 @@ class OptimalWindow:
 
 
 def _tide_bonus(tide_state: str | None, tide_height_m: float | None) -> float:
-    """
-    +20% for incoming tide (rising), -10% for extreme tides (high/low).
-    """
     if tide_state == "rising":
-        return 1.20
+        return TIDE_BONUS_RISING
     if tide_state in ("high", "low"):
-        return 0.90
+        return TIDE_BONUS_EXTREME
     return 1.0
 
 
 def _time_of_day_bonus(hour: int) -> float:
-    """
-    Morning glass (5-10am) = +15% bonus.
-    Afternoon onshore wind window (11am-4pm) = neutral.
-    """
     if 5 <= hour <= 10:
-        return 1.15
+        return TOD_MORNING_BONUS
     if 11 <= hour <= 16:
-        return 1.0
-    return 0.90  # evening/night
+        return TOD_AFTERNOON_MULT
+    return TOD_EVENING_MULT
 
 
 def _build_reason(
@@ -127,7 +139,7 @@ def find_optimal_windows(
     forecast_hours: list[dict[str, Any]],
     spot: Any,
     prefs: UserPreferences | None = None,
-    min_score: float = 55.0,
+    min_score: float = OPTIMAL_WINDOW_MIN_SCORE,
     max_windows: int = 10,
     min_window_hours: int = 1,
 ) -> list[OptimalWindow]:
@@ -240,7 +252,7 @@ def find_optimal_windows(
             next_ft, next_score, next_data = scored_hours[j]
             # Continue window if within 2h gap and score is reasonable
             gap = (next_ft - scored_hours[j - 1][0]).total_seconds() / 3600
-            if gap <= 2 and next_score >= min_score * 0.8:
+            if gap <= OPTIMAL_WINDOW_GAP_HOURS and next_score >= min_score * 0.8:
                 window_hours.append(next_data)
                 j += 1
             else:
