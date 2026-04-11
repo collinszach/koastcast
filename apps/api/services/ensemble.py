@@ -46,6 +46,8 @@ MARINE_HOURLY_VARS = [
     "wave_height", "wave_direction", "wave_period",
     "swell_wave_height", "swell_wave_direction", "swell_wave_period",
     "wind_wave_height", "wind_wave_direction", "wind_wave_period",
+    "swell_wave_height_2", "swell_wave_direction_2", "swell_wave_period_2",
+    "ocean_current_velocity", "ocean_current_direction",
 ]
 
 WIND_HOURLY_VARS = [
@@ -58,6 +60,8 @@ DIRECTION_FIELDS = frozenset({
     "swell_wave_direction",
     "wind_wave_direction",
     "wind_direction",
+    "swell_wave_direction_2",
+    "ocean_current_direction",
 })
 
 
@@ -244,6 +248,11 @@ async def _fetch_single_model(
         "wind_wave_height": marine.get("wind_wave_height", [None] * len(times)),
         "wind_wave_direction": marine.get("wind_wave_direction", [None] * len(times)),
         "wind_wave_period": marine.get("wind_wave_period", [None] * len(times)),
+        "swell_wave_height_2": marine.get("swell_wave_height_2", [None] * len(times)),
+        "swell_wave_direction_2": marine.get("swell_wave_direction_2", [None] * len(times)),
+        "swell_wave_period_2": marine.get("swell_wave_period_2", [None] * len(times)),
+        "ocean_current_velocity": marine.get("ocean_current_velocity", [None] * len(times)),
+        "ocean_current_direction": marine.get("ocean_current_direction", [None] * len(times)),
         "wind_speed_ms": aligned_wind_spd,
         "wind_direction": aligned_wind_dir,
         "wind_gust_ms": aligned_wind_gust,
@@ -354,6 +363,8 @@ def _build_ensemble(model_data: dict[str, dict[str, Any]]) -> dict[str, Any]:
         "wave_height", "wave_direction", "wave_period",
         "swell_wave_height", "swell_wave_direction", "swell_wave_period",
         "wind_wave_height", "wind_wave_direction", "wind_wave_period",
+        "swell_wave_height_2", "swell_wave_direction_2", "swell_wave_period_2",
+        "ocean_current_velocity", "ocean_current_direction",
         "wind_speed_ms", "wind_direction", "wind_gust_ms",
     ]:
         if field in DIRECTION_FIELDS:

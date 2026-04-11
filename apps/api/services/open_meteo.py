@@ -29,6 +29,9 @@ MARINE_HOURLY_VARS = [
     "wind_wave_period",
     "ocean_current_velocity",
     "ocean_current_direction",
+    "swell_wave_height_2",
+    "swell_wave_direction_2",
+    "swell_wave_period_2",
 ]
 
 # Atmospheric variables (from the regular forecast API endpoint)
@@ -166,6 +169,13 @@ def _parse_marine_response(data: dict[str, Any]) -> dict[str, Any]:
         "wind_wave_height": "wind_wave_height",
         "wind_wave_direction": "wind_wave_direction",
         "wind_wave_period": "wind_wave_period",
+        # Second swell train (not all models provide this)
+        "swell_wave_height_2": "swell_wave_height_2",
+        "swell_wave_direction_2": "swell_wave_direction_2",
+        "swell_wave_period_2": "swell_wave_period_2",
+        # Ocean current (was fetched but not parsed before)
+        "ocean_current_velocity": "ocean_current_velocity",
+        "ocean_current_direction": "ocean_current_direction",
     }
     for src, dst in field_map.items():
         result[dst] = hourly.get(src, [None] * len(times))

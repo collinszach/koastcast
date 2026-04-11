@@ -32,7 +32,7 @@ def register_jobs(scheduler: AsyncIOScheduler) -> None:
 
     scheduler.add_job(
         update_forecasts,
-        trigger=CronTrigger(hour="1,7,13,19", minute=0),  # 6h cadence
+        trigger=CronTrigger(hour="*/3", minute=0),  # 3h cadence: 0,3,6,9,12,15,18,21 UTC
         id="update_forecasts",
         name="Fetch and assemble spot forecasts",
         replace_existing=True,
@@ -406,6 +406,29 @@ async def nightly_model_refresh() -> None:
             log.info("Stoke model retrained successfully")
         else:
             log.error("Stoke model retraining failed", stderr=stderr.decode()[:300])
+
+        # Check bias correction model freshness
+        import time
+        from pathlib import Path
+        models_dir = Path(__file__).parent.parent / "models" / "ml"
+        bias_models = list(models_dir.glob("bias_*.pkl"))
+        if bias_models:
+            now_ts = time.time()
+            stale = [
+                mf for mf in bias_models
+                if (now_ts - mf.stat().st_mtime) / 86400 > 90
+            ]
+            for mf in stale:
+                age_days = round((now_ts - mf.stat().st_mtime) / 86400)
+                log.warning(
+                    "Bias correction model is stale — run ml/train_bias_correction.py",
+                    model=mf.name,
+                    age_days=age_days,
+                )
+            if not stale:
+                log.info("All bias correction models are fresh", count=len(bias_models))
+        else:
+            log.info("No bias correction models found", path=str(models_dir))
 
     except Exception as exc:
         log.error("Nightly model refresh failed", error=str(exc))
