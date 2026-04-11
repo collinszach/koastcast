@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 /* ─────────────────────────────────────────────────────────────────
-   SwellStack / TERRAIN — Marketing Homepage
+   Peakcast — Marketing Homepage
    Aesthetic: Deep-ocean data intelligence. Cinematic dark, cyan bioluminescent.
    ───────────────────────────────────────────────────────────────── */
 
@@ -278,7 +278,7 @@ export default function HomePage() {
               fontSize: 17,
               color: '#E0F7FA',
               letterSpacing: '-0.01em',
-            }}>TERRAIN</span>
+            }}>Peakcast</span>
           </div>
 
           {/* Nav links */}
@@ -424,7 +424,7 @@ export default function HomePage() {
                 <span style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: '#6B9BAD', letterSpacing: '0.08em' }}>MAVERICKS</span>
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 800, color: '#FB923C', letterSpacing: '0.04em' }}>🔥 FIRING</div>
-              <div style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: '#B0D4DC', marginTop: 3 }}>Stoke Score™ <span style={{ color: '#FB923C' }}>94</span></div>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: '#B0D4DC', marginTop: 3 }}>Peak Score™ <span style={{ color: '#FB923C' }}>94</span></div>
             </div>
 
             {/* Bottom left — model confidence */}
@@ -493,7 +493,7 @@ export default function HomePage() {
               lineHeight: 1.65,
             }}>
               AI-powered surf forecasts with full spectral wave analysis, personalized{' '}
-              <span style={{ color: '#06B6D4' }}>Stoke Score™</span>, and 16-day windows.
+              <span style={{ color: '#06B6D4' }}>Peak Score™</span>, and 16-day windows.
               Built for surfers who take the ocean seriously.
             </p>
 
@@ -748,7 +748,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* ── Card 2: Stoke Score ── */}
+              {/* ── Card 2: Peak Score ── */}
               <div className="feature-card">
                 <div style={{ marginBottom: 24 }}>
                   <div style={{
@@ -1052,7 +1052,7 @@ export default function HomePage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 32 }}>
                   {[
                     '16-day forecast window',
-                    'Stoke Score™ personalized',
+                    'Peak Score™ personalized',
                     'Optimal session windows',
                     'Full spectral wave analysis',
                     'Crowd prediction layer',
@@ -1155,7 +1155,7 @@ export default function HomePage() {
                 <path d="M1 10 C3 7, 5 11, 8 8 C11 5, 13 9, 15 6" stroke="white" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
               </svg>
             </div>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: '#E0F7FA' }}>TERRAIN</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: '#E0F7FA' }}>Peakcast</span>
             <span style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: '#2E5568', marginLeft: 8 }}>
               Powered by NOAA · Open-Meteo · ECMWF
             </span>
@@ -1168,7 +1168,7 @@ export default function HomePage() {
             ))}
           </div>
           <div style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: '#2E5568' }}>
-            © 2025 TERRAIN · MIT License
+            © 2025 Peakcast · MIT License
           </div>
         </footer>
 

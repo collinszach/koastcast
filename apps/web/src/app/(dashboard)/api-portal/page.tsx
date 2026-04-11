@@ -100,7 +100,7 @@ export default function ApiPortalPage() {
           <h2 className="text-lg font-semibold text-white mb-2">Explorer Tier Required</h2>
           <p className="text-gray-400 text-sm mb-4">
             B2B API access is available on the Explorer plan. Get programmatic access to
-            TERRAIN forecasts for your app or research.
+            Peakcast forecasts for your app or research.
           </p>
           <a
             href="/upgrade"
@@ -118,7 +118,7 @@ export default function ApiPortalPage() {
       <div>
         <h1 className="text-2xl font-bold text-white">API Portal</h1>
         <p className="text-gray-400 text-sm mt-1">
-          Programmatic access to TERRAIN surf forecasts.
+          Programmatic access to Peakcast surf forecasts.
         </p>
       </div>
 
@@ -218,7 +218,7 @@ export default function ApiPortalPage() {
 
 # Response: 7-day hourly forecast with wave height, period,
 # direction, wind, tide, quality score, crowd prediction
-# FUTURE INTEGRATION: Cloudflare Tunnel — replace localhost:8000 with https://api.swellstack.io`}
+# FUTURE INTEGRATION: Cloudflare Tunnel — replace localhost:8000 with https://api.peakcast.app`}
         </pre>
         <a
           href="http://localhost:8000/docs"

@@ -182,7 +182,7 @@ export async function getForecastFallback(
     wind_speed_ms: wspd[i] ?? null,
     wind_direction: wdirw[i] ?? null,
     wind_gust_ms: wgust[i] ?? null,
-    quality_score: null, // no stoke score without NUC
+    quality_score: null, // no peak score without NUC
   }))
 
   return {

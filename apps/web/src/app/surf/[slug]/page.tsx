@@ -45,7 +45,7 @@ export async function generateMetadata({
       : 'See current conditions'
 
     const title = `${spot.name} Surf Forecast — ${conditionStr}`
-    const description = `Live surf forecast for ${spot.name}, ${spot.region}. ${conditionStr}. 16-day hourly forecast, personalized Stoke Score™, optimal window finder.`
+    const description = `Live surf forecast for ${spot.name}, ${spot.region}. ${conditionStr}. 16-day hourly forecast, personalized Peak Score™, optimal window finder.`
 
     return {
       title,
@@ -54,7 +54,7 @@ export async function generateMetadata({
         title,
         description,
         type: 'website',
-        siteName: 'TERRAIN',
+        siteName: 'Peakcast',
       },
       twitter: {
         card: 'summary_large_image',
@@ -64,7 +64,7 @@ export async function generateMetadata({
     }
   } catch {
     return {
-      title: 'TERRAIN — AI Surf Forecasting',
+      title: 'Peakcast — AI Surf Forecasting',
       description: 'Personalized surf forecasts powered by AI and real-time NOAA buoy data.',
     }
   }
@@ -92,7 +92,7 @@ export default async function PublicSpotPage({
         <div className="text-center">
           <div className="text-4xl mb-4">🌊</div>
           <h1 className="text-white text-xl font-bold mb-2">Spot not found</h1>
-          <Link href="/" className="text-blue-400 text-sm">← Back to TERRAIN</Link>
+          <Link href="/" className="text-blue-400 text-sm">← Back to Peakcast</Link>
         </div>
       </div>
     )
@@ -120,7 +120,7 @@ export default async function PublicSpotPage({
       {/* Nav */}
       <nav className="border-b border-gray-800 px-4 py-3 flex items-center justify-between">
         <Link href="/" className="font-bold text-white text-lg">
-          🌊 TERRAIN
+          🌊 Peakcast
         </Link>
         <div className="flex items-center gap-3">
           <Link href="/login" className="text-gray-400 hover:text-white text-sm transition-colors">
@@ -212,7 +212,7 @@ export default async function PublicSpotPage({
             Get the Full 16-Day Forecast
           </h2>
           <p className="text-blue-200/70 text-sm mb-4 max-w-sm mx-auto">
-            Personalized Stoke Score™, optimal window finder, spectral analysis,
+            Personalized Peak Score™, optimal window finder, spectral analysis,
             AI-powered Q&A, and real-time push alerts. Free to start.
           </p>
           <Link

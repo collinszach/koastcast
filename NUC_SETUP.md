@@ -1,4 +1,4 @@
-# SwellStack NUC Setup Guide
+# Peakcast NUC Setup Guide
 ## First-Run Checklist for Your Intel NUC
 
 ---
@@ -26,14 +26,14 @@ sudo apt-get update && sudo apt-get install cloudflared
 cloudflared tunnel login
 
 # Create tunnel
-cloudflared tunnel create swellstack
+cloudflared tunnel create peakcast
 # This prints a tunnel ID — save it
 
 # Create DNS route
-cloudflared tunnel route dns swellstack api.yourdomain.com
+cloudflared tunnel route dns peakcast api.yourdomain.com
 
 # Get tunnel token for docker-compose
-cloudflared tunnel token swellstack
+cloudflared tunnel token peakcast
 # Copy this → paste as CLOUDFLARE_TUNNEL_TOKEN in .env
 ```
 
@@ -142,14 +142,14 @@ docker-compose restart api
 
 ```bash
 # Create systemd service for docker-compose
-sudo tee /etc/systemd/system/swellstack.service << EOF
+sudo tee /etc/systemd/system/peakcast.service << EOF
 [Unit]
-Description=SwellStack Surf Forecasting
+Description=Peakcast Surf Forecasting
 After=docker.service
 Requires=docker.service
 
 [Service]
-WorkingDirectory=/home/YOUR_USER/swellstack
+WorkingDirectory=/home/YOUR_USER/peakcast
 ExecStart=/usr/bin/docker-compose up
 ExecStop=/usr/bin/docker-compose down
 Restart=always
@@ -159,8 +159,8 @@ User=YOUR_USER
 WantedBy=multi-user.target
 EOF
 
-sudo systemctl enable swellstack
-sudo systemctl start swellstack
+sudo systemctl enable peakcast
+sudo systemctl start peakcast
 ```
 
 ---

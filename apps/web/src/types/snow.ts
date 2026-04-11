@@ -1,5 +1,5 @@
 /**
- * TERRAIN Snow — shared TypeScript types
+ * Peakcast Snow — shared TypeScript types
  */
 
 export interface Resort {

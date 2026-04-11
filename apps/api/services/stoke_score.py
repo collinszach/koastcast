@@ -1,11 +1,11 @@
 """
-Stoke Score Engine
+Peak Score Engine
 
 Computes a personalized 0-100 surf quality score based on:
   - Forecast conditions vs. spot optimal parameters
   - User preferences (height, period, wind tolerance, crowd tolerance)
 
-This is SwellStack's key differentiator from Surfline's generic star ratings.
+This is Peakcast's key differentiator from Surfline's generic star ratings.
 """
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from typing import Literal
 
 try:
-    from config.weights import (
+    from scoring.weights import (
         STOKE_WEIGHTS,
         SKILL_MULTIPLIERS,
         TIDE_PROFILES as _TIDE_PROFILES,
@@ -203,7 +203,7 @@ def compute_stoke_score(
     break_type: str | None = None,
 ) -> StokeResult:
     """
-    Compute a personalized 0-100 stoke score with component breakdown.
+    Compute a personalized 0-100 peak score with component breakdown.
 
     Each component scores 0-1 before weighting:
       - height_score:     asymmetric Gaussian (below-optimal penalized less)

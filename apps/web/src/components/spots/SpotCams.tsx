@@ -318,7 +318,7 @@ export default function SpotCams({ spot }: { spot: Spot }) {
                 marginTop: 3,
                 letterSpacing: '0.06em',
               }}>
-                TERRAIN CAMS NETWORK · 2026
+                PEAKCAST CAMS NETWORK · 2026
               </div>
             </div>
           </div>

@@ -178,7 +178,7 @@ export default function ForgotPasswordPage() {
               color: 'var(--foam)',
             }}
           >
-            TERRAIN
+            Peakcast
           </h1>
           <p style={{ fontSize: 13, color: 'var(--spray)', lineHeight: 1.5 }}>
             AI-native forecasting for surf, snow &amp; trails.

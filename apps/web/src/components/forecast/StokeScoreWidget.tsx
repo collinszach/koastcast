@@ -34,7 +34,7 @@ interface StokeResult {
 }
 
 function qualityToStokeProxy(qualityScore?: number | null): StokeResult {
-  // Map 0-10 quality score → 0-100 stoke score for generic display
+  // Map 0-10 quality score → 0-100 peak score for generic display
   const score = (qualityScore ?? 5) * 10
   const label = getConditionLabel(qualityScore)
   const LABELS: Record<string, string> = {

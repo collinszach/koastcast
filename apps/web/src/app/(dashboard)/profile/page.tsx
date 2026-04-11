@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * Profile page — surf preferences that power the personalized Stoke Score™.
+ * Profile page — surf preferences that power the personalized Peak Score™.
  */
 
 import { useState, useEffect } from 'react'
@@ -421,7 +421,7 @@ export default function ProfilePage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
         // No auth — save to localStorage as guest preferences
-        localStorage.setItem('swellstack_guest_prefs', JSON.stringify({ ...profile, notification_prefs: notifPrefs }))
+        localStorage.setItem('peakcast_guest_prefs', JSON.stringify({ ...profile, notification_prefs: notifPrefs }))
         setSaved(true)
         setSaving(false)
         return
@@ -481,7 +481,7 @@ export default function ProfilePage() {
         marginBottom: 5,
       }}>Profile</h1>
       <p style={{ fontSize: 13, color: 'var(--spray)', marginBottom: 24 }}>
-        Your surf preferences power the personalized Stoke Score™
+        Your surf preferences power the personalized Peak Score™
       </p>
 
       {/* ── ACCOUNT ──────────────────────────────────────────────── */}
@@ -1046,7 +1046,7 @@ export default function ProfilePage() {
                 Minimum stoke threshold
               </div>
               <div style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: 'var(--deep-text)', marginTop: 2 }}>
-                Only alert when Stoke Score is {settings.minStokeAlert}+
+                Only alert when Peak Score is {settings.minStokeAlert}+
               </div>
             </div>
             <span style={{

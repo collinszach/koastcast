@@ -282,7 +282,7 @@ const GHOST_SESSIONS = [
 const HOW_IT_WORKS = [
   { step: '1', icon: '📍', title: 'Pick a spot', desc: 'Choose from 10 iconic breaks or search by location' },
   { step: '2', icon: '📋', title: 'Log conditions', desc: 'Rate waves, wind, crowd — takes under 30 seconds' },
-  { step: '3', icon: '🤙', title: 'Improve accuracy', desc: 'Your sessions train a personalized Stoke Score™' },
+  { step: '3', icon: '🤙', title: 'Improve accuracy', desc: 'Your sessions train a personalized Peak Score™' },
 ]
 
 function EmptySessionState() {

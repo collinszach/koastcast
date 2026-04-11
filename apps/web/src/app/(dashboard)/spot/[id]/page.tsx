@@ -7,7 +7,7 @@ import SwellSpectrumWidget from '@/components/forecast/SwellSpectrumWidget'
 import TideChartWidget from '@/components/forecast/TideChartWidget'
 import WindRoseWidget from '@/components/forecast/WindRoseWidget'
 import OptimalWindows from '@/components/forecast/OptimalWindows'
-import AskStoke from '@/components/forecast/AskStoke'
+import AskPeak from '@/components/forecast/AskPeak'
 import ModelComparison from '@/components/forecast/ModelComparison'
 import WeekQualityBar from '@/components/forecast/WeekQualityBar'
 import BuoyReadings from '@/components/forecast/BuoyReadings'
@@ -418,7 +418,7 @@ export default async function SpotPage({ params }: PageProps) {
         <div>
           <SectionHeader label="Conditions Detail" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card title="Stoke Score™" accent={config.glow}>
+            <Card title="Peak Score™" accent={config.glow}>
               <StokeScoreWidget spotId={spot.slug} spotName={spot.name} currentHour={currentHour} />
             </Card>
             <Card title="Wind Rose" subtitle="24h">
@@ -525,7 +525,7 @@ export default async function SpotPage({ params }: PageProps) {
       </div>
 
       {/* Ask Stoke — floating AI chat */}
-      <AskStoke spotId={spot.slug} spotName={spot.name} isPremium={isPremium} />
+      <AskPeak spotId={spot.slug} spotName={spot.name} isPremium={isPremium} />
 
       {/* Sticky Log Session bar */}
       <SessionLogButton

@@ -13,7 +13,7 @@ const SPOT_SLUGS = [
   'montauk-ny',
 ]
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://swellstack.io'
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://peakcast.app'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()

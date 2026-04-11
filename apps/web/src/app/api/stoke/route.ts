@@ -84,6 +84,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(data)
   } catch (err) {
     console.error('Stoke proxy error:', err)
-    return NextResponse.json({ error: 'Failed to compute stoke score' }, { status: 503 })
+    return NextResponse.json({ error: 'Failed to compute peak score' }, { status: 503 })
   }
 }

@@ -1,4 +1,4 @@
-# SwellStack Runbook
+# Peakcast Runbook
 ## NUC Operations & Incident Response
 
 ---
@@ -6,7 +6,7 @@
 ## 1. NUC Goes Offline
 
 ### Symptoms
-- `https://api.swellstack.io/health` returns timeout or connection refused
+- `https://api.peakcast.app/health` returns timeout or connection refused
 - Frontend shows "Forecast unavailable" on all spot pages
 - Vercel logs show `fetch` failures to `NUC_API_BASE_URL`
 
@@ -34,7 +34,7 @@ No manual action needed — wait up to 2 minutes after connectivity returns.
 
 ```bash
 # Check tunnel status
-docker logs swellstack_tunnel --tail 50
+docker logs peakcast_tunnel --tail 50
 ```
 
 ### Emergency fallback — point to Open-Meteo cloud
@@ -42,7 +42,7 @@ docker logs swellstack_tunnel --tail 50
 If the NUC will be offline for >1 hour, switch Vercel to use the public
 Open-Meteo cloud API as a degraded-mode backend:
 
-1. Go to Vercel dashboard → SwellStack project → Settings → Environment Variables
+1. Go to Vercel dashboard → Peakcast project → Settings → Environment Variables
 2. Set `NUC_API_BASE_URL` to `https://api.open-meteo.com`
 3. Redeploy (or wait for next deploy)
 
@@ -57,11 +57,11 @@ Revert when NUC is back online.
 
 ### Symptoms
 - Forecasts are stale (>6 hours old)
-- `docker logs swellstack_open_meteo` shows download errors
+- `docker logs peakcast_open_meteo` shows download errors
 
 ```bash
 # Check Open-Meteo logs
-docker logs swellstack_open_meteo --tail 100
+docker logs peakcast_open_meteo --tail 100
 
 # Restart the container
 docker-compose restart open-meteo-api
@@ -75,16 +75,16 @@ Open-Meteo will fall back to GFS automatically. No action needed.
 
 ---
 
-## 3. LLM / AskStoke Not Responding
+## 3. LLM / AskPeak Not Responding
 
 ### Symptoms
-- AskStoke returns "rule-based" responses only
-- `docker logs swellstack_llm` shows OOM or startup failures
+- AskPeak returns "rule-based" responses only
+- `docker logs peakcast_llm` shows OOM or startup failures
 
 ```bash
 # Check LLM container
-docker logs swellstack_llm --tail 50
-docker stats swellstack_llm
+docker logs peakcast_llm --tail 50
+docker stats peakcast_llm
 
 # Restart if OOM
 docker-compose restart llm
@@ -132,7 +132,7 @@ curl -H "apikey: YOUR_ANON_KEY" \
 If Supabase is up but data isn't loading:
 ```bash
 # Check API logs for DB errors
-docker logs swellstack_api --tail 100 | grep -i "error\|exception"
+docker logs peakcast_api --tail 100 | grep -i "error\|exception"
 ```
 
 ### TimescaleDB compression issues
@@ -155,7 +155,7 @@ SELECT compress_chunk(i) FROM show_chunks('buoy_observations', older_than => INT
 
 ```bash
 # Manually trigger a forecast update
-docker exec swellstack_api python -c "
+docker exec peakcast_api python -c "
 import asyncio
 from scheduler.jobs import update_forecasts
 asyncio.run(update_forecasts())
@@ -176,7 +176,7 @@ asyncio.run(update_forecasts())
 
 ```bash
 # Manually trigger buoy fetch
-docker exec swellstack_api python -c "
+docker exec peakcast_api python -c "
 import asyncio
 from scheduler.jobs import update_buoy_data
 asyncio.run(update_buoy_data())
@@ -334,7 +334,7 @@ docker compose restart nginx
 The script writes `nginx/certs/cert.pem` and `nginx/certs/key.pem` (Let's Encrypt,
 90-day validity, issued for your `<hostname>.tail12345.ts.net` FQDN).
 
-**Access SwellStack from any tailnet device — no certificate trust steps needed:**
+**Access Peakcast from any tailnet device — no certificate trust steps needed:**
 ```
 https://<nuc-hostname>.tail12345.ts.net:8443
 ```
@@ -345,7 +345,7 @@ https://<nuc-hostname>.tail12345.ts.net:8443
 chmod +x scripts/renew-certs.sh
 
 # Add to crontab: crontab -e
-0 3 * * 1 /home/zach/nSwell/scripts/renew-certs.sh >> /var/log/swellstack-certs.log 2>&1
+0 3 * * 1 /home/zach/nSwell/scripts/renew-certs.sh >> /var/log/peakcast-certs.log 2>&1
 ```
 
 The renewal script is a no-op if the cert has more than 30 days remaining;
@@ -365,7 +365,7 @@ This is intentional — the app always starts, even before `setup-certs.sh` is r
 
 ### Public access: Tailscale Funnel (replaces Cloudflare Tunnel)
 
-Tailscale Funnel can expose SwellStack to the public internet:
+Tailscale Funnel can expose Peakcast to the public internet:
 
 ```bash
 # Serve port 8443 publicly (one-shot, stops when you Ctrl-C)
@@ -428,7 +428,7 @@ Supabase's built-in email is rate-limited to **3 emails/hour** on the free tier 
    - Username: `your-workspace-email@yourdomain.com`
    - Password: your Google Workspace password (or App Password)
    - Sender email: `noreply@yourdomain.com`
-   - Sender name: `TERRAIN`
+   - Sender name: Peakcast`
 3. Click **Save** and **Send test email**
 
 **App Password method (more secure, works with 2FA):**
@@ -450,7 +450,7 @@ Supabase's built-in email is rate-limited to **3 emails/hour** on the free tier 
    - Username: `your@gmail.com`
    - Password: the 16-character App Password (no spaces)
    - Sender email: `your@gmail.com`
-   - Sender name: `TERRAIN`
+   - Sender name: Peakcast`
 5. **Note:** Gmail caps outbound SMTP at 500 emails/day — fine for early-stage apps
 
 ### Option C: Resend (best for production / custom domain)
@@ -500,11 +500,11 @@ docker-compose logs -f api
 
 # Check API health
 curl http://localhost:8000/health
-curl https://api.swellstack.io/health
+curl https://api.peakcast.app/health
 
 # Force forecast update
-docker exec swellstack_api python -c "import asyncio; from scheduler.jobs import update_forecasts; asyncio.run(update_forecasts())"
+docker exec peakcast_api python -c "import asyncio; from scheduler.jobs import update_forecasts; asyncio.run(update_forecasts())"
 
 # Force buoy update
-docker exec swellstack_api python -c "import asyncio; from scheduler.jobs import update_buoy_data; asyncio.run(update_buoy_data())"
+docker exec peakcast_api python -c "import asyncio; from scheduler.jobs import update_buoy_data; asyncio.run(update_buoy_data())"
 ```

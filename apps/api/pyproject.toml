@@ -1,7 +1,7 @@
 [project]
-name = "swellstack-api"
+name = "peakcast-api"
 version = "0.1.0"
-description = "SwellStack FastAPI backend"
+description = "Peakcast FastAPI backend"
 requires-python = ">=3.12"
 
 [tool.pytest.ini_options]

@@ -624,7 +624,7 @@ export default function WeatherPageClient() {
                 fontSize: 9, fontWeight: 700,
                 color: '#F59E0B', letterSpacing: '0.2em', textTransform: 'uppercase',
               }}>
-                TERRAIN · WEATHER INTELLIGENCE
+                PEAKCAST · WEATHER INTELLIGENCE
               </div>
             </div>
             {/* Live badge */}

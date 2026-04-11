@@ -1,5 +1,5 @@
 /**
- * SwellStack Service Worker
+ * Peakcast Service Worker
  *
  * Capabilities:
  *   1. Cache last-viewed spot forecast for offline access
@@ -7,8 +7,8 @@
  *   3. Handle push notifications for optimal window alerts
  */
 
-const CACHE_NAME = 'swellstack-v1'
-const FORECAST_CACHE = 'swellstack-forecasts-v1'
+const CACHE_NAME = 'peakcast-v1'
+const FORECAST_CACHE = 'peakcast-forecasts-v1'
 
 // Static assets to precache
 const PRECACHE_URLS = [
@@ -123,7 +123,7 @@ self.addEventListener('push', event => {
   try {
     data = event.data.json()
   } catch {
-    data = { title: 'SwellStack', body: event.data.text() }
+    data = { title: 'Peakcast', body: event.data.text() }
   }
 
   const options = {
@@ -136,11 +136,11 @@ self.addEventListener('push', event => {
       { action: 'dismiss', title: 'Dismiss' },
     ],
     requireInteraction: false,
-    tag: 'swellstack-alert',
+    tag: 'peakcast-alert',
   }
 
   event.waitUntil(
-    self.registration.showNotification(data.title || 'SwellStack Alert', options)
+    self.registration.showNotification(data.title || 'Peakcast Alert', options)
   )
 })
 
@@ -168,7 +168,7 @@ self.addEventListener('notificationclick', event => {
 
 function openDB() {
   return new Promise((resolve, reject) => {
-    const req = indexedDB.open('swellstack-offline', 1)
+    const req = indexedDB.open('peakcast-offline', 1)
     req.onupgradeneeded = e => {
       const db = e.target.result
       if (!db.objectStoreNames.contains('pending_sessions')) {

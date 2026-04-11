@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 try:
-    from config.weights import (
+    from scoring.weights import (
         TIDE_BONUS_RISING,
         TIDE_BONUS_EXTREME,
         TOD_MORNING_BONUS,
@@ -197,7 +197,7 @@ def find_optimal_windows(
         )
         crowd_surf_score = crowd_predictor.crowd_score_to_surf_score(crowd_prob)
 
-        # Base stoke score
+        # Base peak score
         optimal_swell = spot.optimal_swell_direction or 270.0
         optimal_swell_range = getattr(spot, "optimal_swell_direction_range", None) or 45.0
         offshore_dir = spot.optimal_wind_direction or 90.0

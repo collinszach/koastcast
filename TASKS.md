@@ -1,4 +1,4 @@
-# SwellStack — Claude Code Task List
+# Peakcast — Claude Code Task List
 ## Phased Build Plan
 
 > Instructions for Claude Code: Work through phases in order.
@@ -145,14 +145,14 @@
   4. Preferred wave height range + min period
   5. Offshore importance + crowd tolerance
 - [x] Save to `user_profiles` table via Supabase upsert
-- [x] Wire preferences into stoke score computation via `/api/stoke` route
+- [x] Wire preferences into peak score computation via `/api/stoke` route
 - [x] Build `profile/page.tsx` with full preference editor
 - [x] Build `src/proxy.ts` (Next.js 16 auth + onboarding redirect middleware)
 - [x] Build `StokeScore` component (animated SVG ring + 5 component bars)
 - [x] Build `StokeScoreWidget` (fetches from `/api/stoke`, falls back to quality proxy)
 - [x] Build `(auth)/signup/page.tsx` (redirects to /login; magic link handles signup+login)
 
-**Phase 2 Definition of Done**: ✅ ML training scripts ready, spectral chart + tide + wind rose visible on forecast page, session logging works, personalized stoke score shown on forecast page, onboarding + profile complete. Tests: 40/40 passing. Frontend: clean `pnpm build`.
+**Phase 2 Definition of Done**: ✅ ML training scripts ready, spectral chart + tide + wind rose visible on forecast page, session logging works, personalized peak score shown on forecast page, onboarding + profile complete. Tests: 40/40 passing. Frontend: clean `pnpm build`.
 
 ---
 
@@ -191,12 +191,12 @@
 - [x] Implement `routers/nlq.py`:
   - `POST /api/v1/nlq` → JSON answer
   - `POST /api/v1/nlq/stream` → SSE streaming response
-- [x] Build `AskStoke` UI component:
+- [x] Build `AskPeak` UI component:
   - Floating chat bubble on spot page (bottom-right)
   - Streams response token by token (SSE via ReadableStream)
   - 3 suggested questions pre-populated
   - Premium gate with "Unlock AI Forecaster" CTA for free users
-- [x] Wire `AskStoke` into `spot/[id]/page.tsx`
+- [x] Wire `AskPeak` into `spot/[id]/page.tsx`
 
 ### 3.4 SWAN Nearshore Model (Pilot Spots)
 - [ ] Install SWAN on NUC: `apt install swan` or build from source — manual step
@@ -337,7 +337,7 @@ cd apps/web && pnpm test
 docker-compose logs -f api
 
 # Update Cloudflare tunnel
-cloudflared tunnel route dns swellstack api.swellstack.io
+cloudflared tunnel route dns peakcast api.peakcast.app
 ```
 
 ---

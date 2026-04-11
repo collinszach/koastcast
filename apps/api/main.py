@@ -1,5 +1,5 @@
 """
-SwellStack FastAPI Backend
+Peakcast FastAPI Backend
 Runs on the Intel NUC on localhost:8000.
 FUTURE INTEGRATION: Cloudflare Tunnel will expose this to the internet in production.
 """
@@ -33,18 +33,18 @@ scheduler = AsyncIOScheduler()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("SwellStack API starting up", environment=settings.environment)
+    logger.info("Peakcast API starting up", environment=settings.environment)
     register_jobs(scheduler)
     scheduler.start()
     logger.info("Scheduler started", jobs=len(scheduler.get_jobs()))
     yield
     scheduler.shutdown()
-    logger.info("SwellStack API shut down")
+    logger.info("Peakcast API shut down")
 
 
 # ─── App ──────────────────────────────────────────────────────────────────
 app = FastAPI(
-    title="SwellStack API",
+    title="Peakcast API",
     description="AI-native surf forecasting. More accurate. More personal.",
     version="0.1.0",
     lifespan=lifespan,
@@ -84,7 +84,7 @@ async def health():
 @app.get("/")
 async def root():
     return {
-        "name": "SwellStack API",
+        "name": "Peakcast API",
         "docs": "/docs",
         "status": "riding"
     }

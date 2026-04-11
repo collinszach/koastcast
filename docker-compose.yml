@@ -2,7 +2,7 @@ services:
   # ─── Open-Meteo (self-hosted, free for commercial use) ───────────────────
   open-meteo-api:
     image: ghcr.io/open-meteo/open-meteo:latest
-    container_name: swellstack_open_meteo
+    container_name: peakcast_open_meteo
     restart: unless-stopped
     expose:
       - "8080"  # only accessible within Docker network; no host port binding
@@ -16,12 +16,12 @@ services:
       timeout: 10s
       retries: 3
 
-  # ─── SwellStack Next.js Frontend ─────────────────────────────────────────
+  # ─── Peakcast Next.js Frontend ─────────────────────────────────────────
   web:
     build:
       context: ./apps/web
       dockerfile: Dockerfile
-    container_name: swellstack_web
+    container_name: peakcast_web
     restart: unless-stopped
     ports:
       - "3002:3001"
@@ -39,12 +39,12 @@ services:
     depends_on:
       - api
 
-  # ─── SwellStack FastAPI Backend ───────────────────────────────────────────
+  # ─── Peakcast FastAPI Backend ───────────────────────────────────────────
   api:
     build:
       context: ./apps/api
       dockerfile: Dockerfile
-    container_name: swellstack_api
+    container_name: peakcast_api
     restart: unless-stopped
     ports:
       - "8002:8000"
@@ -58,7 +58,7 @@ services:
     environment:
       - ENVIRONMENT=${ENVIRONMENT:-production}
       - DEBUG=${DEBUG:-false}
-      - CORS_ORIGINS=${CORS_ORIGINS:-["https://swellstack.io"]}
+      - CORS_ORIGINS=${CORS_ORIGINS:-["https://peakcast.app"]}
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
       - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
@@ -79,10 +79,10 @@ services:
 
   # ─── LLM Server (Ollama — OpenAI-compatible API) ────────────────────────
   # NOTE: Set LLAMA_CPP_BASE_URL=http://llm:11434/v1 in the api service env.
-  # Pull the model after first start: docker exec swellstack_llm ollama pull phi4-mini
+  # Pull the model after first start: docker exec peakcast_llm ollama pull phi4-mini
   llm:
     image: ollama/ollama:latest
-    container_name: swellstack_llm
+    container_name: peakcast_llm
     restart: unless-stopped
     expose:
       - "11434"  # only accessible within Docker network; no host port binding
@@ -99,7 +99,7 @@ services:
   # To re-enable for production: uncomment this block and set CLOUDFLARE_TUNNEL_TOKEN.
   # cloudflared:
   #   image: cloudflare/cloudflared:latest
-  #   container_name: swellstack_tunnel
+  #   container_name: peakcast_tunnel
   #   restart: unless-stopped
   #   command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
   #   environment:
@@ -112,7 +112,7 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    container_name: swellstack_nginx
+    container_name: peakcast_nginx
     ports:
       - "8880:80"   # HTTP → HTTPS redirect  (8880 avoids conflict with hive-nginx on :80)
       - "8443:443"  # HTTPS (self-signed cert for LAN; Cloudflare Tunnel handles external TLS)
@@ -139,7 +139,7 @@ services:
   # swan:
   #   build:
   #     context: ./docker/swan
-  #   container_name: swellstack_swan
+  #   container_name: peakcast_swan
   #   restart: unless-stopped
   #   volumes:
   #     - ./data/swan_configs:/app/configs
@@ -153,5 +153,5 @@ volumes:
 
 networks:
   default:
-    name: swellstack_net
+    name: peakcast_net
     enable_ipv6: false

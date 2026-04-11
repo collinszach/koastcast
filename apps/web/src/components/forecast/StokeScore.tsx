@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * StokeScore — Animated SVG ring showing 0-100 personalized stoke score.
+ * StokeScore — Animated SVG ring showing 0-100 personalized peak score.
  * Below the ring: 5 component bar chart (height, period, direction, wind, crowd).
  */
 
@@ -113,7 +113,7 @@ export default function StokeScore({
       <div className="text-center">
         <div className="font-black text-sm tracking-wider" style={{ color }}>{label}</div>
         <div className="text-xs text-gray-500 mt-0.5">
-          {isPersonalized ? 'Your stoke score' : 'General quality'}
+          {isPersonalized ? 'Your peak score' : 'General quality'}
         </div>
       </div>
 

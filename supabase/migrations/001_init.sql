@@ -1,5 +1,5 @@
 -- ─────────────────────────────────────────────────────────────────────────
--- SwellStack Database Migration 001: Core Schema
+-- Peakcast Database Migration 001: Core Schema
 -- Run via: supabase db push
 -- ─────────────────────────────────────────────────────────────────────────
 

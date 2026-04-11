@@ -1,4 +1,4 @@
-# SnowStack — AI-Native Snow Forecasting Platform
+# Peakcast Snow — AI-Native Snow Forecasting Platform
 ## Technical Architecture & Build Plan
 
 *Companion document to V2.md — Surf + Snow unified under one platform.*
@@ -9,7 +9,7 @@
 
 One platform. Two sports. Same philosophy: **free government data + ML bias correction + personalized scoring = better forecasts than the incumbents.**
 
-SwellStack beats Surfline by replacing their proprietary black-box with transparent ML on free NOAA data. SnowStack beats OpenSnow and OnTheSnow by the same playbook — HRRR model data, SNOTEL ground truth, per-resort LightGBM density correction, and a personalized Powder Quality Score™ that understands whether you're a powder hound chasing 40cm days or a park rat who doesn't care about snow depth.
+Peakcast beats Surfline by replacing their proprietary black-box with transparent ML on free NOAA data. Peakcast Snow beats OpenSnow and OnTheSnow by the same playbook — HRRR model data, SNOTEL ground truth, per-resort LightGBM density correction, and a personalized Snow Peak Score™ that understands whether you're a powder hound chasing 40cm days or a park rat who doesn't care about snow depth.
 
 The entire stack runs on the same Intel NUC, same Supabase DB, same Next.js frontend, same FastAPI backend. Surf and snow share auth, session history, billing, and the NLQ layer. A user can log a barrel at Mavericks on Tuesday and a powder run at Jackson Hole on Saturday in the same app.
 
@@ -17,7 +17,7 @@ The entire stack runs on the same Intel NUC, same Supabase DB, same Next.js fron
 
 ## SNOW vs SURF: PARALLEL ARCHITECTURE
 
-| SwellStack (Surf) | SnowStack (Snow) | Notes |
+| Peakcast (Surf) | Peakcast Snow (Snow) | Notes |
 |---|---|---|
 | NDBC Buoy network | SNOTEL station network | Ground-truth observations |
 | CDIP directional spectra | SNODAS gridded reanalysis | Distributed spatial data |
@@ -27,7 +27,7 @@ The entire stack runs on the same Intel NUC, same Supabase DB, same Next.js fron
 | Wave height (face, m) | Powder depth (cm) + density (kg/m³) | Primary quality driver |
 | Swell period → wave quality | Storm duration → snowpack depth | Secondary quality driver |
 | Wind direction (offshore/onshore) | Wind speed (calm = powder, high = slab) | Wind role reversal |
-| Stoke Score™ (0–100) | Powder Quality Score™ (0–100) | Personalized composite |
+| Peak Score™ (0–100) | Snow Peak Score™ (0–100) | Personalized composite |
 | Tide (rises/falls) | Temperature (warms/cools) | Temporal quality modifier |
 | Crowd prediction (session history) | Crowd prediction (resort + weekday) | Same model structure |
 | NLQ via llama.cpp | Same llama.cpp instance | Shared LLM |
@@ -345,7 +345,7 @@ def compute_freezing_level_m(
 
 ## POWDER QUALITY SCORE™
 
-The snow equivalent of Stoke Score™. Fully personalized, 0–100.
+The snow equivalent of Peak Score™. Fully personalized, 0–100.
 
 ```python
 from dataclasses import dataclass
@@ -1225,7 +1225,7 @@ Extend the llama.cpp prompt system with snow context:
 
 ```python
 SNOW_SYSTEM_PROMPT = """
-You are the SnowStack AI, an expert mountain snowboarding and skiing forecaster.
+You are the Peakcast Snow AI, an expert mountain snowboarding and skiing forecaster.
 You have access to:
 - HRRR/NAM/GFS forecast data (temperature, precipitation, wind, freezing level)
 - SNOTEL station observations (snow depth, density, new snow)

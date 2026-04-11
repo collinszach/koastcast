@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * Onboarding wizard — 6 steps to configure the personalized Stoke Score™.
+ * Onboarding wizard — 6 steps to configure the personalized Peak Score™.
  * Shown to new users before they reach the main app.
  * Pure inline styles — ocean/dark theme, zero Tailwind classes.
  */
@@ -220,7 +220,7 @@ export default function OnboardingPage() {
     }}>
       <div style={{ width: '100%', maxWidth: 440 }}>
 
-        {/* TERRAIN logo mark */}
+        {/* Peakcast logo mark */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
           <div style={{
             background: 'linear-gradient(135deg, #8B5CF6, #06B6D4)',
@@ -234,7 +234,7 @@ export default function OnboardingPage() {
               <path d="M2 20C5 17 8 17 12 19C16 21 19 19 22 16" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
           </div>
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 800, color: '#f0f6ff', letterSpacing: '0.08em' }}>TERRAIN</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 800, color: '#f0f6ff', letterSpacing: '0.08em' }}>Peakcast</span>
         </div>
 
         {/* Progress bar */}
@@ -272,10 +272,10 @@ export default function OnboardingPage() {
           {step === 0 && (
             <div>
               <div style={{ fontSize: 32, marginBottom: 14 }}>🌊</div>
-              <h1 style={{ ...headingStyle, fontSize: 26 }}>Welcome to TERRAIN</h1>
+              <h1 style={{ ...headingStyle, fontSize: 26 }}>Welcome to Peakcast</h1>
               <p style={subStyle}>
                 Your AI-powered surf &amp; outdoor intelligence platform.
-                Let&apos;s set up your personalized Stoke Score™ — it only takes 2 minutes.
+                Let&apos;s set up your personalized Peak Score™ — it only takes 2 minutes.
               </p>
               <div>
                 <label style={labelStyle}>What do your friends call you?</label>
@@ -298,7 +298,7 @@ export default function OnboardingPage() {
               <div style={{ fontSize: 32, marginBottom: 16 }}>📍</div>
               <h2 style={headingStyle}>Find surf near you</h2>
               <p style={subStyle}>
-                TERRAIN uses your location to sort spots by distance, auto-select your nearest break,
+                Peakcast uses your location to sort spots by distance, auto-select your nearest break,
                 and personalize conditions for where you actually surf.
               </p>
 
@@ -380,7 +380,7 @@ export default function OnboardingPage() {
           {step === 2 && (
             <div>
               <h2 style={headingStyle}>What&apos;s your skill level?</h2>
-              <p style={subStyle}>This adjusts how the Stoke Score weights wave size.</p>
+              <p style={subStyle}>This adjusts how the Peak Score weights wave size.</p>
               <div>
                 {SKILL_LEVELS.map(s => (
                   <button
@@ -444,7 +444,7 @@ export default function OnboardingPage() {
           {step === 4 && (
             <div>
               <h2 style={headingStyle}>Ideal wave size?</h2>
-              <p style={subStyle}>The Stoke Score peaks when waves are in your sweet spot.</p>
+              <p style={subStyle}>The Peak Score peaks when waves are in your sweet spot.</p>
 
               <div style={{ marginBottom: 20 }}>
                 <label style={labelStyle}>

@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * AskStoke — Natural language surf forecast chat.
+ * AskPeak — Natural language surf forecast chat.
  * Streams responses from the NUC LLM via SSE.
  * Premium gate: pro/explorer only. Free users see teaser.
  */
@@ -14,7 +14,7 @@ interface Message {
   streaming?: boolean
 }
 
-interface AskStokeProps {
+interface AskPeakProps {
   spotId: string
   spotName: string
   isPremium?: boolean
@@ -26,7 +26,7 @@ const SUGGESTED_QUESTIONS = (spotName: string) => [
   'How does this compare to last week?',
 ]
 
-export default function AskStoke({ spotId, spotName, isPremium = true }: AskStokeProps) {
+export default function AskPeak({ spotId, spotName, isPremium = true }: AskPeakProps) {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')

@@ -1,7 +1,7 @@
-# TERRAIN — Product Roadmap
+# Peakcast — Product Roadmap
 ## Senior PM Perspective: From Good Data App to Essential Outdoor Intelligence
 
-> **North Star Metric**: Daily Active Users who make a real-world outdoor decision using TERRAIN.
+> **North Star Metric**: Daily Active Users who make a real-world outdoor decision using Peakcast.
 > **The Gap We're Closing**: Raw forecast data → "I know exactly what to do this weekend."
 > Every item below closes that gap for one more type of user.
 
@@ -50,13 +50,13 @@ Priority is listed inline as `[P0]` etc. Work P0 → P4 in order within each sec
 - [ ] `[P2]` Snow road conditions — CDOT/Caltrans road closures + chain requirements at resort access roads
 - [ ] `[P3]` AI itinerary generator — "Plan me a surf + trail day near Big Sur" → morning surf at Pfeiffer Beach, afternoon hike on Ewoldsen Trail, conditions aligned
 
-### 1.4 AskTERRAIN (Natural Language Intelligence)
-- [ ] `[P0]` Wire AskStoke NLQ to actual Ollama endpoint — currently UI exists, backend may be disconnected
+### 1.4 AskPeak (Natural Language Intelligence)
+- [ ] `[P0]` Wire AskPeak NLQ to actual Ollama endpoint — currently UI exists, backend may be disconnected
 - [ ] `[P1]` Expand NLQ beyond surf to snow and trail: "Is Mammoth going to have fresh snow this weekend?", "Is the Enchantments doable in April?"
 - [ ] `[P1]` Streaming response (SSE already exists in backend — connect to frontend)
 - [ ] `[P2]` Session-context queries: "How does this Saturday compare to when I surfed OB last March?"
 - [ ] `[P2]` Tool-use pattern — LLM can call internal APIs (get_forecast, get_snow_conditions, get_trail_status) to answer complex questions
-- [ ] `[P2]` Voice input (Web Speech API) — "Hey TERRAIN, is it worth driving to Mavericks tomorrow?"
+- [ ] `[P2]` Voice input (Web Speech API) — "Hey Peakcast, is it worth driving to Mavericks tomorrow?"
 - [ ] `[P3]` Conversational memory across sessions — "You asked about Mavericks last week. The swell you were waiting for just arrived."
 
 ### 1.5 Condition Intelligence Cards
@@ -115,7 +115,7 @@ Priority is listed inline as `[P0]` etc. Work P0 → P4 in order within each sec
 - [ ] `[P0]` Home location / radius — "How far will you drive for surf?" (50mi / 100mi / 200mi)
 - [ ] `[P0]` Skill level per sport — beginner/intermediate/advanced/expert
 - [ ] `[P0]` Board type (surf) / riding style (ski: groomer / off-piste / park) / hike style (trail: day hike / backpacker)
-- [ ] `[P1]` Condition preference quick-set: 3-question slider quiz that initializes Stoke Score™ prefs
+- [ ] `[P1]` Condition preference quick-set: 3-question slider quiz that initializes Peak Score™ prefs
 - [ ] `[P1]` Save 3 "home spots" during onboarding — unlocks dashboard personalization immediately
 - [ ] `[P2]` "Import from Surfline" shortcut — fetch public Surfline favorites list (if user provides username)
 
@@ -173,7 +173,7 @@ Priority is listed inline as `[P0]` etc. Work P0 → P4 in order within each sec
 - [ ] `[P0]` HRRR snowfall forecast — National Weather Service HRRR model, 48h hourly precipitation + temperature per resort
 - [ ] `[P0]` Resort conditions endpoint `GET /api/v1/snow/conditions/{resort_id}` — aggregates SNOTEL + HRRR + resort static data
 - [ ] `[P0]` Wire snow resort detail page to real backend data
-- [ ] `[P1]` Per-resort Powder Quality Score™ — LightGBM model: SNOTEL 24h/48h snow + wind speed + temperature → snow quality label
+- [ ] `[P1]` Per-resort Snow Peak Score™ — LightGBM model: SNOTEL 24h/48h snow + wind speed + temperature → snow quality label
 - [ ] `[P1]` Avalanche bulletin integration — CAIC, NWAC, GNFAC, UAC, ESAC, CBAC APIs (most publish JSON/GeoJSON)
 - [ ] `[P1]` 7-day snow forecast widget — daily bar chart (expected snowfall) + temperature range
 - [ ] `[P2]` Multi-resort snowfall comparison — for Epic/Ikon pass holders: "Where did it snow most this week?"
@@ -211,7 +211,7 @@ Priority is listed inline as `[P0]` etc. Work P0 → P4 in order within each sec
 
 ## 5. MOBILE & PLATFORM — The Device
 
-*Most users will open TERRAIN on their phone, standing at the water's edge.*
+*Most users will open Peakcast on their phone, standing at the water's edge.*
 
 ### 5.1 Progressive Web App (PWA)
 - [ ] `[P0]` PWA manifest complete — app name, icons (192px, 512px), theme color per sport
@@ -242,26 +242,26 @@ Priority is listed inline as `[P0]` etc. Work P0 → P4 in order within each sec
 
 *Charge for the features users can't live without.*
 
-### 6.1 TERRAIN Free
+### 6.1 Peakcast Free
 - [ ] `[P0]` Define and enforce what's free: 5-day forecast, 3 saved spots, basic map, condition reports (read), sessions (up to 10/year)
 - [ ] `[P0]` Free tier gate UI — clean "Upgrade to unlock" prompts that explain value, not just block
 - [ ] `[P0]` Free users can still receive 1 alert per week (teaser)
 
-### 6.2 TERRAIN Pro ($8/mo or $64/yr)
+### 6.2 Peakcast Pro ($8/mo or $64/yr)
 - [ ] `[P0]` 16-day extended forecast (surf + snow)
 - [ ] `[P0]` Unlimited alerts (all sports, all thresholds)
 - [ ] `[P0]` Full session history + analytics dashboard
-- [ ] `[P0]` AskTERRAIN NLQ (10 queries/day)
+- [ ] `[P0]` AskPeak NLQ (10 queries/day)
 - [ ] `[P1]` Multi-model ensemble comparison (ECMWF vs. GFS vs. ICON for surf; HRRR vs. NAM vs. GFS for snow)
 - [ ] `[P1]` CDIP spectral data visualization
 - [ ] `[P1]` Optimal windows tool (top 10 sessions per week)
 - [ ] `[P1]` Morning brief digest (email + push)
-- [ ] `[P1]` Stoke Score™ / Powder Quality Score™ full breakdown
+- [ ] `[P1]` Peak Score™ / Snow Peak Score™ full breakdown
 
-### 6.3 TERRAIN Explorer ($24/mo or $199/yr — Team / Power User)
+### 6.3 Peakcast Explorer ($24/mo or $199/yr — Team / Power User)
 - [ ] `[P2]` API access (10,000 calls/month) — documented REST API with API key management
 - [ ] `[P2]` CSV/JSON data export — session history, forecast history
-- [ ] `[P2]` Unlimited AskTERRAIN queries
+- [ ] `[P2]` Unlimited AskPeak queries
 - [ ] `[P2]` Webcam archive — last 24h of cam snapshots per spot
 - [ ] `[P2]` Early access to new sport modules
 
@@ -405,7 +405,7 @@ Priority is listed inline as `[P0]` etc. Work P0 → P4 in order within each sec
 | P99 forecast response time | < 1.5s | App feels instant |
 | Pro conversion rate | > 8% of registered users | Sustainable business |
 | Churn rate (Pro) | < 4%/month | Seasonal sport: churn in off-season is expected |
-| NPS | > 45 | "Would you recommend TERRAIN to a surf/ski/trail friend?" |
+| NPS | > 45 | "Would you recommend Peakcast to a surf/ski/trail friend?" |
 
 ---
 

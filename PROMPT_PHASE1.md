@@ -1,6 +1,6 @@
 # Claude Code: Phase 1 Prompt
 # Paste this entire block as your first message to Claude Code
-# after opening the swellstack/ directory.
+# after opening the peakcast/ directory.
 # ─────────────────────────────────────────────────────────────────────────────
 
 Please read CLAUDE.md and TASKS.md in full before starting.

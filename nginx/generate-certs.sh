@@ -61,8 +61,8 @@ openssl req -x509 -nodes -newkey rsa:2048 \
   -keyout "$KEY_FILE" \
   -out "$CERT_FILE" \
   -days 825 \
-  -subj "/CN=swellstack.local/O=SwellStack/C=US" \
-  -addext "subjectAltName=DNS:localhost,DNS:swellstack.local,IP:127.0.0.1,IP:$LAN_IP" \
+  -subj "/CN=peakcast.local/O=Peakcast/C=US" \
+  -addext "subjectAltName=DNS:localhost,DNS:peakcast.local,IP:127.0.0.1,IP:$LAN_IP" \
   2>/dev/null
 
 chmod 600 "$KEY_FILE"

@@ -1,5 +1,5 @@
 /**
- * TERRAIN shared TypeScript types
+ * Peakcast shared TypeScript types
  */
 
 export interface SpotCam {

@@ -22,24 +22,24 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'TERRAIN — AI Outdoor Intelligence',
-    template: '%s | TERRAIN',
+    default: 'Peakcast — AI Outdoor Intelligence',
+    template: '%s | Peakcast',
   },
   description:
-    'More accurate, more personal surf and outdoor forecasts powered by AI and full spectral wave analysis. Personalized Stoke Score™, optimal window finder, real-time NOAA buoy data.',
+    'More accurate, more personal surf and outdoor forecasts powered by AI and full spectral wave analysis. Personalized Peak Score™, optimal window finder, real-time NOAA buoy data.',
   keywords: ['surf forecast', 'surf report', 'wave forecast', 'surf conditions', 'AI surf', 'outdoor intelligence'],
-  authors: [{ name: 'TERRAIN' }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://terrain.app'),
+  authors: [{ name: 'Peakcast' }],
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://peakcast.app'),
   openGraph: {
-    title: 'TERRAIN — AI Outdoor Intelligence',
-    description: 'Personalized surf forecasts powered by AI. Stoke Score™, optimal windows, full spectral analysis.',
+    title: 'Peakcast — AI Outdoor Intelligence',
+    description: 'Personalized surf forecasts powered by AI. Peak Score™, optimal windows, full spectral analysis.',
     type: 'website',
-    siteName: 'TERRAIN',
-    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'TERRAIN' }],
+    siteName: 'Peakcast',
+    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Peakcast' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'TERRAIN — AI Outdoor Intelligence',
+    title: 'Peakcast — AI Outdoor Intelligence',
     description: 'Personalized outdoor forecasts powered by AI.',
   },
   manifest: '/manifest.json',
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'TERRAIN',
+    title: 'Peakcast',
   },
 }
 

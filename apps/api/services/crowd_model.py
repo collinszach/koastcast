@@ -12,7 +12,7 @@ from __future__ import annotations
 from datetime import datetime, date
 
 try:
-    from config.weights import (
+    from scoring.weights import (
         DOW_MULTIPLIERS as _DOW_MULTIPLIERS,
         HOUR_MULTIPLIERS as _HOUR_MULTIPLIERS,
         MONTH_MULTIPLIERS as _MONTH_MULTIPLIERS,

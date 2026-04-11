@@ -36,7 +36,7 @@ const PLANS = [
 const FEATURES: Array<{ label: string; key: keyof typeof FEATURE_GATES; format?: (v: unknown) => string }> = [
   { label: 'Forecast range', key: 'forecast_days', format: v => `${v} days` },
   { label: 'Saved spots', key: 'spots_saved', format: v => `${v} spots` },
-  { label: 'Personalized Stoke Score™', key: 'stoke_score' },
+  { label: 'Personalized Peak Score™', key: 'stoke_score' },
   { label: 'Optimal window finder', key: 'optimal_windows' },
   { label: 'AI surf queries (Ask Stoke)', key: 'nlq_queries_per_day', format: v => v === 0 ? '—' : `${v}/day` },
   { label: 'Crowd prediction', key: 'crowd_prediction' },
@@ -63,7 +63,7 @@ export default function UpgradePage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="text-center mb-10">
-        <h1 className="text-3xl font-bold text-white mb-3">Upgrade TERRAIN</h1>
+        <h1 className="text-3xl font-bold text-white mb-3">Upgrade Peakcast</h1>
         <p className="text-gray-400 max-w-lg mx-auto text-sm">
           More accurate forecasts. Personalized scoring. Optimal windows.
           Everything a serious surfer needs.

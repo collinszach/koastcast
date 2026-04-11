@@ -8,9 +8,9 @@ import { cookies } from 'next/headers'
 import crypto from 'crypto'
 
 function generateApiKey(): string {
-  // Format: swellstack_<32 random hex bytes>
+  // Format: peakcast_<32 random hex bytes>
   const random = crypto.randomBytes(32).toString('hex')
-  return `swellstack_${random}`
+  return `peakcast_${random}`
 }
 
 function hashKey(key: string): string {

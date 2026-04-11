@@ -1,4 +1,4 @@
-# SwellStack API Dependencies
+# Peakcast API Dependencies
 # Install with: uv pip install -r requirements.txt
 
 # ─── Web Framework ─────────────────────────────────────────────────────────

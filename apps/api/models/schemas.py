@@ -1,5 +1,5 @@
 """
-SwellStack Pydantic v2 schemas.
+Peakcast Pydantic v2 schemas.
 All API responses and internal data structures are typed here.
 """
 from __future__ import annotations

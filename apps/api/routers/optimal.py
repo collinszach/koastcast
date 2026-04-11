@@ -54,7 +54,7 @@ async def get_optimal_windows(
     """
     Find optimal surf windows for a spot.
 
-    Returns top 10 time windows where compound stoke score exceeds min_score,
+    Returns top 10 time windows where compound peak score exceeds min_score,
     sorted by peak score descending.
 
     Premium feature: requires authentication (pro/explorer tier).

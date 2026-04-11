@@ -1,6 +1,6 @@
 {
-  "name": "TERRAIN",
-  "short_name": "TERRAIN",
+  "name": "Peakcast",
+  "short_name": "Peakcast",
   "description": "AI-native personalized outdoor forecasts. Powered by NOAA data.",
   "start_url": "/map",
   "display": "standalone",

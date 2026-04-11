@@ -1,6 +1,6 @@
 """
-Stoke Score router
-POST /api/v1/stoke → compute personalized stoke score for given conditions + user
+Peak Score router
+POST /api/v1/stoke → compute personalized peak score for given conditions + user
 """
 from __future__ import annotations
 
@@ -56,7 +56,7 @@ class StokeResponse(BaseModel):
 @router.post("/stoke", response_model=StokeResponse)
 async def compute_spot_stoke(request: StokeRequest) -> StokeResponse:
     """
-    Compute personalized stoke score for a spot at a given time.
+    Compute personalized peak score for a spot at a given time.
 
     - If user preferences are provided: personalizes the score
     - Otherwise: returns generic quality score

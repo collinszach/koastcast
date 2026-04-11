@@ -1,18 +1,18 @@
-# SwellStack / TERRAIN — AI-Native Outdoor Forecasting Platform
+# Peakcast — AI-Native Outdoor Forecasting Platform
 ## Claude Code Master Context
 
 ---
 
 ## PROJECT OVERVIEW
 
-**TERRAIN** (codebase: SwellStack) is an AI-native surf and outdoor forecasting platform competing with Surfline. Infrastructure costs under $100/year. Uses free government data (NOAA NDBC buoys, ECMWF open data, Open-Meteo), runs ML and LLM inference on a local Intel NUC, and serves a Next.js frontend via Vercel + Supabase.
+**Peakcast** (codebase: Peakcast) is an AI-native surf and outdoor forecasting platform competing with Surfline. Infrastructure costs under $100/year. Uses free government data (NOAA NDBC buoys, ECMWF open data, Open-Meteo), runs ML and LLM inference on a local Intel NUC, and serves a Next.js frontend via Vercel + Supabase.
 
-**Brand name:** TERRAIN (UI-facing). Internal codebase/service name: SwellStack.
+**Brand name:** Peakcast (UI-facing). Internal codebase/service name: Peakcast.
 
 **Core differentiators vs Surfline:**
 1. Full spectral wave analysis (not just Hs/Tp summary stats)
 2. ML bias correction per spot trained on NDBC historical data (2016–2025)
-3. Personalized Stoke Score™ (per-user quality rating, not generic stars)
+3. Personalized Peak Score™ (per-user quality rating, not generic stars)
 4. Crowd prediction layer (quality × day × local patterns)
 5. Natural language forecast queries via on-device LLM (Ollama/phi4-mini, zero API cost)
 6. SWAN nearshore physics model for selected spots (Phase 3, not yet active)
@@ -29,7 +29,7 @@
   - Landing/home (`/`)
   - Auth: login, signup, forgot/reset password, OAuth callback
   - Map view with Leaflet (`/map`) — spot pins, right sidebar cards, location detection
-  - Spot detail (`/spot/[id]`) — stoke score ring, 7-day timeline, swell spectrum, tide chart, wind rose, optimal windows, buoy readings, "Ask Stoke" NLQ
+  - Spot detail (`/spot/[id]`) — peak score ring, 7-day timeline, swell spectrum, tide chart, wind rose, optimal windows, buoy readings, "Ask Stoke" NLQ
   - Sessions (`/sessions`) — session logger + history
   - Profile (`/profile`) — preferences, quiver management
   - Explore (`/explore`)
@@ -53,7 +53,7 @@ All routers live in `apps/api/routers/`:
 - `forecast.py` — 7/16-day ensemble hourly forecast
 - `buoys.py` — live NDBC readings + spectral data
 - `sessions.py` — session CRUD + analytics
-- `stoke.py` — personalized Stoke Score™ computation
+- `stoke.py` — personalized Peak Score™ computation
 - `nlq.py` — natural language queries to on-device LLM
 - `optimal.py` — ranked optimal surf windows
 - `safety.py` — hazard detection (rip currents, rocks, etc.)
@@ -140,7 +140,7 @@ LLM model: `models/phi-6-mini-q6_k_l.gguf` (3.1GB, Q6_K_L quantization, served v
 ## MONOREPO STRUCTURE
 
 ```
-swellstack/
+peakcast/
 ├── CLAUDE.md                      ← you are here
 ├── RUNBOOK.md                     ← operational runbook (start/stop, certs, SMTP, etc.)
 ├── PRODUCT_ROADMAP.md
@@ -182,7 +182,7 @@ swellstack/
 │   │   │   ├── components/
 │   │   │   │   ├── forecast/               ← ForecastTimeline, StokeScore, SwellSpectrum,
 │   │   │   │   │                              TideChart, WindRose, OptimalWindows,
-│   │   │   │   │                              BuoyReadings, AskStoke, ModelComparison,
+│   │   │   │   │                              BuoyReadings, AskPeak, ModelComparison,
 │   │   │   │   │                              WeekQualityBar, StokeScoreWidget, etc.
 │   │   │   │   ├── spots/                  ← SpotMap (Leaflet), SpotCard, SpotCams
 │   │   │   │   ├── sessions/               ← SessionLogger, SessionHistory, QuiverManager
@@ -425,7 +425,7 @@ GET  /api/v1/buoys/{station_id}/live      → current buoy reading
 GET  /api/v1/buoys/{station_id}/spectrum  → full spectral data
 GET  /api/v1/optimal/{spot_id}            → ranked optimal windows
 GET  /api/v1/crowd/{spot_id}              → crowd prediction next 7 days
-POST /api/v1/stoke                        → compute personalized stoke score
+POST /api/v1/stoke                        → compute personalized peak score
 POST /api/v1/nlq                          → natural language query
 GET  /api/v1/safety/{spot_id}             → hazard/safety data
 GET  /api/v1/gear/{spot_id}               → gear recommendations
@@ -440,7 +440,7 @@ GET  /health                              → health check
 POST /api/forecast        → proxy to NUC (adds auth header)
 POST /api/webhook/stripe  → handle subscription events
 GET  /api/buoy            → buoy data proxy
-POST /api/stoke           → stoke score proxy
+POST /api/stoke           → peak score proxy
 GET  /api/optimal         → optimal windows proxy
 GET  /api/nlq/stream      → streaming NLQ (SSE)
 GET  /api/snow-forecast   → Open-Meteo snow proxy
@@ -460,7 +460,7 @@ POST /api/generate-api-key → B2B API key generation
 | `llm` | 11434 | — (internal only) | Ollama LLM server |
 | `nginx` | 80, 443 | **8880, 8443** | HTTPS reverse proxy |
 
-> **Port conflict note:** Ports 80/443 are occupied by `hive-nginx-1` (another project, uses `network_mode: host`). SwellStack nginx maps to 8880/8443 on the host.
+> **Port conflict note:** Ports 80/443 are occupied by `hive-nginx-1` (another project, uses `network_mode: host`). Peakcast nginx maps to 8880/8443 on the host.
 
 **Start the stack:**
 ```bash
@@ -495,7 +495,7 @@ App is at `https://<nuc-hostname>.tail12345.ts.net:8443` from any tailnet device
 
 **Auto-renewal** (weekly cron — `crontab -e`):
 ```
-0 3 * * 1 /home/zach/nSwell/scripts/renew-certs.sh >> /var/log/swellstack-certs.log 2>&1
+0 3 * * 1 /home/zach/nSwell/scripts/renew-certs.sh >> /var/log/peakcast-certs.log 2>&1
 ```
 
 **Public access**: `tailscale funnel --bg 8443` (replaces Cloudflare Tunnel)
@@ -521,7 +521,7 @@ STRIPE_WEBHOOK_SECRET=...
 SECRET_KEY=...                  # FastAPI JWT signing key
 ENVIRONMENT=production
 DEBUG=false
-CORS_ORIGINS=["https://terrain.app"]
+CORS_ORIGINS=["https://peakcast.app"]
 OPEN_METEO_BASE_URL=http://open-meteo-api:8080
 OPEN_METEO_FORECAST_BASE_URL=https://api.open-meteo.com
 LLAMA_CPP_BASE_URL=http://llm:11434/v1
@@ -530,12 +530,12 @@ LLAMA_CPP_BASE_URL=http://llm:11434/v1
 NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 NEXT_PUBLIC_API_URL=http://localhost:8002   # local dev
-NUC_API_BASE_URL=https://api.terrain.app   # production (Cloudflare Tunnel)
+NUC_API_BASE_URL=https://api.peakcast.app   # production (Cloudflare Tunnel)
 NUC_API_SECRET=...
 STRIPE_SECRET_KEY=...
 STRIPE_WEBHOOK_SECRET=...
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=...
-NEXT_PUBLIC_APP_URL=https://terrain.app
+NEXT_PUBLIC_APP_URL=https://peakcast.app
 ```
 
 ---
@@ -561,7 +561,7 @@ NEXT_PUBLIC_APP_URL=https://terrain.app
 - Real-time NDBC data pipeline (hourly APScheduler)
 - Open-Meteo marine forecast (wave, wind, tide)
 - 10 trained LightGBM bias correction models (2016–2025 data)
-- Personalized Stoke Score™ with component breakdown
+- Personalized Peak Score™ with component breakdown
 - Crowd prediction model
 - Optimal windows ranking
 - Natural language queries (Ollama on-device)
@@ -572,7 +572,7 @@ NEXT_PUBLIC_APP_URL=https://terrain.app
 - User subscription tiers (free/pro/explorer) + Stripe
 - Feature gating throughout
 - All frontend pages (forecast, map, sessions, profile, snow, trails, weather, wind, admin, onboarding, upgrade)
-- Ocean/TERRAIN brand UI
+- Ocean/Peakcast brand UI
 - Leaflet maps with live location detection + permission flow
 - Recharts spectral waterfall, tide chart, wind rose
 - OAuth + magic link auth (Supabase)

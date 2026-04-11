@@ -26,12 +26,12 @@ Read CLAUDE.md and TASKS.md. Confirm Phase 1 is complete, then execute Phase 2.
 3. Update `apps/api/services/bias_correction.py` to load and use trained models.
    Keep the physics fallback for spots without a trained model.
 
-### 2.2 — Stoke Score Engine
+### 2.2 — Peak Score Engine
 
 4. Implement the full `StokeScore` computation from CLAUDE.md in `apps/api/services/stoke_score.py`
 5. Add `POST /api/v1/stoke` endpoint — body: { spot_id, user_id, forecast_time }
-6. Add stoke score to all forecast responses (per-user if authenticated, generic if not)
-7. Write unit tests for stoke score edge cases
+6. Add peak score to all forecast responses (per-user if authenticated, generic if not)
+7. Write unit tests for peak score edge cases
 
 ### 2.3 — Spectral Visualization
 
@@ -86,7 +86,7 @@ Read CLAUDE.md and TASKS.md. Confirm Phase 1 is complete, then execute Phase 2.
 16. Add onboarding redirect: middleware.ts checks if onboarding_complete = false,
     redirects to /onboarding after login (skip if user has been using app > 7 days)
 
-### 2.6 — Personalized Stoke Score on Forecast Page
+### 2.6 — Personalized Peak Score on Forecast Page
 
 17. Update `apps/web/app/(dashboard)/spot/[id]/page.tsx`:
     - Show `StokeScore` component (0-100 ring with breakdown bars)
@@ -105,6 +105,6 @@ Read CLAUDE.md and TASKS.md. Confirm Phase 1 is complete, then execute Phase 2.
 - Stoke score is visible on spot pages
 - Spectral chart renders with real data
 - Session logging saves to database
-- User profile/preferences save and affect stoke score
+- User profile/preferences save and affect peak score
 - All new components have Vitest unit tests
 - `pnpm build` and `uv run pytest` pass clean

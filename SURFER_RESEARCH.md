@@ -18,7 +18,7 @@ Surfline has systematically moved features behind its $99/year paywall over the 
 - **Aggressive pre-roll ads on webcam footage.** "Webcams stop ad countdowns if you scroll away, forcing viewers to watch 15-second premium ads before seeing brief 20-second video clips."
 - **Monopoly via acquisition.** Surfline acquired Magic Seaweed in 2017, then killed it in 2023. The MSW community specifically praised MSW for being free and more accurate for non-US spots. Closing MSW was widely seen as eliminating the best free alternative to Surfline.
 
-**SwellStack opportunity:** A genuinely free tier with 7-day forecasts and no artificial check limits would immediately differentiate.
+**Peakcast opportunity:** A genuinely free tier with 7-day forecasts and no artificial check limits would immediately differentiate.
 
 ---
 
@@ -34,7 +34,7 @@ Inaccurate forecasts are the second-most cited complaint, and they erode trust i
 
 **Root cause:** Surfline's models generate forecasts from offshore buoy data and regional numerical weather models. They cannot account for local bathymetry, sandbar position, headland shadowing, or refraction at individual breaks. This is especially bad for beach breaks where sandbars shift seasonally.
 
-**SwellStack opportunity:** ML bias correction per spot trained on NDBC historical data + user session feedback = measurably more accurate local predictions over time. BUIO App already does a version of this ("personalized forecasts become more accurate as users log more sessions"). We can go further with spectral analysis.
+**Peakcast opportunity:** ML bias correction per spot trained on NDBC historical data + user session feedback = measurably more accurate local predictions over time. BUIO App already does a version of this ("personalized forecasts become more accurate as users log more sessions"). We can go further with spectral analysis.
 
 ---
 
@@ -184,7 +184,7 @@ Safety information is scattered across multiple apps and agencies, and no single
 
 **High surf warnings:** NWS issues these, but surfers have to know to check a separate government site.
 
-**SwellStack opportunity:** A unified safety layer — rip current risk level (from NWS Surf Zone data), post-rain water quality warning, regional shark activity flag, high surf advisory — presented as a simple color-coded bar on each spot card would be genuinely novel and high-value.
+**Peakcast opportunity:** A unified safety layer — rip current risk level (from NWS Surf Zone data), post-rain water quality warning, regional shark activity flag, high surf advisory — presented as a simple color-coded bar on each spot card would be genuinely novel and high-value.
 
 ---
 
@@ -204,7 +204,7 @@ Session logging exists (Surfline Sessions, Dawn Patrol, Surf Log, BreakFinder, F
 - **Skill-appropriate recommendations.** A beginner doesn't want the same "quality" forecast as a pro. BUIO App does a version of this but its model is opaque.
 - **Wave count vs. conditions correlation.** Did you catch more waves when it was less crowded? Less windy? Different tide?
 
-**The BUIO model:** BUIO App is the closest competitor to what SwellStack wants to build. It learns user preferences from logged sessions and generates truly personalized forecasts. Key differentiator: "personalized forecasts become more accurate as users log more sessions." Currently free, available on iOS/Android.
+**The BUIO model:** BUIO App is the closest competitor to what Peakcast wants to build. It learns user preferences from logged sessions and generates truly personalized forecasts. Key differentiator: "personalized forecasts become more accurate as users log more sessions." Currently free, available on iOS/Android.
 
 **The Lazy Surfer model:** Uses a "Similarity Score" — when the score is close to 10, current conditions are similar to your best sessions. This is a simpler, more communicable version of the same idea.
 
@@ -216,7 +216,7 @@ Session logging exists (Surfline Sessions, Dawn Patrol, Surf Log, BreakFinder, F
 
 **What's missing:**
 - **Compound condition alerts.** Not just "waves above 4ft" but "waves above 4ft AND offshore wind AND incoming tide AND your spot's optimal swell direction." Single-parameter alerts generate too many false positives.
-- **Personalized scoring threshold alerts.** "Your Stoke Score for Steamer Lane crossed 75 — conditions are in your personal sweet spot."
+- **Personalized scoring threshold alerts.** "Your Peak Score for Steamer Lane crossed 75 — conditions are in your personal sweet spot."
 - **"Go now" vs. "window opening in 4 hours" distinction.** Time-critical vs. plan-ahead alerts.
 - **Forecast confidence flag.** "High confidence alert: 3-day model agreement is strong" vs. "Speculative alert: 7-day forecast, high uncertainty."
 - **Crowd-adjusted alerts.** "Conditions are firing BUT it's going to be 3x normal crowd levels due to it being a holiday weekend."
@@ -254,7 +254,7 @@ The surfing community has tried social apps multiple times (Surfersconnect, Wavv
 - Leaderboards and gamification (performative, not useful)
 - Public check-ins visible to all users (brings crowds)
 
-**The secret spot tension:** BreakFinder explicitly advertises "private surf spots — protect your secret spots with private forecasts visible only to you." This is a real concern: the Windansea and Rincon camera controversies show that surfers actively resist visibility tools that bring crowds. SwellStack should design community features with privacy-first defaults.
+**The secret spot tension:** BreakFinder explicitly advertises "private surf spots — protect your secret spots with private forecasts visible only to you." This is a real concern: the Windansea and Rincon camera controversies show that surfers actively resist visibility tools that bring crowds. Peakcast should design community features with privacy-first defaults.
 
 ---
 
@@ -278,7 +278,7 @@ Research finding: dedicated surfers check forecast apps 10-20 times per day, eve
 - Community activity (who's out, what are they saying)
 - Travel planning (checking conditions at future destination)
 
-**The competitive intelligence:** The most sticky forecast products generate daily habits around **swell anticipation**, not just same-day planning. A surfer who's watching a North Pacific storm generate a potential 15ft swell event 10 days out will check the app multiple times per day for a week. This is a huge engagement driver that Surfline monetizes through Premium and that SwellStack should design around.
+**The competitive intelligence:** The most sticky forecast products generate daily habits around **swell anticipation**, not just same-day planning. A surfer who's watching a North Pacific storm generate a potential 15ft swell event 10 days out will check the app multiple times per day for a week. This is a huge engagement driver that Surfline monetizes through Premium and that Peakcast should design around.
 
 ---
 
@@ -299,7 +299,7 @@ Research finding: dedicated surfers check forecast apps 10-20 times per day, eve
 
 | Feature | Why | Surfline Gap |
 |---|---|---|
-| Personalized Stoke Score | ML-driven personal relevance | Generic star ratings |
+| Personalized Peak Score | ML-driven personal relevance | Generic star ratings |
 | Natural language queries ("will it be good Saturday at Mavericks?") | On-device LLM | Non-existent |
 | Session logging tied to forecast data | Feedback loop, accuracy improvement | Disconnected or requires $95/year Apple Watch |
 | Forecast-to-actual comparison over time | Trust building, ML improvement | Not done |
@@ -373,7 +373,7 @@ The following quotes represent the authentic voice of the surfer community and s
 
 6. **Explain the compound effect.** The single biggest educational gap: surfers know the individual parameters but don't know how they interact at their specific break. A good forecast app teaches through explanation, not just numbers.
 
-7. **Free has to be genuinely useful.** The Surfline free-tier failure is a cautionary tale. SwellStack's free tier must be the product that converts surfers into believers. The premium features should be about depth and personalization, not access to basic information.
+7. **Free has to be genuinely useful.** The Surfline free-tier failure is a cautionary tale. Peakcast's free tier must be the product that converts surfers into believers. The premium features should be about depth and personalization, not access to basic information.
 
 8. **Safety is a feature, not a legal disclaimer.** Water quality, rip current risk, jellyfish, shark activity — these are practical needs that no mainstream surf app addresses. Being the "safe" app is a real differentiator, especially for surfers with families.
 

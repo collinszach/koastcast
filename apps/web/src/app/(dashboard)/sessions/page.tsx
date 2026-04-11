@@ -292,7 +292,7 @@ export default function SessionsPage() {
             lineHeight: 1.1,
           }}>Sessions</h1>
           <p style={{ fontSize: 13, color: 'var(--spray)', marginTop: 5 }}>
-            Log sessions to train your personalized Stoke Score™
+            Log sessions to train your personalized Peak Score™
           </p>
         </div>
         <button

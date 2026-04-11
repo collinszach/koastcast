@@ -1,5 +1,5 @@
 """
-Stoke Score unit tests.
+Peak Score unit tests.
 
 Tests cover:
 - All major condition scenarios (firing, flat, cross-wind, etc.)

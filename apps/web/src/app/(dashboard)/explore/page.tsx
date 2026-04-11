@@ -1018,7 +1018,7 @@ export default function TripPlannerPage() {
                 marginBottom: 6,
               }}
             >
-              TERRAIN / PLAN
+              PEAKCAST / PLAN
             </div>
             <h1
               style={{

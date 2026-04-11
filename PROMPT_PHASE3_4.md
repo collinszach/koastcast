@@ -70,7 +70,7 @@ Read CLAUDE.md and TASKS.md. Confirm Phase 2 is complete, then execute Phase 3.
    - Server-sent events (SSE) streaming response
    - Auth required, rate limited by subscription tier (0/day free, 10/day pro, 50/day explorer)
 
-9. Build `apps/web/components/forecast/AskStoke.tsx`:
+9. Build `apps/web/components/forecast/AskPeak.tsx`:
    - Floating "Ask Stoke" button (bottom-right of spot page)
    - Opens slide-up panel with chat interface
    - Input field + send button
@@ -177,7 +177,7 @@ Read CLAUDE.md and TASKS.md. Confirm Phase 2 is complete, then execute Phase 3.
 7. Add OpenGraph + Twitter meta tags to spot pages:
    - Dynamic: "Mavericks: 8ft @ 18s groundswell, Offshore wind — Check forecast →"
    - Generate OG image via Vercel OG (canvas-based, free)
-   - OG image: spot name, wave height, period, stoke score, tide chart mini
+   - OG image: spot name, wave height, period, peak score, tide chart mini
 
 8. Build `apps/web/app/surf/[slug]/page.tsx` (public, no auth needed):
    - Static generation at build time for all 10 spots
