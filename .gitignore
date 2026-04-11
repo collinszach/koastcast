@@ -27,3 +27,22 @@ data/swan_configs/
 *.parquet
 *.pkl
 supabase/.temp/
+
+# ─── Proprietary / Not for public repo ───────────────────────────────────────
+# ML training scripts (feature engineering + training pipeline is proprietary IP)
+# The inference code in apps/api/services/bias_correction.py is public;
+# the training pipeline that produces the .pkl models is not.
+ml/
+
+# Internal AI-assisted planning/spec documents
+docs/superpowers/
+
+# Memory files (local Claude context)
+.claude/
+
+# OS / editor
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
