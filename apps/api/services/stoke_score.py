@@ -141,7 +141,7 @@ def _score_steepness(wave_height_m: float, period_s: float) -> float:
     if steepness < 0.01:
         return 0.4   # very flat/slow
     elif steepness < 0.02:
-        return 0.6 + 4.0 * (steepness - 0.01) / 0.01
+        return 0.6 + 0.4 * (steepness - 0.01) / 0.01
     elif steepness <= 0.04:
         return 1.0   # sweet spot
     elif steepness <= 0.06:
