@@ -57,7 +57,9 @@ class TestComputeStokeScore:
 
     def test_components_all_present(self):
         result = compute_stoke_score(good_conditions(), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE)
-        assert set(result.components.keys()) == {"height", "period", "direction", "wind", "crowd"}
+        assert set(result.components.keys()) == {
+            "height", "period", "direction", "wind", "steepness", "tide", "crowd"
+        }
 
     def test_components_are_0_to_100(self):
         result = compute_stoke_score(good_conditions(), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE)
@@ -242,3 +244,67 @@ class TestComputeQualityScore:
             spot_min_size=0.8, spot_max_size=3.0,
         )
         assert score >= 5.0, f"Good conditions should score ≥5, got {score}"
+
+
+# ─── Break-type tide scoring ──────────────────────────────────────────────────
+
+class TestBreakTypeTideScoring:
+    def _cond(self, tide_state: str, tide_height_m: float = 1.0) -> StokeInput:
+        return StokeInput(
+            wave_height_face_m=1.5, wave_period_s=14.0, wave_direction=285.0,
+            wind_speed_ms=3.0, wind_direction=100.0, wind_offshore_direction=100.0,
+            crowd_score=0.7, tide_state=tide_state, tide_height_m=tide_height_m,
+        )
+
+    def test_reef_high_tide_penalized_vs_rising(self):
+        rising = compute_stoke_score(
+            self._cond("rising"), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE, break_type="reef"
+        )
+        high = compute_stoke_score(
+            self._cond("high"), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE, break_type="reef"
+        )
+        assert rising.stoke_score > high.stoke_score
+
+    def test_beach_high_vs_rising_gap_smaller_than_reef(self):
+        reef_rising = compute_stoke_score(
+            self._cond("rising"), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE, break_type="reef"
+        ).stoke_score
+        reef_high = compute_stoke_score(
+            self._cond("high"), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE, break_type="reef"
+        ).stoke_score
+        beach_rising = compute_stoke_score(
+            self._cond("rising"), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE, break_type="beach"
+        ).stoke_score
+        beach_high = compute_stoke_score(
+            self._cond("high"), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE, break_type="beach"
+        ).stoke_score
+        reef_gap = reef_rising - reef_high
+        beach_gap = beach_rising - beach_high
+        assert reef_gap > beach_gap
+
+    def test_point_low_tide_decent(self):
+        result = compute_stoke_score(
+            self._cond("low"), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE, break_type="point"
+        )
+        assert result.components["tide"] >= 60
+
+    def test_rivermouth_low_tide_better_than_high(self):
+        low = compute_stoke_score(
+            self._cond("low"), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE, break_type="rivermouth"
+        )
+        high = compute_stoke_score(
+            self._cond("high"), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE, break_type="rivermouth"
+        )
+        assert low.stoke_score > high.stoke_score
+
+    def test_break_type_none_does_not_crash(self):
+        result = compute_stoke_score(
+            self._cond("rising"), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE, break_type=None
+        )
+        assert 0.0 <= result.stoke_score <= 100.0
+
+    def test_unknown_break_type_uses_defaults(self):
+        result = compute_stoke_score(
+            self._cond("rising"), average_prefs(), SPOT_OPTIMAL_DIR, SPOT_RANGE, break_type="unknown_type"
+        )
+        assert 0.0 <= result.stoke_score <= 100.0

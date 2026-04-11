@@ -150,20 +150,32 @@ def _score_steepness(wave_height_m: float, period_s: float) -> float:
         return 0.1   # too steep, likely close-outs
 
 
-def _score_tide(tide_state: str | None, tide_height_m: float | None) -> float:
-    """Tide quality score — uses tide_state as a proxy (break-type agnostic)."""
+def _score_tide(tide_state: str | None, tide_height_m: float | None, break_type: str | None = None) -> float:
+    """Tide quality score — break-type-aware.
+
+    Different break types respond differently to tide:
+    - Reef: dangerous at low, closes out at high; best mid-rising
+    - Point: good at low-mid; high = mushy
+    - Beach: most forgiving
+    - Jetty: similar to beach
+    - Rivermouth: best at low-mid; high = murky/flat
+    """
+    _PROFILES: dict[str | None, dict[str, float]] = {
+        "reef":       {"rising": 0.90, "falling": 0.70, "high": 0.50, "low": 0.55, "unknown": 0.65},
+        "point":      {"rising": 0.90, "falling": 0.80, "high": 0.60, "low": 0.75, "unknown": 0.70},
+        "beach":      {"rising": 0.85, "falling": 0.75, "high": 0.65, "low": 0.75, "unknown": 0.70},
+        "jetty":      {"rising": 0.80, "falling": 0.75, "high": 0.70, "low": 0.70, "unknown": 0.70},
+        "rivermouth": {"rising": 0.85, "falling": 0.80, "high": 0.55, "low": 0.80, "unknown": 0.70},
+    }
+    _DEFAULT = {"rising": 0.85, "falling": 0.75, "high": 0.65, "low": 0.70, "unknown": 0.70}
+    profile = _PROFILES.get(break_type, _DEFAULT)  # type: ignore[call-overload]
     if not tide_state:
-        return 0.7  # neutral when unknown
+        return profile["unknown"]
     state = tide_state.lower()
-    if "rising" in state:
-        return 0.85  # generally good — activating
-    elif "falling" in state:
-        return 0.75  # can be choppy on the drop
-    elif "high" in state:
-        return 0.65  # depends on spot — reef often worse
-    elif "low" in state:
-        return 0.70  # many spots better on the push
-    return 0.7
+    for key in ("rising", "falling", "high", "low"):
+        if key in state:
+            return profile[key]
+    return profile["unknown"]
 
 
 def compute_stoke_score(
@@ -171,6 +183,7 @@ def compute_stoke_score(
     prefs: UserPreferences,
     spot_optimal_swell_dir: float,
     spot_optimal_swell_range: float = 45.0,
+    break_type: str | None = None,
 ) -> StokeResult:
     """
     Compute a personalized 0-100 stoke score with component breakdown.
@@ -229,7 +242,7 @@ def compute_stoke_score(
     )
 
     # ── Tide score ────────────────────────────────────────────────────────────
-    tide_score = _score_tide(conditions.tide_state, conditions.tide_height_m)
+    tide_score = _score_tide(conditions.tide_state, conditions.tide_height_m, break_type)
 
     # ── Crowd score ───────────────────────────────────────────────────────────
     # crowd_score input: 1.0 = empty, 0.0 = packed
