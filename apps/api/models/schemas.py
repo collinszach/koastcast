@@ -93,6 +93,15 @@ class ForecastHour(BaseModel):
     # Ensemble
     model_agreement: float | None = None   # 0-1 agreement between models
     model_agreement_label: str | None = None  # "agree", "mild_disagreement", "disagree"
+    # Second swell train
+    swell_height_2_m: float | None = None
+    swell_period_2_s: float | None = None
+    swell_direction_2: float | None = None
+    # Ocean current
+    ocean_current_velocity_ms: float | None = None
+    ocean_current_direction: float | None = None
+    # Nowcast flag
+    is_nowcast: bool = False
     # Spectral (optional, premium)
     wave_spectrum: dict[str, Any] | None = None
 

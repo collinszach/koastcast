@@ -290,6 +290,63 @@ async def upsert_buoy_observations(
         return 0
 
 
+async def get_latest_buoy_observation(
+    station_id: str,
+    max_age_hours: float = 3.0,
+) -> BuoyObservation | None:
+    """
+    Return the most recent buoy observation for a station if within max_age_hours.
+    Returns None if station_id is empty, Supabase is unavailable, or data is stale.
+    """
+    if not station_id:
+        return None
+    try:
+        from datetime import datetime, timezone, timedelta
+        client = get_client()
+        cutoff = (datetime.now(timezone.utc) - timedelta(hours=max_age_hours)).isoformat()
+        result = (
+            client.table("buoy_observations")
+            .select("*")
+            .eq("station_id", station_id)
+            .gte("observed_at", cutoff)
+            .order("observed_at", desc=True)
+            .limit(1)
+            .execute()
+        )
+        if not result.data:
+            return None
+        row = result.data[0]
+        # spectral_energy stored as JSON string in DB — parse it back
+        spectral = row.get("spectral_energy")
+        if isinstance(spectral, str):
+            try:
+                spectral = json.loads(spectral)
+            except (json.JSONDecodeError, TypeError):
+                spectral = None
+        return BuoyObservation(
+            station_id=row["station_id"],
+            observed_at=row["observed_at"],
+            wvht=row.get("wvht"),
+            dpd=row.get("dpd"),
+            apd=row.get("apd"),
+            mwd=row.get("mwd"),
+            wspd=row.get("wspd"),
+            wdir=row.get("wdir"),
+            gst=row.get("gst"),
+            pres=row.get("pres"),
+            atmp=row.get("atmp"),
+            wtmp=row.get("wtmp"),
+            spectral_energy=spectral,
+        )
+    except Exception as exc:
+        logger.warning(
+            "Failed to fetch latest buoy observation",
+            station_id=station_id,
+            error=str(exc),
+        )
+        return None
+
+
 # ─── Spot Forecasts ───────────────────────────────────────────────────────────
 
 async def upsert_spot_forecasts(
