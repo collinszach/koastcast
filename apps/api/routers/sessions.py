@@ -12,7 +12,7 @@ from uuid import UUID
 
 import jwt as pyjwt
 import structlog
-from fastapi import APIRouter, HTTPException, Security
+from fastapi import APIRouter, HTTPException, Query, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from config import settings
@@ -137,15 +137,15 @@ async def create_session(
         logger.error("Failed to create session", user_id=user_id, error=str(exc))
         raise HTTPException(
             status_code=500,
-            detail={"error": "Database error", "detail": str(exc)},
+            detail={"error": "Database error", "detail": "An internal error occurred"},
         )
 
 
 @router.get("/sessions")
 async def list_sessions(
     credentials: HTTPAuthorizationCredentials = Security(security),
-    limit: int = 50,
-    offset: int = 0,
+    limit: int = Query(default=50, ge=1, le=200),
+    offset: int = Query(default=0, ge=0),
 ) -> dict:
     """Return the authenticated user's surf sessions, newest first."""
     user_id = await get_user_id(credentials)
@@ -230,7 +230,7 @@ async def get_session(
         logger.error("Failed to fetch session", session_id=session_id, user_id=user_id, error=str(exc))
         raise HTTPException(
             status_code=500,
-            detail={"error": "Database error", "detail": str(exc)},
+            detail={"error": "Database error", "detail": "An internal error occurred"},
         )
 
 
@@ -283,10 +283,10 @@ async def delete_session(
                 logger.error("Failed to delete session", session_id=session_id, error=str(inner_exc))
                 raise HTTPException(
                     status_code=500,
-                    detail={"error": "Database error", "detail": str(inner_exc)},
+                    detail={"error": "Database error", "detail": "An internal error occurred"},
                 )
         logger.error("Failed to delete session", session_id=session_id, user_id=user_id, error=str(exc))
         raise HTTPException(
             status_code=500,
-            detail={"error": "Database error", "detail": str(exc)},
+            detail={"error": "Database error", "detail": "An internal error occurred"},
         )

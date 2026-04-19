@@ -58,10 +58,14 @@ services:
     environment:
       - ENVIRONMENT=${ENVIRONMENT:-production}
       - DEBUG=${DEBUG:-false}
-      - CORS_ORIGINS=${CORS_ORIGINS:-["https://peakcast.app"]}
+      # Set CORS_ORIGINS in .env to your deployed frontend URL (no trailing slash).
+      # Example: CORS_ORIGINS=https://nSwell.zacharyjcollins.com
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://localhost:3002}
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
       - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      # Required for JWT verification — Supabase Dashboard → Project Settings → API → JWT Secret
+      - SUPABASE_JWT_SECRET=${SUPABASE_JWT_SECRET}
       - NOAA_TIDES_API_KEY=${NOAA_TIDES_API_KEY}
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
       - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}

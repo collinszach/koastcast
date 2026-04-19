@@ -82,7 +82,7 @@ async def get_optimal_windows(
         forecast = await get_forecast(spot_id=spot_id, days=days)
         forecast_hours = [h.model_dump() for h in forecast.hours]
     except Exception as exc:
-        raise HTTPException(status_code=503, detail=f"Forecast unavailable: {exc}") from exc
+        raise HTTPException(status_code=503, detail="Forecast temporarily unavailable") from exc
 
     # Find windows
     windows = find_optimal_windows(

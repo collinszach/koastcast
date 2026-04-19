@@ -17,19 +17,23 @@ from starlette.responses import JSONResponse
 
 logger = structlog.get_logger(__name__)
 
-# Paths that are always public — no secret required
-_PUBLIC_PATHS = {"/health", "/docs", "/openapi.json", "/redoc", "/"}
+# Paths that are always public — no secret required.
+# Note: /docs, /redoc, /openapi.json are only registered in debug mode (see main.py).
+_PUBLIC_PATHS = {"/health", "/"}
+
+# Known placeholder values that indicate SECRET_KEY was not properly configured
+_PLACEHOLDER_SECRETS = {"dev-secret-change-in-production", "change-me-in-production-use-openssl-rand-hex-32", ""}
 
 
 class APISecretMiddleware(BaseHTTPMiddleware):
-    """Validate X-API-Secret header on all requests except health/docs."""
+    """Validate X-API-Secret header on all requests except health/root."""
 
     def __init__(self, app, secret: str) -> None:
         super().__init__(app)
-        self.secret = secret
-        if not secret:
+        self.secret = secret if secret not in _PLACEHOLDER_SECRETS else ""
+        if not self.secret:
             logger.warning(
-                "APISecretMiddleware: SECRET_KEY is not set — "
+                "APISecretMiddleware: SECRET_KEY is not set or is a placeholder — "
                 "API secret validation is DISABLED. Set SECRET_KEY in production."
             )
 

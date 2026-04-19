@@ -46,6 +46,15 @@ docs/superpowers/
 # Memory files (local Claude context)
 .claude/
 
+# Portfolio / marketing screenshots (may contain real user data)
+portfolio-screenshots/
+
+# Internal planning, competitive research, and AI-assisted spec documents
+SURFER_RESEARCH.md
+TASKS.md
+V2.md
+PROMPT_PHASE*.md
+
 # OS / editor
 .DS_Store
 *.swp
