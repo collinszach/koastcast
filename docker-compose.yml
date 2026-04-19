@@ -59,7 +59,7 @@ services:
       - ENVIRONMENT=${ENVIRONMENT:-production}
       - DEBUG=${DEBUG:-false}
       # Set CORS_ORIGINS in .env to your deployed frontend URL (no trailing slash).
-      # Example: CORS_ORIGINS=https://nSwell.zacharyjcollins.com
+      # Example: CORS_ORIGINS=https://nSwell.zacharyjcollins.com  (your Peakcast domain)
       - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://localhost:3002}
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
@@ -98,8 +98,8 @@ services:
       retries: 3
 
   # ─── Cloudflare Tunnel ───────────────────────────────────────────────────
-  # Exposes the NUC to the internet via nSwell.zacharyjcollins.com without
-  # opening any inbound firewall ports. The origin is never directly reachable.
+  # Exposes the Peakcast NUC to the internet via nSwell.zacharyjcollins.com
+  # without opening any inbound firewall ports. The origin is never directly reachable.
   # Set CLOUDFLARE_TUNNEL_TOKEN in .env — get it from Cloudflare Zero Trust → Tunnels.
   cloudflared:
     image: cloudflare/cloudflared:latest

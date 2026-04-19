@@ -45,7 +45,7 @@ async def lifespan(app: FastAPI):
 # ─── App ──────────────────────────────────────────────────────────────────
 app = FastAPI(
     title="Peakcast API",
-    description="AI-native surf forecasting. More accurate. More personal.",
+    description="Peakcast — AI-native surf forecasting. More accurate. More personal.",
     version="0.1.0",
     lifespan=lifespan,
     docs_url="/docs" if settings.debug else None,
