@@ -1,10 +1,11 @@
 /**
  * Next.js API route: proxy swell events to NUC backend
+ * Forwards the user's Supabase JWT for auth.
  */
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
 
 const NUC_BASE = process.env.NUC_API_BASE_URL || 'http://localhost:8002'
-const NUC_SECRET = process.env.NUC_API_SECRET || ''
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -15,11 +16,22 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'spotId required' }, { status: 400 })
   }
 
+  let accessToken: string | null = null
+  try {
+    const supabase = await createClient()
+    const { data: { session } } = await supabase.auth.getSession()
+    accessToken = session?.access_token ?? null
+  } catch {
+    // unauthenticated
+  }
+
   try {
     const upstreamRes = await fetch(
       `${NUC_BASE}/api/v1/swell-events/${spotId}?days=${days}`,
       {
-        headers: { 'X-API-Secret': NUC_SECRET },
+        headers: {
+          ...(accessToken ? { 'Authorization': `Bearer ${accessToken}` } : {}),
+        },
         next: { revalidate: 3600 },
       },
     )

@@ -5,7 +5,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const NUC_BASE = process.env.NUC_API_BASE_URL || 'http://localhost:8002'
-const NUC_SECRET = process.env.NUC_API_SECRET || ''
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -20,9 +19,7 @@ export async function GET(request: NextRequest) {
     const upstreamRes = await fetch(
       `${NUC_BASE}/api/v1/forecast/${spotId}?days=${days}`,
       {
-        headers: {
-          'X-API-Secret': NUC_SECRET,
-        },
+        headers: {},
         cache: 'no-store',
       },
     )

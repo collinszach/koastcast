@@ -11,7 +11,6 @@ export const runtime = 'edge'
 import { NextRequest } from 'next/server'
 
 const NUC_BASE = process.env.NUC_API_BASE_URL || 'http://localhost:8002'
-const NUC_SECRET = process.env.NUC_API_SECRET || ''
 
 const SSE_UNAVAILABLE = (msg: string) =>
   new Response(
@@ -27,13 +26,16 @@ export async function POST(request: NextRequest) {
     return SSE_UNAVAILABLE('Invalid request.')
   }
 
+  // Forward the user's Supabase JWT (sent by the browser as Authorization: Bearer ...)
+  const authHeader = request.headers.get('Authorization') ?? ''
+
   let upstreamRes: Response
   try {
     upstreamRes = await fetch(`${NUC_BASE}/api/v1/nlq/stream`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-API-Secret': NUC_SECRET,
+        ...(authHeader ? { 'Authorization': authHeader } : {}),
       },
       body: JSON.stringify(body),
     })

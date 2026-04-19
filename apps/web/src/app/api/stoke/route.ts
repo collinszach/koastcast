@@ -7,7 +7,6 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
 const NUC_BASE = process.env.NUC_API_BASE_URL || 'http://localhost:8002'
-const NUC_SECRET = process.env.NUC_API_SECRET || ''
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
@@ -17,8 +16,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'spot_id required' }, { status: 400 })
   }
 
-  // Try to get user preferences from Supabase
+  // Try to get user session + preferences from Supabase
   let userPrefs: Record<string, unknown> = {}
+  let accessToken: string | null = null
   try {
     const cookieStore = await cookies()
     const supabase = createServerClient(
@@ -32,12 +32,13 @@ export async function POST(request: NextRequest) {
       },
     )
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (user) {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session) {
+      accessToken = session.access_token
       const { data: profile } = await supabase
         .from('user_profiles')
         .select('pref_min_height_m, pref_max_height_m, pref_min_period_s, pref_offshore_importance, pref_crowd_tolerance, skill_level, board_type')
-        .eq('user_id', user.id)
+        .eq('user_id', session.user.id)
         .single()
 
       if (profile) {
@@ -67,7 +68,7 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-API-Secret': NUC_SECRET,
+        ...(accessToken ? { 'Authorization': `Bearer ${accessToken}` } : {}),
       },
       body: JSON.stringify(nucBody),
       next: { revalidate: 0 },

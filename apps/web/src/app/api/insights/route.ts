@@ -6,7 +6,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
 const NUC_BASE = process.env.NUC_API_BASE_URL || 'http://localhost:8002'
-const NUC_SECRET = process.env.NUC_API_SECRET || ''
 
 export async function GET(_request: NextRequest) {
   try {
@@ -19,7 +18,6 @@ export async function GET(_request: NextRequest) {
 
     const upstreamRes = await fetch(`${NUC_BASE}/api/v1/insights`, {
       headers: {
-        'X-API-Secret': NUC_SECRET,
         'Authorization': `Bearer ${session.access_token}`,
       },
       next: { revalidate: 300 },

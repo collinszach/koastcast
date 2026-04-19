@@ -11,7 +11,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from middleware.auth import APISecretMiddleware
+from middleware.auth import JWTAuthMiddleware
 from routers import buoys, forecast, gear, insights, nlq, optimal, safety, sessions, snow, spots, stoke, swell_events
 from scheduler.jobs import register_jobs
 from config import settings
@@ -58,9 +58,9 @@ app.add_middleware(
     allow_origins=settings.cors_origins_list,
     allow_credentials=True,
     allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
-    allow_headers=["Authorization", "Content-Type", "X-API-Secret"],
+    allow_headers=["Authorization", "Content-Type"],
 )
-app.add_middleware(APISecretMiddleware, secret=settings.secret_key)
+app.add_middleware(JWTAuthMiddleware, jwt_secret=settings.supabase_jwt_secret)
 
 # ─── Routers ──────────────────────────────────────────────────────────────
 app.include_router(spots.router,    prefix="/api/v1", tags=["spots"])

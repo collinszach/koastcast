@@ -20,7 +20,6 @@ class Settings(BaseSettings):
     # App
     environment: str = "development"
     debug: bool = True
-    secret_key: str = "dev-secret-change-in-production"
     # Stored as a plain string internally; the validator converts to list.
     # Accepts both JSON array ("[\"a\",\"b\"]") and comma-separated ("a,b").
     cors_origins: str = "http://localhost:3000"

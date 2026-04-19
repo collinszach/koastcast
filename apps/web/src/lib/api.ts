@@ -1,14 +1,13 @@
 /**
  * NUC Backend API Client
  *
- * All requests go through Next.js server (to attach NUC_API_SECRET),
- * or directly to the NUC from server components.
+ * Public endpoints (spots, forecast, buoys) are called directly.
+ * Protected endpoints require a Supabase Bearer JWT — pass it via the authToken param.
  */
 import { z } from 'zod'
 import type { ForecastHour, ForecastResponse, Spot } from '@/types'
 
 const NUC_BASE = process.env.NUC_API_BASE_URL || 'http://localhost:8002'
-const NUC_SECRET = process.env.NUC_API_SECRET || ''
 
 class ApiError extends Error {
   constructor(
@@ -24,16 +23,14 @@ async function fetchNUC<T>(
   path: string,
   options: RequestInit = {},
   schema?: z.ZodType<T>,
+  authToken?: string,
 ): Promise<T> {
   const url = `${NUC_BASE}${path}`
 
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(options.headers as Record<string, string>),
-  }
-
-  if (NUC_SECRET) {
-    headers['X-API-Secret'] = NUC_SECRET
+    ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {}),
   }
 
   const controller = new AbortController()

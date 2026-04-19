@@ -69,7 +69,6 @@ services:
       - NOAA_TIDES_API_KEY=${NOAA_TIDES_API_KEY}
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
       - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
-      - SECRET_KEY=${SECRET_KEY}
       - OPEN_METEO_BASE_URL=http://open-meteo-api:8080  # internal Docker port (container-to-container)
       - OPEN_METEO_FORECAST_BASE_URL=https://api.open-meteo.com  # wind/atmosphere (marine container doesn't serve this)
       - LLAMA_CPP_BASE_URL=http://llm:11434/v1
@@ -98,18 +97,20 @@ services:
       timeout: 10s
       retries: 3
 
-  # ─── FUTURE INTEGRATION: Cloudflare Tunnel ───────────────────────────────
-  # Disabled for local development — API is available directly on localhost:8000.
-  # To re-enable for production: uncomment this block and set CLOUDFLARE_TUNNEL_TOKEN.
-  # cloudflared:
-  #   image: cloudflare/cloudflared:latest
-  #   container_name: peakcast_tunnel
-  #   restart: unless-stopped
-  #   command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
-  #   environment:
-  #     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
-  #   depends_on:
-  #     - api
+  # ─── Cloudflare Tunnel ───────────────────────────────────────────────────
+  # Exposes the NUC to the internet via nSwell.zacharyjcollins.com without
+  # opening any inbound firewall ports. The origin is never directly reachable.
+  # Set CLOUDFLARE_TUNNEL_TOKEN in .env — get it from Cloudflare Zero Trust → Tunnels.
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: peakcast_tunnel
+    restart: unless-stopped
+    command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - api
+      - web
 
   # ─── Nginx Reverse Proxy (SSL termination) ───────────────────────────────
   nginx:
