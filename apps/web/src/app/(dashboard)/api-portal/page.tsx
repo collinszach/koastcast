@@ -213,14 +213,14 @@ export default function ApiPortalPage() {
       <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
         <h2 className="text-sm font-semibold text-gray-300 mb-3">Quick Start</h2>
         <pre className="bg-gray-800 rounded-lg p-3 text-xs text-gray-300 overflow-x-auto">
-{`curl https://nSwell.zacharyjcollins.com/api/v1/forecast/mavericks-ca \\
+{`curl https://peakcast.zacharyjcollins.com/api/v1/forecast/mavericks-ca \\
   -H "Authorization: Bearer YOUR_API_KEY"
 
 # Response: 7-day hourly forecast with wave height, period,
 # direction, wind, tide, quality score, crowd prediction`}
         </pre>
         <a
-          href="https://nSwell.zacharyjcollins.com/api/v1/"
+          href="https://peakcast.zacharyjcollins.com/api/v1/"
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-400 hover:text-blue-300 text-xs mt-2 block transition-colors"
