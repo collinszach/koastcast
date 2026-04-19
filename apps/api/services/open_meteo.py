@@ -29,9 +29,8 @@ MARINE_HOURLY_VARS = [
     "wind_wave_period",
     "ocean_current_velocity",
     "ocean_current_direction",
-    "swell_wave_height_2",
-    "swell_wave_direction_2",
-    "swell_wave_period_2",
+    # swell_wave_height_2/direction_2/period_2 are not supported by Open-Meteo public API
+    # The parser defaults these to [None] when absent
 ]
 
 # Atmospheric variables (from the regular forecast API endpoint)

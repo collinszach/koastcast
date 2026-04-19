@@ -14,10 +14,10 @@ fi
 echo "→ Pulling secrets from Bitwarden Secrets Manager..."
 
 # Pull secrets via bws run — injects them as env vars into the subshell
-eval "$(bws run -- env 2>/dev/null | grep -E '^(SUPABASE_URL|SUPABASE_ANON_KEY|SUPABASE_SERVICE_ROLE_KEY|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|NOAA_TIDES_API_KEY)=' | sed 's/^/export /')"
+eval "$(bws run -- env 2>/dev/null | grep -E '^(SUPABASE_URL|SUPABASE_ANON_KEY|SUPABASE_SERVICE_ROLE_KEY|SUPABASE_JWT_SECRET|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|NOAA_TIDES_API_KEY)=' | sed 's/^/export /')"
 
 # Verify required secrets were pulled
-for var in SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY; do
+for var in SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY SUPABASE_JWT_SECRET; do
   if [[ -z "${!var:-}" ]]; then
     echo "Error: $var not found in bws secrets"
     exit 1
@@ -40,21 +40,23 @@ ${NOAA_TIDES_API_KEY:+NOAA_TIDES_API_KEY=${NOAA_TIDES_API_KEY}}
 EOF
 
 echo "→ Writing .env (for API + docker-compose)..."
-# Preserve non-Supabase lines from existing .env, then append updated values
-grep -v -E '^(SUPABASE_URL|SUPABASE_ANON_KEY|SUPABASE_SERVICE_ROLE_KEY|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|NOAA_TIDES_API_KEY)=' .env > .env.tmp || true
+# Preserve non-secret lines from existing .env, then append updated values
+grep -v -E '^(SUPABASE_URL|SUPABASE_ANON_KEY|SUPABASE_SERVICE_ROLE_KEY|SUPABASE_JWT_SECRET|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|NOAA_TIDES_API_KEY)=' .env > .env.tmp 2>/dev/null || true
 cat >> .env.tmp <<EOF
 SUPABASE_URL=${SUPABASE_URL}
 SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
 SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+SUPABASE_JWT_SECRET=${SUPABASE_JWT_SECRET}
 ${STRIPE_SECRET_KEY:+STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}}
 ${STRIPE_WEBHOOK_SECRET:+STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}}
 ${NOAA_TIDES_API_KEY:+NOAA_TIDES_API_KEY=${NOAA_TIDES_API_KEY}}
 EOF
 mv .env.tmp .env
 
-echo "→ Restarting web + api containers..."
-docker compose up -d --no-build web api
+echo "→ Rebuilding + restarting api and web containers..."
+docker compose up -d --build api web
 
 echo ""
-echo "✓ Done. Auth is now configured."
-echo "  Access: https://localhost  or  http://localhost:3002"
+echo "✓ Done. Peakcast is running."
+echo "  Local:  http://localhost:3002"
+echo "  HTTPS:  https://localhost:8443"

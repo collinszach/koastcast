@@ -46,7 +46,7 @@ MARINE_HOURLY_VARS = [
     "wave_height", "wave_direction", "wave_period",
     "swell_wave_height", "swell_wave_direction", "swell_wave_period",
     "wind_wave_height", "wind_wave_direction", "wind_wave_period",
-    "swell_wave_height_2", "swell_wave_direction_2", "swell_wave_period_2",
+    # swell_wave_height_2/direction_2/period_2 not supported by Open-Meteo public API
     "ocean_current_velocity", "ocean_current_direction",
 ]
 
@@ -60,7 +60,6 @@ DIRECTION_FIELDS = frozenset({
     "swell_wave_direction",
     "wind_wave_direction",
     "wind_direction",
-    "swell_wave_direction_2",
     "ocean_current_direction",
 })
 
