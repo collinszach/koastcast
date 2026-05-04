@@ -78,7 +78,7 @@ export default function ResetPasswordPage() {
       setMessage({ type: 'error', text: error.message || 'Failed to update password — please try again' })
     } else {
       setMessage({ type: 'success', text: 'Password updated successfully! Redirecting…' })
-      setTimeout(() => router.push('/dashboard'), 2000)
+      setTimeout(() => router.push('/home'), 2000)
     }
     setLoading(false)
   }

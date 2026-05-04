@@ -14,14 +14,14 @@ const RATE_LIMIT_SECONDS = 30
 
 // Only allow redirects to same-origin paths
 function sanitizeNext(path: string | null): string {
-  if (!path) return '/dashboard'
-  if (!path.startsWith('/') || path.startsWith('//')) return '/dashboard'
+  if (!path) return '/home'
+  if (!path.startsWith('/') || path.startsWith('//')) return '/home'
   const allowed = [
-    '/dashboard', '/map', '/sessions', '/profile', '/explore',
+    '/home', '/map', '/sessions', '/profile', '/explore',
     '/weather', '/wind', '/snow', '/trails', '/spots', '/spot', '/upgrade',
   ]
   if (allowed.some((p) => path === p || path.startsWith(p + '/'))) return path
-  return '/dashboard'
+  return '/home'
 }
 
 function friendlyError(msg: string): string {
@@ -160,7 +160,7 @@ function LoginPageInner() {
       // Set a cookie so middleware can detect guest mode server-side
       document.cookie = 'terrain_guest=true; path=/; max-age=86400; SameSite=Lax'
     }
-    router.push('/dashboard')
+    router.push('/home')
   }
 
   const isDisabled = loading || isRateLimited

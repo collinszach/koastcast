@@ -87,7 +87,7 @@ export default function SignupPage() {
       localStorage.setItem('terrain_guest', 'true')
       document.cookie = 'terrain_guest=true; path=/; max-age=86400; SameSite=Lax'
     }
-    router.push('/dashboard')
+    router.push('/home')
   }
 
   const canSubmit = !loading && !!email && !!password && !!confirmPassword && agreedToTos

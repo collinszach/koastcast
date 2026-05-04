@@ -9,7 +9,6 @@ function sanitizeRedirectPath(path: string | null): string {
   // Allowlist of valid destination path prefixes
   const allowed = [
     '/home',
-    '/dashboard',
     '/map',
     '/sessions',
     '/profile',
@@ -23,7 +22,7 @@ function sanitizeRedirectPath(path: string | null): string {
     '/upgrade',
   ]
   if (allowed.some((p) => path === p || path.startsWith(p + '/'))) return path
-  return '/dashboard'
+  return '/home'
 }
 
 export async function GET(request: NextRequest) {
