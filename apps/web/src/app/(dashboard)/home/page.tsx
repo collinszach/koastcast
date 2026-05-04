@@ -907,19 +907,96 @@ export default function IntelHubPage() {
       .catch(() => {})
   }, [])
 
+  // Fetch live conditions from Open-Meteo for displayed spots
+  const [liveData, setLiveData] = useState<Record<string, {
+    wave_height_m: number | null
+    wave_height_face_m: number | null
+    wave_period_s: number | null
+    wave_direction: number | null
+    wind_speed_ms: number | null
+    wind_direction: number | null
+  }>>({})
+
+  useEffect(() => {
+    if (spots.length === 0) return
+    let cancelled = false
+
+    // Fetch for first 5 spots (by index, before sorting — avoids circular dep)
+    const toFetch = spots.slice(0, 8)
+
+    async function fetchLive() {
+      const results = await Promise.allSettled(
+        toFetch.map(spot =>
+          fetch(`/api/forecast?spot_id=${spot.slug}&days=1`)
+            .then(r => r.ok ? r.json() : null)
+        )
+      )
+      if (cancelled) return
+
+      const live: typeof liveData = {}
+      const now = Date.now()
+
+      results.forEach((result, idx) => {
+        if (result.status !== 'fulfilled' || !result.value?.hours?.length) return
+        const slug = toFetch[idx].slug
+        const hours = result.value.hours as Array<{
+          forecast_time: string
+          wave_height_m: number | null
+          wave_period_s: number | null
+          swell_period_s: number | null
+          wave_direction: number | null
+          wind_speed_ms: number | null
+          wind_direction: number | null
+        }>
+
+        // Find closest hour to now
+        let best = hours[0]
+        let bestDiff = Math.abs(new Date(best.forecast_time).getTime() - now)
+        for (const h of hours) {
+          const diff = Math.abs(new Date(h.forecast_time).getTime() - now)
+          if (diff < bestDiff) { best = h; bestDiff = diff }
+        }
+
+        live[slug] = {
+          wave_height_m: best.wave_height_m,
+          wave_height_face_m: best.wave_height_m != null ? best.wave_height_m * 1.5 : null,
+          wave_period_s: best.wave_period_s ?? best.swell_period_s ?? null,
+          wave_direction: best.wave_direction,
+          wind_speed_ms: best.wind_speed_ms,
+          wind_direction: best.wind_direction,
+        }
+      })
+
+      setLiveData(live)
+    }
+
+    fetchLive()
+    return () => { cancelled = true }
+  }, [spots])
+
+  // Merge live data into spots
+  const spotsWithLive = useMemo<Spot[]>(() => {
+    if (Object.keys(liveData).length === 0) return spots
+    return spots.map(s => {
+      const live = liveData[s.slug]
+      if (!live) return s
+      return { ...s, current_conditions: { ...s.current_conditions, ...live } }
+    })
+  }, [spots, liveData])
+
   // Sort by distance (if location known) or by quality score
   const sortedSpots = useMemo<SpotWithDist[]>(() => {
-    if (location && spots.length) {
-      return [...spots]
+    if (location && spotsWithLive.length) {
+      return [...spotsWithLive]
         .map(s => ({ ...s, distMi: distanceMiles(location.lat, location.lng, s.lat, s.lng) }))
         .sort((a, b) => (a.distMi ?? Infinity) - (b.distMi ?? Infinity))
     }
-    return [...spots].sort((a, b) => {
+    return [...spotsWithLive].sort((a, b) => {
       const qa = a.current_conditions?.quality_score ?? -1
       const qb = b.current_conditions?.quality_score ?? -1
       return qb - qa
     })
-  }, [spots, location])
+  }, [spotsWithLive, location])
 
   const top5 = sortedSpots.slice(0, 5)
   const heroSpot = sortedSpots[0] ?? null
