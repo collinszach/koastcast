@@ -1,12 +1,11 @@
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Only allow redirects to same-origin paths — prevents open redirect attacks
 function sanitizeRedirectPath(path: string | null): string {
   if (!path) return '/home'
-  // Must start with / and not be protocol-relative or external
   if (!path.startsWith('/') || path.startsWith('//')) return '/home'
-  // Allowlist of valid destination path prefixes
   const allowed = [
     '/home',
     '/map',
@@ -31,7 +30,25 @@ export async function GET(request: NextRequest) {
   const next = sanitizeRedirectPath(searchParams.get('next'))
 
   if (code) {
-    const supabase = await createClient()
+    const cookieStore = await cookies()
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return cookieStore.getAll()
+          },
+          setAll(cookiesToSet: Array<{ name: string; value: string; options?: CookieOptions }>) {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              cookieStore.set(name, value, options)
+            })
+          },
+        },
+      },
+    )
+
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (error) {
       console.error('Auth callback error:', error.message)

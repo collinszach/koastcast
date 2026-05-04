@@ -16,11 +16,6 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Only enforce auth on explicitly protected routes
-  if (!PROTECTED_ROUTES.some((route) => pathname.startsWith(route))) {
-    return NextResponse.next()
-  }
-
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
@@ -43,17 +38,19 @@ export async function proxy(request: NextRequest) {
     },
   })
 
+  // Always refresh the session — this keeps auth tokens valid across all pages
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Also allow guest mode (set by continueAsGuest on the login page)
-  const guestCookie = request.cookies.get('terrain_guest')
-
-  if (!user && !guestCookie) {
-    const loginUrl = new URL('/auth/login', request.url)
-    loginUrl.searchParams.set('next', pathname)
-    return NextResponse.redirect(loginUrl)
+  // Only enforce auth on explicitly protected routes
+  if (PROTECTED_ROUTES.some((route) => pathname.startsWith(route))) {
+    const guestCookie = request.cookies.get('terrain_guest')
+    if (!user && !guestCookie) {
+      const loginUrl = new URL('/auth/login', request.url)
+      loginUrl.searchParams.set('next', pathname)
+      return NextResponse.redirect(loginUrl)
+    }
   }
 
   return response
