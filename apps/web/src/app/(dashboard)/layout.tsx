@@ -8,10 +8,7 @@ import {
   Home,
   Map,
   Mountain,
-  BookOpen,
   User,
-  Compass,
-  Bell,
 } from 'lucide-react'
 import GlobalSearch from '@/components/GlobalSearch'
 import { SidebarAuthButton } from '@/components/SidebarAuthButton'
@@ -47,9 +44,6 @@ function getNavActiveBorder(href: string): string {
 const NAV_ITEMS = [
   { href: '/home',     icon: Home,     label: 'Home'     },
   { href: '/map',      icon: Map,      label: 'Spots'    },
-  { href: '/explore',  icon: Compass,  label: 'Plan'     },
-  { href: '/sessions', icon: BookOpen, label: 'Sessions' },
-  { href: '/alerts',   icon: Bell,     label: 'Alerts'   },
   { href: '/snow',     icon: Mountain, label: 'Snow'     },
   { href: '/profile',  icon: User,     label: 'Me'       },
 ]
