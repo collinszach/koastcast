@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     'More accurate, more personal surf and outdoor forecasts powered by AI and full spectral wave analysis. Personalized Peak Score™, optimal window finder, real-time NOAA buoy data.',
   keywords: ['surf forecast', 'surf report', 'wave forecast', 'surf conditions', 'AI surf', 'outdoor intelligence'],
   authors: [{ name: 'Peakcast' }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://peakcast.app'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://nswell.zacharyjcollins.com'),
   openGraph: {
     title: 'Peakcast — AI Outdoor Intelligence',
     description: 'Personalized surf forecasts powered by AI. Peak Score™, optimal windows, full spectral analysis.',

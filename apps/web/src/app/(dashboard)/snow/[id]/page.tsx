@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 import { Mountain, Wind, Thermometer, Layers, ArrowLeft, ExternalLink, AlertTriangle } from 'lucide-react'
 import type { Resort } from '@/types/snow'
 import {
@@ -13,12 +12,9 @@ import {
   weatherCodeToLabel,
 } from '@/types/snow'
 import resortsData from '@/data/resorts.json'
+import SnowForecastChart from './SnowForecastChart'
 
 export const revalidate = 3600
-
-// ─── Dynamic Recharts chart (client-only) ─────────────────────────────────────
-
-const SnowForecastChart = dynamic(() => import('./SnowForecastChart'), { ssr: false })
 
 // ─── Condition config ─────────────────────────────────────────────────────────
 

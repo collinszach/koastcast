@@ -2,7 +2,7 @@
  * Analytics — thin wrapper around Plausible.
  *
  * Add the Plausible script to app/layout.tsx to activate:
- *   <script defer data-domain="peakcast.app" src="https://plausible.io/js/script.js" />
+ *   <script defer data-domain="nswell.zacharyjcollins.com" src="https://plausible.io/js/script.js" />
  *
  * All calls are no-ops if Plausible is not loaded (dev / before setup).
  * Goal names must match what's configured in the Plausible dashboard.

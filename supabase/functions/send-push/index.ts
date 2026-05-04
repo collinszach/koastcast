@@ -22,7 +22,7 @@ interface PushPayload {
 //   supabase secrets set VAPID_PRIVATE_KEY=...
 const VAPID_PUBLIC_KEY = Deno.env.get('VAPID_PUBLIC_KEY') || ''
 const VAPID_PRIVATE_KEY = Deno.env.get('VAPID_PRIVATE_KEY') || ''
-const VAPID_SUBJECT = 'mailto:push@peakcast.app'
+const VAPID_SUBJECT = 'mailto:zakslax@gmail.com'
 
 serve(async (req) => {
   if (req.method !== 'POST') {

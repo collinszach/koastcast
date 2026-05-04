@@ -6,7 +6,7 @@
 ## 1. NUC Goes Offline
 
 ### Symptoms
-- `https://api.peakcast.app/health` returns timeout or connection refused
+- `https://api.nswell.zacharyjcollins.com/health` returns timeout or connection refused
 - Frontend shows "Forecast unavailable" on all spot pages
 - Vercel logs show `fetch` failures to `NUC_API_BASE_URL`
 
@@ -500,7 +500,7 @@ docker-compose logs -f api
 
 # Check API health
 curl http://localhost:8000/health
-curl https://api.peakcast.app/health
+curl https://api.nswell.zacharyjcollins.com/health
 
 # Force forecast update
 docker exec peakcast_api python -c "import asyncio; from scheduler.jobs import update_forecasts; asyncio.run(update_forecasts())"

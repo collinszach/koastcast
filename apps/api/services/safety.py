@@ -247,7 +247,7 @@ async def _get_nws_grid_url(lat: float, lng: float) -> str | None:
         async with httpx.AsyncClient(timeout=10) as client:
             resp = await client.get(
                 f"https://api.weather.gov/points/{lat},{lng}",
-                headers={"User-Agent": "Peakcast/1.0 (peakcast.app)"},
+                headers={"User-Agent": "Peakcast/1.0 (nswell.zacharyjcollins.com)"},
             )
             if resp.status_code != 200:
                 return None
@@ -270,7 +270,7 @@ async def _get_nws_alerts(lat: float, lng: float) -> tuple[RipCurrentStatus, Sur
         async with httpx.AsyncClient(timeout=10) as client:
             resp = await client.get(
                 f"https://api.weather.gov/alerts/active?point={lat},{lng}&status=actual",
-                headers={"User-Agent": "Peakcast/1.0 (peakcast.app)"},
+                headers={"User-Agent": "Peakcast/1.0 (nswell.zacharyjcollins.com)"},
             )
             if resp.status_code != 200:
                 return _default_rip(), None

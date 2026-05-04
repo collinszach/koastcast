@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://peakcast.app'
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://nswell.zacharyjcollins.com'
 
 export default function robots(): MetadataRoute.Robots {
   return {

@@ -21,21 +21,24 @@ services:
     build:
       context: ./apps/web
       dockerfile: Dockerfile
+      target: prod
+      args:
+        # NEXT_PUBLIC_* vars baked into client bundle at build time
+        NEXT_PUBLIC_SUPABASE_URL: ${SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+        NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
     container_name: peakcast_web
     restart: unless-stopped
     ports:
       - "3002:3001"
-    volumes:
-      - ./apps/web:/app          # hot reload
-      - /app/node_modules        # keep container's node_modules
-      - ./data:/data             # spots, resorts, bathymetry
     environment:
-      - NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}
-      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      # Server-side env vars (not baked in — runtime only)
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
-      - NEXT_PUBLIC_API_URL=http://localhost:8002
       - NUC_API_BASE_URL=http://api:8000  # internal Docker network
+      - ADMIN_EMAILS=${ADMIN_EMAILS:-}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-}
     depends_on:
       - api
 
@@ -59,7 +62,7 @@ services:
       - ENVIRONMENT=${ENVIRONMENT:-production}
       - DEBUG=${DEBUG:-false}
       # Set CORS_ORIGINS in .env to your deployed frontend URL (no trailing slash).
-      # Example: CORS_ORIGINS=https://peakcast.zacharyjcollins.com  (your Peakcast domain)
+      # Example: CORS_ORIGINS=https://nswell.zacharyjcollins.com
       - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://localhost:3002}
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
@@ -98,7 +101,7 @@ services:
       retries: 3
 
   # ─── Cloudflare Tunnel ───────────────────────────────────────────────────
-  # Exposes the Peakcast NUC to the internet via peakcast.zacharyjcollins.com
+  # Exposes the Peakcast NUC API to the internet via api.nswell.zacharyjcollins.com
   # without opening any inbound firewall ports. The origin is never directly reachable.
   # Set CLOUDFLARE_TUNNEL_TOKEN in .env — get it from Cloudflare Zero Trust → Tunnels.
   cloudflared:

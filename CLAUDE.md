@@ -521,7 +521,7 @@ STRIPE_WEBHOOK_SECRET=...
 SECRET_KEY=...                  # FastAPI JWT signing key
 ENVIRONMENT=production
 DEBUG=false
-CORS_ORIGINS=["https://peakcast.app"]
+CORS_ORIGINS=["https://nswell.zacharyjcollins.com"]
 OPEN_METEO_BASE_URL=http://open-meteo-api:8080
 OPEN_METEO_FORECAST_BASE_URL=https://api.open-meteo.com
 LLAMA_CPP_BASE_URL=http://llm:11434/v1
@@ -530,12 +530,12 @@ LLAMA_CPP_BASE_URL=http://llm:11434/v1
 NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 NEXT_PUBLIC_API_URL=http://localhost:8002   # local dev
-NUC_API_BASE_URL=https://api.peakcast.app   # production (Cloudflare Tunnel)
+NUC_API_BASE_URL=https://api.nswell.zacharyjcollins.com   # production (Cloudflare Tunnel)
 NUC_API_SECRET=...
 STRIPE_SECRET_KEY=...
 STRIPE_WEBHOOK_SECRET=...
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=...
-NEXT_PUBLIC_APP_URL=https://peakcast.app
+NEXT_PUBLIC_APP_URL=https://nswell.zacharyjcollins.com
 ```
 
 ---
