@@ -12,8 +12,8 @@ export async function GET(request: NextRequest) {
   const spotId = searchParams.get('spotId')
   const days = searchParams.get('days') ?? '16'
 
-  if (!spotId) {
-    return NextResponse.json({ error: 'spotId required' }, { status: 400 })
+  if (!spotId || !/^[a-z0-9-]+$/.test(spotId)) {
+    return NextResponse.json({ error: 'Invalid spotId' }, { status: 400 })
   }
 
   let accessToken: string | null = null

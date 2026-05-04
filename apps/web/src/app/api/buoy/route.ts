@@ -48,8 +48,8 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const stationId = searchParams.get('station_id')
 
-  if (!stationId) {
-    return NextResponse.json({ error: 'station_id required' }, { status: 400 })
+  if (!stationId || !/^[A-Za-z0-9]{4,7}$/.test(stationId)) {
+    return NextResponse.json({ error: 'Invalid station_id' }, { status: 400 })
   }
 
   // Try NUC backend first if configured

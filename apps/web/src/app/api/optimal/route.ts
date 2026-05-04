@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   const spotId = searchParams.get('spot_id')
   const days = searchParams.get('days') || '14'
 
-  if (!spotId) {
+  if (!spotId || !/^[a-z0-9-]+$/.test(spotId)) {
     return NextResponse.json({ error: 'spot_id required' }, { status: 400 })
   }
 

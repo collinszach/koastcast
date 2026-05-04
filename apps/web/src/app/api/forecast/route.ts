@@ -61,7 +61,8 @@ async function fetchOpenMeteoForecast(spot: SpotMeta, days: number) {
   const times: string[] = marineHourly.time || []
 
   const hours = times.map((t: string, i: number) => ({
-    time: t,
+    forecast_time: t,
+    model_source: 'open_meteo_fallback',
     wave_height_m: marineHourly.wave_height?.[i] ?? null,
     wave_period_s: marineHourly.wave_period?.[i] ?? null,
     wave_direction: marineHourly.wave_direction?.[i] ?? null,
@@ -118,10 +119,10 @@ async function getSpotBySlug(slug: string): Promise<SpotMeta | null> {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const spotId = searchParams.get('spot_id')
-  const days = parseInt(searchParams.get('days') ?? '7', 10)
+  const days = Math.max(1, Math.min(16, parseInt(searchParams.get('days') ?? '7', 10)))
 
-  if (!spotId) {
-    return NextResponse.json({ error: 'spot_id required' }, { status: 400 })
+  if (!spotId || !/^[a-z0-9-]+$/.test(spotId)) {
+    return NextResponse.json({ error: 'Invalid spot_id' }, { status: 400 })
   }
 
   // Try NUC backend first if configured

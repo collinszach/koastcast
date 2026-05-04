@@ -48,7 +48,7 @@ const NAV_ITEMS = [
   { href: '/profile',  icon: User,     label: 'Me'       },
 ]
 
-// Mobile bottom nav — same 5 items
+// Mobile bottom nav
 const MOBILE_NAV = NAV_ITEMS
 
 // ── Nav item ─────────────────────────────────────────────────────────────
