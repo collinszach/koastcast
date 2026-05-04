@@ -7,7 +7,7 @@
 import { z } from 'zod'
 import type { ForecastHour, ForecastResponse, Spot } from '@/types'
 
-const NUC_BASE = process.env.NUC_API_BASE_URL || 'http://localhost:8002'
+const NUC_BASE = process.env.NUC_API_BASE_URL || ''
 
 class ApiError extends Error {
   constructor(
@@ -25,6 +25,7 @@ async function fetchNUC<T>(
   schema?: z.ZodType<T>,
   authToken?: string,
 ): Promise<T> {
+  if (!NUC_BASE) throw new Error('NUC backend not configured')
   const url = `${NUC_BASE}${path}`
 
   const headers: Record<string, string> = {
@@ -68,10 +69,10 @@ async function loadLocalSpots(): Promise<Spot[]> {
     try {
       const { readFileSync } = await import('fs')
       const { join } = await import('path')
-      // Try monorepo data dir first, then Next.js public dir
       const candidates = [
-        join(process.cwd(), '..', '..', 'data', 'spots.json'),
         join(process.cwd(), 'public', 'spots.json'),
+        join(process.cwd(), '..', '..', 'data', 'spots.json'),
+        join(process.cwd(), 'data', 'spots.json'),
       ]
       for (const p of candidates) {
         try {
@@ -84,6 +85,14 @@ async function loadLocalSpots(): Promise<Spot[]> {
     } catch {
       // fall through
     }
+  }
+
+  // Client-side or file not found: fetch from public URL
+  try {
+    const res = await fetch('/spots.json')
+    if (res.ok) return await res.json()
+  } catch {
+    // fall through
   }
   return []
 }

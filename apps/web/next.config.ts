@@ -27,10 +27,10 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_SUPABASE_ANON_KEY:
       process.env.SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
 
-    // NUC backend: bws uses NEXT_PUBLIC_API_URL; server routes use NUC_API_BASE_URL
-    // Server-side URL for Next.js API routes: prefer the Docker-internal address
+    // NUC backend: only set when the NUC is actually reachable.
+    // Empty string = skip NUC, go straight to Open-Meteo/NDBC fallback.
     NUC_API_BASE_URL:
-      process.env.NUC_API_BASE_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8002",
+      process.env.NUC_API_BASE_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "",
   },
 };
 
