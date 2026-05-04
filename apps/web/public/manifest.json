@@ -1,6 +1,6 @@
 {
-  "name": "Peakcast",
-  "short_name": "Peakcast",
+  "name": "nSwell",
+  "short_name": "nSwell",
   "description": "AI-native personalized outdoor forecasts. Powered by NOAA data.",
   "start_url": "/map",
   "display": "standalone",

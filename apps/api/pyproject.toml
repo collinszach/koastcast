@@ -1,7 +1,7 @@
 [project]
-name = "peakcast-api"
+name = "nswell-api"
 version = "0.1.0"
-description = "Peakcast FastAPI backend"
+description = "nSwell FastAPI backend"
 requires-python = ">=3.12"
 
 [tool.pytest.ini_options]

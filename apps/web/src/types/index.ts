@@ -1,5 +1,5 @@
 /**
- * Peakcast shared TypeScript types
+ * nSwell shared TypeScript types
  */
 
 export interface SpotCam {

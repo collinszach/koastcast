@@ -54,7 +54,7 @@ export async function generateMetadata({
         title,
         description,
         type: 'website',
-        siteName: 'Peakcast',
+        siteName: 'nSwell',
       },
       twitter: {
         card: 'summary_large_image',
@@ -64,7 +64,7 @@ export async function generateMetadata({
     }
   } catch {
     return {
-      title: 'Peakcast — AI Surf Forecasting',
+      title: 'nSwell — AI Surf Forecasting',
       description: 'Personalized surf forecasts powered by AI and real-time NOAA buoy data.',
     }
   }
@@ -92,7 +92,7 @@ export default async function PublicSpotPage({
         <div className="text-center">
           <div className="text-4xl mb-4">🌊</div>
           <h1 className="text-white text-xl font-bold mb-2">Spot not found</h1>
-          <Link href="/" className="text-blue-400 text-sm">← Back to Peakcast</Link>
+          <Link href="/" className="text-blue-400 text-sm">← Back to nSwell</Link>
         </div>
       </div>
     )
@@ -120,7 +120,7 @@ export default async function PublicSpotPage({
       {/* Nav */}
       <nav className="border-b border-gray-800 px-4 py-3 flex items-center justify-between">
         <Link href="/" className="font-bold text-white text-lg">
-          🌊 Peakcast
+          🌊 nSwell
         </Link>
         <div className="flex items-center gap-3">
           <Link href="/login" className="text-gray-400 hover:text-white text-sm transition-colors">

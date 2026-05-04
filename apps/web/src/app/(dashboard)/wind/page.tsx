@@ -650,7 +650,7 @@ export default function WindPage() {
               fontSize: 9, fontWeight: 700,
               color: '#06B6D4', letterSpacing: '0.2em', textTransform: 'uppercase',
             }}>
-              PEAKCAST · WIND ANALYSIS
+              NSWELL · WIND ANALYSIS
             </div>
             {loading && (
               <div style={{

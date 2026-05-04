@@ -64,7 +64,7 @@ def build_swan_input(
     end_t = swan_time(timestamps[-1]) if timestamps else "20240101.060000"
 
     lines = [
-        f"PROJ '{spot_slug}' 'peakcast'",
+        f"PROJ '{spot_slug}' 'nswell'",
         f"SET NAUTICAL",
         "",
         f"CGRID REGULAR {xpc:.6f} {ypc:.6f} 0. {nx*dx:.4f} {ny*dx:.4f} {nx} {ny} CIRCLE 36 0.03 0.5 24",

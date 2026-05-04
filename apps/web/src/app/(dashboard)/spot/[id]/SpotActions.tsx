@@ -33,7 +33,7 @@ function buildShareText(
   cond?: CurrentConditions | null,
 ): string {
   if (!cond) {
-    return `📍 ${spotName} — ${region}\nCheck it out on Peakcast app`
+    return `📍 ${spotName} — ${region}\nCheck it out on nSwell app`
   }
 
   const lines: string[] = []
@@ -69,7 +69,7 @@ function buildShareText(
   }
 
   lines.push('—')
-  lines.push('via Peakcast app')
+  lines.push('via nSwell app')
 
   return lines.join('\n')
 }
@@ -91,7 +91,7 @@ export default function SpotActions({
   const handleShare = useCallback(async () => {
     const text = buildShareText(spotName, region, currentConditions)
     const shareData = {
-      title: `${spotName} — Peakcast Forecast`,
+      title: `${spotName} — nSwell Forecast`,
       text,
       url: window.location.href,
     }

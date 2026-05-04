@@ -1,5 +1,5 @@
 /**
- * Feature gating for Peakcast subscription tiers.
+ * Feature gating for nSwell subscription tiers.
  * Free / Pro ($4.99/mo) / Explorer ($9.99/mo)
  */
 

@@ -203,7 +203,7 @@ export default function SignupPage() {
               color: 'var(--foam)',
             }}
           >
-            Peakcast
+            nSwell
           </h1>
           <p style={{ fontSize: 13, color: 'var(--spray)', lineHeight: 1.5 }}>
             Create your account and start forecasting.

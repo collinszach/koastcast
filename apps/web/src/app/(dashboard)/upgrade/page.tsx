@@ -63,7 +63,7 @@ export default function UpgradePage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="text-center mb-10">
-        <h1 className="text-3xl font-bold text-white mb-3">Upgrade Peakcast</h1>
+        <h1 className="text-3xl font-bold text-white mb-3">Upgrade nSwell</h1>
         <p className="text-gray-400 max-w-lg mx-auto text-sm">
           More accurate forecasts. Personalized scoring. Optimal windows.
           Everything a serious surfer needs.

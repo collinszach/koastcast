@@ -181,7 +181,7 @@ export default function ResetPasswordPage() {
               color: 'var(--foam)',
             }}
           >
-            Peakcast
+            nSwell
           </h1>
           <p style={{ fontSize: 13, color: 'var(--spray)', lineHeight: 1.5 }}>
             AI-native forecasting for surf, snow &amp; trails.

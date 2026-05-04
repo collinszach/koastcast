@@ -1,5 +1,5 @@
 -- ─────────────────────────────────────────────────────────────────────────
--- Peakcast Database Migration 001: Core Schema
+-- nSwell Database Migration 001: Core Schema
 -- Run via: supabase db push
 -- ─────────────────────────────────────────────────────────────────────────
 

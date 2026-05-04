@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Peakcast — launch services with secrets injected from Bitwarden Secrets Manager.
+# nSwell — launch services with secrets injected from Bitwarden Secrets Manager.
 #
 # Usage:
 #   ./start.sh              → docker compose up -d (full stack, detached)

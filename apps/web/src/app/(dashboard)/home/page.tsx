@@ -971,7 +971,7 @@ export default function IntelHubPage() {
             color: 'var(--foam)',
             letterSpacing: '0.04em',
           }}>
-            Peakcast
+            nSwell
           </span>
           <div style={{ width: 1, height: 18, background: 'rgba(6,182,212,0.15)', flexShrink: 0 }} />
           <span style={{

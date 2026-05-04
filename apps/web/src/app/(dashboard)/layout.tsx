@@ -222,7 +222,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               letterSpacing: '0.06em',
               textTransform: 'uppercase' as const,
             }}>
-              Peakcast
+              nSwell
             </span>
           </div>
 

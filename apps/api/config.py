@@ -1,5 +1,5 @@
 """
-Peakcast API Configuration
+nSwell API Configuration
 Reads from environment variables injected by Bitwarden Secrets Manager (bws).
 """
 import json

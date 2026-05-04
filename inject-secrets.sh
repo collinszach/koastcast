@@ -57,6 +57,6 @@ echo "→ Rebuilding + restarting api and web containers..."
 docker compose up -d --build api web
 
 echo ""
-echo "✓ Done. Peakcast is running."
+echo "✓ Done. nSwell is running."
 echo "  Local:  http://localhost:3002"
 echo "  HTTPS:  https://localhost:8443"
