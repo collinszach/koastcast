@@ -318,7 +318,7 @@ export default function SpotCams({ spot }: { spot: Spot }) {
                 marginTop: 3,
                 letterSpacing: '0.06em',
               }}>
-                NSWELL CAMS NETWORK · 2026
+                KOASTCAST CAMS NETWORK · 2026
               </div>
             </div>
           </div>

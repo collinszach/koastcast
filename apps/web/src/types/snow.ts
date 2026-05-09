@@ -1,5 +1,5 @@
 /**
- * nSwell Snow — shared TypeScript types
+ * Koastcast Snow — shared TypeScript types
  */
 
 export interface Resort {

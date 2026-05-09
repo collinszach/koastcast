@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 /* ─────────────────────────────────────────────────────────────────
-   nSwell — Marketing Homepage
+   Koastcast — Marketing Homepage
    Aesthetic: Deep-ocean data intelligence. Cinematic dark, cyan bioluminescent.
    ───────────────────────────────────────────────────────────────── */
 
@@ -278,7 +278,7 @@ export default function HomePage() {
               fontSize: 17,
               color: '#E0F7FA',
               letterSpacing: '-0.01em',
-            }}>nSwell</span>
+            }}>Koastcast</span>
           </div>
 
           {/* Nav links */}
@@ -1155,7 +1155,7 @@ export default function HomePage() {
                 <path d="M1 10 C3 7, 5 11, 8 8 C11 5, 13 9, 15 6" stroke="white" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
               </svg>
             </div>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: '#E0F7FA' }}>nSwell</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: '#E0F7FA' }}>Koastcast</span>
             <span style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: '#2E5568', marginLeft: 8 }}>
               Powered by NOAA · Open-Meteo · ECMWF
             </span>
@@ -1168,7 +1168,7 @@ export default function HomePage() {
             ))}
           </div>
           <div style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: '#2E5568' }}>
-            © 2025 nSwell · MIT License
+            © 2025 Koastcast · MIT License
           </div>
         </footer>
 
