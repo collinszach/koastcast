@@ -1,11 +1,11 @@
 {
-  "name": "nSwell",
-  "short_name": "nSwell",
+  "name": "Koastcast",
+  "short_name": "Koastcast",
   "description": "AI-native personalized outdoor forecasts. Powered by NOAA data.",
   "start_url": "/map",
   "display": "standalone",
-  "background_color": "#030712",
-  "theme_color": "#2563eb",
+  "background_color": "#060D1A",
+  "theme_color": "#06B6D4",
   "orientation": "portrait-primary",
   "icons": [
     {

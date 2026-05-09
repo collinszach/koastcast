@@ -22,24 +22,24 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'nSwell — AI Outdoor Intelligence',
-    template: '%s | nSwell',
+    default: 'Koastcast — AI Outdoor Intelligence',
+    template: '%s | Koastcast',
   },
   description:
     'More accurate, more personal surf and outdoor forecasts powered by AI and full spectral wave analysis. Personalized Peak Score™, optimal window finder, real-time NOAA buoy data.',
   keywords: ['surf forecast', 'surf report', 'wave forecast', 'surf conditions', 'AI surf', 'outdoor intelligence'],
-  authors: [{ name: 'nSwell' }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://nswell.zacharyjcollins.com'),
+  authors: [{ name: 'Koastcast' }],
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://koastcast.com'),
   openGraph: {
-    title: 'nSwell — AI Outdoor Intelligence',
+    title: 'Koastcast — AI Outdoor Intelligence',
     description: 'Personalized surf forecasts powered by AI. Peak Score™, optimal windows, full spectral analysis.',
     type: 'website',
-    siteName: 'nSwell',
-    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'nSwell' }],
+    siteName: 'Koastcast',
+    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Koastcast' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'nSwell — AI Outdoor Intelligence',
+    title: 'Koastcast — AI Outdoor Intelligence',
     description: 'Personalized outdoor forecasts powered by AI.',
   },
   manifest: '/manifest.json',
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'nSwell',
+    title: 'Koastcast',
   },
 }
 
