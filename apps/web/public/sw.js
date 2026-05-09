@@ -1,5 +1,5 @@
 /**
- * nSwell Service Worker
+ * Koastcast Service Worker
  *
  * Capabilities:
  *   1. Cache last-viewed spot forecast for offline access
@@ -7,8 +7,8 @@
  *   3. Handle push notifications for optimal window alerts
  */
 
-const CACHE_NAME = 'nswell-v1'
-const FORECAST_CACHE = 'nswell-forecasts-v1'
+const CACHE_NAME = 'koastcast-v1'
+const FORECAST_CACHE = 'koastcast-forecasts-v1'
 
 // Static assets to precache
 const PRECACHE_URLS = [
@@ -123,7 +123,7 @@ self.addEventListener('push', event => {
   try {
     data = event.data.json()
   } catch {
-    data = { title: 'nSwell', body: event.data.text() }
+    data = { title: 'Koastcast', body: event.data.text() }
   }
 
   const options = {
@@ -136,11 +136,11 @@ self.addEventListener('push', event => {
       { action: 'dismiss', title: 'Dismiss' },
     ],
     requireInteraction: false,
-    tag: 'nswell-alert',
+    tag: 'koastcast-alert',
   }
 
   event.waitUntil(
-    self.registration.showNotification(data.title || 'nSwell Alert', options)
+    self.registration.showNotification(data.title || 'Koastcast Alert', options)
   )
 })
 
@@ -168,7 +168,7 @@ self.addEventListener('notificationclick', event => {
 
 function openDB() {
   return new Promise((resolve, reject) => {
-    const req = indexedDB.open('nswell-offline', 1)
+    const req = indexedDB.open('koastcast-offline', 1)
     req.onupgradeneeded = e => {
       const db = e.target.result
       if (!db.objectStoreNames.contains('pending_sessions')) {
