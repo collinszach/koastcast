@@ -1,0 +1,548 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "Porkbun Logo porkbun" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img "Porkbun Logo" [ref=e6]
+          - text: porkbun
+        - text: 
+      - generic [ref=e7]:
+        - list [ref=e8]:
+          - listitem [ref=e9]:
+            - button "products" [ref=e10] [cursor=pointer]:
+              - text: products
+              - generic [ref=e11]: 
+          - listitem [ref=e12]:
+            - link "transfer" [ref=e13] [cursor=pointer]:
+              - /url: /transfer
+          - listitem [ref=e14]:
+            - link "SALE!" [ref=e15] [cursor=pointer]:
+              - /url: /event/holidaysales
+          - listitem: 
+          - listitem: 
+        - link " $0.00 (0)" [ref=e17] [cursor=pointer]:
+          - /url: /checkout/cart
+          - generic [ref=e18]: 
+          - text: $0.00 (0)
+        - list [ref=e19]:
+          - listitem [ref=e20]:
+            - link "sign in" [ref=e21] [cursor=pointer]:
+              - /url: /account
+  - generic [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e28]:
+          - textbox "Domain Search" [active] [ref=e29]:
+            - /placeholder: Search for a domain.
+            - text: swellcast.com
+          - generic [ref=e30]:
+            - button "open bulk search" [ref=e31] [cursor=pointer]:
+              - generic [ref=e32]: bulk search
+              - generic [ref=e33]: 
+            - button "submit search" [ref=e34] [cursor=pointer]:
+              - generic [ref=e35]: 
+        - text:  
+      - generic [ref=e36]:
+        - link "AI Search" [ref=e37] [cursor=pointer]:
+          - /url: /checkout/ai?q=swellcast.com
+        - text: "|"
+        - link "Auction Search" [ref=e38] [cursor=pointer]:
+          - /url: /auctions
+        - text: "|"
+        - link "Marketplace Search" [ref=e39] [cursor=pointer]:
+          - /url: /marketplace
+    - generic [ref=e44]:
+      - generic: +
+    - generic [ref=e48]:
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - strong [ref=e54]: .WORLD
+            - generic [ref=e56]:
+              - generic [ref=e57]:
+                - generic [ref=e59]: 1st Year Sale!
+                - generic [ref=e60] [cursor=pointer]: At Cost
+              - generic [ref=e62]:
+                - generic [ref=e64]: $33.47
+                - text: $3.60 / year renews at $33.47
+          - generic [ref=e68]:
+            - text: 
+            - button "Add swellcast.world to cart." [ref=e69] [cursor=pointer]:
+              - generic [ref=e70]: +
+        - generic [ref=e71]:
+          - strong [ref=e74]: .ORG
+          - img "Loading..." [ref=e79]
+      - generic [ref=e80]:
+        - generic [ref=e81]:
+          - button "sort by renewal price" [ref=e82] [cursor=pointer]
+          - button "sort by price" [ref=e83] [cursor=pointer]
+        - generic [ref=e84]:
+          - generic [ref=e88]:
+            - generic [ref=e89]: swellcast.com
+            - img "Loading..." [ref=e93]
+          - generic [ref=e97]:
+            - generic [ref=e98]: sweast.llc
+            - generic [ref=e100]:
+              - generic [ref=e101]:
+                - generic [ref=e102]: 1st Year Sale!
+                - generic [ref=e103] [cursor=pointer]: At Cost
+              - generic [ref=e105]: $34.50
+              - text: $10.81 / year
+              - text: renews at $34.50
+            - generic [ref=e108]:
+              - text: 
+              - button "Add sweast.llc to cart." [ref=e109] [cursor=pointer]:
+                - generic [ref=e110]: +
+          - generic [ref=e111]:
+            - generic [ref=e114]:
+              - generic [ref=e115]: swellcast.global
+              - generic [ref=e117]:
+                - generic [ref=e118]:
+                  - generic [ref=e119]: 1st Year Sale!
+                  - generic [ref=e120] [cursor=pointer]: At Cost
+                - generic [ref=e122]: $77.75
+                - text: $31.41 / year
+                - text: renews at $77.75
+              - generic [ref=e125]:
+                - text: 
+                - button "Add swellcast.global to cart." [ref=e126] [cursor=pointer]:
+                  - generic [ref=e127]: +
+            - generic [ref=e130]:
+              - generic [ref=e131]: swellcast.inc
+              - img "Loading..." [ref=e135]
+            - generic [ref=e138]:
+              - generic [ref=e139]: swellcast.xyz
+              - img "Loading..." [ref=e143]
+            - generic [ref=e146]:
+              - generic [ref=e147]: swellcast.online
+              - img "Loading..." [ref=e151]
+            - generic [ref=e154]:
+              - generic [ref=e155]: swellcast.us
+              - img "Loading..." [ref=e159]
+            - generic [ref=e162]:
+              - generic [ref=e163]: swellcast.now
+              - img "Loading..." [ref=e167]
+            - generic [ref=e170]:
+              - generic [ref=e171]: swellcast.tech
+              - img "Loading..." [ref=e175]
+            - generic [ref=e178]:
+              - generic [ref=e179]: swellcast.io
+              - generic [ref=e181]:
+                - generic [ref=e182]:
+                  - generic [ref=e183]: 1st Year Sale!
+                  - generic [ref=e184] [cursor=pointer]: At Cost
+                - generic [ref=e186]: $51.80
+                - text: $28.12 / year
+                - text: renews at $51.80
+              - generic [ref=e189]:
+                - text: 
+                - button "Add swellcast.io to cart." [ref=e190] [cursor=pointer]:
+                  - generic [ref=e191]: +
+            - generic [ref=e194]:
+              - generic [ref=e195]: swellcast.lol
+              - img "Loading..." [ref=e199]
+            - generic [ref=e202]:
+              - generic [ref=e203]: swellcast.dev
+              - generic [ref=e205]:
+                - generic [ref=e206]:
+                  - generic [ref=e207]: 1st Year Sale!
+                  - generic [ref=e208] [cursor=pointer]: At Cost
+                - generic [ref=e210]: $12.87
+                - text: $10.81 / year
+                - text: renews at $12.87
+              - generic [ref=e213]:
+                - text: 
+                - button "Add swellcast.dev to cart." [ref=e214] [cursor=pointer]:
+                  - generic [ref=e215]: +
+            - generic [ref=e218]:
+              - generic [ref=e219]: swellcast.app
+              - generic [ref=e221]:
+                - text: unavailable
+                - generic [ref=e222] [cursor=pointer]: 
+              - button "Inquire" [ref=e225] [cursor=pointer]
+            - generic [ref=e228]:
+              - generic [ref=e229]: swellcast.info
+              - generic [ref=e231]:
+                - generic [ref=e232]:
+                  - generic [ref=e233]: 1st Year Sale!
+                  - generic [ref=e234] [cursor=pointer]: At Cost
+                - generic [ref=e236]: $22.14
+                - text: $3.09 / year
+                - text: renews at $22.14
+              - generic [ref=e239]:
+                - text: 
+                - button "Add swellcast.info to cart." [ref=e240] [cursor=pointer]:
+                  - generic [ref=e241]: +
+            - generic [ref=e244]:
+              - generic [ref=e245]: swellcast.pro
+              - generic [ref=e247]:
+                - text: unavailable
+                - generic [ref=e248] [cursor=pointer]: 
+              - button "Inquire" [ref=e251] [cursor=pointer]
+            - generic [ref=e254]:
+              - generic [ref=e255]: swellcast.me
+              - generic [ref=e257]:
+                - generic [ref=e258]:
+                  - generic [ref=e259]: 1st Year Sale!
+                  - generic [ref=e260] [cursor=pointer]: At Cost
+                - generic [ref=e262]: $17.27
+                - text: $8.80 / year
+                - text: renews at $17.27
+              - generic [ref=e265]:
+                - text: 
+                - button "Add swellcast.me to cart." [ref=e266] [cursor=pointer]:
+                  - generic [ref=e267]: +
+            - generic [ref=e270]:
+              - generic [ref=e271]: swellcast.cloud
+              - img "Loading..." [ref=e275]
+            - generic [ref=e278]:
+              - generic [ref=e279]: swellcast.shop
+              - img "Loading..." [ref=e283]
+            - generic [ref=e286]:
+              - generic [ref=e287]: swellcast.store
+              - img "Loading..." [ref=e291]
+            - generic [ref=e294]:
+              - generic [ref=e295]: swellcast.studio
+              - generic [ref=e297]:
+                - generic [ref=e298]:
+                  - generic [ref=e299]: 1st Year Sale!
+                  - generic [ref=e300] [cursor=pointer]: At Cost
+                - generic [ref=e302]: $25.23
+                - text: $11.84 / year
+                - text: renews at $25.23
+              - generic [ref=e305]:
+                - text: 
+                - button "Add swellcast.studio to cart." [ref=e306] [cursor=pointer]:
+                  - generic [ref=e307]: +
+            - generic [ref=e310]:
+              - generic [ref=e311]: swellcast.art
+              - img "Loading..." [ref=e315]
+            - generic [ref=e318]:
+              - generic [ref=e319]: swellcast.club
+              - img "Loading..." [ref=e323]
+            - generic [ref=e326]:
+              - generic [ref=e327]: swellcast.bot
+              - img "Loading..." [ref=e331]
+            - generic [ref=e334]:
+              - generic [ref=e335]: swellcast.blog
+              - img "Loading..." [ref=e339]
+            - generic [ref=e342]:
+              - generic [ref=e343]: swellcast.space
+              - img "Loading..." [ref=e347]
+            - generic [ref=e350]:
+              - generic [ref=e351]: swellcast.site
+              - img "Loading..." [ref=e355]
+            - generic [ref=e358]:
+              - generic [ref=e359]: swellcast.biz
+              - img "Loading..." [ref=e363]
+            - generic [ref=e366]:
+              - generic [ref=e367]: swellcast.lat
+              - img "Loading..." [ref=e371]
+            - generic [ref=e374]:
+              - generic [ref=e375]: swellcast.us.com
+              - img "Loading..." [ref=e379]
+            - generic [ref=e382]:
+              - generic [ref=e383]: swellcast.pics
+              - img "Loading..." [ref=e387]
+            - generic [ref=e390]:
+              - generic [ref=e391]: swellcast.my
+              - generic [ref=e393]:
+                - generic [ref=e394]:
+                  - generic [ref=e395]: 1st Year Sale!
+                  - generic [ref=e396] [cursor=pointer]: At Cost
+                - generic [ref=e398]: $26.06
+                - text: $2.37 / year
+                - text: renews at $26.06
+              - generic [ref=e401]:
+                - text: 
+                - button "Add swellcast.my to cart." [ref=e402] [cursor=pointer]:
+                  - generic [ref=e403]: +
+            - generic [ref=e406]:
+              - generic [ref=e407]: swellcast.help
+              - img "Loading..." [ref=e411]
+            - generic [ref=e414]:
+              - generic [ref=e415]: swellcast.locker
+              - img "Loading..." [ref=e419]
+            - generic [ref=e422]:
+              - generic [ref=e423]: swellcast.to
+              - img "Loading..." [ref=e427]
+            - generic [ref=e430]:
+              - generic [ref=e431]: swellcast.rich
+              - generic [ref=e433]:
+                - generic [ref=e435]: 1st Year Sale!
+                - generic [ref=e437]: $1804.01
+                - text: $78.98 / year
+                - generic [ref=e438]: renews at $1802.78 SALE! $154.99
+              - generic [ref=e441]:
+                - text: 
+                - button "Add swellcast.rich to cart." [ref=e442] [cursor=pointer]:
+                  - generic [ref=e443]: +
+            - generic [ref=e446]:
+              - generic [ref=e447]: swellcast.quest
+              - img "Loading..." [ref=e451]
+            - generic [ref=e454]:
+              - generic [ref=e455]: swellcast.homes
+              - img "Loading..." [ref=e459]
+            - generic [ref=e462]:
+              - generic [ref=e463]: swellcast.love
+              - img "Loading..." [ref=e467]
+            - generic [ref=e470]:
+              - generic [ref=e471]: swellcast.ceo
+              - img "Loading..." [ref=e475]
+            - generic [ref=e478]:
+              - generic [ref=e479]: swellcast.mom
+              - img "Loading..." [ref=e483]
+            - generic [ref=e486]:
+              - generic [ref=e487]: swellcast.buzz
+              - img "Loading..." [ref=e491]
+          - paragraph
+          - button "Show All Extensions" [ref=e493] [cursor=pointer]: Show All Extensions
+          - link "Generate AI Suggestions" [ref=e495] [cursor=pointer]:
+            - /url: /checkout/ai?q=swellcast.com
+          - paragraph
+    - generic [ref=e496]: 932461d8f33771e157ba2fdab1422e05fb195d924aa420d0f0caa043360e527a
+  - contentinfo [ref=e498]:
+    - generic [ref=e505]:
+      - generic [ref=e506]:
+        - generic [ref=e507]:
+          - generic [ref=e508]:
+            - img "Porkbun Footer Logo" [ref=e509]
+            - text: porkbun
+          - generic [ref=e510]:
+            - paragraph [ref=e511]: Porkbun is an amazingly awesome ICANN accredited domain name registrar based out of the Pacific Northwest. We're different, we're easy, and we're affordable. Use us, you won't be sorry. If you don't use us we'll be sad, but we'll still love you.
+            - generic [ref=e515]:
+              - heading "Get Pork-Puns In Your Inbox" [level=4] [ref=e516]
+              - paragraph [ref=e517]: Stay in the loop on all things Porkbun by signing up for our newsletter!
+              - generic [ref=e518]:
+                - textbox [ref=e519]:
+                  - /placeholder: sign@up.now
+                - button "OINK" [ref=e520] [cursor=pointer]
+              - textbox [ref=e522]
+            - generic [ref=e523]:
+              - generic [ref=e525]: 
+              - generic [ref=e526]:
+                - text: 21370 SW Langer Farms Parkway, Suite 142-429
+                - text: Sherwood, OR 97140, US
+            - generic [ref=e527]:
+              - generic [ref=e529]: "?"
+              - paragraph [ref=e531]:
+                - text: If you're looking for support, you might be able to answer your own question using our
+                - link "Knowledge Base" [ref=e532] [cursor=pointer]:
+                  - /url: https://kb.porkbun.com/
+                - text: .
+            - generic [ref=e533]:
+              - generic [ref=e535]: 
+              - generic [ref=e536]:
+                - text: "Reach our USA-Based phone support team:"
+                - text: 1.855.PORKBUN (1.855.767.5286)
+                - generic [ref=e537]:
+                  - text: 9AM - 5PM Pacific Time
+                  - text: "Other Hours: Your mileage may vary, but give it a whirl"
+                  - button "Show extended support information." [ref=e538] [cursor=pointer]: 
+            - generic [ref=e539]:
+              - generic [ref=e541]: 
+              - generic [ref=e542]:
+                - text: support@porkbun.com
+                - text: 24 / 7 Email Support
+            - generic [ref=e543]:
+              - generic [ref=e545]: 
+              - generic [ref=e546]:
+                - link "Chat Support" [ref=e547] [cursor=pointer]:
+                  - /url: javascript:void(0);
+                - text: Hours Vary
+            - button "Play the Porkbun jingle." [ref=e550] [cursor=pointer]: 
+        - generic [ref=e553]:
+          - generic [ref=e554]:
+            - paragraph [ref=e555]: Products
+            - link "Domain Names" [ref=e556] [cursor=pointer]:
+              - /url: /products/domains
+            - link "Greatest Deals" [ref=e557] [cursor=pointer]:
+              - /url: /products/deals
+            - link "Local Marketplace" [ref=e558] [cursor=pointer]:
+              - /url: /marketplace
+            - link "Local Auctions" [ref=e559] [cursor=pointer]:
+              - /url: /auctions
+            - link "3rd Party Aftermarket" [ref=e560] [cursor=pointer]:
+              - /url: /aftermarket
+            - link "Web Hosting" [ref=e561] [cursor=pointer]:
+              - /url: /products/web_hosting
+            - link "Link In Bio" [ref=e562] [cursor=pointer]:
+              - /url: /products/webhosting/managedLinks
+            - link "Articulation Sitebuilder" [ref=e563] [cursor=pointer]:
+              - /url: /products/webhosting/articulation
+            - link "Cloud WordPress" [ref=e564] [cursor=pointer]:
+              - /url: /products/webhosting/cloudWordPress
+            - link "cPanel Hosting" [ref=e565] [cursor=pointer]:
+              - /url: /products/webhosting/cPanelHosting
+            - link "Static Hosting" [ref=e566] [cursor=pointer]:
+              - /url: /products/webhosting/secureStaticHosting
+            - link "Easy PHP" [ref=e567] [cursor=pointer]:
+              - /url: /products/webhosting/managedPHP
+            - link "Email Hosting" [ref=e568] [cursor=pointer]:
+              - /url: /products/email
+            - link "WHOIS Privacy" [ref=e569] [cursor=pointer]:
+              - /url: /products/whois_privacy
+            - link "DNS Management" [ref=e570] [cursor=pointer]:
+              - /url: /products/dns_management
+            - link "SSL Certificates" [ref=e571] [cursor=pointer]:
+              - /url: /products/ssl
+            - link "Email Forwarding" [ref=e572] [cursor=pointer]:
+              - /url: /products/email_forwarding
+            - link "URL Forwarding" [ref=e573] [cursor=pointer]:
+              - /url: /products/url_forwarding
+            - link "Domain Transfer" [ref=e574] [cursor=pointer]:
+              - /url: /transfer
+            - link "Handshake Names" [ref=e575] [cursor=pointer]:
+              - /url: /handshake
+            - link "API Access" [ref=e576] [cursor=pointer]:
+              - /url: /api/json/v3/documentation
+          - generic [ref=e577]:
+            - paragraph [ref=e578]: Support
+            - link "Contact Us" [ref=e579] [cursor=pointer]:
+              - /url: /contact
+            - link "Knowledge Base" [ref=e580] [cursor=pointer]:
+              - /url: https://kb.porkbun.com
+            - link "Payment Options" [ref=e581] [cursor=pointer]:
+              - /url: /support/payment_options
+            - link "Report Abuse" [ref=e582] [cursor=pointer]:
+              - /url: /abuse
+            - paragraph [ref=e583]: Tools
+            - link "Domain Search" [ref=e584] [cursor=pointer]:
+              - /url: /checkout/search
+            - link "RDAP (WHOIS)" [ref=e585] [cursor=pointer]:
+              - /url: /whois
+            - link "Password Generator" [ref=e586] [cursor=pointer]:
+              - /url: /tools/password
+            - link "DMARC Generator" [ref=e587] [cursor=pointer]:
+              - /url: /tools/dmarc_generator
+            - link "What's My IP Address?" [ref=e588] [cursor=pointer]:
+              - /url: /tools/whats_my_ip_address
+            - link "Service Status" [ref=e589] [cursor=pointer]:
+              - /url: https://status.porkbun.com
+            - link "Don't like our name?" [ref=e590] [cursor=pointer]:
+              - /url: /single-tear.html
+            - link [ref=e591] [cursor=pointer]:
+              - /url: /buniverse.html
+              - text: The Buniverse
+          - generic [ref=e592]:
+            - paragraph [ref=e593]: Our Company
+            - link "About Us" [ref=e594] [cursor=pointer]:
+              - /url: /about
+            - link "Our Official Blog" [ref=e595] [cursor=pointer]:
+              - /url: https://blog.porkbun.com
+            - link "Careers" [ref=e596] [cursor=pointer]:
+              - /url: /careers
+            - link "Branding Guidelines" [ref=e597] [cursor=pointer]:
+              - /url: https://porkbun.design/
+            - link "Policies and Legal" [ref=e598] [cursor=pointer]:
+              - /url: /legal
+            - link "Data Disclosure Policy" [ref=e599] [cursor=pointer]:
+              - /url: /legal/agreement/data_disclosure_policy
+            - link "Bug Bounty Program" [ref=e600] [cursor=pointer]:
+              - /url: /products/bug_bounty
+            - link "Awesomeness" [ref=e601] [cursor=pointer]:
+              - /url: /awesome
+            - paragraph [ref=e602]: PRIVACY
+            - link "Your Privacy Choices" [ref=e603] [cursor=pointer]:
+              - /url: javascript:void(0);
+            - link "Privacy Policy" [ref=e604] [cursor=pointer]:
+              - /url: /legal/agreement/privacy_policy
+      - generic [ref=e605]:
+        - generic [ref=e606]:
+          - link "facebook" [ref=e607] [cursor=pointer]:
+            - /url: https://www.facebook.com/PorkbunLLC/
+            - generic [ref=e608]: 
+          - link "x formerly twitter" [ref=e609] [cursor=pointer]:
+            - /url: https://x.com/Porkbun
+            - generic [ref=e610]: 
+          - link "youtube" [ref=e611] [cursor=pointer]:
+            - /url: https://www.youtube.com/channel/UCXe05A3Wp-qFsszt-CHCxyQ
+            - generic [ref=e612]: 
+          - link "instagram" [ref=e613] [cursor=pointer]:
+            - /url: https://www.instagram.com/porkbundomains/
+            - generic [ref=e614]: 
+          - link "tiktok" [ref=e615] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@porkbun.com/
+            - generic [ref=e616]: 
+          - link "github" [ref=e617] [cursor=pointer]:
+            - /url: https://github.com/porkbundomains/
+            - generic [ref=e618]: 
+          - link "bluesky" [ref=e619] [cursor=pointer]:
+            - /url: https://bsky.app/profile/porkbun.com
+            - generic [ref=e620]: 
+        - link "payment methods" [ref=e622] [cursor=pointer]:
+          - /url: /support/payment_options
+          - generic [ref=e623]: 
+          - generic [ref=e624]: 
+          - generic [ref=e625]: 
+          - generic [ref=e626]: 
+          - generic [ref=e627]: 
+          - generic [ref=e628]: 
+          - generic [ref=e629]: 
+          - generic [ref=e630]: 
+  - generic [ref=e635]:
+    - generic [ref=e636]:
+      - link "ICANN" [ref=e638] [cursor=pointer]:
+        - /url: https://www.icann.org
+        - img "ICANN Logo" [ref=e639]
+      - generic [ref=e640]:
+        - text: Copyright © Porkbun LLC. All rights reserved.
+        - generic [ref=e641]:
+          - text: Porkbun is a
+          - link "Top Level Design" [ref=e642] [cursor=pointer]:
+            - /url: https://toplevel.design
+          - text: Company
+        - text: Made in the USA 🇺🇸
+    - generic [ref=e644]:
+      - strong [ref=e645]: "WARNING:"
+      - text: This site has been known to cause a mind blowing experience. We recommend you prepare yourself mentally and if possible be sitting down. Side effects may include saving money, letting out a chuckle, and sporadic oinking.
+  - button "Open support chat" [ref=e646] [cursor=pointer]:
+    - img [ref=e647]
+  - dialog:
+    - generic:
+      - generic:
+        - generic:
+          - img
+        - generic:
+          - generic: Support Assistant
+          - generic:
+            - generic: Online
+      - generic:
+        - button:
+          - img
+          - text: Clear chat history
+        - button:
+          - img
+          - text: Minimize
+        - button:
+          - img
+          - text: Close
+    - log:
+      - generic:
+        - generic:
+          - img
+        - heading [level=3]: Hi there! 👋
+        - paragraph: I'm your hopefully not annoying AI support assistant. Ask me anything!
+        - paragraph: If I can't help, you can connect with our human support team.
+        - generic:
+          - button: Transfer domain
+          - button: Email forwarding
+          - button: Turn of Auto-Renew
+          - button: Enable 2FA
+    - generic:
+      - generic:
+        - generic: Type your question
+        - textbox:
+          - /placeholder: Type your question...
+        - button [disabled]:
+          - img
+      - generic:
+        - button:
+          - img
+          - generic: Talk to a real human
+      - generic:
+        - text: Powered by
+        - strong: Claude AI
+        - text: + Helpscout
+  - text: 49526940ca7bb496d49293ccac5ca394

@@ -1,0 +1,6 @@
+[    1327ms] [WARNING] %cStop! color: red; font-size: 30px; font-weight: bold; @ https://porkbun.com/checkout/search?q=breakcast.com:1969
+[    1327ms] [WARNING] %cThis is a browser feature intended for developers. If someone told you to copy and paste something here it is probably a scam and they are more than likely trying to hack you. If you know what you are doing, carry on :) font-size: 20px; font-weight: bold; @ https://porkbun.com/checkout/search?q=breakcast.com:1970
+[    1364ms] [LOG] [SupportWidget] Initializing... @ https://porkbun.com/js/support-widget.js?v=PrettyTrees_0.619:37
+[    1367ms] [LOG] [SupportWidget] Generated new session_id: sw_moyw7c0h_ktgnc7opmfo6ynkalcf8v @ https://porkbun.com/js/support-widget.js?v=PrettyTrees_0.619:57
+[    1368ms] [LOG] [SupportWidget] Initialized successfully @ https://porkbun.com/js/support-widget.js?v=PrettyTrees_0.619:60
+[    1950ms] [WARNING] [Meta Pixel] - Removed URL query parameters due to potential violations. @ https://connect.facebook.net/en_US/fbevents.js:181

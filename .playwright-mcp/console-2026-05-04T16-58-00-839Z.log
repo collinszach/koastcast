@@ -1,0 +1,15 @@
+[     559ms] Error: Minified React error #418; visit https://react.dev/errors/418?args[]=text&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at rK (https://nswell.zacharyjcollins.com/_next/static/chunks/deb73817b516c2e4.js:1:46762)
+    at rX (https://nswell.zacharyjcollins.com/_next/static/chunks/deb73817b516c2e4.js:1:47795)
+    at https://nswell.zacharyjcollins.com/_next/static/chunks/deb73817b516c2e4.js:1:141514
+    at sp (https://nswell.zacharyjcollins.com/_next/static/chunks/deb73817b516c2e4.js:1:146675)
+    at sc (https://nswell.zacharyjcollins.com/_next/static/chunks/deb73817b516c2e4.js:1:138015)
+    at https://nswell.zacharyjcollins.com/_next/static/chunks/deb73817b516c2e4.js:1:132844
+    at u9 (https://nswell.zacharyjcollins.com/_next/static/chunks/deb73817b516c2e4.js:1:132945)
+    at sV (https://nswell.zacharyjcollins.com/_next/static/chunks/deb73817b516c2e4.js:1:159327)
+    at MessagePort.O (https://nswell.zacharyjcollins.com/_next/static/chunks/deb73817b516c2e4.js:1:8295)
+[     829ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://nswell.zacharyjcollins.com/icon-192.png:0
+[     831ms] [WARNING] Error while trying to use the following icon from the Manifest: https://nswell.zacharyjcollins.com/icon-192.png (Download error or resource isn't a valid image) @ https://nswell.zacharyjcollins.com/home:0
+[     888ms] [ERROR] Failed to load resource: the server responded with a status of 503 () @ https://nswell.zacharyjcollins.com/api/optimal?spot_id=indian-river-inlet-de&days=3:0
+[     889ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://nswell.zacharyjcollins.com/icon-192.png:0
+[     897ms] [WARNING] Error while trying to use the following icon from the Manifest: https://nswell.zacharyjcollins.com/icon-192.png (Download error or resource isn't a valid image) @ https://nswell.zacharyjcollins.com/home:0

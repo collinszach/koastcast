@@ -1,0 +1,5 @@
+[    1700ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://nswell.zacharyjcollins.com/icon-192.png:0
+[    1711ms] [ERROR] Failed to load resource: the server responded with a status of 503 () @ https://nswell.zacharyjcollins.com/api/stoke:0
+[    1712ms] [ERROR] Failed to load resource: the server responded with a status of 503 () @ https://nswell.zacharyjcollins.com/api/optimal?spot_id=indian-river-inlet-de&days=14:0
+[    1713ms] [WARNING] Error while trying to use the following icon from the Manifest: https://nswell.zacharyjcollins.com/icon-192.png (Download error or resource isn't a valid image) @ https://nswell.zacharyjcollins.com/spot/indian-river-inlet-de:0
+[    2321ms] [ERROR] Failed to load resource: the server responded with a status of 503 () @ https://nswell.zacharyjcollins.com/api/swell-events?spotId=indian-river-inlet-de&days=16:0

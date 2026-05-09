@@ -29,8 +29,8 @@ export type LocationContextValue = LocationState & LocationActions
 
 const LocationContext = createContext<LocationContextValue | null>(null)
 
-const STORAGE_KEY = 'terrain_user_location'
-const DISMISS_KEY = 'terrain_loc_prompt_dismissed'
+const STORAGE_KEY = 'koastcast_user_location'
+const DISMISS_KEY = 'koastcast_loc_prompt_dismissed'
 
 export function LocationProvider({ children }: { children: ReactNode }) {
   const [location, setLocation] = useState<UserLocation | null>(null)

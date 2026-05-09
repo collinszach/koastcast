@@ -1,0 +1,18 @@
+[    2360ms] [WARNING] [Meta Pixel] - Removed URL query parameters due to potential violations. @ https://connect.facebook.net/en_US/fbevents.js:181
+[    3158ms] [WARNING] %cStop! color: red; font-size: 30px; font-weight: bold; @ https://porkbun.com/checkout/search?q=swellcast.com?q=swellcast.com:1992
+[    3158ms] [WARNING] %cThis is a browser feature intended for developers. If someone told you to copy and paste something here it is probably a scam and they are more than likely trying to hack you. If you know what you are doing, carry on :) font-size: 20px; font-weight: bold; @ https://porkbun.com/checkout/search?q=swellcast.com?q=swellcast.com:1993
+[    3202ms] [LOG] [SupportWidget] Initializing... @ https://porkbun.com/js/support-widget.js?v=PrettyTrees_0.619:37
+[    3203ms] [LOG] [SupportWidget] Generated new session_id: sw_moyw67l8_aq42pmhx23gcinwx9zbnn @ https://porkbun.com/js/support-widget.js?v=PrettyTrees_0.619:57
+[    3203ms] [LOG] [SupportWidget] Initialized successfully @ https://porkbun.com/js/support-widget.js?v=PrettyTrees_0.619:60
+[    4113ms] [WARNING] [.WebGL-0x24dc000f4e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels @ https://porkbun.com/checkout/search?q=swellcast.com?q=swellcast.com:0
+[    4580ms] Error: Syntax error, unrecognized expression: #searchResultRowDomain_swellcast_com?q=swellcast_com_marketplace
+    at ga.error (https://porkbun.com/js/jquery-3.2.1.min.nostrict.js?v=PrettyTrees_0.619:2:13344)
+    at ga.tokenize (https://porkbun.com/js/jquery-3.2.1.min.nostrict.js?v=PrettyTrees_0.619:2:19333)
+    at ga.select (https://porkbun.com/js/jquery-3.2.1.min.nostrict.js?v=PrettyTrees_0.619:2:22223)
+    at r.ga [as find] (https://porkbun.com/js/jquery-3.2.1.min.nostrict.js?v=PrettyTrees_0.619:2:7182)
+    at r.fn.init.find (https://porkbun.com/js/jquery-3.2.1.min.nostrict.js?v=PrettyTrees_0.619:2:24914)
+    at new r.fn.init (https://porkbun.com/js/jquery-3.2.1.min.nostrict.js?v=PrettyTrees_0.619:2:25404)
+    at r (https://porkbun.com/js/jquery-3.2.1.min.nostrict.js?v=PrettyTrees_0.619:2:575)
+    at Object.success (https://porkbun.com/js/skaboink.js?v=PrettyTrees_0.619:10301:52)
+    at i (https://porkbun.com/js/jquery-3.2.1.min.nostrict.js?v=PrettyTrees_0.619:2:27991)
+    at Object.fireWith [as resolveWith] (https://porkbun.com/js/jquery-3.2.1.min.nostrict.js?v=PrettyTrees_0.619:2:28757)

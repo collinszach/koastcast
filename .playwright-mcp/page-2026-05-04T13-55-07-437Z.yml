@@ -1,0 +1,791 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - link "nSwell" [ref=e4] [cursor=pointer]:
+        - /url: /home
+        - img [ref=e6]
+        - generic [ref=e10]: nSwell
+      - navigation [ref=e12]:
+        - generic [ref=e15]:
+          - img [ref=e16]
+          - textbox "Search spots, resorts, trails..." [ref=e19]
+          - generic [ref=e20]: ⌘K
+        - generic [ref=e21]:
+          - link "Home" [ref=e22] [cursor=pointer]:
+            - /url: /home
+            - img [ref=e23]
+            - generic [ref=e26]: Home
+          - link "Spots" [ref=e27] [cursor=pointer]:
+            - /url: /map
+            - img [ref=e28]
+            - generic [ref=e30]: Spots
+          - link "Snow" [ref=e31] [cursor=pointer]:
+            - /url: /snow
+            - img [ref=e32]
+            - generic [ref=e34]: Snow
+          - link "Me" [ref=e35] [cursor=pointer]:
+            - /url: /profile
+            - img [ref=e36]
+            - generic [ref=e39]: Me
+      - generic [ref=e40]:
+        - button "☀️" [ref=e42] [cursor=pointer]
+        - link "Sign in" [ref=e44] [cursor=pointer]:
+          - /url: /auth/login
+          - img [ref=e45]
+          - text: Sign in
+    - main [ref=e48]:
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - link "← All Spots" [ref=e53] [cursor=pointer]:
+              - /url: /map
+              - generic [ref=e54]: ←
+              - generic [ref=e55]: All Spots
+            - generic [ref=e56]:
+              - generic [ref=e57]:
+                - generic [ref=e58]:
+                  - generic [ref=e59]: East Coast
+                  - generic [ref=e60]: ·
+                  - generic [ref=e61]: jetty break
+                  - generic [ref=e62]: ·
+                  - generic [ref=e63]: intermediate+
+                - heading "Indian River Inlet" [level=1] [ref=e64]
+                - paragraph [ref=e65]: Delaware's best and only real surf spot. Jetty creates consistent peaks. Mid-Atlantic gem.
+                - generic [ref=e66]:
+                  - button "Bookmark this spot" [ref=e67] [cursor=pointer]:
+                    - img [ref=e68]
+                  - button "Share forecast" [ref=e70] [cursor=pointer]:
+                    - img [ref=e71]
+                    - generic [ref=e74]: Share
+              - generic [ref=e75]:
+                - generic [ref=e76]:
+                  - generic [ref=e77]: 2ft
+                  - generic [ref=e78]: face height
+                - generic [ref=e80]: 📡 BASIC FORECAST
+            - generic [ref=e81]:
+              - generic [ref=e82]:
+                - generic [ref=e83]: Height
+                - generic [ref=e84]: 2ft
+              - generic [ref=e85]:
+                - generic [ref=e86]: Period
+                - generic [ref=e87]: 7s
+              - generic [ref=e88]:
+                - generic [ref=e89]: Swell
+                - generic [ref=e90]: E
+              - generic [ref=e91]:
+                - generic [ref=e92]: Wind
+                - generic [ref=e93]: SW 6kt
+              - generic [ref=e94]:
+                - generic [ref=e95]: Swell Ht
+                - generic [ref=e96]: 1ft
+          - generic:
+            - img
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - heading "Surf Cams" [level=2] [ref=e100]
+            - generic [ref=e102]:
+              - img [ref=e103]
+              - generic:
+                - generic:
+                  - generic: NO CAM
+              - generic:
+                - generic:
+                  - generic: East Coast
+                  - generic: 9:55 AM
+              - generic:
+                - generic:
+                  - generic: Cam Partnership Coming Soon
+                  - generic: NSWELL CAMS NETWORK · 2026
+          - generic [ref=e125]:
+            - heading "Conditions Report" [level=2] [ref=e127]
+            - generic [ref=e128]:
+              - generic [ref=e129]:
+                - generic [ref=e132]: FLAT
+                - generic [ref=e133]: Conditions brief
+              - heading "2ft ESE swell @ 7.3s" [level=3] [ref=e134]
+              - paragraph [ref=e135]: A 2ft ESE short-period windswell is hitting Indian River Inlet — ideal ESE angle for this jetty. At 7.3s, this is choppy windswell — expect irregular sets and less power than the height suggests. WSW offshore winds at 6kts are grooming the faces — ideal conditions. Conditions aren't ideal today — worth checking in person before committing to the drive.
+              - generic [ref=e136]:
+                - generic [ref=e137]: knee- to waist-high waves
+                - generic [ref=e138]: 7.3s swell
+                - generic [ref=e139]: light WSW offshore (6kts) — perfect grooming
+                - generic [ref=e140]: ESE swell angle working for this break
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - heading "7-Day Forecast" [level=2] [ref=e143]
+              - generic [ref=e144]: Open-Meteo · NUC offline — basic forecast
+            - generic [ref=e146]:
+              - generic [ref=e147]:
+                - button "MON May 4 —" [ref=e148] [cursor=pointer]:
+                  - generic [ref=e149]: MON
+                  - generic [ref=e150]: May 4
+                  - generic [ref=e152]: —
+                - button "TUE May 5 —" [ref=e153] [cursor=pointer]:
+                  - generic [ref=e154]: TUE
+                  - generic [ref=e155]: May 5
+                  - generic [ref=e157]: —
+                - button "WED May 6 —" [ref=e158] [cursor=pointer]:
+                  - generic [ref=e159]: WED
+                  - generic [ref=e160]: May 6
+                  - generic [ref=e162]: —
+                - button "THU May 7 —" [ref=e163] [cursor=pointer]:
+                  - generic [ref=e164]: THU
+                  - generic [ref=e165]: May 7
+                  - generic [ref=e167]: —
+                - button "FRI May 8 —" [ref=e168] [cursor=pointer]:
+                  - generic [ref=e169]: FRI
+                  - generic [ref=e170]: May 8
+                  - generic [ref=e172]: —
+                - button "SAT May 9 —" [ref=e173] [cursor=pointer]:
+                  - generic [ref=e174]: SAT
+                  - generic [ref=e175]: May 9
+                  - generic [ref=e177]: —
+                - button "SUN May 10 —" [ref=e178] [cursor=pointer]:
+                  - generic [ref=e179]: SUN
+                  - generic [ref=e180]: May 10
+                  - generic [ref=e182]: —
+              - generic [ref=e183]:
+                - generic [ref=e184]:
+                  - generic [ref=e185]: Mon · May 4
+                  - generic [ref=e187]: max 3ft
+                - generic [ref=e188]:
+                  - generic [ref=e189]:
+                    - img [ref=e192]
+                    - img [ref=e197]
+                    - img [ref=e202]
+                    - img [ref=e207]
+                    - img [ref=e212]
+                    - img [ref=e217]
+                    - img [ref=e222]
+                    - img [ref=e227]
+                  - generic [ref=e230]:
+                    - generic [ref=e231]: 12am
+                    - generic [ref=e232]: 3am
+                    - generic [ref=e233]: 6am
+                    - generic [ref=e234]: 9am
+                    - generic [ref=e235]: 12pm
+                    - generic [ref=e236]: 3pm
+                    - generic [ref=e237]: 6pm
+                    - generic [ref=e238]: 9pm
+                  - generic [ref=e240]: max 2ft
+                - table [ref=e242]:
+                  - rowgroup [ref=e243]:
+                    - row "Time Surf Period Swell Dir Wind Tide Crowd" [ref=e244]:
+                      - columnheader "Time" [ref=e245]
+                      - columnheader "Surf" [ref=e246]
+                      - columnheader "Period" [ref=e247]
+                      - columnheader "Swell Dir" [ref=e248]
+                      - columnheader "Wind" [ref=e249]
+                      - columnheader "Tide" [ref=e250]
+                      - columnheader "Crowd" [ref=e251]
+                  - rowgroup [ref=e252]:
+                    - row "12:00am 2ft 7s E102° 6kt G16 -- --" [ref=e253]:
+                      - cell "12:00am" [ref=e254]:
+                        - generic [ref=e255]: 12:00am
+                      - cell "2ft" [ref=e256]:
+                        - generic [ref=e258]: 2ft
+                      - cell "7s" [ref=e259]
+                      - cell "E102°" [ref=e260]:
+                        - generic [ref=e261]:
+                          - img [ref=e262]
+                          - generic [ref=e264]:
+                            - text: E
+                            - generic [ref=e265]: 102°
+                      - cell "6kt G16" [ref=e266]:
+                        - generic [ref=e267]:
+                          - img [ref=e268]
+                          - generic [ref=e270]: 6kt G16
+                      - cell "--" [ref=e271]:
+                        - generic [ref=e273]: "--"
+                      - cell "--" [ref=e274]
+                    - row "1:00am 2ft 8s E102° 8kt G12 -- --" [ref=e275]:
+                      - cell "1:00am" [ref=e276]:
+                        - generic [ref=e277]: 1:00am
+                      - cell "2ft" [ref=e278]:
+                        - generic [ref=e280]: 2ft
+                      - cell "8s" [ref=e281]
+                      - cell "E102°" [ref=e282]:
+                        - generic [ref=e283]:
+                          - img [ref=e284]
+                          - generic [ref=e286]:
+                            - text: E
+                            - generic [ref=e287]: 102°
+                      - cell "8kt G12" [ref=e288]:
+                        - generic [ref=e289]:
+                          - img [ref=e290]
+                          - generic [ref=e292]: 8kt G12
+                      - cell "--" [ref=e293]:
+                        - generic [ref=e295]: "--"
+                      - cell "--" [ref=e296]
+                    - row "2:00am 2ft 8s E102° 5kt G8 -- --" [ref=e297]:
+                      - cell "2:00am" [ref=e298]:
+                        - generic [ref=e299]: 2:00am
+                      - cell "2ft" [ref=e300]:
+                        - generic [ref=e302]: 2ft
+                      - cell "8s" [ref=e303]
+                      - cell "E102°" [ref=e304]:
+                        - generic [ref=e305]:
+                          - img [ref=e306]
+                          - generic [ref=e308]:
+                            - text: E
+                            - generic [ref=e309]: 102°
+                      - cell "5kt G8" [ref=e310]:
+                        - generic [ref=e311]:
+                          - img [ref=e312]
+                          - generic [ref=e314]: 5kt G8
+                      - cell "--" [ref=e315]:
+                        - generic [ref=e317]: "--"
+                      - cell "--" [ref=e318]
+                    - row "3:00am 2ft 8s E102° 6kt G10 -- --" [ref=e319]:
+                      - cell "3:00am" [ref=e320]:
+                        - generic [ref=e321]: 3:00am
+                      - cell "2ft" [ref=e322]:
+                        - generic [ref=e324]: 2ft
+                      - cell "8s" [ref=e325]
+                      - cell "E102°" [ref=e326]:
+                        - generic [ref=e327]:
+                          - img [ref=e328]
+                          - generic [ref=e330]:
+                            - text: E
+                            - generic [ref=e331]: 102°
+                      - cell "6kt G10" [ref=e332]:
+                        - generic [ref=e333]:
+                          - img [ref=e334]
+                          - generic [ref=e336]: 6kt G10
+                      - cell "--" [ref=e337]:
+                        - generic [ref=e339]: "--"
+                      - cell "--" [ref=e340]
+                    - row "4:00am 2ft 9s E102° 5kt G10 -- --" [ref=e341]:
+                      - cell "4:00am" [ref=e342]:
+                        - generic [ref=e343]: 4:00am
+                      - cell "2ft" [ref=e344]:
+                        - generic [ref=e346]: 2ft
+                      - cell "9s" [ref=e347]
+                      - cell "E102°" [ref=e348]:
+                        - generic [ref=e349]:
+                          - img [ref=e350]
+                          - generic [ref=e352]:
+                            - text: E
+                            - generic [ref=e353]: 102°
+                      - cell "5kt G10" [ref=e354]:
+                        - generic [ref=e355]:
+                          - img [ref=e356]
+                          - generic [ref=e358]: 5kt G10
+                      - cell "--" [ref=e359]:
+                        - generic [ref=e361]: "--"
+                      - cell "--" [ref=e362]
+                    - row "5:00am 2ft 9s E101° 8kt G12 -- --" [ref=e363]:
+                      - cell "5:00am" [ref=e364]:
+                        - generic [ref=e365]: 5:00am
+                      - cell "2ft" [ref=e366]:
+                        - generic [ref=e368]: 2ft
+                      - cell "9s" [ref=e369]
+                      - cell "E101°" [ref=e370]:
+                        - generic [ref=e371]:
+                          - img [ref=e372]
+                          - generic [ref=e374]:
+                            - text: E
+                            - generic [ref=e375]: 101°
+                      - cell "8kt G12" [ref=e376]:
+                        - generic [ref=e377]:
+                          - img [ref=e378]
+                          - generic [ref=e380]: 8kt G12
+                      - cell "--" [ref=e381]:
+                        - generic [ref=e383]: "--"
+                      - cell "--" [ref=e384]
+                    - row "6:00am 2ft 8s E101° 10kt G18 -- --" [ref=e385]:
+                      - cell "6:00am" [ref=e386]:
+                        - generic [ref=e387]: 6:00am
+                      - cell "2ft" [ref=e388]:
+                        - generic [ref=e390]: 2ft
+                      - cell "8s" [ref=e391]
+                      - cell "E101°" [ref=e392]:
+                        - generic [ref=e393]:
+                          - img [ref=e394]
+                          - generic [ref=e396]:
+                            - text: E
+                            - generic [ref=e397]: 101°
+                      - cell "10kt G18" [ref=e398]:
+                        - generic [ref=e399]:
+                          - img [ref=e400]
+                          - generic [ref=e402]: 10kt G18
+                      - cell "--" [ref=e403]:
+                        - generic [ref=e405]: "--"
+                      - cell "--" [ref=e406]
+                    - row "7:00am 2ft 8s E101° 14kt G21 -- --" [ref=e407]:
+                      - cell "7:00am" [ref=e408]:
+                        - generic [ref=e409]: 7:00am
+                      - cell "2ft" [ref=e410]:
+                        - generic [ref=e412]: 2ft
+                      - cell "8s" [ref=e413]
+                      - cell "E101°" [ref=e414]:
+                        - generic [ref=e415]:
+                          - img [ref=e416]
+                          - generic [ref=e418]:
+                            - text: E
+                            - generic [ref=e419]: 101°
+                      - cell "14kt G21" [ref=e420]:
+                        - generic [ref=e421]:
+                          - img [ref=e422]
+                          - generic [ref=e424]: 14kt G21
+                      - cell "--" [ref=e425]:
+                        - generic [ref=e427]: "--"
+                      - cell "--" [ref=e428]
+                    - row "8:00am 2ft 7s E101° 14kt G21 -- --" [ref=e429]:
+                      - cell "8:00am" [ref=e430]:
+                        - generic [ref=e431]: 8:00am
+                      - cell "2ft" [ref=e432]:
+                        - generic [ref=e434]: 2ft
+                      - cell "7s" [ref=e435]
+                      - cell "E101°" [ref=e436]:
+                        - generic [ref=e437]:
+                          - img [ref=e438]
+                          - generic [ref=e440]:
+                            - text: E
+                            - generic [ref=e441]: 101°
+                      - cell "14kt G21" [ref=e442]:
+                        - generic [ref=e443]:
+                          - img [ref=e444]
+                          - generic [ref=e446]: 14kt G21
+                      - cell "--" [ref=e447]:
+                        - generic [ref=e449]: "--"
+                      - cell "--" [ref=e450]
+                    - row "9:00am 2ft 7s E101° 14kt G21 -- --" [ref=e451]:
+                      - cell "9:00am" [ref=e452]:
+                        - generic [ref=e453]: 9:00am
+                      - cell "2ft" [ref=e454]:
+                        - generic [ref=e456]: 2ft
+                      - cell "7s" [ref=e457]
+                      - cell "E101°" [ref=e458]:
+                        - generic [ref=e459]:
+                          - img [ref=e460]
+                          - generic [ref=e462]:
+                            - text: E
+                            - generic [ref=e463]: 101°
+                      - cell "14kt G21" [ref=e464]:
+                        - generic [ref=e465]:
+                          - img [ref=e466]
+                          - generic [ref=e468]: 14kt G21
+                      - cell "--" [ref=e469]:
+                        - generic [ref=e471]: "--"
+                      - cell "--" [ref=e472]
+                    - row "10:00amNOW 2ft 7s E101° 13kt G25 -- --" [ref=e473]:
+                      - cell "10:00amNOW" [ref=e474]:
+                        - generic [ref=e475]: 10:00amNOW
+                      - cell "2ft" [ref=e476]:
+                        - generic [ref=e478]: 2ft
+                      - cell "7s" [ref=e479]
+                      - cell "E101°" [ref=e480]:
+                        - generic [ref=e481]:
+                          - img [ref=e482]
+                          - generic [ref=e484]:
+                            - text: E
+                            - generic [ref=e485]: 101°
+                      - cell "13kt G25" [ref=e486]:
+                        - generic [ref=e487]:
+                          - img [ref=e488]
+                          - generic [ref=e490]: 13kt G25
+                      - cell "--" [ref=e491]:
+                        - generic [ref=e493]: "--"
+                      - cell "--" [ref=e494]
+                    - row "11:00am 2ft 6s E101° 11kt G23 -- --" [ref=e495]:
+                      - cell "11:00am" [ref=e496]:
+                        - generic [ref=e497]: 11:00am
+                      - cell "2ft" [ref=e498]:
+                        - generic [ref=e500]: 2ft
+                      - cell "6s" [ref=e501]
+                      - cell "E101°" [ref=e502]:
+                        - generic [ref=e503]:
+                          - img [ref=e504]
+                          - generic [ref=e506]:
+                            - text: E
+                            - generic [ref=e507]: 101°
+                      - cell "11kt G23" [ref=e508]:
+                        - generic [ref=e509]:
+                          - img [ref=e510]
+                          - generic [ref=e512]: 11kt G23
+                      - cell "--" [ref=e513]:
+                        - generic [ref=e515]: "--"
+                      - cell "--" [ref=e516]
+                    - row "12:00pm 2ft 6s E101° 11kt G22 -- --" [ref=e517]:
+                      - cell "12:00pm" [ref=e518]:
+                        - generic [ref=e519]: 12:00pm
+                      - cell "2ft" [ref=e520]:
+                        - generic [ref=e522]: 2ft
+                      - cell "6s" [ref=e523]
+                      - cell "E101°" [ref=e524]:
+                        - generic [ref=e525]:
+                          - img [ref=e526]
+                          - generic [ref=e528]:
+                            - text: E
+                            - generic [ref=e529]: 101°
+                      - cell "11kt G22" [ref=e530]:
+                        - generic [ref=e531]:
+                          - img [ref=e532]
+                          - generic [ref=e534]: 11kt G22
+                      - cell "--" [ref=e535]:
+                        - generic [ref=e537]: "--"
+                      - cell "--" [ref=e538]
+                    - row "1:00pm 2ft 6s E101° 10kt G21 -- --" [ref=e539]:
+                      - cell "1:00pm" [ref=e540]:
+                        - generic [ref=e541]: 1:00pm
+                      - cell "2ft" [ref=e542]:
+                        - generic [ref=e544]: 2ft
+                      - cell "6s" [ref=e545]
+                      - cell "E101°" [ref=e546]:
+                        - generic [ref=e547]:
+                          - img [ref=e548]
+                          - generic [ref=e550]:
+                            - text: E
+                            - generic [ref=e551]: 101°
+                      - cell "10kt G21" [ref=e552]:
+                        - generic [ref=e553]:
+                          - img [ref=e554]
+                          - generic [ref=e556]: 10kt G21
+                      - cell "--" [ref=e557]:
+                        - generic [ref=e559]: "--"
+                      - cell "--" [ref=e560]
+                    - row "2:00pm 2ft 6s E101° 11kt G18 -- --" [ref=e561]:
+                      - cell "2:00pm" [ref=e562]:
+                        - generic [ref=e563]: 2:00pm
+                      - cell "2ft" [ref=e564]:
+                        - generic [ref=e566]: 2ft
+                      - cell "6s" [ref=e567]
+                      - cell "E101°" [ref=e568]:
+                        - generic [ref=e569]:
+                          - img [ref=e570]
+                          - generic [ref=e572]:
+                            - text: E
+                            - generic [ref=e573]: 101°
+                      - cell "11kt G18" [ref=e574]:
+                        - generic [ref=e575]:
+                          - img [ref=e576]
+                          - generic [ref=e578]: 11kt G18
+                      - cell "--" [ref=e579]:
+                        - generic [ref=e581]: "--"
+                      - cell "--" [ref=e582]
+                    - row "3:00pm 2ft 5s E101° 12kt G17 -- --" [ref=e583]:
+                      - cell "3:00pm" [ref=e584]:
+                        - generic [ref=e585]: 3:00pm
+                      - cell "2ft" [ref=e586]:
+                        - generic [ref=e588]: 2ft
+                      - cell "5s" [ref=e589]
+                      - cell "E101°" [ref=e590]:
+                        - generic [ref=e591]:
+                          - img [ref=e592]
+                          - generic [ref=e594]:
+                            - text: E
+                            - generic [ref=e595]: 101°
+                      - cell "12kt G17" [ref=e596]:
+                        - generic [ref=e597]:
+                          - img [ref=e598]
+                          - generic [ref=e600]: 12kt G17
+                      - cell "--" [ref=e601]:
+                        - generic [ref=e603]: "--"
+                      - cell "--" [ref=e604]
+                    - row "4:00pm 2ft 5s SE119° 13kt G18 -- --" [ref=e605]:
+                      - cell "4:00pm" [ref=e606]:
+                        - generic [ref=e607]: 4:00pm
+                      - cell "2ft" [ref=e608]:
+                        - generic [ref=e610]: 2ft
+                      - cell "5s" [ref=e611]
+                      - cell "SE119°" [ref=e612]:
+                        - generic [ref=e613]:
+                          - img [ref=e614]
+                          - generic [ref=e616]:
+                            - text: SE
+                            - generic [ref=e617]: 119°
+                      - cell "13kt G18" [ref=e618]:
+                        - generic [ref=e619]:
+                          - img [ref=e620]
+                          - generic [ref=e622]: 13kt G18
+                      - cell "--" [ref=e623]:
+                        - generic [ref=e625]: "--"
+                      - cell "--" [ref=e626]
+                    - row "5:00pm 2ft 5s SE137° 11kt G16 -- --" [ref=e627]:
+                      - cell "5:00pm" [ref=e628]:
+                        - generic [ref=e629]: 5:00pm
+                      - cell "2ft" [ref=e630]:
+                        - generic [ref=e632]: 2ft
+                      - cell "5s" [ref=e633]
+                      - cell "SE137°" [ref=e634]:
+                        - generic [ref=e635]:
+                          - img [ref=e636]
+                          - generic [ref=e638]:
+                            - text: SE
+                            - generic [ref=e639]: 137°
+                      - cell "11kt G16" [ref=e640]:
+                        - generic [ref=e641]:
+                          - img [ref=e642]
+                          - generic [ref=e644]: 11kt G16
+                      - cell "--" [ref=e645]:
+                        - generic [ref=e647]: "--"
+                      - cell "--" [ref=e648]
+                    - row "6:00pm 2ft 5s SE155° 11kt G15 -- --" [ref=e649]:
+                      - cell "6:00pm" [ref=e650]:
+                        - generic [ref=e651]: 6:00pm
+                      - cell "2ft" [ref=e652]:
+                        - generic [ref=e654]: 2ft
+                      - cell "5s" [ref=e655]
+                      - cell "SE155°" [ref=e656]:
+                        - generic [ref=e657]:
+                          - img [ref=e658]
+                          - generic [ref=e660]:
+                            - text: SE
+                            - generic [ref=e661]: 155°
+                      - cell "11kt G15" [ref=e662]:
+                        - generic [ref=e663]:
+                          - img [ref=e664]
+                          - generic [ref=e666]: 11kt G15
+                      - cell "--" [ref=e667]:
+                        - generic [ref=e669]: "--"
+                      - cell "--" [ref=e670]
+                    - row "7:00pm 2ft 5s SE156° 8kt G13 -- --" [ref=e671]:
+                      - cell "7:00pm" [ref=e672]:
+                        - generic [ref=e673]: 7:00pm
+                      - cell "2ft" [ref=e674]:
+                        - generic [ref=e676]: 2ft
+                      - cell "5s" [ref=e677]
+                      - cell "SE156°" [ref=e678]:
+                        - generic [ref=e679]:
+                          - img [ref=e680]
+                          - generic [ref=e682]:
+                            - text: SE
+                            - generic [ref=e683]: 156°
+                      - cell "8kt G13" [ref=e684]:
+                        - generic [ref=e685]:
+                          - img [ref=e686]
+                          - generic [ref=e688]: 8kt G13
+                      - cell "--" [ref=e689]:
+                        - generic [ref=e691]: "--"
+                      - cell "--" [ref=e692]
+                    - row "8:00pm 2ft 5s SE156° 8kt G13 -- --" [ref=e693]:
+                      - cell "8:00pm" [ref=e694]:
+                        - generic [ref=e695]: 8:00pm
+                      - cell "2ft" [ref=e696]:
+                        - generic [ref=e698]: 2ft
+                      - cell "5s" [ref=e699]
+                      - cell "SE156°" [ref=e700]:
+                        - generic [ref=e701]:
+                          - img [ref=e702]
+                          - generic [ref=e704]:
+                            - text: SE
+                            - generic [ref=e705]: 156°
+                      - cell "8kt G13" [ref=e706]:
+                        - generic [ref=e707]:
+                          - img [ref=e708]
+                          - generic [ref=e710]: 8kt G13
+                      - cell "--" [ref=e711]:
+                        - generic [ref=e713]: "--"
+                      - cell "--" [ref=e714]
+                    - row "9:00pm 2ft 5s SE157° 11kt G14 -- --" [ref=e715]:
+                      - cell "9:00pm" [ref=e716]:
+                        - generic [ref=e717]: 9:00pm
+                      - cell "2ft" [ref=e718]:
+                        - generic [ref=e720]: 2ft
+                      - cell "5s" [ref=e721]
+                      - cell "SE157°" [ref=e722]:
+                        - generic [ref=e723]:
+                          - img [ref=e724]
+                          - generic [ref=e726]:
+                            - text: SE
+                            - generic [ref=e727]: 157°
+                      - cell "11kt G14" [ref=e728]:
+                        - generic [ref=e729]:
+                          - img [ref=e730]
+                          - generic [ref=e732]: 11kt G14
+                      - cell "--" [ref=e733]:
+                        - generic [ref=e735]: "--"
+                      - cell "--" [ref=e736]
+                    - row "10:00pm 3ft 5s SE152° 14kt G22 -- --" [ref=e737]:
+                      - cell "10:00pm" [ref=e738]:
+                        - generic [ref=e739]: 10:00pm
+                      - cell "3ft" [ref=e740]:
+                        - generic [ref=e742]: 3ft
+                      - cell "5s" [ref=e743]
+                      - cell "SE152°" [ref=e744]:
+                        - generic [ref=e745]:
+                          - img [ref=e746]
+                          - generic [ref=e748]:
+                            - text: SE
+                            - generic [ref=e749]: 152°
+                      - cell "14kt G22" [ref=e750]:
+                        - generic [ref=e751]:
+                          - img [ref=e752]
+                          - generic [ref=e754]: 14kt G22
+                      - cell "--" [ref=e755]:
+                        - generic [ref=e757]: "--"
+                      - cell "--" [ref=e758]
+                    - row "11:00pm 3ft 5s SE146° 13kt G23 -- --" [ref=e759]:
+                      - cell "11:00pm" [ref=e760]:
+                        - generic [ref=e761]: 11:00pm
+                      - cell "3ft" [ref=e762]:
+                        - generic [ref=e764]: 3ft
+                      - cell "5s" [ref=e765]
+                      - cell "SE146°" [ref=e766]:
+                        - generic [ref=e767]:
+                          - img [ref=e768]
+                          - generic [ref=e770]:
+                            - text: SE
+                            - generic [ref=e771]: 146°
+                      - cell "13kt G23" [ref=e772]:
+                        - generic [ref=e773]:
+                          - img [ref=e774]
+                          - generic [ref=e776]: 13kt G23
+                      - cell "--" [ref=e777]:
+                        - generic [ref=e779]: "--"
+                      - cell "--" [ref=e780]
+                - generic [ref=e781]:
+                  - generic [ref=e782]: Swell
+                  - generic [ref=e785]:
+                    - generic [ref=e786]: PRIMARY
+                    - generic [ref=e787]:
+                      - text: 1ft
+                      - generic [ref=e788]: "@ 8s ESE"
+          - generic [ref=e789]:
+            - heading "Conditions Detail" [level=2] [ref=e791]
+            - generic [ref=e792]:
+              - heading "Peak Score™" [level=3] [ref=e795]
+              - generic [ref=e805]:
+                - generic [ref=e806]:
+                  - heading "Wind Rose" [level=3] [ref=e807]
+                  - generic [ref=e808]: 24h
+                - img [ref=e809]:
+                  - generic [ref=e815]: "N"
+                  - generic [ref=e818]: NE
+                  - generic [ref=e820]: E
+                  - generic [ref=e823]: SE
+                  - generic [ref=e825]: S
+                  - generic [ref=e828]: SW
+                  - generic [ref=e830]: W
+                  - generic [ref=e833]: NW
+                  - generic [ref=e835]: offshore
+                  - generic [ref=e861]:
+                    - generic [ref=e864]: <5kt
+                    - generic [ref=e867]: 5-10
+                    - generic [ref=e870]: 10+
+              - generic [ref=e871]:
+                - generic [ref=e872]:
+                  - heading "Tides" [level=3] [ref=e873]
+                  - generic [ref=e874]: 48h
+                - generic [ref=e875]: No tide data available
+          - generic [ref=e876]:
+            - heading "7-Day Overview" [level=2] [ref=e878]
+            - generic [ref=e880]:
+              - generic [ref=e881]:
+                - heading "7-Day Overview" [level=3] [ref=e882]
+                - generic [ref=e883]: tap day to jump
+              - generic [ref=e884]:
+                - button "Mon, May 4 0.0 FLAT" [ref=e885] [cursor=pointer]:
+                  - generic [ref=e886]: Mon,
+                  - generic [ref=e887]: May 4
+                  - generic [ref=e890]: "0.0"
+                  - generic [ref=e891]: FLAT
+                - button "Tue, May 5 0.0 FLAT" [ref=e892] [cursor=pointer]:
+                  - generic [ref=e893]: Tue,
+                  - generic [ref=e894]: May 5
+                  - generic [ref=e897]: "0.0"
+                  - generic [ref=e898]: FLAT
+                - button "Wed, May 6 0.0 FLAT" [ref=e899] [cursor=pointer]:
+                  - generic [ref=e900]: Wed,
+                  - generic [ref=e901]: May 6
+                  - generic [ref=e904]: "0.0"
+                  - generic [ref=e905]: FLAT
+                - button "Thu, May 7 0.0 FLAT" [ref=e906] [cursor=pointer]:
+                  - generic [ref=e907]: Thu,
+                  - generic [ref=e908]: May 7
+                  - generic [ref=e911]: "0.0"
+                  - generic [ref=e912]: FLAT
+                - button "Fri, May 8 0.0 FLAT" [ref=e913] [cursor=pointer]:
+                  - generic [ref=e914]: Fri,
+                  - generic [ref=e915]: May 8
+                  - generic [ref=e918]: "0.0"
+                  - generic [ref=e919]: FLAT
+                - button "Sat, May 9 0.0 FLAT" [ref=e920] [cursor=pointer]:
+                  - generic [ref=e921]: Sat,
+                  - generic [ref=e922]: May 9
+                  - generic [ref=e925]: "0.0"
+                  - generic [ref=e926]: FLAT
+                - button "Sun, May 10 0.0 FLAT" [ref=e927] [cursor=pointer]:
+                  - generic [ref=e928]: Sun,
+                  - generic [ref=e929]: May 10
+                  - generic [ref=e932]: "0.0"
+                  - generic [ref=e933]: FLAT
+          - generic [ref=e934]:
+            - generic [ref=e935]:
+              - heading "Live Buoy Data" [level=2] [ref=e936]
+              - generic [ref=e937]: NDBC Station 44009
+            - generic [ref=e938]:
+              - generic [ref=e940]:
+                - generic [ref=e942]: Buoy 44009
+                - generic [ref=e943]: NDBC · nearest to Indian River Inlet
+              - generic [ref=e944]: Fetching live buoy data...
+          - generic [ref=e946]:
+            - heading "Optimal Sessions" [level=2] [ref=e947]
+            - generic [ref=e948]: best windows next 14 days
+          - generic [ref=e968]:
+            - heading "Swell Tracker" [level=2] [ref=e969]
+            - generic [ref=e970]: named events · 16-day
+          - generic [ref=e976]:
+            - generic [ref=e977]:
+              - heading "Model Comparison" [level=2] [ref=e978]
+              - generic [ref=e979]: ECMWF · GFS · ICON
+            - generic [ref=e981]:
+              - text: Enable ensemble mode to compare models.
+              - generic [ref=e982]:
+                - text: Append
+                - code [ref=e983]: "?ensemble=true"
+                - text: to the forecast URL.
+          - generic [ref=e984]:
+            - heading "Gear Recommendation" [level=2] [ref=e986]
+            - generic [ref=e988]:
+              - generic [ref=e989]:
+                - generic [ref=e990]: 📖 Generic recommendation
+                - generic [ref=e991]: 2ft @ 7s
+              - generic [ref=e992]:
+                - generic [ref=e993]: 🏄
+                - generic [ref=e994]:
+                  - generic [ref=e995]: Fish
+                  - generic [ref=e996]: Weak short-period swell — fish generates its own speed
+              - generic [ref=e997]:
+                - generic [ref=e998]: 🤿
+                - generic [ref=e999]:
+                  - generic [ref=e1000]: Wetsuit data unavailable
+                  - generic [ref=e1001]: Check local buoy for water temperature
+              - paragraph [ref=e1002]:
+                - text: Add your boards & wetsuits in
+                - link "your profile" [ref=e1003] [cursor=pointer]:
+                  - /url: /profile#quiver
+                - text: for personalized picks
+          - generic [ref=e1007]:
+            - generic [ref=e1008]: Spot Details
+            - generic [ref=e1009]:
+              - generic [ref=e1010]:
+                - generic [ref=e1011]: Optimal Swell
+                - generic [ref=e1012]: 100° ± 70°
+              - generic [ref=e1013]:
+                - generic [ref=e1014]: Period
+                - generic [ref=e1015]: 7–14s
+              - generic [ref=e1016]:
+                - generic [ref=e1017]: Size
+                - generic [ref=e1018]: 2ft – 7ft
+              - generic [ref=e1019]:
+                - generic [ref=e1020]: Break Type
+                - generic [ref=e1021]: jetty
+              - generic [ref=e1022]:
+                - generic [ref=e1023]: Nearest Buoy
+                - generic [ref=e1024]: NDBC 44009
+              - generic [ref=e1025]:
+                - generic [ref=e1026]: Skill Level
+                - generic [ref=e1027]: intermediate+
+              - generic [ref=e1028]:
+                - generic [ref=e1029]: Timezone
+                - generic [ref=e1030]: New_York
+        - button "🌊 Ask AI" [ref=e1031]:
+          - generic [ref=e1032]: 🌊
+          - text: Ask AI
+        - generic [ref=e1033]:
+          - generic [ref=e1034]:
+            - generic [ref=e1035]: Indian River Inlet
+            - generic [ref=e1036]: 2ft · 7s · calm
+          - button "📋 LOG SESSION" [ref=e1037] [cursor=pointer]
+  - alert [ref=e1039]

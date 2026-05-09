@@ -78,7 +78,7 @@ export default function SessionLogger({
 
       if (!user) {
         // Save to localStorage as guest session
-        const existing = JSON.parse(localStorage.getItem('terrain_guest_sessions') || '[]')
+        const existing = JSON.parse(localStorage.getItem('koastcast_guest_sessions') || '[]')
         const guestSession = {
           id: `guest-${Date.now()}`,
           spot_id: form.spot_id,
@@ -90,7 +90,7 @@ export default function SessionLogger({
           crowd_rating: form.crowd_rating,
           notes: form.notes || null,
         }
-        localStorage.setItem('terrain_guest_sessions', JSON.stringify([guestSession, ...existing]))
+        localStorage.setItem('koastcast_guest_sessions', JSON.stringify([guestSession, ...existing]))
         const spot = spots.find(s => s.id === form.spot_id)
         onSuccess?.({
           spotSlug: spot?.slug ?? form.spot_id,

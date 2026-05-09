@@ -36,7 +36,7 @@ interface SpotOption {
 
 // ── Constants ─────────────────────────────────────────────────────────────
 
-const STORAGE_KEY = 'terrain_alerts'
+const STORAGE_KEY = 'koastcast_alerts'
 const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const TIME_WINDOWS: { value: Alert['timeWindow']; label: string; sub: string }[] = [
   { value: 'morning',   label: 'Morning',   sub: '5am – 10am'  },

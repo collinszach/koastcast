@@ -47,7 +47,7 @@ export async function proxy(request: NextRequest) {
   if (PROTECTED_ROUTES.some((route) => pathname.startsWith(route))) {
     // Admin always requires real auth — no guest bypass
     const isAdmin = pathname.startsWith('/admin')
-    const guestCookie = request.cookies.get('terrain_guest')
+    const guestCookie = request.cookies.get('koastcast_guest')
     if (!user && (isAdmin || !guestCookie)) {
       const loginUrl = new URL('/auth/login', request.url)
       loginUrl.searchParams.set('next', pathname)

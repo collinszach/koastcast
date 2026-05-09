@@ -84,8 +84,8 @@ export default function SignupPage() {
 
   function continueAsGuest() {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('terrain_guest', 'true')
-      document.cookie = 'terrain_guest=true; path=/; max-age=86400; SameSite=Lax'
+      localStorage.setItem('koastcast_guest', 'true')
+      document.cookie = 'koastcast_guest=true; path=/; max-age=86400; SameSite=Lax'
     }
     router.push('/home')
   }

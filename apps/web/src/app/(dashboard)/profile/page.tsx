@@ -284,9 +284,9 @@ export default function ProfilePage() {
     if ('Notification' in window) {
       setPushEnabled(Notification.permission === 'granted')
     }
-    // Load terrain settings from localStorage
+    // Load koastcast settings from localStorage
     try {
-      const raw = localStorage.getItem('terrain_settings')
+      const raw = localStorage.getItem('koastcast_settings')
       if (raw) {
         const parsed = JSON.parse(raw) as Partial<TerrainSettings>
         setSettings(prev => ({ ...prev, ...parsed }))
@@ -390,7 +390,7 @@ export default function ProfilePage() {
 
   function handleSaveSettings() {
     try {
-      localStorage.setItem('terrain_settings', JSON.stringify(settings))
+      localStorage.setItem('koastcast_settings', JSON.stringify(settings))
       setSettingsSaved(true)
       setTimeout(() => setSettingsSaved(false), 2000)
     } catch {

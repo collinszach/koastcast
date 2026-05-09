@@ -8,7 +8,7 @@ interface SavedSpots {
   trails: string[]
 }
 
-const STORAGE_KEY = 'terrain_saved_spots'
+const STORAGE_KEY = 'koastcast_saved_spots'
 
 function load(): SavedSpots {
   if (typeof window === 'undefined') return { spots: [], resorts: [], trails: [] }

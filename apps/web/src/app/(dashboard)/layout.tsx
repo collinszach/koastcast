@@ -135,7 +135,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   // Read persisted theme preference on mount
   useEffect(() => {
-    const saved = localStorage.getItem('terrain_theme')
+    const saved = localStorage.getItem('koastcast_theme')
     const light = saved === 'light'
     setIsLight(light)
     document.documentElement.classList.toggle('light', light)
@@ -145,7 +145,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     const next = !isLight
     setIsLight(next)
     document.documentElement.classList.toggle('light', next)
-    localStorage.setItem('terrain_theme', next ? 'light' : 'dark')
+    localStorage.setItem('koastcast_theme', next ? 'light' : 'dark')
   }
 
   function isActive(href: string) {

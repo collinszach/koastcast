@@ -61,7 +61,7 @@ function LoginPageInner() {
 
   // Load remember-me preference
   useEffect(() => {
-    const stored = localStorage.getItem('terrain_remember_me')
+    const stored = localStorage.getItem('koastcast_remember_me')
     if (stored === 'true') setRememberMe(true)
   }, [])
 
@@ -134,7 +134,7 @@ function LoginPageInner() {
       recordFailure()
       setMessage({ type: 'error', text: friendlyError(error.message) })
     } else {
-      localStorage.setItem('terrain_remember_me', rememberMe ? 'true' : 'false')
+      localStorage.setItem('koastcast_remember_me', rememberMe ? 'true' : 'false')
       router.push(nextPath)
     }
     setLoading(false)
@@ -156,9 +156,9 @@ function LoginPageInner() {
 
   function continueAsGuest() {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('terrain_guest', 'true')
+      localStorage.setItem('koastcast_guest', 'true')
       // Set a cookie so middleware can detect guest mode server-side
-      document.cookie = 'terrain_guest=true; path=/; max-age=86400; SameSite=Lax'
+      document.cookie = 'koastcast_guest=true; path=/; max-age=86400; SameSite=Lax'
     }
     router.push('/home')
   }

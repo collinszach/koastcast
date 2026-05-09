@@ -1,0 +1,194 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - link "nSwell" [ref=e4] [cursor=pointer]:
+        - /url: /home
+        - img [ref=e6]
+        - generic [ref=e10]: nSwell
+      - navigation [ref=e12]:
+        - generic [ref=e15]:
+          - img [ref=e16]
+          - textbox "Search spots, resorts, trails..." [ref=e19]
+          - generic [ref=e20]: ⌘K
+        - generic [ref=e21]:
+          - link "Home" [ref=e22] [cursor=pointer]:
+            - /url: /home
+            - img [ref=e23]
+            - generic [ref=e26]: Home
+          - link "Spots" [ref=e28] [cursor=pointer]:
+            - /url: /map
+            - img [ref=e29]
+            - generic [ref=e31]: Spots
+          - link "Snow" [ref=e32] [cursor=pointer]:
+            - /url: /snow
+            - img [ref=e33]
+            - generic [ref=e35]: Snow
+          - link "Me" [ref=e36] [cursor=pointer]:
+            - /url: /profile
+            - img [ref=e37]
+            - generic [ref=e40]: Me
+      - generic [ref=e41]:
+        - button "☀️" [ref=e43] [cursor=pointer]
+        - link "Sign in" [ref=e108] [cursor=pointer]:
+          - /url: /auth/login
+          - img [ref=e109]
+          - text: Sign in
+    - main [ref=e44]:
+      - generic [ref=e45]:
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - generic [ref=e48]: nSwell
+            - generic [ref=e50]: Good afternoon
+            - generic [ref=e112]:
+              - generic [ref=e113]: 📍
+              - generic [ref=e114]: Location active
+          - generic [ref=e116]:
+            - generic [ref=e118]: SURF
+            - generic [ref=e119]: Indian River Inlet · --
+          - generic [ref=e54]:
+            - generic [ref=e55]: 12:58:10
+            - generic [ref=e56]: Mon, May 4, 2026
+        - generic [ref=e58]:
+          - generic [ref=e60]: TODAY'S BRIEF
+          - generic [ref=e61]:
+            - generic [ref=e63]: MONDAY, MAY 4
+            - generic [ref=e66]: Morning sessions running. Check the lineup before it fills.
+        - generic [ref=e67]:
+          - generic [ref=e68]:
+            - generic [ref=e69]: NEARBY SPOTS
+            - link "Save spots you surf →" [ref=e70] [cursor=pointer]:
+              - /url: /map
+          - generic [ref=e71]:
+            - link "Indian River Inlet East Coast · 111 mi -- -- -- --" [ref=e120] [cursor=pointer]:
+              - /url: /spot/indian-river-inlet-de
+              - generic [ref=e121]:
+                - generic [ref=e123]: Indian River Inlet
+                - generic [ref=e124]:
+                  - generic [ref=e125]: East Coast
+                  - generic [ref=e126]: ·
+                  - generic [ref=e127]: 111 mi
+                - generic [ref=e128]: "--"
+                - generic [ref=e129]:
+                  - generic [ref=e130]: "--"
+                  - generic [ref=e131]: "-- --"
+            - link "Ocean City (Inlet) East Coast · 115 mi -- -- -- --" [ref=e143] [cursor=pointer]:
+              - /url: /spot/ocean-city-md
+              - generic [ref=e144]:
+                - generic [ref=e146]: Ocean City (Inlet)
+                - generic [ref=e147]:
+                  - generic [ref=e148]: East Coast
+                  - generic [ref=e149]: ·
+                  - generic [ref=e150]: 115 mi
+                - generic [ref=e151]: "--"
+                - generic [ref=e152]:
+                  - generic [ref=e153]: "--"
+                  - generic [ref=e154]: "-- --"
+            - link "Virginia Beach East Coast · 153 mi -- -- -- --" [ref=e166] [cursor=pointer]:
+              - /url: /spot/virginia-beach-va
+              - generic [ref=e167]:
+                - generic [ref=e169]: Virginia Beach
+                - generic [ref=e170]:
+                  - generic [ref=e171]: East Coast
+                  - generic [ref=e172]: ·
+                  - generic [ref=e173]: 153 mi
+                - generic [ref=e174]: "--"
+                - generic [ref=e175]:
+                  - generic [ref=e176]: "--"
+                  - generic [ref=e177]: "-- --"
+        - generic [ref=e190]:
+          - generic [ref=e191]: "--"
+          - generic [ref=e192]:
+            - generic [ref=e193]: Indian River Inlet
+            - generic [ref=e194]: Optimal windows unavailable — forecast engine offline
+          - link "View forecast →" [ref=e195] [cursor=pointer]:
+            - /url: /spot/indian-river-inlet-de
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - generic [ref=e77]: NEAREST BREAKS
+            - link "Full map →" [ref=e78] [cursor=pointer]:
+              - /url: /map
+          - generic [ref=e79]:
+            - link "1 Indian River Inlet East Coast · 111 mi No data" [ref=e196] [cursor=pointer]:
+              - /url: /spot/indian-river-inlet-de
+              - generic [ref=e199]:
+                - generic [ref=e200]: "1"
+                - generic [ref=e201]:
+                  - generic [ref=e202]: Indian River Inlet
+                  - generic [ref=e203]:
+                    - generic [ref=e204]: East Coast
+                    - generic [ref=e205]: ·
+                    - generic [ref=e206]: 111 mi
+                - generic [ref=e207]: No data
+            - link "2 Ocean City (Inlet) East Coast · 115 mi No data" [ref=e208] [cursor=pointer]:
+              - /url: /spot/ocean-city-md
+              - generic [ref=e211]:
+                - generic [ref=e212]: "2"
+                - generic [ref=e213]:
+                  - generic [ref=e214]: Ocean City (Inlet)
+                  - generic [ref=e215]:
+                    - generic [ref=e216]: East Coast
+                    - generic [ref=e217]: ·
+                    - generic [ref=e218]: 115 mi
+                - generic [ref=e219]: No data
+            - link "3 Virginia Beach East Coast · 153 mi No data" [ref=e220] [cursor=pointer]:
+              - /url: /spot/virginia-beach-va
+              - generic [ref=e223]:
+                - generic [ref=e224]: "3"
+                - generic [ref=e225]:
+                  - generic [ref=e226]: Virginia Beach
+                  - generic [ref=e227]:
+                    - generic [ref=e228]: East Coast
+                    - generic [ref=e229]: ·
+                    - generic [ref=e230]: 153 mi
+                - generic [ref=e231]: No data
+            - link "4 Manasquan Inlet East Coast · 184 mi No data" [ref=e232] [cursor=pointer]:
+              - /url: /spot/manasquan-inlet-nj
+              - generic [ref=e235]:
+                - generic [ref=e236]: "4"
+                - generic [ref=e237]:
+                  - generic [ref=e238]: Manasquan Inlet
+                  - generic [ref=e239]:
+                    - generic [ref=e240]: East Coast
+                    - generic [ref=e241]: ·
+                    - generic [ref=e242]: 184 mi
+                - generic [ref=e243]: No data
+            - link "5 Kitty Hawk East Coast · 209 mi No data" [ref=e244] [cursor=pointer]:
+              - /url: /spot/kitty-hawk-nc
+              - generic [ref=e247]:
+                - generic [ref=e248]: "5"
+                - generic [ref=e249]:
+                  - generic [ref=e250]: Kitty Hawk
+                  - generic [ref=e251]:
+                    - generic [ref=e252]: East Coast
+                    - generic [ref=e253]: ·
+                    - generic [ref=e254]: 209 mi
+                - generic [ref=e255]: No data
+        - generic [ref=e82]:
+          - generic [ref=e83]: QUICK LAUNCH
+          - generic [ref=e84]:
+            - link "◉ Live Map All spots live" [ref=e85] [cursor=pointer]:
+              - /url: /map
+              - generic [ref=e86]:
+                - generic [ref=e87]: ◉
+                - generic [ref=e88]: Live Map
+                - generic [ref=e89]: All spots live
+            - link "❄ Snow Resort forecasts" [ref=e90] [cursor=pointer]:
+              - /url: /snow
+              - generic [ref=e91]:
+                - generic [ref=e92]: ❄
+                - generic [ref=e93]: Snow
+                - generic [ref=e94]: Resort forecasts
+            - link "◷ Sessions Log your surf" [ref=e95] [cursor=pointer]:
+              - /url: /sessions
+              - generic [ref=e96]:
+                - generic [ref=e97]: ◷
+                - generic [ref=e98]: Sessions
+                - generic [ref=e99]: Log your surf
+        - generic [ref=e100]:
+          - generic [ref=e102]: RECENT SESSIONS
+          - generic [ref=e103]:
+            - generic [ref=e104]: No sessions logged yet
+            - link "Log New Session" [ref=e105] [cursor=pointer]:
+              - /url: /sessions
+              - button "Log New Session" [ref=e106]
+  - alert [ref=e256]

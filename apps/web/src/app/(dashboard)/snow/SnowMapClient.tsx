@@ -750,7 +750,7 @@ export default function SnowMapClient({ resorts }: { resorts: Resort[] }) {
   // Restore location from localStorage on mount
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('terrain_user_location')
+      const stored = localStorage.getItem('koastcast_user_location')
       if (stored) {
         const parsed = JSON.parse(stored) as { lat: number; lng: number }
         if (parsed.lat && parsed.lng) setUserLocation(parsed)
@@ -820,7 +820,7 @@ export default function SnowMapClient({ resorts }: { resorts: Resort[] }) {
         const { latitude, longitude } = pos.coords
         setLocating(false)
         setUserLocation({ lat: latitude, lng: longitude })
-        try { localStorage.setItem('terrain_user_location', JSON.stringify({ lat: latitude, lng: longitude })) } catch { /* ignore */ }
+        try { localStorage.setItem('koastcast_user_location', JSON.stringify({ lat: latitude, lng: longitude })) } catch { /* ignore */ }
         snowMapRef.current?.flyTo([latitude, longitude], 8, { duration: 1.5 })
       },
       () => { setLocating(false); setLocError('Location access denied'); setTimeout(() => setLocError(null), 3000) },

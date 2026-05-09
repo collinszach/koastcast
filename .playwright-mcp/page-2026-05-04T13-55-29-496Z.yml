@@ -1,0 +1,88 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - link "nSwell" [ref=e4] [cursor=pointer]:
+        - /url: /home
+        - img [ref=e6]
+        - generic [ref=e10]: nSwell
+      - navigation [ref=e12]:
+        - generic [ref=e15]:
+          - img [ref=e16]
+          - textbox "Search spots, resorts, trails..." [ref=e19]
+          - generic [ref=e20]: ⌘K
+        - generic [ref=e21]:
+          - link "Home" [ref=e22] [cursor=pointer]:
+            - /url: /home
+            - img [ref=e23]
+            - generic [ref=e26]: Home
+          - link "Spots" [ref=e28] [cursor=pointer]:
+            - /url: /map
+            - img [ref=e29]
+            - generic [ref=e31]: Spots
+          - link "Snow" [ref=e32] [cursor=pointer]:
+            - /url: /snow
+            - img [ref=e33]
+            - generic [ref=e35]: Snow
+          - link "Me" [ref=e36] [cursor=pointer]:
+            - /url: /profile
+            - img [ref=e37]
+            - generic [ref=e40]: Me
+      - button "☀️" [ref=e43] [cursor=pointer]
+    - main [ref=e44]:
+      - generic [ref=e45]:
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - generic [ref=e48]: nSwell
+            - generic [ref=e50]: Good morning
+            - button "📍 Add location" [ref=e51] [cursor=pointer]:
+              - generic [ref=e52]: 📍
+              - generic [ref=e53]: Add location
+          - generic [ref=e54]:
+            - generic [ref=e55]: 09:55:29
+            - generic [ref=e56]: Mon, May 4, 2026
+        - generic [ref=e58]:
+          - generic [ref=e60]: TODAY'S BRIEF
+          - generic [ref=e61]:
+            - generic [ref=e63]: MONDAY, MAY 4
+            - generic [ref=e66]: Dawn patrol conditions. Early bird gets the wave.
+        - generic [ref=e68]:
+          - generic [ref=e69]: NEARBY SPOTS
+          - link "Save spots you surf →" [ref=e70] [cursor=pointer]:
+            - /url: /map
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - generic [ref=e77]: SURF COMMAND
+            - link "Full map →" [ref=e78] [cursor=pointer]:
+              - /url: /map
+          - generic [ref=e79]:
+            - generic [ref=e80]: Forecast engine offline
+            - generic [ref=e81]: Start the NUC backend to see live conditions
+        - generic [ref=e82]:
+          - generic [ref=e83]: QUICK LAUNCH
+          - generic [ref=e84]:
+            - link "◉ Live Map All spots live" [ref=e85] [cursor=pointer]:
+              - /url: /map
+              - generic [ref=e86]:
+                - generic [ref=e87]: ◉
+                - generic [ref=e88]: Live Map
+                - generic [ref=e89]: All spots live
+            - link "❄ Snow Resort forecasts" [ref=e90] [cursor=pointer]:
+              - /url: /snow
+              - generic [ref=e91]:
+                - generic [ref=e92]: ❄
+                - generic [ref=e93]: Snow
+                - generic [ref=e94]: Resort forecasts
+            - link "◷ Sessions Log your surf" [ref=e95] [cursor=pointer]:
+              - /url: /sessions
+              - generic [ref=e96]:
+                - generic [ref=e97]: ◷
+                - generic [ref=e98]: Sessions
+                - generic [ref=e99]: Log your surf
+        - generic [ref=e100]:
+          - generic [ref=e102]: RECENT SESSIONS
+          - generic [ref=e103]:
+            - generic [ref=e104]: No sessions logged yet
+            - link "Log New Session" [ref=e105] [cursor=pointer]:
+              - /url: /sessions
+              - button "Log New Session" [ref=e106]
+  - alert [ref=e107]

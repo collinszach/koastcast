@@ -27,7 +27,7 @@ export function SidebarAuthButton() {
   async function signOut() {
     await createClient().auth.signOut()
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('terrain_guest')
+      localStorage.removeItem('koastcast_guest')
     }
     router.push('/auth/login')
   }

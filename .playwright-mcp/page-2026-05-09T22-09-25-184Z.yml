@@ -1,0 +1,301 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "Porkbun Logo porkbun" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img "Porkbun Logo" [ref=e6]
+          - text: porkbun
+        - text: 
+      - generic [ref=e7]:
+        - list [ref=e8]:
+          - listitem [ref=e9]:
+            - button "products" [ref=e10] [cursor=pointer]:
+              - text: products
+              - generic [ref=e11]: 
+          - listitem [ref=e12]:
+            - link "transfer" [ref=e13] [cursor=pointer]:
+              - /url: /transfer
+          - listitem [ref=e14]:
+            - link "SALE!" [ref=e15] [cursor=pointer]:
+              - /url: /event/holidaysales
+          - listitem: 
+          - listitem: 
+        - link " $0.00 (0)" [ref=e17] [cursor=pointer]:
+          - /url: /checkout/cart
+          - generic [ref=e18]: 
+          - text: $0.00 (0)
+        - list [ref=e19]:
+          - listitem [ref=e20]:
+            - link "sign in" [ref=e21] [cursor=pointer]:
+              - /url: /account
+  - generic [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e28]:
+          - textbox "Domain Search" [active] [ref=e29]:
+            - /placeholder: Search for a domain.
+            - text: swellscope.com
+          - generic [ref=e30]:
+            - button "open bulk search" [ref=e31] [cursor=pointer]:
+              - generic [ref=e32]: bulk search
+              - generic [ref=e33]: 
+            - button "submit search" [ref=e34] [cursor=pointer]:
+              - generic [ref=e35]: 
+        - text:  
+      - generic [ref=e36]:
+        - link "AI Search" [ref=e37] [cursor=pointer]:
+          - /url: /checkout/ai?q=swellscope.com
+        - text: "|"
+        - link "Auction Search" [ref=e38] [cursor=pointer]:
+          - /url: /auctions
+        - text: "|"
+        - link "Marketplace Search" [ref=e39] [cursor=pointer]:
+          - /url: /marketplace
+    - generic [ref=e44]:
+      - generic: +
+    - generic [ref=e45]: 44e455c771a82f974231659214a024004dd4bb1be998d81b075c2ba97f85ca5e
+  - contentinfo [ref=e47]:
+    - generic [ref=e54]:
+      - generic [ref=e55]:
+        - generic [ref=e56]:
+          - generic [ref=e57]:
+            - img "Porkbun Footer Logo" [ref=e58]
+            - text: porkbun
+          - generic [ref=e59]:
+            - paragraph [ref=e60]: Porkbun is an amazingly awesome ICANN accredited domain name registrar based out of the Pacific Northwest. We're different, we're easy, and we're affordable. Use us, you won't be sorry. If you don't use us we'll be sad, but we'll still love you.
+            - generic [ref=e64]:
+              - heading "Get Pork-Puns In Your Inbox" [level=4] [ref=e65]
+              - paragraph [ref=e66]: Stay in the loop on all things Porkbun by signing up for our newsletter!
+              - generic [ref=e67]:
+                - textbox [ref=e68]:
+                  - /placeholder: sign@up.now
+                - button "OINK" [ref=e69] [cursor=pointer]
+              - textbox [ref=e71]
+            - generic [ref=e72]:
+              - generic [ref=e74]: 
+              - generic [ref=e75]:
+                - text: 21370 SW Langer Farms Parkway, Suite 142-429
+                - text: Sherwood, OR 97140, US
+            - generic [ref=e76]:
+              - generic [ref=e78]: "?"
+              - paragraph [ref=e80]:
+                - text: If you're looking for support, you might be able to answer your own question using our
+                - link "Knowledge Base" [ref=e81] [cursor=pointer]:
+                  - /url: https://kb.porkbun.com/
+                - text: .
+            - generic [ref=e82]:
+              - generic [ref=e84]: 
+              - generic [ref=e85]:
+                - text: "Reach our USA-Based phone support team:"
+                - text: 1.855.PORKBUN (1.855.767.5286)
+                - generic [ref=e86]:
+                  - text: 9AM - 5PM Pacific Time
+                  - text: "Other Hours: Your mileage may vary, but give it a whirl"
+                  - button "Show extended support information." [ref=e87] [cursor=pointer]: 
+            - generic [ref=e88]:
+              - generic [ref=e90]: 
+              - generic [ref=e91]:
+                - text: support@porkbun.com
+                - text: 24 / 7 Email Support
+            - generic [ref=e92]:
+              - generic [ref=e94]: 
+              - generic [ref=e95]:
+                - link "Chat Support" [ref=e96] [cursor=pointer]:
+                  - /url: javascript:void(0);
+                - text: Hours Vary
+            - button "Play the Porkbun jingle." [ref=e99] [cursor=pointer]: 
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - paragraph [ref=e104]: Products
+            - link "Domain Names" [ref=e105] [cursor=pointer]:
+              - /url: /products/domains
+            - link "Greatest Deals" [ref=e106] [cursor=pointer]:
+              - /url: /products/deals
+            - link "Local Marketplace" [ref=e107] [cursor=pointer]:
+              - /url: /marketplace
+            - link "Local Auctions" [ref=e108] [cursor=pointer]:
+              - /url: /auctions
+            - link "3rd Party Aftermarket" [ref=e109] [cursor=pointer]:
+              - /url: /aftermarket
+            - link "Web Hosting" [ref=e110] [cursor=pointer]:
+              - /url: /products/web_hosting
+            - link "Link In Bio" [ref=e111] [cursor=pointer]:
+              - /url: /products/webhosting/managedLinks
+            - link "Articulation Sitebuilder" [ref=e112] [cursor=pointer]:
+              - /url: /products/webhosting/articulation
+            - link "Cloud WordPress" [ref=e113] [cursor=pointer]:
+              - /url: /products/webhosting/cloudWordPress
+            - link "cPanel Hosting" [ref=e114] [cursor=pointer]:
+              - /url: /products/webhosting/cPanelHosting
+            - link "Static Hosting" [ref=e115] [cursor=pointer]:
+              - /url: /products/webhosting/secureStaticHosting
+            - link "Easy PHP" [ref=e116] [cursor=pointer]:
+              - /url: /products/webhosting/managedPHP
+            - link "Email Hosting" [ref=e117] [cursor=pointer]:
+              - /url: /products/email
+            - link "WHOIS Privacy" [ref=e118] [cursor=pointer]:
+              - /url: /products/whois_privacy
+            - link "DNS Management" [ref=e119] [cursor=pointer]:
+              - /url: /products/dns_management
+            - link "SSL Certificates" [ref=e120] [cursor=pointer]:
+              - /url: /products/ssl
+            - link "Email Forwarding" [ref=e121] [cursor=pointer]:
+              - /url: /products/email_forwarding
+            - link "URL Forwarding" [ref=e122] [cursor=pointer]:
+              - /url: /products/url_forwarding
+            - link "Domain Transfer" [ref=e123] [cursor=pointer]:
+              - /url: /transfer
+            - link "Handshake Names" [ref=e124] [cursor=pointer]:
+              - /url: /handshake
+            - link "API Access" [ref=e125] [cursor=pointer]:
+              - /url: /api/json/v3/documentation
+          - generic [ref=e126]:
+            - paragraph [ref=e127]: Support
+            - link "Contact Us" [ref=e128] [cursor=pointer]:
+              - /url: /contact
+            - link "Knowledge Base" [ref=e129] [cursor=pointer]:
+              - /url: https://kb.porkbun.com
+            - link "Payment Options" [ref=e130] [cursor=pointer]:
+              - /url: /support/payment_options
+            - link "Report Abuse" [ref=e131] [cursor=pointer]:
+              - /url: /abuse
+            - paragraph [ref=e132]: Tools
+            - link "Domain Search" [ref=e133] [cursor=pointer]:
+              - /url: /checkout/search
+            - link "RDAP (WHOIS)" [ref=e134] [cursor=pointer]:
+              - /url: /whois
+            - link "Password Generator" [ref=e135] [cursor=pointer]:
+              - /url: /tools/password
+            - link "DMARC Generator" [ref=e136] [cursor=pointer]:
+              - /url: /tools/dmarc_generator
+            - link "What's My IP Address?" [ref=e137] [cursor=pointer]:
+              - /url: /tools/whats_my_ip_address
+            - link "Service Status" [ref=e138] [cursor=pointer]:
+              - /url: https://status.porkbun.com
+            - link "Don't like our name?" [ref=e139] [cursor=pointer]:
+              - /url: /single-tear.html
+            - link [ref=e140] [cursor=pointer]:
+              - /url: /buniverse.html
+              - text: The Buniverse
+          - generic [ref=e141]:
+            - paragraph [ref=e142]: Our Company
+            - link "About Us" [ref=e143] [cursor=pointer]:
+              - /url: /about
+            - link "Our Official Blog" [ref=e144] [cursor=pointer]:
+              - /url: https://blog.porkbun.com
+            - link "Careers" [ref=e145] [cursor=pointer]:
+              - /url: /careers
+            - link "Branding Guidelines" [ref=e146] [cursor=pointer]:
+              - /url: https://porkbun.design/
+            - link "Policies and Legal" [ref=e147] [cursor=pointer]:
+              - /url: /legal
+            - link "Data Disclosure Policy" [ref=e148] [cursor=pointer]:
+              - /url: /legal/agreement/data_disclosure_policy
+            - link "Bug Bounty Program" [ref=e149] [cursor=pointer]:
+              - /url: /products/bug_bounty
+            - link "Awesomeness" [ref=e150] [cursor=pointer]:
+              - /url: /awesome
+            - paragraph [ref=e151]: PRIVACY
+            - link "Your Privacy Choices" [ref=e152] [cursor=pointer]:
+              - /url: javascript:void(0);
+            - link "Privacy Policy" [ref=e153] [cursor=pointer]:
+              - /url: /legal/agreement/privacy_policy
+      - generic [ref=e154]:
+        - generic [ref=e155]:
+          - link "facebook" [ref=e156] [cursor=pointer]:
+            - /url: https://www.facebook.com/PorkbunLLC/
+            - generic [ref=e157]: 
+          - link "x formerly twitter" [ref=e158] [cursor=pointer]:
+            - /url: https://x.com/Porkbun
+            - generic [ref=e159]: 
+          - link "youtube" [ref=e160] [cursor=pointer]:
+            - /url: https://www.youtube.com/channel/UCXe05A3Wp-qFsszt-CHCxyQ
+            - generic [ref=e161]: 
+          - link "instagram" [ref=e162] [cursor=pointer]:
+            - /url: https://www.instagram.com/porkbundomains/
+            - generic [ref=e163]: 
+          - link "tiktok" [ref=e164] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@porkbun.com/
+            - generic [ref=e165]: 
+          - link "github" [ref=e166] [cursor=pointer]:
+            - /url: https://github.com/porkbundomains/
+            - generic [ref=e167]: 
+          - link "bluesky" [ref=e168] [cursor=pointer]:
+            - /url: https://bsky.app/profile/porkbun.com
+            - generic [ref=e169]: 
+        - link "payment methods" [ref=e171] [cursor=pointer]:
+          - /url: /support/payment_options
+          - generic [ref=e172]: 
+          - generic [ref=e173]: 
+          - generic [ref=e174]: 
+          - generic [ref=e175]: 
+          - generic [ref=e176]: 
+          - generic [ref=e177]: 
+          - generic [ref=e178]: 
+          - generic [ref=e179]: 
+  - generic [ref=e184]:
+    - generic [ref=e185]:
+      - link "ICANN" [ref=e187] [cursor=pointer]:
+        - /url: https://www.icann.org
+        - img "ICANN Logo" [ref=e188]
+      - generic [ref=e189]:
+        - text: Copyright © Porkbun LLC. All rights reserved.
+        - generic [ref=e190]:
+          - text: Porkbun is a
+          - link "Top Level Design" [ref=e191] [cursor=pointer]:
+            - /url: https://toplevel.design
+          - text: Company
+        - text: Made in the USA 🇺🇸
+    - generic [ref=e193]:
+      - strong [ref=e194]: "WARNING:"
+      - text: This site has been known to cause a mind blowing experience. We recommend you prepare yourself mentally and if possible be sitting down. Side effects may include saving money, letting out a chuckle, and sporadic oinking.
+  - button "Open support chat" [ref=e195] [cursor=pointer]:
+    - img [ref=e196]
+  - dialog:
+    - generic:
+      - generic:
+        - generic:
+          - img
+        - generic:
+          - generic: Support Assistant
+          - generic:
+            - generic: Online
+      - generic:
+        - button:
+          - img
+          - text: Clear chat history
+        - button:
+          - img
+          - text: Minimize
+        - button:
+          - img
+          - text: Close
+    - log:
+      - generic:
+        - generic:
+          - img
+        - heading [level=3]: Hi there! 👋
+        - paragraph: I'm your hopefully not annoying AI support assistant. Ask me anything!
+        - paragraph: If I can't help, you can connect with our human support team.
+        - generic:
+          - button: Transfer domain
+          - button: Email forwarding
+          - button: Turn of Auto-Renew
+          - button: Enable 2FA
+    - generic:
+      - generic:
+        - generic: Type your question
+        - textbox:
+          - /placeholder: Type your question...
+        - button [disabled]:
+          - img
+      - generic:
+        - button:
+          - img
+          - generic: Talk to a real human
+      - generic:
+        - text: Powered by
+        - strong: Claude AI
+        - text: + Helpscout
+  - text: 49526940ca7bb496d49293ccac5ca394

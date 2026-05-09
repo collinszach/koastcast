@@ -58,7 +58,7 @@ export default function SessionHistory({
         const { data: { user } } = await supabase.auth.getUser()
 
         if (!user) {
-          const stored = JSON.parse(localStorage.getItem('terrain_guest_sessions') || '[]')
+          const stored = JSON.parse(localStorage.getItem('koastcast_guest_sessions') || '[]')
           setSessions(stored as Session[])
           onSessionsLoaded?.(stored as Session[])
           setLoading(false)
@@ -76,7 +76,7 @@ export default function SessionHistory({
           onSessionsLoaded?.(data as Session[])
         }
       } catch {
-        const stored = JSON.parse(localStorage.getItem('terrain_guest_sessions') || '[]')
+        const stored = JSON.parse(localStorage.getItem('koastcast_guest_sessions') || '[]')
         setSessions(stored as Session[])
         onSessionsLoaded?.(stored as Session[])
       } finally {

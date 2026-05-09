@@ -1,0 +1,436 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "Porkbun Logo porkbun" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img "Porkbun Logo" [ref=e6]
+          - text: porkbun
+        - text: 
+      - generic [ref=e7]:
+        - list [ref=e8]:
+          - listitem [ref=e9]:
+            - button "products" [ref=e10] [cursor=pointer]:
+              - text: products
+              - generic [ref=e11]: 
+          - listitem [ref=e12]:
+            - link "transfer" [ref=e13] [cursor=pointer]:
+              - /url: /transfer
+          - listitem [ref=e14]:
+            - link "SALE!" [ref=e15] [cursor=pointer]:
+              - /url: /event/holidaysales
+          - listitem: 
+          - listitem: 
+        - link " $0.00 (0)" [ref=e17] [cursor=pointer]:
+          - /url: /checkout/cart
+          - generic [ref=e18]: 
+          - text: $0.00 (0)
+        - list [ref=e19]:
+          - listitem [ref=e20]:
+            - link "sign in" [ref=e21] [cursor=pointer]:
+              - /url: /account
+  - generic [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e28]:
+          - textbox "Domain Search" [active] [ref=e29]:
+            - /placeholder: Search for a domain.
+            - text: outercast.com
+          - generic [ref=e30]:
+            - button "open bulk search" [ref=e31] [cursor=pointer]:
+              - generic [ref=e32]: bulk search
+              - generic [ref=e33]: 
+            - button "submit search" [ref=e34] [cursor=pointer]:
+              - generic [ref=e35]: 
+        - text:  
+      - generic [ref=e36]:
+        - link "AI Search" [ref=e37] [cursor=pointer]:
+          - /url: /checkout/ai?q=outercast.com
+        - text: "|"
+        - link "Auction Search" [ref=e38] [cursor=pointer]:
+          - /url: /auctions
+        - text: "|"
+        - link "Marketplace Search" [ref=e39] [cursor=pointer]:
+          - /url: /marketplace
+    - generic [ref=e44]:
+      - generic: +
+    - generic [ref=e48]:
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - strong [ref=e54]: .WORLD
+          - img "Loading..." [ref=e59]
+        - generic [ref=e60]:
+          - strong [ref=e63]: .ORG
+          - img "Loading..." [ref=e68]
+      - generic [ref=e70]:
+        - generic [ref=e74]:
+          - generic [ref=e75]: outercast.com
+          - img "Loading..." [ref=e79]
+        - generic [ref=e80]:
+          - generic [ref=e83]:
+            - generic [ref=e84]: outercast.global
+            - img "Loading..." [ref=e88]
+          - generic [ref=e91]:
+            - generic [ref=e92]: outercast.inc
+            - img "Loading..." [ref=e96]
+          - generic [ref=e99]:
+            - generic [ref=e100]: outercast.xyz
+            - img "Loading..." [ref=e104]
+          - generic [ref=e107]:
+            - generic [ref=e108]: outercast.online
+            - img "Loading..." [ref=e112]
+          - generic [ref=e115]:
+            - generic [ref=e116]: outercast.us
+            - img "Loading..." [ref=e120]
+          - generic [ref=e123]:
+            - generic [ref=e124]: outercast.now
+            - img "Loading..." [ref=e128]
+          - generic [ref=e131]:
+            - generic [ref=e132]: outercast.tech
+            - img "Loading..." [ref=e136]
+          - generic [ref=e139]:
+            - generic [ref=e140]: outercast.io
+            - img "Loading..." [ref=e144]
+          - generic [ref=e147]:
+            - generic [ref=e148]: outercast.lol
+            - img "Loading..." [ref=e152]
+          - generic [ref=e155]:
+            - generic [ref=e156]: outercast.dev
+            - img "Loading..." [ref=e160]
+          - generic [ref=e163]:
+            - generic [ref=e164]: outercast.app
+            - img "Loading..." [ref=e168]
+          - generic [ref=e171]:
+            - generic [ref=e172]: outercast.info
+            - img "Loading..." [ref=e176]
+          - generic [ref=e179]:
+            - generic [ref=e180]: outercast.pro
+            - img "Loading..." [ref=e184]
+          - generic [ref=e187]:
+            - generic [ref=e188]: outercast.me
+            - img "Loading..." [ref=e192]
+          - generic [ref=e195]:
+            - generic [ref=e196]: outercast.cloud
+            - img "Loading..." [ref=e200]
+          - generic [ref=e203]:
+            - generic [ref=e204]: outercast.shop
+            - img "Loading..." [ref=e208]
+          - generic [ref=e211]:
+            - generic [ref=e212]: outercast.store
+            - img "Loading..." [ref=e216]
+          - generic [ref=e219]:
+            - generic [ref=e220]: outercast.studio
+            - img "Loading..." [ref=e224]
+          - generic [ref=e227]:
+            - generic [ref=e228]: outercast.art
+            - img "Loading..." [ref=e232]
+          - generic [ref=e235]:
+            - generic [ref=e236]: outercast.club
+            - img "Loading..." [ref=e240]
+          - generic [ref=e243]:
+            - generic [ref=e244]: outercast.bot
+            - img "Loading..." [ref=e248]
+          - generic [ref=e251]:
+            - generic [ref=e252]: outercast.blog
+            - img "Loading..." [ref=e256]
+          - generic [ref=e259]:
+            - generic [ref=e260]: outercast.space
+            - img "Loading..." [ref=e264]
+          - generic [ref=e267]:
+            - generic [ref=e268]: outercast.site
+            - img "Loading..." [ref=e272]
+          - generic [ref=e275]:
+            - generic [ref=e276]: outercast.biz
+            - img "Loading..." [ref=e280]
+          - generic [ref=e283]:
+            - generic [ref=e284]: outercast.lat
+            - img "Loading..." [ref=e288]
+          - generic [ref=e291]:
+            - generic [ref=e292]: outercast.us.com
+            - img "Loading..." [ref=e296]
+          - generic [ref=e299]:
+            - generic [ref=e300]: outercast.pics
+            - img "Loading..." [ref=e304]
+          - generic [ref=e307]:
+            - generic [ref=e308]: outercast.my
+            - img "Loading..." [ref=e312]
+          - generic [ref=e315]:
+            - generic [ref=e316]: outercast.help
+            - img "Loading..." [ref=e320]
+          - generic [ref=e323]:
+            - generic [ref=e324]: outercast.locker
+            - img "Loading..." [ref=e328]
+          - generic [ref=e331]:
+            - generic [ref=e332]: outercast.to
+            - img "Loading..." [ref=e336]
+          - generic [ref=e339]:
+            - generic [ref=e340]: outercast.rich
+            - img "Loading..." [ref=e344]
+          - generic [ref=e347]:
+            - generic [ref=e348]: outercast.quest
+            - img "Loading..." [ref=e352]
+          - generic [ref=e355]:
+            - generic [ref=e356]: outercast.homes
+            - img "Loading..." [ref=e360]
+          - generic [ref=e363]:
+            - generic [ref=e364]: outercast.love
+            - img "Loading..." [ref=e368]
+          - generic [ref=e371]:
+            - generic [ref=e372]: outercast.ceo
+            - img "Loading..." [ref=e376]
+          - generic [ref=e379]:
+            - generic [ref=e380]: outercast.mom
+            - img "Loading..." [ref=e384]
+          - generic [ref=e387]:
+            - generic [ref=e388]: outercast.buzz
+            - img "Loading..." [ref=e392]
+        - paragraph
+        - button "Show All Extensions" [ref=e394] [cursor=pointer]: Show All Extensions
+        - link "Generate AI Suggestions" [ref=e396] [cursor=pointer]:
+          - /url: /checkout/ai?q=outercast.com
+        - paragraph
+    - generic [ref=e397]: 2ec01ded8b1953a167c66bb75469e5199a23a6b1bbe1f0f58b2026c7afd11bce
+  - contentinfo [ref=e399]:
+    - generic [ref=e406]:
+      - generic [ref=e407]:
+        - generic [ref=e408]:
+          - generic [ref=e409]:
+            - img "Porkbun Footer Logo" [ref=e410]
+            - text: porkbun
+          - generic [ref=e411]:
+            - paragraph [ref=e412]: Porkbun is an amazingly awesome ICANN accredited domain name registrar based out of the Pacific Northwest. We're different, we're easy, and we're affordable. Use us, you won't be sorry. If you don't use us we'll be sad, but we'll still love you.
+            - generic [ref=e416]:
+              - heading "Get Pork-Puns In Your Inbox" [level=4] [ref=e417]
+              - paragraph [ref=e418]: Stay in the loop on all things Porkbun by signing up for our newsletter!
+              - generic [ref=e419]:
+                - textbox [ref=e420]:
+                  - /placeholder: sign@up.now
+                - button "OINK" [ref=e421] [cursor=pointer]
+              - textbox [ref=e423]
+            - generic [ref=e424]:
+              - generic [ref=e426]: 
+              - generic [ref=e427]:
+                - text: 21370 SW Langer Farms Parkway, Suite 142-429
+                - text: Sherwood, OR 97140, US
+            - generic [ref=e428]:
+              - generic [ref=e430]: "?"
+              - paragraph [ref=e432]:
+                - text: If you're looking for support, you might be able to answer your own question using our
+                - link "Knowledge Base" [ref=e433] [cursor=pointer]:
+                  - /url: https://kb.porkbun.com/
+                - text: .
+            - generic [ref=e434]:
+              - generic [ref=e436]: 
+              - generic [ref=e437]:
+                - text: "Reach our USA-Based phone support team:"
+                - text: 1.855.PORKBUN (1.855.767.5286)
+                - generic [ref=e438]:
+                  - text: 9AM - 5PM Pacific Time
+                  - text: "Other Hours: Your mileage may vary, but give it a whirl"
+                  - button "Show extended support information." [ref=e439] [cursor=pointer]: 
+            - generic [ref=e440]:
+              - generic [ref=e442]: 
+              - generic [ref=e443]:
+                - text: support@porkbun.com
+                - text: 24 / 7 Email Support
+            - generic [ref=e444]:
+              - generic [ref=e446]: 
+              - generic [ref=e447]:
+                - link "Chat Support" [ref=e448] [cursor=pointer]:
+                  - /url: javascript:void(0);
+                - text: Hours Vary
+            - button "Play the Porkbun jingle." [ref=e451] [cursor=pointer]: 
+        - generic [ref=e454]:
+          - generic [ref=e455]:
+            - paragraph [ref=e456]: Products
+            - link "Domain Names" [ref=e457] [cursor=pointer]:
+              - /url: /products/domains
+            - link "Greatest Deals" [ref=e458] [cursor=pointer]:
+              - /url: /products/deals
+            - link "Local Marketplace" [ref=e459] [cursor=pointer]:
+              - /url: /marketplace
+            - link "Local Auctions" [ref=e460] [cursor=pointer]:
+              - /url: /auctions
+            - link "3rd Party Aftermarket" [ref=e461] [cursor=pointer]:
+              - /url: /aftermarket
+            - link "Web Hosting" [ref=e462] [cursor=pointer]:
+              - /url: /products/web_hosting
+            - link "Link In Bio" [ref=e463] [cursor=pointer]:
+              - /url: /products/webhosting/managedLinks
+            - link "Articulation Sitebuilder" [ref=e464] [cursor=pointer]:
+              - /url: /products/webhosting/articulation
+            - link "Cloud WordPress" [ref=e465] [cursor=pointer]:
+              - /url: /products/webhosting/cloudWordPress
+            - link "cPanel Hosting" [ref=e466] [cursor=pointer]:
+              - /url: /products/webhosting/cPanelHosting
+            - link "Static Hosting" [ref=e467] [cursor=pointer]:
+              - /url: /products/webhosting/secureStaticHosting
+            - link "Easy PHP" [ref=e468] [cursor=pointer]:
+              - /url: /products/webhosting/managedPHP
+            - link "Email Hosting" [ref=e469] [cursor=pointer]:
+              - /url: /products/email
+            - link "WHOIS Privacy" [ref=e470] [cursor=pointer]:
+              - /url: /products/whois_privacy
+            - link "DNS Management" [ref=e471] [cursor=pointer]:
+              - /url: /products/dns_management
+            - link "SSL Certificates" [ref=e472] [cursor=pointer]:
+              - /url: /products/ssl
+            - link "Email Forwarding" [ref=e473] [cursor=pointer]:
+              - /url: /products/email_forwarding
+            - link "URL Forwarding" [ref=e474] [cursor=pointer]:
+              - /url: /products/url_forwarding
+            - link "Domain Transfer" [ref=e475] [cursor=pointer]:
+              - /url: /transfer
+            - link "Handshake Names" [ref=e476] [cursor=pointer]:
+              - /url: /handshake
+            - link "API Access" [ref=e477] [cursor=pointer]:
+              - /url: /api/json/v3/documentation
+          - generic [ref=e478]:
+            - paragraph [ref=e479]: Support
+            - link "Contact Us" [ref=e480] [cursor=pointer]:
+              - /url: /contact
+            - link "Knowledge Base" [ref=e481] [cursor=pointer]:
+              - /url: https://kb.porkbun.com
+            - link "Payment Options" [ref=e482] [cursor=pointer]:
+              - /url: /support/payment_options
+            - link "Report Abuse" [ref=e483] [cursor=pointer]:
+              - /url: /abuse
+            - paragraph [ref=e484]: Tools
+            - link "Domain Search" [ref=e485] [cursor=pointer]:
+              - /url: /checkout/search
+            - link "RDAP (WHOIS)" [ref=e486] [cursor=pointer]:
+              - /url: /whois
+            - link "Password Generator" [ref=e487] [cursor=pointer]:
+              - /url: /tools/password
+            - link "DMARC Generator" [ref=e488] [cursor=pointer]:
+              - /url: /tools/dmarc_generator
+            - link "What's My IP Address?" [ref=e489] [cursor=pointer]:
+              - /url: /tools/whats_my_ip_address
+            - link "Service Status" [ref=e490] [cursor=pointer]:
+              - /url: https://status.porkbun.com
+            - link "Don't like our name?" [ref=e491] [cursor=pointer]:
+              - /url: /single-tear.html
+            - link [ref=e492] [cursor=pointer]:
+              - /url: /buniverse.html
+              - text: The Buniverse
+          - generic [ref=e493]:
+            - paragraph [ref=e494]: Our Company
+            - link "About Us" [ref=e495] [cursor=pointer]:
+              - /url: /about
+            - link "Our Official Blog" [ref=e496] [cursor=pointer]:
+              - /url: https://blog.porkbun.com
+            - link "Careers" [ref=e497] [cursor=pointer]:
+              - /url: /careers
+            - link "Branding Guidelines" [ref=e498] [cursor=pointer]:
+              - /url: https://porkbun.design/
+            - link "Policies and Legal" [ref=e499] [cursor=pointer]:
+              - /url: /legal
+            - link "Data Disclosure Policy" [ref=e500] [cursor=pointer]:
+              - /url: /legal/agreement/data_disclosure_policy
+            - link "Bug Bounty Program" [ref=e501] [cursor=pointer]:
+              - /url: /products/bug_bounty
+            - link "Awesomeness" [ref=e502] [cursor=pointer]:
+              - /url: /awesome
+            - paragraph [ref=e503]: PRIVACY
+            - link "Your Privacy Choices" [ref=e504] [cursor=pointer]:
+              - /url: javascript:void(0);
+            - link "Privacy Policy" [ref=e505] [cursor=pointer]:
+              - /url: /legal/agreement/privacy_policy
+      - generic [ref=e506]:
+        - generic [ref=e507]:
+          - link "facebook" [ref=e508] [cursor=pointer]:
+            - /url: https://www.facebook.com/PorkbunLLC/
+            - generic [ref=e509]: 
+          - link "x formerly twitter" [ref=e510] [cursor=pointer]:
+            - /url: https://x.com/Porkbun
+            - generic [ref=e511]: 
+          - link "youtube" [ref=e512] [cursor=pointer]:
+            - /url: https://www.youtube.com/channel/UCXe05A3Wp-qFsszt-CHCxyQ
+            - generic [ref=e513]: 
+          - link "instagram" [ref=e514] [cursor=pointer]:
+            - /url: https://www.instagram.com/porkbundomains/
+            - generic [ref=e515]: 
+          - link "tiktok" [ref=e516] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@porkbun.com/
+            - generic [ref=e517]: 
+          - link "github" [ref=e518] [cursor=pointer]:
+            - /url: https://github.com/porkbundomains/
+            - generic [ref=e519]: 
+          - link "bluesky" [ref=e520] [cursor=pointer]:
+            - /url: https://bsky.app/profile/porkbun.com
+            - generic [ref=e521]: 
+        - link "payment methods" [ref=e523] [cursor=pointer]:
+          - /url: /support/payment_options
+          - generic [ref=e524]: 
+          - generic [ref=e525]: 
+          - generic [ref=e526]: 
+          - generic [ref=e527]: 
+          - generic [ref=e528]: 
+          - generic [ref=e529]: 
+          - generic [ref=e530]: 
+          - generic [ref=e531]: 
+  - generic [ref=e536]:
+    - generic [ref=e537]:
+      - link "ICANN" [ref=e539] [cursor=pointer]:
+        - /url: https://www.icann.org
+        - img "ICANN Logo" [ref=e540]
+      - generic [ref=e541]:
+        - text: Copyright © Porkbun LLC. All rights reserved.
+        - generic [ref=e542]:
+          - text: Porkbun is a
+          - link "Top Level Design" [ref=e543] [cursor=pointer]:
+            - /url: https://toplevel.design
+          - text: Company
+        - text: Made in the USA 🇺🇸
+    - generic [ref=e545]:
+      - strong [ref=e546]: "WARNING:"
+      - text: This site has been known to cause a mind blowing experience. We recommend you prepare yourself mentally and if possible be sitting down. Side effects may include saving money, letting out a chuckle, and sporadic oinking.
+  - button "Open support chat" [ref=e547] [cursor=pointer]:
+    - img [ref=e548]
+  - dialog:
+    - generic:
+      - generic:
+        - generic:
+          - img
+        - generic:
+          - generic: Support Assistant
+          - generic:
+            - generic: Online
+      - generic:
+        - button:
+          - img
+          - text: Clear chat history
+        - button:
+          - img
+          - text: Minimize
+        - button:
+          - img
+          - text: Close
+    - log:
+      - generic:
+        - generic:
+          - img
+        - heading [level=3]: Hi there! 👋
+        - paragraph: I'm your hopefully not annoying AI support assistant. Ask me anything!
+        - paragraph: If I can't help, you can connect with our human support team.
+        - generic:
+          - button: Transfer domain
+          - button: Email forwarding
+          - button: Turn of Auto-Renew
+          - button: Enable 2FA
+    - generic:
+      - generic:
+        - generic: Type your question
+        - textbox:
+          - /placeholder: Type your question...
+        - button [disabled]:
+          - img
+      - generic:
+        - button:
+          - img
+          - generic: Talk to a real human
+      - generic:
+        - text: Powered by
+        - strong: Claude AI
+        - text: + Helpscout
+  - text: 49526940ca7bb496d49293ccac5ca394
