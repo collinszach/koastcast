@@ -220,7 +220,7 @@ export default function OnboardingPage() {
     }}>
       <div style={{ width: '100%', maxWidth: 440 }}>
 
-        {/* nSwell logo mark */}
+        {/* Koastcast logo mark */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
           <div style={{
             background: 'linear-gradient(135deg, #8B5CF6, #06B6D4)',
@@ -234,7 +234,7 @@ export default function OnboardingPage() {
               <path d="M2 20C5 17 8 17 12 19C16 21 19 19 22 16" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
           </div>
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 800, color: '#f0f6ff', letterSpacing: '0.08em' }}>nSwell</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 800, color: '#f0f6ff', letterSpacing: '0.08em' }}>Koastcast</span>
         </div>
 
         {/* Progress bar */}
@@ -272,7 +272,7 @@ export default function OnboardingPage() {
           {step === 0 && (
             <div>
               <div style={{ fontSize: 32, marginBottom: 14 }}>🌊</div>
-              <h1 style={{ ...headingStyle, fontSize: 26 }}>Welcome to nSwell</h1>
+              <h1 style={{ ...headingStyle, fontSize: 26 }}>Welcome to Koastcast</h1>
               <p style={subStyle}>
                 Your AI-powered surf &amp; outdoor intelligence platform.
                 Let&apos;s set up your personalized Peak Score™ — it only takes 2 minutes.
@@ -298,7 +298,7 @@ export default function OnboardingPage() {
               <div style={{ fontSize: 32, marginBottom: 16 }}>📍</div>
               <h2 style={headingStyle}>Find surf near you</h2>
               <p style={subStyle}>
-                nSwell uses your location to sort spots by distance, auto-select your nearest break,
+                Koastcast uses your location to sort spots by distance, auto-select your nearest break,
                 and personalize conditions for where you actually surf.
               </p>
 

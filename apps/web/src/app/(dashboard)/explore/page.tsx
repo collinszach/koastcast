@@ -1018,7 +1018,7 @@ export default function TripPlannerPage() {
                 marginBottom: 6,
               }}
             >
-              NSWELL / PLAN
+              KOASTCAST / PLAN
             </div>
             <h1
               style={{

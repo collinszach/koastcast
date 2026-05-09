@@ -100,7 +100,7 @@ export default function ApiPortalPage() {
           <h2 className="text-lg font-semibold text-white mb-2">Explorer Tier Required</h2>
           <p className="text-gray-400 text-sm mb-4">
             B2B API access is available on the Explorer plan. Get programmatic access to
-            nSwell forecasts for your app or research.
+            Koastcast forecasts for your app or research.
           </p>
           <a
             href="/upgrade"
@@ -118,7 +118,7 @@ export default function ApiPortalPage() {
       <div>
         <h1 className="text-2xl font-bold text-white">API Portal</h1>
         <p className="text-gray-400 text-sm mt-1">
-          Programmatic access to nSwell surf forecasts.
+          Programmatic access to Koastcast surf forecasts.
         </p>
       </div>
 
@@ -213,14 +213,14 @@ export default function ApiPortalPage() {
       <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
         <h2 className="text-sm font-semibold text-gray-300 mb-3">Quick Start</h2>
         <pre className="bg-gray-800 rounded-lg p-3 text-xs text-gray-300 overflow-x-auto">
-{`curl https://api.nswell.zacharyjcollins.com/api/v1/forecast/mavericks-ca \\
+{`curl https://api.koastcast.com/api/v1/forecast/mavericks-ca \\
   -H "Authorization: Bearer YOUR_API_KEY"
 
 # Response: 7-day hourly forecast with wave height, period,
 # direction, wind, tide, quality score, crowd prediction`}
         </pre>
         <a
-          href="https://api.nswell.zacharyjcollins.com/api/v1/"
+          href="https://api.koastcast.com/api/v1/"
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-400 hover:text-blue-300 text-xs mt-2 block transition-colors"

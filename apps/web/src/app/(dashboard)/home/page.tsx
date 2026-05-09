@@ -60,7 +60,7 @@ const COND = {
 
 function loadSessions(): StoredSession[] {
   try {
-    const raw = localStorage.getItem('terrain_sessions')
+    const raw = localStorage.getItem('koastcast_sessions')
     if (!raw) return []
     const parsed = JSON.parse(raw)
     return Array.isArray(parsed) ? parsed : []
@@ -1048,7 +1048,7 @@ export default function IntelHubPage() {
             color: 'var(--foam)',
             letterSpacing: '0.04em',
           }}>
-            nSwell
+            Koastcast
           </span>
           <div style={{ width: 1, height: 18, background: 'rgba(6,182,212,0.15)', flexShrink: 0 }} />
           <span style={{

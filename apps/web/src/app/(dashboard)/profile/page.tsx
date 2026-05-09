@@ -421,7 +421,7 @@ export default function ProfilePage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
         // No auth — save to localStorage as guest preferences
-        localStorage.setItem('nswell_guest_prefs', JSON.stringify({ ...profile, notification_prefs: notifPrefs }))
+        localStorage.setItem('koastcast_guest_prefs', JSON.stringify({ ...profile, notification_prefs: notifPrefs }))
         setSaved(true)
         setSaving(false)
         return
