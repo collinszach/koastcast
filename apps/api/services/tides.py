@@ -130,7 +130,7 @@ async def _fetch_coops(
         "units": units,
         "time_zone": time_zone,
         "format": "json",
-        "application": "nswell",
+        "application": "koastcast",
     }
     if interval:
         params["interval"] = interval

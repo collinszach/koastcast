@@ -1,5 +1,5 @@
 """
-nSwell FastAPI Backend
+Koastcast FastAPI Backend
 Runs on the Intel NUC on localhost:8000.
 FUTURE INTEGRATION: Cloudflare Tunnel will expose this to the internet in production.
 """
@@ -33,19 +33,19 @@ scheduler = AsyncIOScheduler()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("nSwell API starting up", environment=settings.environment)
+    logger.info("Koastcast API starting up", environment=settings.environment)
     register_jobs(scheduler)
     scheduler.start()
     logger.info("Scheduler started", jobs=len(scheduler.get_jobs()))
     yield
     scheduler.shutdown()
-    logger.info("nSwell API shut down")
+    logger.info("Koastcast API shut down")
 
 
 # ─── App ──────────────────────────────────────────────────────────────────
 app = FastAPI(
-    title="nSwell API",
-    description="nSwell — AI-native surf forecasting. More accurate. More personal.",
+    title="Koastcast API",
+    description="Koastcast — AI-native surf forecasting. More accurate. More personal.",
     version="0.1.0",
     lifespan=lifespan,
     docs_url="/docs" if settings.debug else None,
@@ -85,7 +85,7 @@ async def health():
 @app.get("/")
 async def root():
     return {
-        "name": "nSwell API",
+        "name": "Koastcast API",
         "docs": "/docs",
         "status": "riding"
     }

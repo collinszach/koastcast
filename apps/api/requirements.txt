@@ -1,4 +1,4 @@
-# nSwell API Dependencies
+# Koastcast API Dependencies
 # Install with: uv pip install -r requirements.txt
 
 # ─── Web Framework ─────────────────────────────────────────────────────────

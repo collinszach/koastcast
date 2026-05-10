@@ -61,8 +61,8 @@ openssl req -x509 -nodes -newkey rsa:2048 \
   -keyout "$KEY_FILE" \
   -out "$CERT_FILE" \
   -days 825 \
-  -subj "/CN=nswell.local/O=nSwell/C=US" \
-  -addext "subjectAltName=DNS:localhost,DNS:nswell.local,IP:127.0.0.1,IP:$LAN_IP" \
+  -subj "/CN=koastcast.local/O=Koastcast/C=US" \
+  -addext "subjectAltName=DNS:localhost,DNS:koastcast.local,IP:127.0.0.1,IP:$LAN_IP" \
   2>/dev/null
 
 chmod 600 "$KEY_FILE"

@@ -6,7 +6,7 @@
 # nginx with zero downtime.
 #
 # Recommended crontab entry (crontab -e):
-#   0 3 * * 1 /home/zach/nSwell/scripts/renew-certs.sh >> /var/log/nswell-certs.log 2>&1
+#   0 3 * * 1 /home/zach/Koastcast/scripts/renew-certs.sh >> /var/log/koastcast-certs.log 2>&1
 # =============================================================================
 set -e
 
@@ -28,7 +28,7 @@ fi
 "$SCRIPT_DIR/setup-certs.sh"
 
 # ── Reload nginx (zero-downtime — no full container restart) ──────────────────
-if docker exec nswell_nginx nginx -s reload 2>/dev/null; then
+if docker exec koastcast_nginx nginx -s reload 2>/dev/null; then
   echo "$(date): nginx reloaded with new cert"
 else
   echo "$(date): WARNING: nginx reload failed — restart manually:"

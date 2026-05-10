@@ -2,7 +2,7 @@ services:
   # ─── Open-Meteo (self-hosted, free for commercial use) ───────────────────
   open-meteo-api:
     image: ghcr.io/open-meteo/open-meteo:latest
-    container_name: nswell_open_meteo
+    container_name: koastcast_open_meteo
     restart: unless-stopped
     expose:
       - "8080"  # only accessible within Docker network; no host port binding
@@ -16,7 +16,7 @@ services:
       timeout: 10s
       retries: 3
 
-  # ─── nSwell Next.js Frontend ─────────────────────────────────────────
+  # ─── Koastcast Next.js Frontend ──────────────────────────────────────
   web:
     build:
       context: ./apps/web
@@ -27,7 +27,7 @@ services:
         NEXT_PUBLIC_SUPABASE_URL: ${SUPABASE_URL}
         NEXT_PUBLIC_SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
         NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
-    container_name: nswell_web
+    container_name: koastcast_web
     restart: unless-stopped
     ports:
       - "3002:3001"
@@ -42,12 +42,12 @@ services:
     depends_on:
       - api
 
-  # ─── nSwell FastAPI Backend ───────────────────────────────────────────
+  # ─── Koastcast FastAPI Backend ───────────────────────────────────────
   api:
     build:
       context: ./apps/api
       dockerfile: Dockerfile
-    container_name: nswell_api
+    container_name: koastcast_api
     restart: unless-stopped
     ports:
       - "8002:8000"
@@ -62,7 +62,7 @@ services:
       - ENVIRONMENT=${ENVIRONMENT:-production}
       - DEBUG=${DEBUG:-false}
       # Set CORS_ORIGINS in .env to your deployed frontend URL (no trailing slash).
-      # Example: CORS_ORIGINS=https://nswell.zacharyjcollins.com
+      # Example: CORS_ORIGINS=https://koastcast.com
       - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://localhost:3002}
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
@@ -85,10 +85,10 @@ services:
 
   # ─── LLM Server (Ollama — OpenAI-compatible API) ────────────────────────
   # NOTE: Set LLAMA_CPP_BASE_URL=http://llm:11434/v1 in the api service env.
-  # Pull the model after first start: docker exec nswell_llm ollama pull phi4-mini
+  # Pull the model after first start: docker exec koastcast_llm ollama pull phi4-mini
   llm:
     image: ollama/ollama:latest
-    container_name: nswell_llm
+    container_name: koastcast_llm
     restart: unless-stopped
     expose:
       - "11434"  # only accessible within Docker network; no host port binding
@@ -101,12 +101,12 @@ services:
       retries: 3
 
   # ─── Cloudflare Tunnel ───────────────────────────────────────────────────
-  # Exposes the nSwell NUC API to the internet via api.nswell.zacharyjcollins.com
+  # Exposes the Koastcast NUC API to the internet via api.koastcast.com
   # without opening any inbound firewall ports. The origin is never directly reachable.
   # Set CLOUDFLARE_TUNNEL_TOKEN in .env — get it from Cloudflare Zero Trust → Tunnels.
   cloudflared:
     image: cloudflare/cloudflared:latest
-    container_name: nswell_tunnel
+    container_name: koastcast_tunnel
     restart: unless-stopped
     command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
     environment:
@@ -120,7 +120,7 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    container_name: nswell_nginx
+    container_name: koastcast_nginx
     ports:
       - "8880:80"   # HTTP → HTTPS redirect  (8880 avoids conflict with hive-nginx on :80)
       - "8443:443"  # HTTPS (self-signed cert for LAN; Cloudflare Tunnel handles external TLS)
@@ -147,7 +147,7 @@ services:
   # swan:
   #   build:
   #     context: ./docker/swan
-  #   container_name: nswell_swan
+  #   container_name: koastcast_swan
   #   restart: unless-stopped
   #   volumes:
   #     - ./data/swan_configs:/app/configs
@@ -161,5 +161,5 @@ volumes:
 
 networks:
   default:
-    name: nswell_net
+    name: koastcast_net
     enable_ipv6: false
