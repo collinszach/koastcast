@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Koastcast — launch services with secrets injected from Bitwarden Secrets Manager.
+# Koastcast — launch services. Reads secrets from .env automatically via docker compose.
 #
 # Usage:
 #   ./start.sh              → docker compose up -d (full stack, detached)
@@ -11,19 +11,13 @@
 #   ./start.sh web-dev      → pnpm dev (Next.js, port 3001)
 #
 # Requirements:
-#   - bws CLI installed and BWS_ACCESS_TOKEN set in shell
-#   - docker compose v2 (for docker subcommands)
+#   - .env file with secrets (copy .env.example and fill in values)
+#   - docker compose v2
 
 set -euo pipefail
 
-if ! command -v bws &>/dev/null; then
-  echo "ERROR: bws not found. Install from https://bitwarden.com/help/secrets-manager-cli/" >&2
-  exit 1
-fi
-
-if [[ -z "${BWS_ACCESS_TOKEN:-}" ]]; then
-  echo "ERROR: BWS_ACCESS_TOKEN is not set." >&2
-  echo "  export BWS_ACCESS_TOKEN=<your machine account token>" >&2
+if [[ ! -f .env ]]; then
+  echo "ERROR: .env not found. Copy .env.example and fill in your secrets." >&2
   exit 1
 fi
 
@@ -33,19 +27,19 @@ case "$CMD" in
   api-dev)
     echo "→ Starting FastAPI dev server (port 8002)..."
     cd apps/api
-    exec bws run -- uvicorn main:app --reload --port 8002
+    exec uvicorn main:app --reload --port 8002
     ;;
   web-dev)
     echo "→ Starting Next.js dev server (port 3001)..."
     cd apps/web
-    exec bws run -- pnpm dev
+    exec pnpm dev
     ;;
   "")
     echo "→ Starting full stack via docker compose..."
-    exec bws run -- docker compose up -d
+    exec docker compose up -d
     ;;
   *)
     echo "→ Running: docker compose $*"
-    exec bws run -- docker compose "$@"
+    exec docker compose "$@"
     ;;
 esac

@@ -1,25 +1,21 @@
 #!/usr/bin/env bash
-# inject-secrets.sh — pull secrets from Bitwarden Secrets Manager and restart services
-# Usage: BWS_ACCESS_TOKEN=<token> ./inject-secrets.sh
-#    or: export BWS_ACCESS_TOKEN=<token> && ./inject-secrets.sh
+# inject-secrets.sh — write .env.local for the web app from the root .env, then restart services.
+# Usage: ./inject-secrets.sh
 
 set -euo pipefail
 
-if [[ -z "${BWS_ACCESS_TOKEN:-}" ]]; then
-  echo "Error: BWS_ACCESS_TOKEN is not set."
-  echo "Usage: BWS_ACCESS_TOKEN=<token> ./inject-secrets.sh"
+if [[ ! -f .env ]]; then
+  echo "Error: .env not found. Copy .env.example and fill in your secrets."
   exit 1
 fi
 
-echo "→ Pulling secrets from Bitwarden Secrets Manager..."
+# Load .env
+set -a; source .env; set +a
 
-# Pull secrets via bws run — injects them as env vars into the subshell
-eval "$(bws run -- env 2>/dev/null | grep -E '^(SUPABASE_URL|SUPABASE_ANON_KEY|SUPABASE_SERVICE_ROLE_KEY|SUPABASE_JWT_SECRET|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|NOAA_TIDES_API_KEY)=' | sed 's/^/export /')"
-
-# Verify required secrets were pulled
-for var in SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY SUPABASE_JWT_SECRET; do
+# Verify required vars are present
+for var in SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY; do
   if [[ -z "${!var:-}" ]]; then
-    echo "Error: $var not found in bws secrets"
+    echo "Error: $var is not set in .env"
     exit 1
   fi
 done
@@ -38,20 +34,6 @@ ${STRIPE_SECRET_KEY:+STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}}
 ${STRIPE_WEBHOOK_SECRET:+STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}}
 ${NOAA_TIDES_API_KEY:+NOAA_TIDES_API_KEY=${NOAA_TIDES_API_KEY}}
 EOF
-
-echo "→ Writing .env (for API + docker-compose)..."
-# Preserve non-secret lines from existing .env, then append updated values
-grep -v -E '^(SUPABASE_URL|SUPABASE_ANON_KEY|SUPABASE_SERVICE_ROLE_KEY|SUPABASE_JWT_SECRET|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|NOAA_TIDES_API_KEY)=' .env > .env.tmp 2>/dev/null || true
-cat >> .env.tmp <<EOF
-SUPABASE_URL=${SUPABASE_URL}
-SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
-SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
-SUPABASE_JWT_SECRET=${SUPABASE_JWT_SECRET}
-${STRIPE_SECRET_KEY:+STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}}
-${STRIPE_WEBHOOK_SECRET:+STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}}
-${NOAA_TIDES_API_KEY:+NOAA_TIDES_API_KEY=${NOAA_TIDES_API_KEY}}
-EOF
-mv .env.tmp .env
 
 echo "→ Rebuilding + restarting api and web containers..."
 docker compose up -d --build api web
