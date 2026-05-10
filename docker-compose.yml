@@ -50,7 +50,7 @@ services:
     container_name: koastcast_api
     restart: unless-stopped
     ports:
-      - "8002:8000"
+      - "8003:8000"
     volumes:
       - ./apps/api/models:/app/models  # ML models persist
       - ./data:/app/data               # bathymetry, SWAN configs
