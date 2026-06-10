@@ -148,32 +148,79 @@ async def _fetch_current_conditions(spot: Spot) -> CurrentConditions | None:
         return None
 
 
+# Hard cap on how many spots we'll ever fetch live conditions for in one request.
+# The catalog is global (1000+ spots); fetching conditions for all would mean
+# thousands of Open-Meteo calls. Conditions are opt-in and bounded.
+MAX_CONDITIONS_FETCH = 30
+
+
 @router.get("/spots", response_model=list[SpotWithConditions])
-async def list_spots() -> list[SpotWithConditions]:
+async def list_spots(
+    conditions: bool = False,
+    near: str | None = None,
+    limit: int = 0,
+) -> list[SpotWithConditions]:
     """
-    Return all surf spots with current conditions where available.
-    Fetches live conditions for up to 20 spots concurrently.
+    Return surf spots.
+
+    By default returns **metadata only** — fast and scales to the full global
+    catalog (1000+ spots). Live conditions are opt-in and bounded:
+
+    - `?conditions=true` — attach current conditions for a bounded set.
+    - `?near=lat,lng`     — restrict the conditions set to the nearest spots.
+    - `?limit=N`          — cap results (and the conditions set).
+
+    Pin coloring at "all spots" zoom should rely on metadata; full quality +
+    Trust Score come from `/forecast/{spot}` when a spot is opened.
     """
     spots = await get_spots()
     if not spots:
         raise HTTPException(status_code=503, detail="Spot data unavailable")
 
-    # Fetch conditions for all spots concurrently (cap concurrency to avoid hammering Open-Meteo)
+    # Optional: rank by proximity to a point.
+    origin = _parse_near(near)
+    if origin is not None:
+        spots = sorted(spots, key=lambda s: _dist2(origin, (s.lat, s.lng)))
+
+    if limit and limit > 0:
+        spots = spots[:limit]
+
+    # Metadata-only fast path (default).
+    if not conditions:
+        return [SpotWithConditions(**s.model_dump(), current_conditions=None) for s in spots]
+
+    # Bounded live-conditions path.
+    targets = spots[:MAX_CONDITIONS_FETCH]
     sem = asyncio.Semaphore(8)
 
     async def fetch_with_sem(spot: Spot) -> CurrentConditions | None:
         async with sem:
             return await _fetch_current_conditions(spot)
 
-    conditions = await asyncio.gather(*[fetch_with_sem(s) for s in spots], return_exceptions=True)
+    cond = await asyncio.gather(*[fetch_with_sem(s) for s in targets], return_exceptions=True)
+    cond_by_slug: dict[str, CurrentConditions | None] = {}
+    for spot, cc in zip(targets, cond):
+        cond_by_slug[spot.slug] = None if isinstance(cc, Exception) else cc
 
-    result = []
-    for spot, cc in zip(spots, conditions):
-        if isinstance(cc, Exception):
-            cc = None
-        result.append(SpotWithConditions(**spot.model_dump(), current_conditions=cc))
+    return [
+        SpotWithConditions(**s.model_dump(), current_conditions=cond_by_slug.get(s.slug))
+        for s in spots
+    ]
 
-    return result
+
+def _parse_near(near: str | None) -> tuple[float, float] | None:
+    if not near:
+        return None
+    try:
+        lat_s, lng_s = near.split(",")
+        return (float(lat_s), float(lng_s))
+    except (ValueError, AttributeError):
+        return None
+
+
+def _dist2(a: tuple[float, float], b: tuple[float, float]) -> float:
+    # Cheap squared planar distance — fine for ranking.
+    return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2
 
 
 @router.get("/spots/{slug}", response_model=SpotWithConditions)

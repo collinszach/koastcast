@@ -13,6 +13,10 @@ import math
 from dataclasses import dataclass, field
 from typing import Literal
 
+# Set True when the proprietary tuned weights load; False on placeholder fallback.
+# Surfaced in /health so a misconfigured deploy is loud, not silent.
+WEIGHTS_TUNED: bool = False
+
 try:
     from scoring.weights import (
         STOKE_WEIGHTS,
@@ -22,14 +26,19 @@ try:
         GROUNDSWELL_THRESHOLD_S,
         PERIOD_SHORT_MIN_S,
     )
+    WEIGHTS_TUNED = True
 except ImportError:
     # weights.py is proprietary and not included in the public repo.
-    # App starts but scoring will not reflect tuned production values.
-    import warnings
-    warnings.warn(
-        "config/weights.py not found — using untuned placeholder values. "
-        "See apps/api/config/weights.example.py.",
-        stacklevel=1,
+    # App starts but scoring will NOT reflect tuned production values:
+    #   - STOKE_WEIGHTS are uniform (no factor emphasis)
+    #   - SKILL_MULTIPLIERS are all 1.0 (skill personalization is a no-op)
+    #   - TIDE_PROFILES are flat (break-type tide logic is a no-op)
+    # This is a degraded mode. /health reports scoring_weights="placeholder".
+    import structlog as _structlog
+    _structlog.get_logger(__name__).error(
+        "scoring/weights.py NOT FOUND — running with UNTUNED placeholder weights. "
+        "Scoring quality is degraded. Copy scoring/weights.example.py → scoring/weights.py "
+        "with tuned values. See /health (scoring_weights).",
     )
     STOKE_WEIGHTS = {"height": 0.143, "period": 0.143, "direction": 0.143, "wind": 0.143, "steepness": 0.143, "tide": 0.143, "crowd": 0.142}
     SKILL_MULTIPLIERS = {"beginner": 1.0, "intermediate": 1.0, "advanced": 1.0, "pro": 1.0}

@@ -23,6 +23,8 @@ from services.stoke_score import (
 )
 from services.nowcast import extract_spectral_bands, nowcast_blend
 from services.tides import build_tide_lookup, fetch_tide_predictions
+from services.tide_stations import nearest_tide_station
+from services.trust import compute_trust, summarize_trust
 
 logger = structlog.get_logger(__name__)
 
@@ -94,6 +96,14 @@ async def get_forecast(
         except Exception as exc:
             log.warning("Buoy obs fetch failed", error=str(exc))
     spectral_bands = extract_spectral_bands(buoy_obs)
+
+    # Age of the live buoy reading (feeds Trust Score freshness). None if no buoy.
+    buoy_age_hours: float | None = None
+    if buoy_obs is not None and buoy_obs.observed_at is not None:
+        obs_at = buoy_obs.observed_at
+        if obs_at.tzinfo is None:
+            obs_at = obs_at.replace(tzinfo=timezone.utc)
+        buoy_age_hours = max(0.0, (datetime.now(timezone.utc) - obs_at).total_seconds() / 3600)
 
     # Fetch tide predictions
     tide_station = _get_tide_station(spot)
@@ -214,6 +224,16 @@ async def get_forecast(
         # Model agreement (from ensemble mode)
         model_agree: float | None = _safe_float(model_agreement_arr, i) if model_agreement_arr else None
 
+        # Trust Score — how much to trust this hour (claim to fame)
+        trust = compute_trust(
+            lead_hours=lead_hours,
+            model_agreement=model_agree,
+            confidence=confidence,
+            buoy_age_hours=buoy_age_hours,
+            is_nowcast=is_nowcast,
+            ensemble=ensemble,
+        )
+
         hours.append(ForecastHour(
             forecast_time=ts,
             model_source="ensemble" if ensemble else "open_meteo",
@@ -244,9 +264,20 @@ async def get_forecast(
             ocean_current_velocity_ms=ocean_cur_v,
             ocean_current_direction=ocean_cur_d,
             is_nowcast=is_nowcast,
+            trust_score=trust.score,
+            trust_label=trust.label,
+            trust_factors=trust.factors,
+            trust_limiting_factor=trust.limiting_factor,
         ))
 
     log.info("Forecast assembled", hours=len(hours))
+
+    # Headline trust over the next-24h actionable window
+    window = hours[:24]
+    trust_summary = summarize_trust(
+        [h.trust_score for h in window],
+        [h.trust_limiting_factor or "unknown" for h in window],
+    )
 
     return ForecastResponse(
         spot_id=str(spot.id) if spot.id else spot.slug,
@@ -257,6 +288,7 @@ async def get_forecast(
         model_sources=list(model_forecasts.keys()) if model_forecasts else ["open_meteo"],
         ensemble_mode=ensemble,
         model_forecasts=model_forecasts,
+        trust_summary=trust_summary,
     )
 
 
@@ -271,9 +303,14 @@ def _safe_float(lst: list, i: int) -> float | None:
 def _get_tide_station(spot) -> str | None:  # type: ignore[no-untyped-def]
     """
     Return the best NOAA tide station for a spot.
-    Uses the spot's nearest_buoy_id region as a proxy.
+
+    Resolution order:
+      1. Hand-validated per-spot override (most accurate).
+      2. Nearest CO-OPS reference station by great-circle distance — correct for
+         any spot anywhere, instead of falling back to a single regional default.
+      3. Regional timezone fallback (last resort if coordinates are missing).
     """
-    # Hardcoded best tide stations per spot
+    # Hand-validated best tide stations per spot
     SPOT_TIDE_STATIONS: dict[str, str] = {
         "mavericks-ca": "9414290",       # SF
         "steamer-lane-ca": "9413450",    # Monterey
@@ -286,4 +323,16 @@ def _get_tide_station(spot) -> str | None:  # type: ignore[no-untyped-def]
         "montauk-ny": "8510560",         # Montauk
         "pipeline-oahu-hi": "1612340",   # Honolulu (proxy)
     }
-    return SPOT_TIDE_STATIONS.get(spot.slug) or TIDE_STATION_FALLBACK.get(spot.timezone)
+    override = SPOT_TIDE_STATIONS.get(spot.slug)
+    if override:
+        return override
+
+    # Nearest curated CO-OPS station by distance (fixes wrong-coast tides)
+    lat = getattr(spot, "lat", None)
+    lon = getattr(spot, "lng", None)
+    if lat is not None and lon is not None:
+        nearest = nearest_tide_station(lat, lon)
+        if nearest:
+            return nearest[0]
+
+    return TIDE_STATION_FALLBACK.get(spot.timezone)

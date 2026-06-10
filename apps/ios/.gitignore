@@ -1,0 +1,12 @@
+# XcodeGen-generated project — regenerate with `xcodegen generate`
+KoastCast.xcodeproj/
+
+# Xcode / SwiftPM
+.build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+.swiftpm/
+
+# macOS
+.DS_Store

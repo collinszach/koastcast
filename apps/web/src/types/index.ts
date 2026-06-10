@@ -75,6 +75,20 @@ export interface ForecastHour {
   crowd_label?: string | null
   model_agreement?: number | null
   model_agreement_label?: 'agree' | 'mild_disagreement' | 'disagree' | null
+  is_nowcast?: boolean
+  // Trust Score — how much to trust this hour's forecast
+  trust_score?: number | null
+  trust_label?: TrustLabel | null
+  trust_factors?: Record<string, number> | null
+  trust_limiting_factor?: string | null
+}
+
+export type TrustLabel = 'High' | 'Good' | 'Moderate' | 'Low' | 'Speculative'
+
+export interface TrustSummary {
+  score: number | null
+  label: TrustLabel | 'unknown'
+  limiting_factor: string
 }
 
 export interface ForecastResponse {
@@ -86,6 +100,7 @@ export interface ForecastResponse {
   model_sources: string[]
   ensemble_mode?: boolean
   model_forecasts?: Record<string, ForecastHour[]> | null
+  trust_summary?: TrustSummary | null
 }
 
 export interface BuoyObservation {

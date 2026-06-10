@@ -79,7 +79,13 @@ app.include_router(snow.router,         prefix="/api/v1", tags=["snow"])
 
 @app.get("/health")
 async def health():
-    return {"status": "ok"}
+    from services.stoke_score import WEIGHTS_TUNED
+
+    return {
+        "status": "ok",
+        # "placeholder" means scoring/weights.py is missing → degraded scoring.
+        "scoring_weights": "tuned" if WEIGHTS_TUNED else "placeholder",
+    }
 
 
 @app.get("/")

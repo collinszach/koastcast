@@ -93,6 +93,11 @@ class ForecastHour(BaseModel):
     # Ensemble
     model_agreement: float | None = None   # 0-1 agreement between models
     model_agreement_label: str | None = None  # "agree", "mild_disagreement", "disagree"
+    # Trust Score — how much to trust this hour's forecast (Koastcast's claim to fame)
+    trust_score: float | None = None       # 0-100
+    trust_label: str | None = None         # "High" | "Good" | "Moderate" | "Low" | "Speculative"
+    trust_factors: dict[str, float] | None = None  # normalized 0-1 inputs for the "Why" sheet
+    trust_limiting_factor: str | None = None       # factor dragging trust down most
     # Second swell train
     swell_height_2_m: float | None = None
     swell_period_2_s: float | None = None
@@ -116,6 +121,8 @@ class ForecastResponse(BaseModel):
     # Ensemble metadata
     ensemble_mode: bool = False
     model_forecasts: dict[str, Any] | None = None  # individual model data (premium)
+    # Headline Trust Score over the actionable (next 24h) window
+    trust_summary: dict[str, Any] | None = None
 
 
 # ─── Buoy Observation ─────────────────────────────────────────────────────────

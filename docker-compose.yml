@@ -108,7 +108,10 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: koastcast_tunnel
     restart: unless-stopped
-    command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    # Token comes from the TUNNEL_TOKEN env var below — do NOT also pass it on the
+    # command line. Interpolating it into `command:` word-splits on any stray
+    # space/newline in the token and breaks with "accepts only one argument".
+    command: tunnel --no-autoupdate run
     environment:
       - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
     depends_on:
