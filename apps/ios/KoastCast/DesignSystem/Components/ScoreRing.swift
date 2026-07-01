@@ -9,6 +9,7 @@ struct ScoreRing: View {
     var isPersonalized: Bool = false
 
     @State private var animatedProgress: Double = 0
+    @State private var shown: Int = 0
 
     private var color: Color { Theme.qualityColor(score) }
 
@@ -23,9 +24,11 @@ struct ScoreRing: View {
                     .rotationEffect(.degrees(-90))
                     .shadow(color: color.opacity(0.5), radius: 8)
                 VStack(spacing: 0) {
-                    Text("\(Int(score.rounded()))")
+                    Text("\(shown)")
                         .font(Theme.display(40))
                         .foregroundStyle(.white)
+                        .contentTransition(.numericText())
+                        .monospacedDigit()
                     if !emoji.isEmpty {
                         Text(emoji).font(.system(size: 16))
                     }
@@ -49,10 +52,25 @@ struct ScoreRing: View {
             withAnimation(.easeOut(duration: 0.9)) {
                 animatedProgress = min(1, max(0, score / 100))
             }
+            animateCount(to: Int(score.rounded()))
         }
         .onChange(of: score) { _, newValue in
             withAnimation(.easeOut(duration: 0.6)) {
                 animatedProgress = min(1, max(0, newValue / 100))
+            }
+            animateCount(to: Int(newValue.rounded()))
+        }
+    }
+
+    /// Roll the displayed number up to the target over ~0.8s.
+    private func animateCount(to target: Int) {
+        let steps = 22
+        let start = shown
+        for i in 0...steps {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) / Double(steps) * 0.8) {
+                withAnimation(.easeOut(duration: 0.12)) {
+                    shown = start + Int(Double(target - start) * Double(i) / Double(steps))
+                }
             }
         }
     }

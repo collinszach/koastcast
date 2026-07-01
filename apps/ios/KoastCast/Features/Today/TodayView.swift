@@ -31,6 +31,10 @@ struct TodayView: View {
                     }
                     .padding(20)
                 }
+                .refreshable {
+                    Haptics.tap()
+                    await app.refreshSpots()
+                }
             }
             .navigationDestination(for: Spot.self) { SpotDetailView(spot: $0) }
             .navigationBarTitleDisplayMode(.inline)

@@ -62,6 +62,10 @@ struct SpotListView: View {
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
             .background(Theme.oceanGradient.ignoresSafeArea())
+            .refreshable {
+                Haptics.tap()
+                await app.refreshSpots()
+            }
             .navigationTitle("Forecast")
             .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always),
                         prompt: "Search 1000+ spots")

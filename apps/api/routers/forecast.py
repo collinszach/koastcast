@@ -175,17 +175,21 @@ async def get_forecast(
             swell_dir = swell_d or wave_d or 270.0
             optimal_dir = spot.optimal_swell_direction or 270.0
             angle_diff = compute_angle_diff(swell_dir, optimal_dir)
-            face_h, confidence = corrector.predict(
-                buoy_hs=wave_h,
-                buoy_tp=wave_p,
-                buoy_dir=swell_dir,
-                swell_angle_diff=angle_diff,
-                wind_speed=wind_spd or 0.0,
-                wind_dir=wind_dir or 0.0,
-                tide_height=tide_h or 0.0,
-                spectral_bands=spectral_bands,
-                doy=ts.timetuple().tm_yday,
-            )
+            try:
+                face_h, confidence = corrector.predict(
+                    buoy_hs=wave_h,
+                    buoy_tp=wave_p,
+                    buoy_dir=swell_dir,
+                    swell_angle_diff=angle_diff,
+                    wind_speed=wind_spd or 0.0,
+                    wind_dir=wind_dir or 0.0,
+                    tide_height=tide_h or 0.0,
+                    spectral_bands=spectral_bands,
+                    doy=ts.timetuple().tm_yday,
+                )
+            except Exception as exc:
+                log.warning("Bias corrector failed; using raw height", error=str(exc))
+                face_h, confidence = wave_h, 0.2
 
         # Compute quality score using stoke engine with default prefs
         quality_score: float | None = None

@@ -43,4 +43,15 @@ final class AppState {
     func addSession(_ session: LoggedSession) {
         sessions.insert(session, at: 0)
     }
+
+    /// Pull-to-refresh: re-fetch the catalog without flashing an empty list.
+    @MainActor
+    func refreshSpots() async {
+        do {
+            let fetched = try await APIClient.shared.spots()
+            if !fetched.isEmpty { spots = fetched; loadFailed = false }
+        } catch {
+            loadFailed = true
+        }
+    }
 }

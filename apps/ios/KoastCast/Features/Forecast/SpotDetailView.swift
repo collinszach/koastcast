@@ -13,19 +13,28 @@ struct SpotDetailView: View {
         ZStack {
             Theme.oceanGradient.ignoresSafeArea()
             ScrollView {
-                VStack(spacing: 20) {
-                    hero
-                    if loader.usingSample { sampleBanner }
-                    conditionsRow
-                    trustSection
-                    if let hours = loader.forecast?.hours, !hours.isEmpty {
-                        ForecastTimelineView(hours: Array(hours.prefix(days * 24)))
-                        TideChartView(hours: Array(hours.prefix(72)))
+                if loader.isLoading && loader.forecast == nil {
+                    SpotDetailSkeleton()
+                        .padding(20)
+                } else {
+                    VStack(spacing: 20) {
+                        hero
+                        if loader.isOffline { offlineBanner }
+                        conditionsRow
+                        trustSection
+                        if let hours = loader.forecast?.hours, !hours.isEmpty {
+                            ForecastTimelineView(hours: Array(hours.prefix(days * 24)))
+                            TideChartView(hours: Array(hours.prefix(72)))
+                        }
+                        buoySection
+                        aiAsk
                     }
-                    buoySection
-                    aiAsk
+                    .padding(20)
                 }
-                .padding(20)
+            }
+            .refreshable {
+                Haptics.tap()
+                await loader.reload(spot: spot, days: 7)
             }
         }
         .navigationTitle(spot.name)
@@ -33,10 +42,12 @@ struct SpotDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
+                    Haptics.tap()
                     app.toggleSaved(spot)
                 } label: {
                     Image(systemName: app.isSaved(spot) ? "heart.fill" : "heart")
                         .foregroundStyle(app.isSaved(spot) ? Theme.accent : .white)
+                        .symbolEffect(.bounce, value: app.isSaved(spot))
                 }
             }
         }
@@ -61,16 +72,24 @@ struct SpotDetailView: View {
         .padding(.vertical, 8)
     }
 
-    private var sampleBanner: some View {
-        HStack(spacing: 6) {
+    private var offlineBanner: some View {
+        HStack(spacing: 8) {
             Image(systemName: "wifi.slash").font(.caption)
-            Text("Showing sample data — forecast server unreachable.")
+            Text("Offline estimate — couldn't reach the forecast server.")
                 .font(Theme.body(11))
+            Spacer()
+            Button("Retry") {
+                Haptics.tap()
+                Task { await loader.reload(spot: spot, days: 7) }
+            }
+            .font(Theme.body(11, weight: .semibold))
+            .foregroundStyle(Theme.accent)
         }
         .foregroundStyle(Theme.textTertiary)
         .frame(maxWidth: .infinity)
-        .padding(8)
-        .background(Color.white.opacity(0.04), in: RoundedRectangle(cornerRadius: 10))
+        .padding(10)
+        .background(Color.orange.opacity(0.10), in: RoundedRectangle(cornerRadius: 10))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.orange.opacity(0.25), lineWidth: 1))
     }
 
     // MARK: Conditions snapshot
@@ -163,5 +182,28 @@ struct SpotDetailView: View {
         case 35..<50: return ("WORTH IT", "🏄")
         default: return ("FLAT SPELL", "😴")
         }
+    }
+}
+
+// MARK: - Loading skeleton
+
+private struct SpotDetailSkeleton: View {
+    private func block(_ h: CGFloat) -> some View {
+        RoundedRectangle(cornerRadius: 20, style: .continuous)
+            .fill(Color.white.opacity(0.06))
+            .frame(height: h)
+            .shimmer()
+    }
+    var body: some View {
+        VStack(spacing: 20) {
+            Circle().fill(Color.white.opacity(0.07))
+                .frame(width: 132, height: 132).shimmer()
+            RoundedRectangle(cornerRadius: 6).fill(Color.white.opacity(0.06))
+                .frame(width: 140, height: 14).shimmer()
+            block(70)
+            block(170)
+            block(200)
+        }
+        .frame(maxWidth: .infinity)
     }
 }

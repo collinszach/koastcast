@@ -77,6 +77,26 @@ app.include_router(insights.router,     prefix="/api/v1", tags=["insights"])
 app.include_router(snow.router,         prefix="/api/v1", tags=["snow"])
 
 
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request, exc):
+    """Surface the real error (type + message) instead of a blank 500.
+    Logs the full traceback server-side and returns a structured body so
+    failures are diagnosable from the client (e.g. via curl)."""
+    import traceback
+    from fastapi.responses import JSONResponse
+    logger.error(
+        "Unhandled exception",
+        path=str(request.url.path),
+        error_type=type(exc).__name__,
+        error=str(exc),
+        traceback=traceback.format_exc(),
+    )
+    return JSONResponse(
+        status_code=500,
+        content={"error": type(exc).__name__, "detail": str(exc), "path": str(request.url.path)},
+    )
+
+
 @app.get("/health")
 async def health():
     from services.stoke_score import WEIGHTS_TUNED
