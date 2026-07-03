@@ -28,6 +28,7 @@ import SwellTracker from '@/components/forecast/SwellTracker'
 import { generateConditionsIntelligence } from '@/lib/conditions-intelligence'
 import SessionLogButton from '@/components/sessions/SessionLogButton'
 import SpotActions from './SpotActions'
+import Reveal from '@/components/Reveal'
 
 export const revalidate = 300
 
@@ -333,19 +334,19 @@ export default async function SpotPage({ params }: PageProps) {
       <div className="max-w-5xl mx-auto px-4 py-6 space-y-5">
 
         {/* ── CAMS (Surfline-style, primary section) ── */}
-        <div>
+        <Reveal>
           <SectionHeader label="Surf Cams" />
           <SpotCams spot={spot} />
-        </div>
+        </Reveal>
 
         {/* ── REPORT / AI ANALYSIS ── */}
         {intelligence ? (
-          <div>
+          <Reveal delay={0.05}>
             <SectionHeader label="Conditions Report" />
             <ConditionsIntelligence data={intelligence} spotName={spot.name} />
-          </div>
+          </Reveal>
         ) : (
-          <div>
+          <Reveal delay={0.05}>
             <SectionHeader label="Conditions Report" />
             <div className="glass-card p-5" style={{
               border: '1px solid rgba(245,158,11,0.2)',
@@ -384,11 +385,11 @@ export default async function SpotPage({ params }: PageProps) {
                 </p>
               </div>
             </div>
-          </div>
+          </Reveal>
         )}
 
         {/* ── FORECAST (main feature — Surfline-style with day tabs + chart + table) ── */}
-        <div>
+        <Reveal delay={0.1}>
           <SectionHeader
             label={`${forecast?.days_available ?? 7}-Day Forecast`}
             sub={
@@ -412,10 +413,10 @@ export default async function SpotPage({ params }: PageProps) {
               Loading forecast...
             </div>
           )}
-        </div>
+        </Reveal>
 
         {/* ── WIND / TIDE / STOKE trinity ── */}
-        <div>
+        <Reveal delay={0.05}>
           <SectionHeader label="Conditions Detail" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Card title="Peak Score™" accent={config.glow}>
@@ -428,62 +429,62 @@ export default async function SpotPage({ params }: PageProps) {
               <TideChartWidget points={tidePoints} currentTime={currentHour?.forecast_time} />
             </Card>
           </div>
-        </div>
+        </Reveal>
 
         {/* ── WEEK OVERVIEW ── */}
         {forecast && forecast.hours.length > 0 && (
-          <div>
+          <Reveal>
             <SectionHeader label="7-Day Overview" />
             <div className="glass-card p-4">
               <WeekQualityBar hours={forecast.hours} />
             </div>
-          </div>
+          </Reveal>
         )}
 
         {/* ── LIVE BUOY DATA ── */}
         {spot.nearest_buoy_id && (
-          <div>
+          <Reveal>
             <SectionHeader label="Live Buoy Data" sub={`NDBC Station ${spot.nearest_buoy_id}`} />
             <BuoyReadings buoyId={spot.nearest_buoy_id} spotName={spot.name} />
-          </div>
+          </Reveal>
         )}
 
         {/* ── OPTIMAL WINDOWS ── */}
-        <div>
+        <Reveal>
           <SectionHeader label="Optimal Sessions" sub="best windows next 14 days" />
           <Card>
             <OptimalWindows spotId={spot.slug} spotName={spot.name} isPremium={isPremium} />
           </Card>
-        </div>
+        </Reveal>
 
         {/* ── SWELL SPECTRUM ── */}
         {spectrumSnapshots.length > 0 && (
-          <div>
+          <Reveal>
             <SectionHeader label="Swell Spectrum" sub="wave energy by period" />
             <Card>
               <SwellSpectrumWidget snapshots={spectrumSnapshots} />
             </Card>
-          </div>
+          </Reveal>
         )}
 
         {/* ── SWELL TRACKER ── */}
-        <div>
+        <Reveal>
           <SectionHeader label="Swell Tracker" sub="named events · 16-day" />
           <Card>
             <SwellTracker spotId={spot.slug} />
           </Card>
-        </div>
+        </Reveal>
 
         {/* ── MODEL COMPARISON ── */}
-        <div>
+        <Reveal>
           <SectionHeader label="Model Comparison" sub="ECMWF · GFS · ICON" />
           <Card>
             <ModelComparison modelForecasts={forecast?.model_forecasts ?? {}} isPremium={isPremium} />
           </Card>
-        </div>
+        </Reveal>
 
         {/* ── GEAR ── */}
-        <div>
+        <Reveal>
           <SectionHeader label="Gear Recommendation" />
           <Card>
             <GearRecommendation
@@ -492,10 +493,12 @@ export default async function SpotPage({ params }: PageProps) {
               wavePeriodS={currentHour?.wave_period_s ?? undefined}
             />
           </Card>
-        </div>
+        </Reveal>
 
         {/* ── SAFETY ── */}
-        <SafetyPanel spotId={spot.slug} spotName={spot.name} />
+        <Reveal>
+          <SafetyPanel spotId={spot.slug} spotName={spot.name} />
+        </Reveal>
 
         {/* ── SPOT INFO FOOTER ── */}
         <div

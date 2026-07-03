@@ -26,7 +26,7 @@ struct BriefingCard: View {
                 .lineSpacing(3)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .glassCard()
+        .glassCard(accent: Theme.accent)
         .task(id: spots.map(\.id).joined()) {
             for spot in spots.prefix(3) where loaders[spot.id] == nil {
                 let loader = ForecastLoader()

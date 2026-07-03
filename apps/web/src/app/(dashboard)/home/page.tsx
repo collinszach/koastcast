@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 import type { Spot } from '@/types'
 import { getConditionLabel, formatWaveHeight, formatPeriod, formatWindSpeed, directionArrow } from '@/types'
 import { useLocation } from '@/lib/location'
@@ -164,7 +165,11 @@ function TodaysBrief({ spot, hasLocation }: { spot: SpotWithDist | null; hasLoca
 
   return (
     <div style={{ padding: '16px 20px 0' }}>
-      <div style={{
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        style={{
         background: 'rgba(6,13,26,0.72)',
         border: '1px solid rgba(6,182,212,0.18)',
         borderRadius: 14,
@@ -321,7 +326,7 @@ function TodaysBrief({ spot, hasLocation }: { spot: SpotWithDist | null; hasLoca
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }
@@ -393,19 +398,24 @@ function MySpotsStrip({ spots }: { spots: SpotWithDist[] }) {
         gridTemplateColumns: 'repeat(3, 1fr)',
         gap: 10,
       }}>
-        {display.map(spot => {
+        {display.map((spot, i) => {
           const cc = spot.current_conditions
           const label = getConditionLabel(cc?.quality_score)
           const meta = COND[label]
           return (
             <Link key={spot.slug} href={`/spot/${spot.slug}`} style={{ textDecoration: 'none' }}>
-              <div style={{
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: i * 0.06, ease: 'easeOut' }}
+                whileHover={{ y: -4, borderColor: 'rgba(6,182,212,0.35)', boxShadow: '0 10px 28px rgba(0,0,0,0.35)' }}
+                whileTap={{ scale: 0.98 }}
+                style={{
                 background: 'rgba(6,13,26,0.7)',
                 border: '1px solid rgba(6,182,212,0.12)',
                 borderRadius: 12,
                 padding: '14px 16px',
                 cursor: 'pointer',
-                transition: 'border-color 0.15s',
                 position: 'relative',
                 overflow: 'hidden',
               }}>
@@ -483,7 +493,7 @@ function MySpotsStrip({ spots }: { spots: SpotWithDist[] }) {
 
                 {/* Quality dots */}
                 <QualityDots score={cc?.quality_score} />
-              </div>
+              </motion.div>
             </Link>
           )
         })}
@@ -648,7 +658,11 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
         </Link>
       </div>
 
-      <div style={{
+      <motion.div
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        style={{
         background: `linear-gradient(135deg, ${verdictColor}0A, rgba(6,13,26,0.9))`,
         border: `1px solid ${verdictColor}22`,
         borderLeft: `3px solid ${verdictColor}`,
@@ -660,18 +674,26 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
         flexWrap: 'wrap' as const,
       }}>
         {/* Verdict */}
-        <div style={{
+        <motion.div
+          animate={verdict === 'GO' ? {
+            filter: [
+              `drop-shadow(0 0 12px ${verdictColor}50)`,
+              `drop-shadow(0 0 26px ${verdictColor}90)`,
+              `drop-shadow(0 0 12px ${verdictColor}50)`,
+            ],
+          } : {}}
+          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+          style={{
           fontFamily: 'var(--font-display)',
           fontSize: 44,
           fontWeight: 900,
           color: verdictColor,
           letterSpacing: '-0.02em',
           lineHeight: 1,
-          filter: `drop-shadow(0 0 16px ${verdictColor}60)`,
           minWidth: 100,
         }}>
           {verdict}
-        </div>
+        </motion.div>
 
         {/* Spot + window */}
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -732,23 +754,26 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
         </div>
 
         {/* CTA */}
-        <Link href={`/spot/${spot.slug}`} style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 44,
-          height: 44,
-          borderRadius: '50%',
-          background: `${verdictColor}20`,
-          border: `1px solid ${verdictColor}40`,
-          color: verdictColor,
-          fontSize: 18,
-          textDecoration: 'none',
-          flexShrink: 0,
-        }}>
-          →
+        <Link href={`/spot/${spot.slug}`} style={{ textDecoration: 'none', flexShrink: 0 }}>
+          <motion.div
+            whileHover={{ scale: 1.1, background: `${verdictColor}35` }}
+            whileTap={{ scale: 0.92 }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 44,
+              height: 44,
+              borderRadius: '50%',
+              background: `${verdictColor}20`,
+              border: `1px solid ${verdictColor}40`,
+              color: verdictColor,
+              fontSize: 18,
+            }}>
+            →
+          </motion.div>
         </Link>
-      </div>
+      </motion.div>
     </div>
   )
 }
@@ -763,7 +788,12 @@ function SpotRow({ spot, rank }: { spot: SpotWithDist; rank: number }) {
 
   return (
     <Link href={`/spot/${spot.slug}`} style={{ textDecoration: 'none' }}>
-      <div style={{
+      <motion.div
+        initial={{ opacity: 0, x: -8 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3, delay: rank * 0.04, ease: 'easeOut' }}
+        whileHover={{ background: 'rgba(6,182,212,0.06)', x: 3 }}
+        style={{
         display: 'flex',
         alignItems: 'center',
         gap: 0,
@@ -844,7 +874,7 @@ function SpotRow({ spot, rank }: { spot: SpotWithDist; rank: number }) {
             {condLabel(score)}
           </span>
         </div>
-      </div>
+      </motion.div>
     </Link>
   )
 }
@@ -1201,21 +1231,26 @@ export default function IntelHubPage() {
             { href: '/map',      icon: '◉',  title: 'Live Map',    sub: 'All spots live',        accent: '#06B6D4' },
             { href: '/snow',     icon: '❄',  title: 'Snow',        sub: 'Resort forecasts',      accent: '#8B5CF6' },
             { href: '/sessions', icon: '◷',  title: 'Sessions',    sub: 'Log your surf',         accent: '#10B981' },
-          ].map(({ href, icon, title, sub, accent }) => (
+          ].map(({ href, icon, title, sub, accent }, i) => (
             <Link key={href} href={href} style={{ textDecoration: 'none' }}>
-              <div style={{
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: i * 0.05, ease: 'easeOut' }}
+                whileHover={{ y: -3, background: `${accent}12`, borderColor: `${accent}40` }}
+                whileTap={{ scale: 0.97 }}
+                style={{
                 borderRadius: 14,
                 border: `1px solid ${accent}18`,
                 background: `${accent}07`,
                 padding: '16px 12px',
                 textAlign: 'center',
                 cursor: 'pointer',
-                transition: 'all 0.2s',
               }}>
                 <div style={{ fontSize: 20, color: accent, marginBottom: 6, filter: `drop-shadow(0 0 6px ${accent}60)` }}>{icon}</div>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 700, color: 'var(--foam)', marginBottom: 3 }}>{title}</div>
                 <div style={{ fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.03em' }}>{sub}</div>
-              </div>
+              </motion.div>
             </Link>
           ))}
         </div>
@@ -1284,9 +1319,13 @@ export default function IntelHubPage() {
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
-            {sessions.slice(0, 3).map(sess => (
-              <div
+            {sessions.slice(0, 3).map((sess, i) => (
+              <motion.div
                 key={sess.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: i * 0.06, ease: 'easeOut' }}
+                whileHover={{ y: -3, borderColor: 'rgba(6,182,212,0.3)' }}
                 style={{
                   background: 'rgba(6,13,26,0.7)',
                   border: '1px solid rgba(6,182,212,0.1)',
@@ -1318,7 +1357,7 @@ export default function IntelHubPage() {
                     {sess.notes}
                   </div>
                 )}
-              </div>
+              </motion.div>
             ))}
             <Link href="/sessions" style={{ textDecoration: 'none' }}>
               <div style={{

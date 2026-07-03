@@ -12,8 +12,8 @@ struct SessionsView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         statsRow
                         Text("History")
-                            .font(Theme.display(18, weight: .bold))
-                            .foregroundStyle(.white)
+                            .sectionLabel()
+                            .padding(.top, Spacing.xs)
                         if app.sessions.isEmpty {
                             Text("No sessions yet. Tap + to log your first.")
                                 .font(Theme.body(14)).foregroundStyle(Theme.textTertiary)
@@ -52,7 +52,7 @@ struct SessionsView: View {
             Text(label).font(Theme.body(11)).foregroundStyle(Theme.textTertiary)
         }
         .frame(maxWidth: .infinity)
-        .glassCard(padding: 14)
+        .glassCard(padding: 14, accent: Theme.accent)
     }
 
     private func sessionRow(_ s: LoggedSession) -> some View {
@@ -73,7 +73,7 @@ struct SessionsView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .glassCard(padding: 14)
+        .glassCard(padding: 14, accent: Theme.qualityColor(Double(s.qualityRating) * 10))
     }
 
     private func tag(_ s: String) -> some View {

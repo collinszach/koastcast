@@ -104,7 +104,7 @@ struct SpotDetailView: View {
             divider
             condition("Swell", Units.direction(hour?.swellDirection ?? hour?.waveDirection))
         }
-        .glassCard(padding: 16)
+        .glassCard(padding: 16, accent: Theme.qualityColor(quality100))
     }
 
     private func condition(_ label: String, _ value: String) -> some View {
@@ -125,8 +125,7 @@ struct SpotDetailView: View {
         VStack(spacing: 12) {
             HStack {
                 Text("How much to trust this")
-                    .font(Theme.display(15, weight: .bold))
-                    .foregroundStyle(.white)
+                    .sectionLabel()
                 Spacer()
             }
             if let h = hour {
@@ -150,9 +149,8 @@ struct SpotDetailView: View {
 
     private var buoySection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label("Live buoy", systemImage: "dot.radiowaves.left.and.right")
-                .font(Theme.display(14, weight: .bold))
-                .foregroundStyle(.white)
+            Text("Live buoy")
+                .sectionLabel()
             Text(spot.nearestBuoyId.map { "Station \($0) · blended into the next 6 hours of forecast." }
                  ?? "No nearby buoy mapped.")
                 .font(Theme.body(12))

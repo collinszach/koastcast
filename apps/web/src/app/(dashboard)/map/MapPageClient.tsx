@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Bookmark } from 'lucide-react'
 import type { Spot } from '@/types'
 import { getConditionLabel, formatWaveHeight, formatPeriod, formatWindSpeed, directionArrow } from '@/types'
@@ -343,26 +344,19 @@ function SpotRow({ spot, selected, onClick, distMiles }: { spot: Spot; selected:
 
   return (
     <button onClick={onClick} style={{ width: '100%', background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left' }}>
-      <div style={{
+      <motion.div
+        layout
+        initial={{ opacity: 0, x: -6 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.25, ease: 'easeOut' }}
+        whileHover={!selected ? { background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.1)', x: 2 } : undefined}
+        whileTap={{ scale: 0.99 }}
+        style={{
         display: 'flex', alignItems: 'center', gap: 12, padding: '11px 12px',
         borderRadius: 10, position: 'relative', overflow: 'hidden',
         background: selected ? `${m.accent}10` : 'rgba(255,255,255,0.02)',
         border: `1px solid ${selected ? `${m.accent}30` : 'rgba(255,255,255,0.05)'}`,
-        transition: 'all 0.15s',
-      }}
-        onMouseEnter={e => {
-          if (!selected) {
-            (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)';
-            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.1)'
-          }
-        }}
-        onMouseLeave={e => {
-          if (!selected) {
-            (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.02)';
-            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.05)'
-          }
-        }}
-      >
+      }}>
         {/* Left color bar */}
         <div style={{
           position: 'absolute', left: 0, top: 4, bottom: 4, width: 2,
@@ -433,7 +427,7 @@ function SpotRow({ spot, selected, onClick, distMiles }: { spot: Spot; selected:
             <path d="M3.5 2L7 5 3.5 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
-      </div>
+      </motion.div>
     </button>
   )
 }
@@ -1095,31 +1089,51 @@ export default function MapPageClient({ spots, offline = false }: { spots: Spot[
           flexDirection: 'column',
           overflow: 'hidden',
         }}>
-          {selected ? (
-            <DetailPanel spot={selected} onClose={handleDetailClose} />
-          ) : (
-            <SpotList
-              spots={spots}
-              filtered={viewportSpots}
-              totalFiltered={filtered.length}
-              selected={selected}
-              condFilter={condFilter}
-              condCounts={condCounts}
-              qualityFilter={qualityFilter}
-              search={search}
-              sortBy={sortBy}
-              userLocation={userLocation}
-              locPermission={locPermission}
-              locating={locating}
-              offline={offline}
-              onSelect={slug => handleSelect(slug)}
-              onCondFilterChange={setCondFilter}
-              onQualityFilterChange={setQualityFilter}
-              onSearchChange={setSearch}
-              onSortChange={setSortBy}
-              onNearMe={handleLocate}
-            />
-          )}
+          <AnimatePresence mode="wait" initial={false}>
+            {selected ? (
+              <motion.div
+                key="detail"
+                initial={{ opacity: 0, x: 16 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 16 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                style={{ height: '100%' }}
+              >
+                <DetailPanel spot={selected} onClose={handleDetailClose} />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="list"
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -16 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                style={{ height: '100%' }}
+              >
+                <SpotList
+                  spots={spots}
+                  filtered={viewportSpots}
+                  totalFiltered={filtered.length}
+                  selected={selected}
+                  condFilter={condFilter}
+                  condCounts={condCounts}
+                  qualityFilter={qualityFilter}
+                  search={search}
+                  sortBy={sortBy}
+                  userLocation={userLocation}
+                  locPermission={locPermission}
+                  locating={locating}
+                  offline={offline}
+                  onSelect={slug => handleSelect(slug)}
+                  onCondFilterChange={setCondFilter}
+                  onQualityFilterChange={setQualityFilter}
+                  onSearchChange={setSearch}
+                  onSortChange={setSortBy}
+                  onNearMe={handleLocate}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 

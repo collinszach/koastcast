@@ -20,15 +20,38 @@ enum Theme {
         startPoint: .top, endPoint: .bottom
     )
 
-    // MARK: Fonts (approximations of Syne / JetBrains Mono)
+    // MARK: Fonts — bundled brand type: Syne (display), JetBrains Mono (data), Inter (body).
+    // Falls back to the nearest system font automatically if a name isn't registered
+    // (e.g. Info.plist UIAppFonts entry missing), so the app never renders blank text.
     static func display(_ size: CGFloat, weight: Font.Weight = .heavy) -> Font {
-        .system(size: size, weight: weight, design: .rounded)
+        let name: String
+        switch weight {
+        case .black, .heavy:      name = "SyneExtraBold"
+        case .bold:                name = "SyneBold"
+        case .semibold, .medium:  name = "SyneSemiBold"
+        default:                   name = "Syne-Regular"
+        }
+        return .custom(name, size: size, relativeTo: .largeTitle)
     }
     static func data(_ size: CGFloat, weight: Font.Weight = .semibold) -> Font {
-        .system(size: size, weight: weight, design: .monospaced)
+        let name: String
+        switch weight {
+        case .black, .heavy:      name = "JetBrainsMonoExtraBold"
+        case .bold, .semibold:    name = "JetBrainsMonoBold"
+        case .medium:              name = "JetBrainsMonoMedium"
+        default:                   name = "JetBrainsMono-Regular"
+        }
+        return .custom(name, size: size, relativeTo: .body)
     }
     static func body(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
-        .system(size: size, weight: weight)
+        let name: String
+        switch weight {
+        case .black, .heavy, .bold: name = "InterBold"
+        case .semibold:              name = "InterSemiBold"
+        case .medium:                 name = "InterMedium"
+        default:                      name = "Inter-Regular"
+        }
+        return .custom(name, size: size, relativeTo: .body)
     }
 
     // MARK: Quality palette (Peak Score)
@@ -54,15 +77,50 @@ enum Theme {
     }
 }
 
+/// Consistent spacing rhythm across every screen — reformat pass uses this
+/// instead of ad hoc padding values so the app reads as one system.
+enum Spacing {
+    static let xs: CGFloat = 4
+    static let sm: CGFloat = 8
+    static let md: CGFloat = 12
+    static let lg: CGFloat = 16
+    static let xl: CGFloat = 20
+    static let xxl: CGFloat = 28
+}
+
 extension View {
-    /// Standard glass card surface used across the app.
-    func glassCard(padding: CGFloat = 16) -> some View {
+    /// Standard glass card surface used across the app. Pass `accent` to add
+    /// the cyan top-edge highlight used on hero/flagship cards (mirrors the
+    /// web app's `.glass-card` treatment).
+    func glassCard(padding: CGFloat = 16, accent: Color? = nil) -> some View {
         self
             .padding(padding)
             .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .overlay(alignment: .top) {
+                if let accent {
+                    LinearGradient(colors: [accent, accent.opacity(0)], startPoint: .leading, endPoint: .trailing)
+                        .frame(height: 2)
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .padding(.horizontal, 1)
+                }
+            }
             .overlay(
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .stroke(Theme.hairline, lineWidth: 1)
+                    .stroke(accent?.opacity(0.25) ?? Theme.hairline, lineWidth: 1)
             )
+    }
+
+    /// Small-caps section label with a cyan left rule — the reformat pass's
+    /// standard way to introduce a section, used in place of bespoke headers.
+    func sectionLabel() -> some View {
+        self
+            .font(Theme.data(10, weight: .bold))
+            .tracking(1.6)
+            .foregroundStyle(Theme.accent)
+            .textCase(.uppercase)
+            .padding(.leading, 10)
+            .overlay(alignment: .leading) {
+                Capsule().fill(Theme.accent).frame(width: 3, height: 12)
+            }
     }
 }

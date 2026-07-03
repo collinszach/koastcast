@@ -24,7 +24,7 @@ struct SpotVerdictCard: View {
             Spacer()
             trustChip
         }
-        .glassCard(padding: 14)
+        .glassCard(padding: 14, accent: Theme.qualityColor(quality))
         .task {
             if loader.forecast == nil { await loader.load(spot: spot, days: 2) }
         }

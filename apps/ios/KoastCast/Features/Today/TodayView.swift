@@ -14,9 +14,8 @@ struct TodayView: View {
                         header
                         BriefingCard(spots: app.savedSpots.isEmpty ? Array(app.spots.prefix(3)) : app.savedSpots)
                         Text("Your spots")
-                            .font(Theme.display(20, weight: .bold))
-                            .foregroundStyle(.white)
-                            .padding(.top, 4)
+                            .sectionLabel()
+                            .padding(.top, Spacing.xs)
                         let list = app.savedSpots.isEmpty ? Array(app.spots.prefix(3)) : app.savedSpots
                         if list.isEmpty {
                             ProgressView().tint(Theme.accent).frame(maxWidth: .infinity).padding(.vertical, 40)
@@ -25,7 +24,7 @@ struct TodayView: View {
                                 NavigationLink(value: spot) {
                                     SpotVerdictCard(spot: spot)
                                 }
-                                .buttonStyle(.plain)
+                                .pressable()
                             }
                         }
                     }

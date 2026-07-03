@@ -54,5 +54,20 @@
 	<string>UIStatusBarStyleLightContent</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Dark</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Syne.ttf</string>
+		<string>SyneSemiBold.ttf</string>
+		<string>SyneBold.ttf</string>
+		<string>SyneExtraBold.ttf</string>
+		<string>JetBrainsMono.ttf</string>
+		<string>JetBrainsMonoMedium.ttf</string>
+		<string>JetBrainsMonoBold.ttf</string>
+		<string>JetBrainsMonoExtraBold.ttf</string>
+		<string>Inter.ttf</string>
+		<string>InterMedium.ttf</string>
+		<string>InterSemiBold.ttf</string>
+		<string>InterBold.ttf</string>
+	</array>
 </dict>
 </plist>
