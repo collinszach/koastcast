@@ -97,15 +97,15 @@ extension View {
     func glassCard(padding: CGFloat = 16, accent: Color? = nil) -> some View {
         self
             .padding(padding)
-            .background(Theme.bgElevated, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .background(Theme.bgElevated)
             .overlay(alignment: .top) {
                 if let accent {
-                    accent
-                        .frame(height: 2)
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        .padding(.horizontal, 1)
+                    accent.frame(height: 2)
                 }
             }
+            // Clip content + accent bar to the card shape so nothing (bars, text,
+            // backgrounds) can ever render past the rounded edges.
+            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
                     .stroke(accent?.opacity(0.3) ?? Theme.hairline, lineWidth: 1)

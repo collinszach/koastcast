@@ -8,7 +8,7 @@ struct KoastCastApp: App {
         WindowGroup {
             RootTabView()
                 .environment(appState)
-                .preferredColorScheme(.dark)
+                .preferredColorScheme(.light)
                 .tint(Theme.accent)
                 .task { await appState.loadSpots() }
         }

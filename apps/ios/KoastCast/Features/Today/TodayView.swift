@@ -4,6 +4,7 @@ import SwiftUI
 /// then home-spot verdicts.
 struct TodayView: View {
     @Environment(AppState.self) private var app
+    @State private var showSettings = false
 
     var body: some View {
         NavigationStack {
@@ -22,7 +23,7 @@ struct TodayView: View {
                         } else {
                             ForEach(list) { spot in
                                 NavigationLink(value: spot) {
-                                    SpotVerdictCard(spot: spot)
+                                    SpotVerdictCard(spot: spot, metrics: app.todayMetrics)
                                 }
                                 .pressable()
                             }
@@ -39,10 +40,18 @@ struct TodayView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Image(systemName: "person.crop.circle")
-                        .font(.title3)
-                        .foregroundStyle(Theme.accent)
+                    Button {
+                        Haptics.tap()
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                            .font(.title3)
+                            .foregroundStyle(Theme.accent)
+                    }
                 }
+            }
+            .sheet(isPresented: $showSettings) {
+                TodaySettingsView()
             }
         }
     }

@@ -53,7 +53,7 @@ struct ExploreView: View {
                 }
                 UserAnnotation()
             }
-            .mapStyle(.standard(elevation: .flat, pointsOfInterest: .excludingAll))
+            .mapStyle(.standard(elevation: .flat, emphasis: .muted, pointsOfInterest: .excludingAll))
             .onMapCameraChange(frequency: .onEnd) { ctx in
                 region = ctx.region
             }
@@ -81,21 +81,48 @@ struct ExploreView: View {
     }
 }
 
+/// Flat, brand-consistent map marker — a small quality-colored dot at rest,
+/// expanding into a scored balloon on selection. No glow/blur, matching the
+/// rest of the app's flat tile system.
 private struct SpotPin: View {
     let quality: Double  // <0 means unknown
     let selected: Bool
 
-    private var color: Color { quality < 0 ? Theme.accent : Theme.qualityColor(quality) }
+    private var color: Color { quality < 0 ? Theme.textTertiary : Theme.qualityColor(quality) }
+    private var scoreText: String { quality < 0 ? "–" : "\(Int((quality / 10).rounded()))" }
 
     var body: some View {
-        ZStack {
-            Circle()
-                .fill(color)
-                .frame(width: selected ? 20 : 13, height: selected ? 20 : 13)
-                .shadow(color: color.opacity(0.7), radius: 5)
-            Circle().stroke(.white.opacity(0.85), lineWidth: 1.5)
-                .frame(width: selected ? 20 : 13, height: selected ? 20 : 13)
+        VStack(spacing: 0) {
+            if selected {
+                Text(scoreText)
+                    .font(Theme.data(12, weight: .bold))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 8).padding(.vertical, 5)
+                    .background(color, in: Capsule())
+                    .overlay(Capsule().stroke(Theme.bgElevated, lineWidth: 1.5))
+                PinTail()
+                    .fill(color)
+                    .frame(width: 9, height: 6)
+                    .offset(y: -1)
+            } else {
+                Circle()
+                    .fill(color)
+                    .frame(width: 11, height: 11)
+                    .overlay(Circle().stroke(Theme.bgElevated, lineWidth: 1.5))
+            }
         }
+        .shadow(color: Theme.textPrimary.opacity(0.18), radius: selected ? 4 : 2, x: 0, y: 1)
         .animation(.snappy, value: selected)
+    }
+}
+
+private struct PinTail: Shape {
+    func path(in rect: CGRect) -> Path {
+        var p = Path()
+        p.move(to: CGPoint(x: rect.midX, y: rect.maxY))
+        p.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
+        p.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        p.closeSubpath()
+        return p
     }
 }

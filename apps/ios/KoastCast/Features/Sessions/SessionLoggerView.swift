@@ -55,6 +55,6 @@ struct SessionLoggerView: View {
                 }
             }
         }
-        .preferredColorScheme(.dark)
+        .preferredColorScheme(.light)
     }
 }

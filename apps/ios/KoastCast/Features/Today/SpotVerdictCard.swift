@@ -3,6 +3,7 @@ import SwiftUI
 /// Compact home-spot card: mini Peak Score + Trust chip + current conditions.
 struct SpotVerdictCard: View {
     let spot: Spot
+    var metrics: [TodayMetric] = [.waveHeight, .period, .wind]
     @State private var loader = ForecastLoader()
 
     var body: some View {
@@ -16,9 +17,11 @@ struct SpotVerdictCard: View {
                     Text(region).font(Theme.body(12)).foregroundStyle(Theme.textTertiary)
                 }
                 HStack(spacing: 10) {
-                    stat(Units.waveHeight(hour?.waveHeightFaceM ?? hour?.waveHeightM ?? spot.waveHeightM))
-                    stat(Units.period(hour?.wavePeriodS ?? spot.wavePeriodS))
-                    stat(Units.windSpeed(hour?.windSpeedMs))
+                    ForEach(metrics.prefix(4)) { metric in
+                        if let value = metric.value(hour: hour, spot: spot) {
+                            stat(value)
+                        }
+                    }
                 }
             }
             Spacer()

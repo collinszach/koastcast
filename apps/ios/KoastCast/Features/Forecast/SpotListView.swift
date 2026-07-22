@@ -49,6 +49,16 @@ struct SpotListView: View {
                         SpotRow(spot: spot, saved: app.isSaved(spot))
                     }
                     .listRowBackground(Theme.bgElevated)
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        if app.isSaved(spot) {
+                            Button(role: .destructive) {
+                                Haptics.tap()
+                                app.toggleSaved(spot)
+                            } label: {
+                                Label("Remove", systemImage: "heart.slash.fill")
+                            }
+                        }
+                    }
                 }
 
                 if results.isEmpty {
