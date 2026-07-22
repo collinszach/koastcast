@@ -30,11 +30,11 @@ interface OptimalWindowsProps {
 }
 
 function scoreColor(score: number): string {
-  if (score >= 80) return '#ef4444'
-  if (score >= 65) return '#f97316'
-  if (score >= 50) return '#22c55e'
-  if (score >= 35) return '#3b82f6'
-  return '#6b7280'
+  if (score >= 80) return '#DC2626'
+  if (score >= 65) return '#EA580C'
+  if (score >= 50) return '#16A34A'
+  if (score >= 35) return '#2563EB'
+  return '#64748B'
 }
 
 function scoreBg(score: number): string {
@@ -42,7 +42,7 @@ function scoreBg(score: number): string {
   if (score >= 65) return 'bg-orange-500/20 border-orange-500/40'
   if (score >= 50) return 'bg-green-500/20 border-green-500/40'
   if (score >= 35) return 'bg-blue-500/20 border-blue-500/40'
-  return 'bg-gray-800 border-gray-700'
+  return 'bg-[var(--paper-sunken)] border-[var(--tile-border-strong)]'
 }
 
 function formatTime(iso: string): string {
@@ -87,11 +87,11 @@ export default function OptimalWindows({ spotId, spotName, isPremium = true }: O
 
   if (loading) {
     return (
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 animate-pulse">
-        <div className="h-5 bg-gray-800 rounded w-40 mb-4" />
+      <div className="glass-card rounded-2xl p-6 animate-pulse">
+        <div className="h-5 rounded w-40 mb-4 bg-[var(--tile-border)]" />
         <div className="grid grid-cols-7 gap-1 mb-4">
           {Array.from({ length: 14 }).map((_, i) => (
-            <div key={i} className="h-10 bg-gray-800 rounded" />
+            <div key={i} className="h-10 rounded bg-[var(--tile-border)]" />
           ))}
         </div>
       </div>
@@ -104,17 +104,17 @@ export default function OptimalWindows({ spotId, spotName, isPremium = true }: O
     : windows.slice(0, 5)
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 space-y-5">
+    <div className="glass-card rounded-2xl p-6 space-y-5">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-white">Optimal Windows</h2>
-        <span className="text-xs text-gray-500">next 14 days</span>
+        <h2 className="text-lg font-semibold text-[var(--foam)]">Optimal Windows</h2>
+        <span className="text-xs text-[var(--deep-text)]">next 14 days</span>
       </div>
 
       {/* 14-day calendar heatmap */}
       <div>
         <div className="grid grid-cols-7 gap-1 mb-1">
           {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(d => (
-            <div key={d} className="text-center text-xs text-gray-600">{d}</div>
+            <div key={d} className="text-center text-xs text-[var(--deep-text)]">{d}</div>
           ))}
         </div>
         <div className="grid grid-cols-7 gap-1">
@@ -128,10 +128,10 @@ export default function OptimalWindows({ spotId, spotName, isPremium = true }: O
                 key={dateStr}
                 onClick={() => setSelectedDay(isSelected ? null : dateStr)}
                 className={`aspect-square rounded-lg flex flex-col items-center justify-center text-xs transition-all border ${
-                  isSelected ? 'ring-1 ring-white' : ''
-                } ${hasWindows ? scoreBg(peakScore!) : 'bg-gray-800/50 border-gray-800'}`}
+                  isSelected ? 'ring-1 ring-[var(--cyan)]' : ''
+                } ${hasWindows ? scoreBg(peakScore!) : 'bg-[var(--paper-sunken)] border-[var(--tile-border)]'}`}
               >
-                <span className={`font-medium ${isToday ? 'text-white' : 'text-gray-400'}`}>
+                <span className={`font-medium ${isToday ? 'text-[var(--foam)]' : 'text-[var(--spray)]'}`}>
                   {date.getDate()}
                 </span>
                 {hasWindows && (
@@ -148,13 +148,13 @@ export default function OptimalWindows({ spotId, spotName, isPremium = true }: O
       {/* Window list */}
       <div className="space-y-2">
         {selectedWindows.length === 0 ? (
-          <p className="text-gray-500 text-sm text-center py-3">
+          <p className="text-[var(--deep-text)] text-sm text-center py-3">
             {selectedDay ? 'No optimal windows on this day.' : 'No high-scoring windows in the next 14 days.'}
           </p>
         ) : (
           <>
             {selectedDay && (
-              <div className="text-xs text-gray-400 mb-2">
+              <div className="text-xs text-[var(--spray)] mb-2">
                 {formatDay(selectedDay + 'T00:00')}
               </div>
             )}
@@ -166,15 +166,15 @@ export default function OptimalWindows({ spotId, spotName, isPremium = true }: O
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-white text-sm font-semibold">
+                      <span className="text-[var(--foam)] text-sm font-semibold">
                         {formatTime(w.start_time)} – {formatTime(w.end_time)}
                       </span>
-                      <span className="text-gray-400 text-xs">
+                      <span className="text-[var(--spray)] text-xs">
                         {w.duration_hours}h · {formatDay(w.start_time)}
                       </span>
                     </div>
-                    <p className="text-gray-300 text-xs mt-1">{w.reason}</p>
-                    <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-500">
+                    <p className="text-[var(--mist)] text-xs mt-1">{w.reason}</p>
+                    <div className="flex items-center gap-3 mt-1.5 text-xs text-[var(--deep-text)]">
                       {w.peak_wave_height_ft != null && (
                         <span>🌊 {w.peak_wave_height_ft}ft</span>
                       )}
@@ -185,8 +185,8 @@ export default function OptimalWindows({ spotId, spotName, isPremium = true }: O
                         <span>💨 {w.peak_wind_speed_kt.toFixed(0)}kt</span>
                       )}
                       <span className={`
-                        ${w.crowd_level === 'empty' || w.crowd_level === 'uncrowded' ? 'text-green-400' : ''}
-                        ${w.crowd_level === 'crowded' || w.crowd_level === 'very crowded' ? 'text-red-400' : ''}
+                        ${w.crowd_level === 'empty' || w.crowd_level === 'uncrowded' ? 'text-green-700' : ''}
+                        ${w.crowd_level === 'crowded' || w.crowd_level === 'very crowded' ? 'text-red-700' : ''}
                       `}>
                         👥 {w.crowd_level}
                       </span>
@@ -197,7 +197,7 @@ export default function OptimalWindows({ spotId, spotName, isPremium = true }: O
                     <div className="text-xl font-black" style={{ color: scoreColor(w.peak_score) }}>
                       {Math.round(w.peak_score)}
                     </div>
-                    <div className="text-xs text-gray-500">score</div>
+                    <div className="text-xs text-[var(--deep-text)]">score</div>
                   </div>
                 </div>
               </div>

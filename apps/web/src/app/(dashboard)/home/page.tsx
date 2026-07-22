@@ -49,12 +49,12 @@ interface SpotWithDist extends Spot {
 // ─── Condition colour palette ─────────────────────────────────────────────────
 
 const COND = {
-  firing:   { label: 'FIRING',   bar: '#EF4444', glow: '#EF444460', badge: 'rgba(239,68,68,0.12)',   badgeBorder: 'rgba(239,68,68,0.35)',   text: '#FCA5A5', num: '#FF6B6B' },
-  pumping:  { label: 'PUMPING',  bar: '#F59E0B', glow: '#F59E0B60', badge: 'rgba(245,158,11,0.12)',  badgeBorder: 'rgba(245,158,11,0.35)',  text: '#FDE68A', num: '#FBBF24' },
-  fun:      { label: 'FUN',      bar: '#10B981', glow: '#10B98160', badge: 'rgba(16,185,129,0.12)',  badgeBorder: 'rgba(16,185,129,0.35)',  text: '#6EE7B7', num: '#34D399' },
-  worth_it: { label: 'WORTH IT', bar: '#3B82F6', glow: '#3B82F660', badge: 'rgba(59,130,246,0.12)',  badgeBorder: 'rgba(59,130,246,0.35)',  text: '#93C5FD', num: '#60A5FA' },
-  flat:     { label: 'FLAT',     bar: '#475569', glow: '#47556940', badge: 'rgba(71,85,105,0.1)',    badgeBorder: 'rgba(71,85,105,0.2)',    text: '#94A3B8', num: '#64748B' },
-  no_data:  { label: 'NO DATA',  bar: '#1E293B', glow: '#1E293B30', badge: 'rgba(30,41,59,0.1)',     badgeBorder: 'rgba(30,41,59,0.2)',     text: '#475569', num: '#334155' },
+  firing:   { label: 'FIRING',   bar: '#EF4444', num: '#DC2626' },
+  pumping:  { label: 'PUMPING',  bar: '#F59E0B', num: '#D97706' },
+  fun:      { label: 'FUN',      bar: '#10B981', num: '#059669' },
+  worth_it: { label: 'WORTH IT', bar: '#3B82F6', num: '#2563EB' },
+  flat:     { label: 'FLAT',     bar: '#475569', num: '#475569' },
+  no_data:  { label: 'NO DATA',  bar: '#1E293B', num: '#334155' },
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -71,12 +71,12 @@ function loadSessions(): StoredSession[] {
 }
 
 function condColor(score: number | null | undefined): string {
-  if (score == null) return '#2E5568'
-  if (score >= 8) return '#F97316'
-  if (score >= 6) return '#06B6D4'
-  if (score >= 4) return '#3B82F6'
-  if (score >= 2) return '#6366F1'
-  return '#334155'
+  if (score == null) return 'var(--deep-text)'
+  if (score >= 8) return 'var(--q-firing)'
+  if (score >= 6) return 'var(--q-pumping)'
+  if (score >= 4) return 'var(--q-good)'
+  if (score >= 2) return 'var(--q-ok)'
+  return 'var(--q-flat)'
 }
 
 function condLabel(score: number | null | undefined): string {
@@ -132,7 +132,7 @@ function QualityDots({ score }: { score?: number | null }) {
             width: 5,
             height: 5,
             borderRadius: '50%',
-            background: i < filled ? color : 'rgba(255,255,255,0.08)',
+            background: i < filled ? color : 'var(--tile-border)',
             boxShadow: i < filled ? `0 0 4px ${color}80` : 'none',
           }}
         />
@@ -170,13 +170,11 @@ function TodaysBrief({ spot, hasLocation }: { spot: SpotWithDist | null; hasLoca
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
         style={{
-        background: 'rgba(6,13,26,0.72)',
-        border: '1px solid rgba(6,182,212,0.18)',
+        background: 'var(--tile-bg)',
+        border: '1px solid var(--tile-border)',
         borderRadius: 14,
         padding: '18px 20px',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(6,182,212,0.06)',
+        boxShadow: 'var(--tile-shadow)',
         position: 'relative' as const,
         overflow: 'hidden',
       }}>
@@ -185,7 +183,7 @@ function TodaysBrief({ spot, hasLocation }: { spot: SpotWithDist | null; hasLoca
           position: 'absolute',
           top: 0, left: 0, right: 0,
           height: 2,
-          background: 'linear-gradient(90deg, #06B6D4, #22D3EE, rgba(6,182,212,0))',
+          background: 'linear-gradient(90deg, var(--cyan), var(--cyan-bright), rgba(14,165,233,0))',
         }} />
 
         {/* Section label */}
@@ -193,12 +191,12 @@ function TodaysBrief({ spot, hasLocation }: { spot: SpotWithDist | null; hasLoca
           fontFamily: 'var(--font-data)',
           fontSize: 9,
           fontWeight: 700,
-          color: '#22D3EE',
+          color: 'var(--cyan-bright)',
           letterSpacing: '0.14em',
           marginBottom: 10,
-          borderLeft: '3px solid #06B6D4',
+          borderLeft: '3px solid var(--cyan)',
           paddingLeft: 10,
-          boxShadow: '-4px 0 12px rgba(6,182,212,0.15)',
+          boxShadow: '-4px 0 12px rgba(14,165,233,0.15)',
         }}>
           TODAY&apos;S BRIEF
         </div>
@@ -219,7 +217,7 @@ function TodaysBrief({ spot, hasLocation }: { spot: SpotWithDist | null; hasLoca
           </div>
 
           {/* Divider */}
-          <div style={{ width: 1, alignSelf: 'stretch', background: 'rgba(6,182,212,0.12)', flexShrink: 0 }} />
+          <div style={{ width: 1, alignSelf: 'stretch', background: 'rgba(14,165,233,0.12)', flexShrink: 0 }} />
 
           {/* Conditions brief */}
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -228,7 +226,7 @@ function TodaysBrief({ spot, hasLocation }: { spot: SpotWithDist | null; hasLoca
                 <div style={{
                   fontFamily: 'var(--font-data)',
                   fontSize: 11,
-                  color: '#7DB3C8',
+                  color: 'var(--spray)',
                   letterSpacing: '0.04em',
                   marginBottom: 4,
                 }}>
@@ -252,7 +250,7 @@ function TodaysBrief({ spot, hasLocation }: { spot: SpotWithDist | null; hasLoca
                       <span style={{
                         fontFamily: 'var(--font-data)',
                         fontSize: 8,
-                        color: '#2E5568',
+                        color: 'var(--deep-text)',
                         letterSpacing: '0.1em',
                         textTransform: 'uppercase' as const,
                         display: 'block',
@@ -261,7 +259,7 @@ function TodaysBrief({ spot, hasLocation }: { spot: SpotWithDist | null; hasLoca
                         fontFamily: 'var(--font-data)',
                         fontSize: 18,
                         fontWeight: 900,
-                        color: '#22D3EE',
+                        color: 'var(--cyan-bright)',
                         lineHeight: 1,
                       }}>
                         {formatWaveHeight(cc.wave_height_face_m)}
@@ -273,7 +271,7 @@ function TodaysBrief({ spot, hasLocation }: { spot: SpotWithDist | null; hasLoca
                       <span style={{
                         fontFamily: 'var(--font-data)',
                         fontSize: 8,
-                        color: '#2E5568',
+                        color: 'var(--deep-text)',
                         letterSpacing: '0.1em',
                         textTransform: 'uppercase' as const,
                         display: 'block',
@@ -282,7 +280,7 @@ function TodaysBrief({ spot, hasLocation }: { spot: SpotWithDist | null; hasLoca
                         fontFamily: 'var(--font-data)',
                         fontSize: 18,
                         fontWeight: 900,
-                        color: '#7DB3C8',
+                        color: 'var(--spray)',
                         lineHeight: 1,
                       }}>
                         {formatPeriod(cc.wave_period_s)}
@@ -294,7 +292,7 @@ function TodaysBrief({ spot, hasLocation }: { spot: SpotWithDist | null; hasLoca
                       <span style={{
                         fontFamily: 'var(--font-data)',
                         fontSize: 8,
-                        color: '#2E5568',
+                        color: 'var(--deep-text)',
                         letterSpacing: '0.1em',
                         textTransform: 'uppercase' as const,
                         display: 'block',
@@ -368,11 +366,11 @@ function MySpotsStrip({ spots }: { spots: SpotWithDist[] }) {
           fontFamily: 'var(--font-data)',
           fontSize: 10,
           fontWeight: 700,
-          color: '#22D3EE',
+          color: 'var(--cyan-bright)',
           letterSpacing: '0.12em',
-          borderLeft: '3px solid #06B6D4',
+          borderLeft: '3px solid var(--cyan)',
           paddingLeft: 10,
-          boxShadow: '-4px 0 12px rgba(6,182,212,0.15)',
+          boxShadow: '-4px 0 12px rgba(14,165,233,0.15)',
         }}>
           {sectionLabel}
         </span>
@@ -380,7 +378,7 @@ function MySpotsStrip({ spots }: { spots: SpotWithDist[] }) {
           <Link href="/map" style={{
             fontFamily: 'var(--font-data)',
             fontSize: 11,
-            color: 'var(--cyan-bright, #22D3EE)',
+            color: 'var(--cyan-bright, var(--cyan-bright))',
             textDecoration: 'none',
             letterSpacing: '0.04em',
           }}
@@ -408,11 +406,11 @@ function MySpotsStrip({ spots }: { spots: SpotWithDist[] }) {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, delay: i * 0.06, ease: 'easeOut' }}
-                whileHover={{ y: -4, borderColor: 'rgba(6,182,212,0.35)', boxShadow: '0 10px 28px rgba(0,0,0,0.35)' }}
+                whileHover={{ y: -4, borderColor: 'rgba(14,165,233,0.35)', boxShadow: '0 10px 28px rgba(0,0,0,0.35)' }}
                 whileTap={{ scale: 0.98 }}
                 style={{
-                background: 'rgba(6,13,26,0.7)',
-                border: '1px solid rgba(6,182,212,0.12)',
+                background: 'var(--tile-bg)',
+                border: '1px solid rgba(14,165,233,0.12)',
                 borderRadius: 12,
                 padding: '14px 16px',
                 cursor: 'pointer',
@@ -425,7 +423,6 @@ function MySpotsStrip({ spots }: { spots: SpotWithDist[] }) {
                   top: 0, left: 0, right: 0,
                   height: 3,
                   background: meta.bar,
-                  boxShadow: `0 0 10px ${meta.glow}`,
                 }} />
 
                 {/* Spot name */}
@@ -447,7 +444,7 @@ function MySpotsStrip({ spots }: { spots: SpotWithDist[] }) {
                 <div style={{
                   fontFamily: 'var(--font-data)',
                   fontSize: 9,
-                  color: '#4A7A8A',
+                  color: 'var(--spray)',
                   letterSpacing: '0.05em',
                   marginBottom: 10,
                   display: 'flex',
@@ -457,7 +454,7 @@ function MySpotsStrip({ spots }: { spots: SpotWithDist[] }) {
                   <span>{spot.region}</span>
                   {spot.distMi != null && (
                     <>
-                      <span style={{ color: 'rgba(255,255,255,0.2)' }}>·</span>
+                      <span style={{ color: 'var(--tile-border-strong)' }}>·</span>
                       <span>{spot.distMi < 10 ? `${spot.distMi.toFixed(1)} mi` : `${Math.round(spot.distMi)} mi`}</span>
                     </>
                   )}
@@ -470,7 +467,6 @@ function MySpotsStrip({ spots }: { spots: SpotWithDist[] }) {
                   fontWeight: 900,
                   color: meta.num,
                   lineHeight: 1,
-                  filter: `drop-shadow(0 0 8px ${meta.glow})`,
                   marginBottom: 4,
                 }}>
                   {cc?.wave_height_face_m != null ? formatWaveHeight(cc.wave_height_face_m) : '--'}
@@ -483,7 +479,7 @@ function MySpotsStrip({ spots }: { spots: SpotWithDist[] }) {
                   justifyContent: 'space-between',
                   marginBottom: 10,
                 }}>
-                  <span style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: '#22D3EE', fontWeight: 600 }}>
+                  <span style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: 'var(--cyan-bright)', fontWeight: 600 }}>
                     {formatPeriod(cc?.wave_period_s)}
                   </span>
                   <span style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: 'var(--deep-text)' }}>
@@ -501,8 +497,8 @@ function MySpotsStrip({ spots }: { spots: SpotWithDist[] }) {
         {/* If fewer than 3 spots loaded yet, show skeletons */}
         {display.length === 0 && [0, 1, 2].map(i => (
           <div key={i} style={{
-            background: 'rgba(6,13,26,0.7)',
-            border: '1px solid rgba(6,182,212,0.08)',
+            background: 'var(--tile-bg)',
+            border: '1px solid rgba(14,165,233,0.08)',
             borderRadius: 12,
             height: 148,
             animation: 'terrain-pulse 1.4s ease-in-out infinite',
@@ -551,15 +547,15 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
   const verdictColor = verdict === 'GO' ? '#10B981'
     : verdict === 'MAYBE' ? '#F59E0B'
     : verdict === 'PASS' ? '#EF4444'
-    : '#2E5568'
+    : 'var(--deep-text)'
 
   // Skeleton while loading
   if (loading || (spot && !data && loading)) {
     return (
       <div style={{ padding: '16px 20px 0' }}>
         <div style={{
-          background: 'rgba(6,13,26,0.7)',
-          border: '1px solid rgba(6,182,212,0.1)',
+          background: 'var(--tile-bg)',
+          border: '1px solid rgba(14,165,233,0.1)',
           borderRadius: 14,
           height: 110,
           animation: 'terrain-pulse 1.4s ease-in-out infinite',
@@ -576,8 +572,8 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
     return (
       <div style={{ padding: '16px 20px 0' }}>
         <div style={{
-          background: 'rgba(6,13,26,0.7)',
-          border: '1px solid rgba(6,182,212,0.1)',
+          background: 'var(--tile-bg)',
+          border: '1px solid rgba(14,165,233,0.1)',
           borderRadius: 14,
           padding: '18px 20px',
           display: 'flex',
@@ -588,7 +584,7 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
             fontFamily: 'var(--font-display)',
             fontSize: 28,
             fontWeight: 900,
-            color: '#2E5568',
+            color: 'var(--deep-text)',
             letterSpacing: '-0.02em',
             lineHeight: 1,
             minWidth: 64,
@@ -597,7 +593,7 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
             <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: 'var(--foam)', marginBottom: 3 }}>
               {spot.name}
             </div>
-            <div style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: '#4A7A8A', letterSpacing: '0.04em' }}>
+            <div style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: 'var(--spray)', letterSpacing: '0.04em' }}>
               Optimal windows unavailable — forecast engine offline
             </div>
           </div>
@@ -606,11 +602,11 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
             fontFamily: 'var(--font-data)',
             fontSize: 10,
             fontWeight: 700,
-            color: '#06B6D4',
+            color: 'var(--cyan)',
             textDecoration: 'none',
             padding: '6px 14px',
-            background: 'rgba(6,182,212,0.08)',
-            border: '1px solid rgba(6,182,212,0.2)',
+            background: 'rgba(14,165,233,0.08)',
+            border: '1px solid rgba(14,165,233,0.2)',
             borderRadius: 8,
             letterSpacing: '0.06em',
             whiteSpace: 'nowrap' as const,
@@ -639,18 +635,18 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
           fontFamily: 'var(--font-data)',
           fontSize: 9,
           fontWeight: 700,
-          color: '#22D3EE',
+          color: 'var(--cyan-bright)',
           letterSpacing: '0.14em',
-          borderLeft: '3px solid #06B6D4',
+          borderLeft: '3px solid var(--cyan)',
           paddingLeft: 10,
-          boxShadow: '-4px 0 12px rgba(6,182,212,0.15)',
+          boxShadow: '-4px 0 12px rgba(14,165,233,0.15)',
         }}>
           BEST WINDOW
         </span>
         <Link href={`/spot/${spot.slug}`} style={{
           fontFamily: 'var(--font-data)',
           fontSize: 10,
-          color: 'rgba(6,182,212,0.5)',
+          color: 'rgba(14,165,233,0.5)',
           textDecoration: 'none',
           letterSpacing: '0.04em',
         }}>
@@ -663,8 +659,8 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
         style={{
-        background: `linear-gradient(135deg, ${verdictColor}0A, rgba(6,13,26,0.9))`,
-        border: `1px solid ${verdictColor}22`,
+        background: 'var(--tile-bg)',
+        border: '1px solid var(--tile-border)',
         borderLeft: `3px solid ${verdictColor}`,
         borderRadius: 14,
         padding: '18px 20px',
@@ -675,14 +671,6 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
       }}>
         {/* Verdict */}
         <motion.div
-          animate={verdict === 'GO' ? {
-            filter: [
-              `drop-shadow(0 0 12px ${verdictColor}50)`,
-              `drop-shadow(0 0 26px ${verdictColor}90)`,
-              `drop-shadow(0 0 12px ${verdictColor}50)`,
-            ],
-          } : {}}
-          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
           style={{
           fontFamily: 'var(--font-display)',
           fontSize: 44,
@@ -712,7 +700,7 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
           <div style={{
             fontFamily: 'var(--font-data)',
             fontSize: 12,
-            color: '#7DB3C8',
+            color: 'var(--spray)',
             letterSpacing: '0.03em',
             marginBottom: 8,
           }}>
@@ -722,7 +710,7 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' as const }}>
             {bestWindow.peak_wave_height_ft != null && (
               <div>
-                <div style={{ fontFamily: 'var(--font-data)', fontSize: 8, color: '#2E5568', letterSpacing: '0.1em', textTransform: 'uppercase' as const }}>Height</div>
+                <div style={{ fontFamily: 'var(--font-data)', fontSize: 8, color: 'var(--deep-text)', letterSpacing: '0.1em', textTransform: 'uppercase' as const }}>Height</div>
                 <div style={{ fontFamily: 'var(--font-data)', fontSize: 16, fontWeight: 900, color: verdictColor, lineHeight: 1 }}>
                   {bestWindow.peak_wave_height_ft.toFixed(0)}ft
                 </div>
@@ -730,22 +718,22 @@ function GoNoGoHero({ spot }: { spot: SpotWithDist | null }) {
             )}
             {bestWindow.peak_wave_period_s != null && (
               <div>
-                <div style={{ fontFamily: 'var(--font-data)', fontSize: 8, color: '#2E5568', letterSpacing: '0.1em', textTransform: 'uppercase' as const }}>Period</div>
-                <div style={{ fontFamily: 'var(--font-data)', fontSize: 16, fontWeight: 900, color: '#22D3EE', lineHeight: 1 }}>
+                <div style={{ fontFamily: 'var(--font-data)', fontSize: 8, color: 'var(--deep-text)', letterSpacing: '0.1em', textTransform: 'uppercase' as const }}>Period</div>
+                <div style={{ fontFamily: 'var(--font-data)', fontSize: 16, fontWeight: 900, color: 'var(--cyan-bright)', lineHeight: 1 }}>
                   {bestWindow.peak_wave_period_s.toFixed(0)}s
                 </div>
               </div>
             )}
             {bestWindow.peak_wind_speed_kt != null && (
               <div>
-                <div style={{ fontFamily: 'var(--font-data)', fontSize: 8, color: '#2E5568', letterSpacing: '0.1em', textTransform: 'uppercase' as const }}>Wind</div>
-                <div style={{ fontFamily: 'var(--font-data)', fontSize: 16, fontWeight: 900, color: '#7DB3C8', lineHeight: 1 }}>
+                <div style={{ fontFamily: 'var(--font-data)', fontSize: 8, color: 'var(--deep-text)', letterSpacing: '0.1em', textTransform: 'uppercase' as const }}>Wind</div>
+                <div style={{ fontFamily: 'var(--font-data)', fontSize: 16, fontWeight: 900, color: 'var(--spray)', lineHeight: 1 }}>
                   {bestWindow.peak_wind_speed_kt.toFixed(0)}kt
                 </div>
               </div>
             )}
             <div>
-              <div style={{ fontFamily: 'var(--font-data)', fontSize: 8, color: '#2E5568', letterSpacing: '0.1em', textTransform: 'uppercase' as const }}>Score</div>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: 8, color: 'var(--deep-text)', letterSpacing: '0.1em', textTransform: 'uppercase' as const }}>Score</div>
               <div style={{ fontFamily: 'var(--font-data)', fontSize: 16, fontWeight: 900, color: verdictColor, lineHeight: 1 }}>
                 {Math.round(bestWindow.peak_score)}
               </div>
@@ -792,7 +780,7 @@ function SpotRow({ spot, rank }: { spot: SpotWithDist; rank: number }) {
         initial={{ opacity: 0, x: -8 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3, delay: rank * 0.04, ease: 'easeOut' }}
-        whileHover={{ background: 'rgba(6,182,212,0.06)', x: 3 }}
+        whileHover={{ background: 'rgba(14,165,233,0.06)', x: 3 }}
         style={{
         display: 'flex',
         alignItems: 'center',
@@ -800,8 +788,8 @@ function SpotRow({ spot, rank }: { spot: SpotWithDist; rank: number }) {
         marginBottom: 2,
         borderRadius: 8,
         overflow: 'hidden',
-        background: 'rgba(6,13,26,0.4)',
-        border: '1px solid rgba(6,182,212,0.07)',
+        background: 'transparent',
+        border: '1px solid transparent',
         cursor: 'pointer',
       }}>
         {/* Left quality bar */}
@@ -813,7 +801,7 @@ function SpotRow({ spot, rank }: { spot: SpotWithDist; rank: number }) {
           flexShrink: 0,
         }} />
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, padding: '8px 10px' }}>
-          <span style={{ fontFamily: 'var(--font-data)', fontSize: 9, fontWeight: 700, color: '#2E5568', width: 14, flexShrink: 0 }}>
+          <span style={{ fontFamily: 'var(--font-data)', fontSize: 9, fontWeight: 700, color: 'var(--deep-text)', width: 14, flexShrink: 0 }}>
             {rank}
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -832,7 +820,7 @@ function SpotRow({ spot, rank }: { spot: SpotWithDist; rank: number }) {
             <div style={{
               fontFamily: 'var(--font-data)',
               fontSize: 9,
-              color: '#4A7A8A',
+              color: 'var(--spray)',
               letterSpacing: '0.05em',
               marginTop: 1,
               display: 'flex',
@@ -842,7 +830,7 @@ function SpotRow({ spot, rank }: { spot: SpotWithDist; rank: number }) {
               <span>{spot.region}</span>
               {spot.distMi != null && (
                 <>
-                  <span style={{ color: 'rgba(255,255,255,0.2)' }}>·</span>
+                  <span style={{ color: 'var(--tile-border-strong)' }}>·</span>
                   <span>{spot.distMi < 10 ? `${spot.distMi.toFixed(1)} mi` : `${Math.round(spot.distMi)} mi`}</span>
                 </>
               )}
@@ -854,7 +842,7 @@ function SpotRow({ spot, rank }: { spot: SpotWithDist; rank: number }) {
             </span>
           )}
           {cc?.wave_period_s != null && (
-            <span style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: '#7DB3C8', fontWeight: 600 }}>
+            <span style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--spray)', fontWeight: 600 }}>
               {cc.wave_period_s.toFixed(0)}s
             </span>
           )}
@@ -886,11 +874,11 @@ function LocationPill({ permission, requestLocation }: { permission: string; req
     return (
       <div style={{
         display: 'flex', alignItems: 'center', gap: 5, padding: '3px 10px',
-        background: 'rgba(6,182,212,0.1)', border: '1px solid rgba(6,182,212,0.2)',
+        background: 'rgba(14,165,233,0.1)', border: '1px solid rgba(14,165,233,0.2)',
         borderRadius: 20, flexShrink: 0,
       }}>
         <span style={{ fontSize: 10 }}>📍</span>
-        <span style={{ fontFamily: 'var(--font-data)', fontSize: 9, fontWeight: 600, color: '#06B6D4', letterSpacing: '0.06em' }}>
+        <span style={{ fontFamily: 'var(--font-data)', fontSize: 9, fontWeight: 600, color: 'var(--cyan)', letterSpacing: '0.06em' }}>
           Location active
         </span>
       </div>
@@ -900,11 +888,11 @@ function LocationPill({ permission, requestLocation }: { permission: string; req
     return (
       <button onClick={requestLocation} style={{
         display: 'flex', alignItems: 'center', gap: 5, padding: '3px 10px',
-        background: 'rgba(6,182,212,0.08)', border: '1px solid rgba(6,182,212,0.15)',
+        background: 'rgba(14,165,233,0.08)', border: '1px solid rgba(14,165,233,0.15)',
         borderRadius: 20, cursor: 'pointer', flexShrink: 0,
       }}>
         <span style={{ fontSize: 10 }}>📍</span>
-        <span style={{ fontFamily: 'var(--font-data)', fontSize: 9, fontWeight: 600, color: '#7DB3C8', letterSpacing: '0.06em' }}>
+        <span style={{ fontFamily: 'var(--font-data)', fontSize: 9, fontWeight: 600, color: 'var(--spray)', letterSpacing: '0.06em' }}>
           Add location
         </span>
       </button>
@@ -1064,9 +1052,8 @@ export default function IntelHubPage() {
         gap: 12,
         padding: '0 20px',
         height: 52,
-        background: 'rgba(6,13,26,0.95)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(6,182,212,0.12)',
+        background: 'var(--paper-raised)',
+        borderBottom: '1px solid var(--tile-border)',
         flexShrink: 0,
       }}>
         {/* Logo + greeting */}
@@ -1080,7 +1067,7 @@ export default function IntelHubPage() {
           }}>
             Koastcast
           </span>
-          <div style={{ width: 1, height: 18, background: 'rgba(6,182,212,0.15)', flexShrink: 0 }} />
+          <div style={{ width: 1, height: 18, background: 'rgba(14,165,233,0.15)', flexShrink: 0 }} />
           <span style={{
             fontFamily: 'var(--font-display)',
             fontSize: 13,
@@ -1100,18 +1087,18 @@ export default function IntelHubPage() {
               display: 'flex',
               alignItems: 'center',
               gap: 8,
-              background: 'rgba(6,182,212,0.07)',
-              border: '1px solid rgba(6,182,212,0.18)',
+              background: 'rgba(14,165,233,0.07)',
+              border: '1px solid rgba(14,165,233,0.18)',
               borderRadius: 40,
               padding: '5px 14px',
             }}>
               <div style={{
                 width: 7, height: 7,
                 borderRadius: '50%',
-                background: '#06B6D4',
-                boxShadow: '0 0 6px #06B6D4',
+                background: 'var(--cyan)',
+                boxShadow: '0 0 6px var(--cyan)',
               }} />
-              <span style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: '#06B6D4', letterSpacing: '0.1em', fontWeight: 700 }}>SURF</span>
+              <span style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--cyan)', letterSpacing: '0.1em', fontWeight: 700 }}>SURF</span>
               <span style={{ fontFamily: 'var(--font-data)', fontSize: 12, color: 'var(--foam)', fontWeight: 600 }}>
                 {goodSurf > 0
                   ? `${goodSurf} spot${goodSurf !== 1 ? 's' : ''} pumping`
@@ -1136,7 +1123,7 @@ export default function IntelHubPage() {
           <div style={{
             fontFamily: 'var(--font-data)',
             fontSize: 9,
-            color: '#2E5568',
+            color: 'var(--deep-text)',
             letterSpacing: '0.06em',
             marginTop: 2,
           }}>
@@ -1166,18 +1153,18 @@ export default function IntelHubPage() {
             fontFamily: 'var(--font-data)',
             fontSize: 9,
             fontWeight: 700,
-            color: '#22D3EE',
+            color: 'var(--cyan-bright)',
             letterSpacing: '0.14em',
-            borderLeft: '3px solid #06B6D4',
+            borderLeft: '3px solid var(--cyan)',
             paddingLeft: 10,
-            boxShadow: '-4px 0 12px rgba(6,182,212,0.15)',
+            boxShadow: '-4px 0 12px rgba(14,165,233,0.15)',
           }}>
             {location ? 'NEAREST BREAKS' : 'SURF COMMAND'}
           </span>
           <Link href="/map" style={{
             fontFamily: 'var(--font-data)',
             fontSize: 10,
-            color: '#06B6D4',
+            color: 'var(--cyan)',
             textDecoration: 'none',
             letterSpacing: '0.06em',
           }}>
@@ -1187,8 +1174,8 @@ export default function IntelHubPage() {
 
         {top5.length === 0 ? (
           <div style={{
-            background: 'rgba(6,13,26,0.6)',
-            border: '1px solid rgba(6,182,212,0.08)',
+            background: 'var(--tile-bg)',
+            border: '1px solid rgba(14,165,233,0.08)',
             borderRadius: 12,
             padding: '32px',
             textAlign: 'center',
@@ -1213,12 +1200,12 @@ export default function IntelHubPage() {
           fontFamily: 'var(--font-data)',
           fontSize: 9,
           fontWeight: 700,
-          color: '#22D3EE',
+          color: 'var(--cyan-bright)',
           letterSpacing: '0.14em',
           marginBottom: 12,
-          borderLeft: '3px solid #06B6D4',
+          borderLeft: '3px solid var(--cyan)',
           paddingLeft: 10,
-          boxShadow: '-4px 0 12px rgba(6,182,212,0.15)',
+          boxShadow: '-4px 0 12px rgba(14,165,233,0.15)',
         }}>
           QUICK LAUNCH
         </div>
@@ -1228,7 +1215,7 @@ export default function IntelHubPage() {
           gap: 10,
         }}>
           {[
-            { href: '/map',      icon: '◉',  title: 'Live Map',    sub: 'All spots live',        accent: '#06B6D4' },
+            { href: '/map',      icon: '◉',  title: 'Live Map',    sub: 'All spots live',        accent: 'var(--cyan)' },
             { href: '/snow',     icon: '❄',  title: 'Snow',        sub: 'Resort forecasts',      accent: '#8B5CF6' },
             { href: '/sessions', icon: '◷',  title: 'Sessions',    sub: 'Log your surf',         accent: '#10B981' },
           ].map(({ href, icon, title, sub, accent }, i) => (
@@ -1241,13 +1228,13 @@ export default function IntelHubPage() {
                 whileTap={{ scale: 0.97 }}
                 style={{
                 borderRadius: 14,
-                border: `1px solid ${accent}18`,
-                background: `${accent}07`,
+                border: '1px solid var(--tile-border)',
+                background: 'var(--tile-bg)',
                 padding: '16px 12px',
                 textAlign: 'center',
                 cursor: 'pointer',
               }}>
-                <div style={{ fontSize: 20, color: accent, marginBottom: 6, filter: `drop-shadow(0 0 6px ${accent}60)` }}>{icon}</div>
+                <div style={{ fontSize: 20, color: accent, marginBottom: 6 }}>{icon}</div>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 700, color: 'var(--foam)', marginBottom: 3 }}>{title}</div>
                 <div style={{ fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.03em' }}>{sub}</div>
               </motion.div>
@@ -1268,11 +1255,11 @@ export default function IntelHubPage() {
             fontFamily: 'var(--font-data)',
             fontSize: 9,
             fontWeight: 700,
-            color: '#22D3EE',
+            color: 'var(--cyan-bright)',
             letterSpacing: '0.14em',
-            borderLeft: '3px solid #06B6D4',
+            borderLeft: '3px solid var(--cyan)',
             paddingLeft: 10,
-            boxShadow: '-4px 0 12px rgba(6,182,212,0.15)',
+            boxShadow: '-4px 0 12px rgba(14,165,233,0.15)',
           }}>
             RECENT SESSIONS
           </span>
@@ -1280,7 +1267,7 @@ export default function IntelHubPage() {
             <Link href="/sessions" style={{
               fontFamily: 'var(--font-data)',
               fontSize: 10,
-              color: '#06B6D4',
+              color: 'var(--cyan)',
               letterSpacing: '0.06em',
               textDecoration: 'none',
             }}>
@@ -1291,18 +1278,18 @@ export default function IntelHubPage() {
 
         {sessions.length === 0 ? (
           <div style={{
-            background: 'rgba(6,13,26,0.6)',
-            border: '1px solid rgba(6,182,212,0.08)',
+            background: 'var(--tile-bg)',
+            border: '1px solid rgba(14,165,233,0.08)',
             borderRadius: 12,
             padding: '24px',
             textAlign: 'center',
           }}>
-            <div style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: '#7DB3C8', marginBottom: 12 }}>
+            <div style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: 'var(--spray)', marginBottom: 12 }}>
               No sessions logged yet
             </div>
             <Link href="/sessions">
               <button style={{
-                background: 'linear-gradient(135deg, #06B6D4, #0284C7)',
+                background: 'var(--cyan)',
                 border: 'none',
                 borderRadius: 8,
                 padding: '8px 20px',
@@ -1325,10 +1312,10 @@ export default function IntelHubPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: i * 0.06, ease: 'easeOut' }}
-                whileHover={{ y: -3, borderColor: 'rgba(6,182,212,0.3)' }}
+                whileHover={{ y: -3, borderColor: 'rgba(14,165,233,0.3)' }}
                 style={{
-                  background: 'rgba(6,13,26,0.7)',
-                  border: '1px solid rgba(6,182,212,0.1)',
+                  background: 'var(--tile-bg)',
+                  border: '1px solid rgba(14,165,233,0.1)',
                   borderRadius: 12,
                   padding: '14px 16px',
                 }}
@@ -1336,7 +1323,7 @@ export default function IntelHubPage() {
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700, color: 'var(--foam)', marginBottom: 3 }}>
                   {sess.spot_name ?? 'Unknown spot'}
                 </div>
-                <div style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: '#2E5568', letterSpacing: '0.06em', marginBottom: 8 }}>
+                <div style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--deep-text)', letterSpacing: '0.06em', marginBottom: 8 }}>
                   {sess.date ?? '—'}
                 </div>
                 {sess.quality_rating != null && (
@@ -1348,7 +1335,7 @@ export default function IntelHubPage() {
                   <div style={{
                     fontFamily: 'system-ui, sans-serif',
                     fontSize: 10,
-                    color: '#7DB3C8',
+                    color: 'var(--spray)',
                     marginTop: 6,
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -1361,8 +1348,8 @@ export default function IntelHubPage() {
             ))}
             <Link href="/sessions" style={{ textDecoration: 'none' }}>
               <div style={{
-                background: 'rgba(6,182,212,0.04)',
-                border: '1px dashed rgba(6,182,212,0.2)',
+                background: 'rgba(14,165,233,0.04)',
+                border: '1px dashed rgba(14,165,233,0.2)',
                 borderRadius: 12,
                 padding: '14px 16px',
                 display: 'flex',
@@ -1374,7 +1361,7 @@ export default function IntelHubPage() {
                 minHeight: 80,
               }}>
                 <span style={{ fontSize: 20 }}>+</span>
-                <span style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: '#06B6D4', letterSpacing: '0.08em' }}>
+                <span style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--cyan)', letterSpacing: '0.08em' }}>
                   LOG SESSION
                 </span>
               </div>

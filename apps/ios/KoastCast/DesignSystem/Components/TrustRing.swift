@@ -23,13 +23,12 @@ struct TrustRing: View {
         let t = max(0, min(1, score / 80))
         return [4 + 14 * t, 10 - 7 * t]
     }
-    private var glowRadius: CGFloat { CGFloat(score / 100) * 11 }
     private var strokeOpacity: Double { 0.5 + 0.5 * (score / 100) }
 
     var body: some View {
         VStack(spacing: 10) {
             ZStack {
-                Circle().stroke(Color.white.opacity(0.06), lineWidth: 8)
+                Circle().stroke(Theme.hairline, lineWidth: 8)
                 // Faded underlay so fill level reads even when dashed.
                 if isDashed {
                     Circle()
@@ -42,11 +41,10 @@ struct TrustRing: View {
                     .stroke(color.opacity(strokeOpacity),
                             style: StrokeStyle(lineWidth: 8, lineCap: .round, dash: dash))
                     .rotationEffect(.degrees(-90))
-                    .shadow(color: color.opacity(0.5), radius: glowRadius)
                 VStack(spacing: 0) {
                     Text("\(Int(score.rounded()))")
                         .font(Theme.display(28))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Theme.textPrimary)
                     Text("TRUST")
                         .font(Theme.body(8, weight: .semibold))
                         .tracking(2)
@@ -103,7 +101,7 @@ private struct FactorBar: View {
                 .frame(width: 110, alignment: .leading)
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Color.white.opacity(0.06))
+                    Capsule().fill(Theme.hairline)
                     Capsule()
                         .fill(Theme.trustColor(value * 100))
                         .frame(width: max(0, geo.size.width * value))

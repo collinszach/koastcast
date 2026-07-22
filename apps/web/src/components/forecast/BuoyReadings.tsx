@@ -39,8 +39,8 @@ function celsiusToF(c: number | null): string {
 function StatCell({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
     <div style={{
-      background: 'rgba(6,182,212,0.04)',
-      border: '1px solid rgba(6,182,212,0.08)',
+      background: 'var(--cyan-muted)',
+      border: '1px solid var(--tile-border)',
       borderRadius: 8,
       padding: '10px 12px',
       minWidth: 80,
@@ -106,8 +106,7 @@ export default function BuoyReadings({
             width: 6,
             height: 6,
             borderRadius: '50%',
-            background: loading ? '#F59E0B' : error ? '#EF4444' : '#10B981',
-            boxShadow: `0 0 6px ${loading ? '#F59E0B' : error ? '#EF4444' : '#10B981'}`,
+            background: loading ? 'var(--amber)' : error ? '#DC2626' : 'var(--trail)',
             flexShrink: 0,
           }} />
           <span style={{

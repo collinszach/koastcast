@@ -72,6 +72,15 @@ export async function generateMetadata({
 
 export const revalidate = 1800 // Revalidate every 30 min
 
+const CONDITION_CONFIG: Record<string, { label: string; textColor: string; heroClass: string }> = {
+  firing:   { label: '🔥 FIRING',   textColor: 'var(--q-firing)',  heroClass: 'hero-firing' },
+  pumping:  { label: '🤙 PUMPING',  textColor: 'var(--q-pumping)', heroClass: 'hero-pumping' },
+  fun:      { label: '😎 FUN',      textColor: 'var(--q-good)',    heroClass: 'hero-fun' },
+  worth_it: { label: '🏄 WORTH IT', textColor: 'var(--q-ok)',      heroClass: 'hero-worth_it' },
+  flat:     { label: '😴 FLAT',     textColor: 'var(--q-flat)',    heroClass: 'hero-flat' },
+  no_data:  { label: 'No Data',     textColor: 'var(--spray)',     heroClass: 'hero-no_data' },
+}
+
 export default async function PublicSpotPage({
   params,
 }: {
@@ -79,20 +88,20 @@ export default async function PublicSpotPage({
 }) {
   const { slug } = await params
 
-  let spot, forecast, error
+  let spot, forecast
   try {
     ;[spot, forecast] = await Promise.all([getSpot(slug), getForecast(slug, 3)])
-  } catch (err) {
-    error = String(err)
+  } catch {
+    // fall through — spot stays undefined, handled below
   }
 
   if (!spot) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--paper)' }}>
         <div className="text-center">
           <div className="text-4xl mb-4">🌊</div>
-          <h1 className="text-white text-xl font-bold mb-2">Spot not found</h1>
-          <Link href="/" className="text-blue-400 text-sm">← Back to Koastcast</Link>
+          <h1 className="text-xl font-bold mb-2" style={{ color: 'var(--foam)', fontFamily: 'var(--font-display)' }}>Spot not found</h1>
+          <Link href="/" className="text-sm" style={{ color: 'var(--cyan-bright)' }}>← Back to Koastcast</Link>
         </div>
       </div>
     )
@@ -100,10 +109,7 @@ export default async function PublicSpotPage({
 
   const current: ForecastHour | undefined = forecast?.hours[0]
   const label = getConditionLabel(current?.quality_score)
-  const CONDITION_LABELS: Record<string, string> = {
-    firing: '🔥 FIRING', pumping: '🤙 PUMPING', fun: '😎 FUN',
-    worth_it: '🏄 WORTH IT', flat: '😴 FLAT', no_data: 'No Data',
-  }
+  const config = CONDITION_CONFIG[label] ?? CONDITION_CONFIG.no_data
 
   // Group 3-day forecast by day
   const days: Record<string, ForecastHour[]> = {}
@@ -116,77 +122,83 @@ export default async function PublicSpotPage({
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen" style={{ background: 'var(--paper)' }}>
       {/* Nav */}
-      <nav className="border-b border-gray-800 px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="font-bold text-white text-lg">
+      <nav className="px-4 py-3 flex items-center justify-between" style={{ borderBottom: '1px solid var(--tile-border)', background: 'var(--paper-raised)' }}>
+        <Link href="/" className="font-bold text-lg" style={{ color: 'var(--foam)', fontFamily: 'var(--font-display)' }}>
           🌊 Koastcast
         </Link>
         <div className="flex items-center gap-3">
-          <Link href="/login" className="text-gray-400 hover:text-white text-sm transition-colors">
+          <Link href="/auth/login" className="text-sm transition-colors" style={{ color: 'var(--spray)' }}>
             Log in
           </Link>
           <Link
-            href="/login"
-            className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors"
+            href="/auth/login"
+            className="btn-ocean text-sm"
+            style={{ padding: '6px 14px', fontSize: 13 }}
           >
             Sign up free
           </Link>
         </div>
       </nav>
 
-      <div className="max-w-3xl mx-auto px-4 py-8 space-y-8">
-        {/* Hero */}
-        <div>
-          <div className="text-sm text-gray-500 mb-1">{spot.region} · {spot.break_type} break</div>
-          <h1 className="text-4xl font-black text-white mb-2">{spot.name}</h1>
-          <div className="text-2xl font-bold">{CONDITION_LABELS[label]}</div>
+      {/* Hero — flat horizon sky/sea split, sibling of the spot detail hero */}
+      <div className={`relative overflow-hidden horizon ${config.heroClass}`}>
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+             style={{ backgroundImage: `radial-gradient(circle, rgba(18,24,31,0.8) 1px, transparent 1px)`, backgroundSize: '32px 32px' }} />
+        <div className="relative max-w-3xl mx-auto px-4 pt-8 pb-8">
+          <div className="text-sm mb-1" style={{ color: 'var(--spray)', fontFamily: 'var(--font-data)' }}>{spot.region} · {spot.break_type} break</div>
+          <h1 className="text-4xl font-black mb-2" style={{ color: 'var(--foam)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>{spot.name}</h1>
+          <div className="text-2xl font-bold" style={{ color: config.textColor, fontFamily: 'var(--font-display)' }}>{config.label}</div>
           {current?.quality_score != null && (
-            <div className="text-gray-400 text-sm mt-1">
+            <div className="text-sm mt-1" style={{ color: 'var(--spray)' }}>
               Quality score: {current.quality_score.toFixed(1)}/10 · Updated just now
             </div>
           )}
+
+          {/* Current conditions */}
+          {current && (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
+              {[
+                { label: 'Wave Height', value: formatWaveHeight(current.wave_height_face_m ?? current.wave_height_m) },
+                { label: 'Period', value: formatPeriod(current.wave_period_s) },
+                { label: 'Swell', value: directionArrow(current.swell_direction ?? current.wave_direction) },
+                { label: 'Wind', value: `${directionArrow(current.wind_direction)} ${formatWindSpeed(current.wind_speed_ms)}` },
+              ].map(stat => (
+                <div key={stat.label} className="tile p-4">
+                  <div className="text-xs mb-1" style={{ color: 'var(--spray)' }}>{stat.label}</div>
+                  <div className="font-bold text-xl" style={{ color: 'var(--foam)', fontFamily: 'var(--font-data)' }}>{stat.value}</div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
+      </div>
 
-        {/* Current conditions */}
-        {current && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[
-              { label: 'Wave Height', value: formatWaveHeight(current.wave_height_face_m ?? current.wave_height_m) },
-              { label: 'Period', value: formatPeriod(current.wave_period_s) },
-              { label: 'Swell', value: directionArrow(current.swell_direction ?? current.wave_direction) },
-              { label: 'Wind', value: `${directionArrow(current.wind_direction)} ${formatWindSpeed(current.wind_speed_ms)}` },
-            ].map(stat => (
-              <div key={stat.label} className="bg-gray-900 border border-gray-800 rounded-xl p-4">
-                <div className="text-gray-500 text-xs mb-1">{stat.label}</div>
-                <div className="text-white font-bold text-xl">{stat.value}</div>
-              </div>
-            ))}
-          </div>
-        )}
-
+      <div className="max-w-3xl mx-auto px-4 py-8 space-y-8">
         {/* 3-day free preview */}
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold">3-Day Forecast Preview</h2>
+          <h2 className="text-lg font-semibold" style={{ color: 'var(--foam)', fontFamily: 'var(--font-display)' }}>3-Day Forecast Preview</h2>
           {Object.entries(days).slice(0, 3).map(([day, hours]) => {
             const peak = hours.reduce(
               (best, h) => (h.quality_score ?? 0) > (best.quality_score ?? 0) ? h : best,
               hours[0],
             )
+            const peakConfig = CONDITION_CONFIG[getConditionLabel(peak.quality_score)] ?? CONDITION_CONFIG.no_data
             return (
-              <div key={day} className="bg-gray-900 border border-gray-800 rounded-2xl p-4">
+              <div key={day} className="tile p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <div className="font-semibold text-white">{day}</div>
+                  <div className="font-semibold" style={{ color: 'var(--foam)' }}>{day}</div>
                   {peak.quality_score != null && (
-                    <div className="text-sm text-gray-400">
-                      Peak: {peak.quality_score.toFixed(1)}/10 {CONDITION_LABELS[getConditionLabel(peak.quality_score)]}
+                    <div className="text-sm" style={{ color: 'var(--spray)' }}>
+                      Peak: {peak.quality_score.toFixed(1)}/10 {peakConfig.label}
                     </div>
                   )}
                 </div>
                 <div className="flex gap-2 overflow-x-auto pb-1">
                   {hours.filter((_, i) => i % 3 === 0).slice(0, 8).map((h, i) => (
                     <div key={i} className="flex-shrink-0 w-16 text-center">
-                      <div className="text-gray-500 text-xs mb-1">
+                      <div className="text-xs mb-1" style={{ color: 'var(--spray)' }}>
                         {new Date(h.forecast_time).getHours()}h
                       </div>
                       <div
@@ -207,27 +219,28 @@ export default async function PublicSpotPage({
         </div>
 
         {/* CTA */}
-        <div className="bg-gradient-to-br from-blue-900/50 to-blue-800/30 border border-blue-700/40 rounded-2xl p-6 text-center">
-          <h2 className="text-xl font-bold text-white mb-2">
+        <div className="tile-elevated p-6 text-center" style={{ borderTop: '2px solid var(--cyan)' }}>
+          <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--foam)', fontFamily: 'var(--font-display)' }}>
             Get the Full 16-Day Forecast
           </h2>
-          <p className="text-blue-200/70 text-sm mb-4 max-w-sm mx-auto">
+          <p className="text-sm mb-4 max-w-sm mx-auto" style={{ color: 'var(--mist)' }}>
             Personalized Peak Score™, optimal window finder, spectral analysis,
             AI-powered Q&A, and real-time push alerts. Free to start.
           </p>
           <Link
-            href="/login"
-            className="inline-block bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
+            href="/auth/login"
+            className="btn-ocean inline-block text-sm"
+            style={{ padding: '12px 24px' }}
           >
             Sign up free →
           </Link>
-          <div className="text-blue-300/50 text-xs mt-3">
+          <div className="text-xs mt-3" style={{ color: 'var(--deep-text)' }}>
             No credit card required · Free 7-day forecast
           </div>
         </div>
 
         {/* Spot info */}
-        <div className="text-xs text-gray-600 border-t border-gray-800 pt-4 grid grid-cols-2 gap-2">
+        <div className="text-xs pt-4 grid grid-cols-2 gap-2" style={{ color: 'var(--deep-text)', borderTop: '1px solid var(--tile-border)' }}>
           <div>Optimal swell: {spot.optimal_swell_direction}° ± {spot.optimal_swell_direction_range}°</div>
           <div>Optimal period: {spot.optimal_period_min}–{spot.optimal_period_max}s</div>
           <div>Break type: {spot.break_type}</div>
@@ -239,19 +252,19 @@ export default async function PublicSpotPage({
 }
 
 function getConditionBg(q: number | null | undefined): string {
-  if (q == null) return '#1f2937'
-  if (q >= 8) return 'rgba(239,68,68,0.15)'
-  if (q >= 6) return 'rgba(249,115,22,0.15)'
-  if (q >= 4) return 'rgba(34,197,94,0.15)'
-  if (q >= 2) return 'rgba(59,130,246,0.15)'
-  return '#1f2937'
+  if (q == null) return 'var(--paper-sunken)'
+  if (q >= 8) return 'rgba(234,88,12,0.12)'
+  if (q >= 6) return 'rgba(8,145,178,0.12)'
+  if (q >= 4) return 'rgba(37,99,235,0.12)'
+  if (q >= 2) return 'rgba(79,70,229,0.12)'
+  return 'var(--paper-sunken)'
 }
 
 function getConditionFg(q: number | null | undefined): string {
-  if (q == null) return '#6b7280'
-  if (q >= 8) return '#ef4444'
-  if (q >= 6) return '#f97316'
-  if (q >= 4) return '#22c55e'
-  if (q >= 2) return '#3b82f6'
-  return '#6b7280'
+  if (q == null) return 'var(--spray)'
+  if (q >= 8) return 'var(--q-firing)'
+  if (q >= 6) return 'var(--q-pumping)'
+  if (q >= 4) return 'var(--q-good)'
+  if (q >= 2) return 'var(--q-ok)'
+  return 'var(--spray)'
 }

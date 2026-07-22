@@ -3,7 +3,7 @@
 /**
  * Onboarding wizard — 6 steps to configure the personalized Peak Score™.
  * Shown to new users before they reach the main app.
- * Pure inline styles — ocean/dark theme, zero Tailwind classes.
+ * Pure inline styles — surf-report paper theme, zero Tailwind classes.
  */
 
 import { useState, useEffect } from 'react'
@@ -94,13 +94,15 @@ export default function OnboardingPage() {
   }
 
   // ── Shared style tokens ──────────────────────────────────────────────────
+  // Colors reference the global design-system CSS custom properties (see
+  // globals.css) so this file stays in sync with the rest of the app's
+  // surf-report paper theme even though it uses inline styles throughout.
 
   const cardStyle: React.CSSProperties = {
-    background: 'rgba(6,13,26,0.8)',
-    border: '1px solid rgba(6,182,212,0.15)',
+    background: 'var(--tile-bg)',
+    border: '1px solid var(--tile-border-strong)',
     borderRadius: 20,
-    backdropFilter: 'blur(20px)',
-    WebkitBackdropFilter: 'blur(20px)',
+    boxShadow: 'var(--tile-shadow)',
     padding: '28px 28px 24px',
   }
 
@@ -108,7 +110,7 @@ export default function OnboardingPage() {
     fontFamily: 'var(--font-display)',
     fontSize: 22,
     fontWeight: 800,
-    color: '#f0f6ff',
+    color: 'var(--foam)',
     marginBottom: 8,
     marginTop: 0,
     letterSpacing: '-0.01em',
@@ -117,7 +119,7 @@ export default function OnboardingPage() {
   const subStyle: React.CSSProperties = {
     fontFamily: 'monospace',
     fontSize: 11,
-    color: 'rgba(255,255,255,0.45)',
+    color: 'var(--spray)',
     lineHeight: 1.7,
     marginBottom: 20,
     marginTop: 0,
@@ -127,7 +129,7 @@ export default function OnboardingPage() {
     display: 'block',
     fontFamily: 'monospace',
     fontSize: 10,
-    color: 'rgba(255,255,255,0.45)',
+    color: 'var(--spray)',
     letterSpacing: '0.06em',
     textTransform: 'uppercase' as const,
     marginBottom: 6,
@@ -136,11 +138,11 @@ export default function OnboardingPage() {
   const inputStyle: React.CSSProperties = {
     width: '100%',
     boxSizing: 'border-box' as const,
-    background: 'rgba(255,255,255,0.04)',
-    border: '1px solid rgba(6,182,212,0.2)',
+    background: 'var(--paper-raised)',
+    border: '1px solid var(--tile-border-strong)',
     borderRadius: 12,
     padding: '12px 14px',
-    color: '#f0f6ff',
+    color: 'var(--foam)',
     fontFamily: 'var(--font-display)',
     fontSize: 14,
     outline: 'none',
@@ -150,7 +152,7 @@ export default function OnboardingPage() {
     flex: 1,
     padding: '14px',
     borderRadius: 14,
-    background: 'linear-gradient(135deg, #06b6d4, #3b82f6)',
+    background: 'var(--cyan)',
     border: 'none',
     cursor: 'pointer',
     color: '#fff',
@@ -166,9 +168,9 @@ export default function OnboardingPage() {
     padding: '14px',
     borderRadius: 14,
     background: 'transparent',
-    border: '1px solid rgba(255,255,255,0.1)',
+    border: '1px solid var(--tile-border-strong)',
     cursor: 'pointer',
-    color: 'rgba(255,255,255,0.5)',
+    color: 'var(--spray)',
     fontFamily: 'var(--font-display)',
     fontSize: 14,
     fontWeight: 600,
@@ -180,8 +182,8 @@ export default function OnboardingPage() {
     textAlign: 'left' as const,
     padding: '12px 14px',
     borderRadius: 14,
-    border: active ? '1px solid rgba(6,182,212,0.3)' : '1px solid rgba(255,255,255,0.06)',
-    background: active ? 'rgba(6,182,212,0.1)' : 'rgba(255,255,255,0.03)',
+    border: active ? '1px solid var(--cyan)' : '1px solid var(--tile-border)',
+    background: active ? 'var(--cyan-muted)' : 'var(--paper-sunken)',
     cursor: 'pointer',
     transition: 'all 0.15s',
     marginBottom: 8,
@@ -191,8 +193,8 @@ export default function OnboardingPage() {
     textAlign: 'center' as const,
     padding: '14px 10px',
     borderRadius: 14,
-    border: active ? '1px solid rgba(6,182,212,0.3)' : '1px solid rgba(255,255,255,0.06)',
-    background: active ? 'rgba(6,182,212,0.1)' : 'rgba(255,255,255,0.03)',
+    border: active ? '1px solid var(--cyan)' : '1px solid var(--tile-border)',
+    background: active ? 'var(--cyan-muted)' : 'var(--paper-sunken)',
     cursor: 'pointer',
     transition: 'all 0.15s',
   })
@@ -202,7 +204,7 @@ export default function OnboardingPage() {
     justifyContent: 'space-between',
     fontFamily: 'monospace',
     fontSize: 9,
-    color: 'rgba(255,255,255,0.2)',
+    color: 'var(--deep-text)',
     letterSpacing: '0.04em',
     marginTop: 4,
   }
@@ -212,7 +214,7 @@ export default function OnboardingPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#060D1A',
+      background: 'var(--deep)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -223,7 +225,7 @@ export default function OnboardingPage() {
         {/* Koastcast logo mark */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
           <div style={{
-            background: 'linear-gradient(135deg, #8B5CF6, #06B6D4)',
+            background: 'var(--cyan)',
             width: 28, height: 28, borderRadius: 8,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexShrink: 0,
@@ -234,7 +236,7 @@ export default function OnboardingPage() {
               <path d="M2 20C5 17 8 17 12 19C16 21 19 19 22 16" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
           </div>
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 800, color: '#f0f6ff', letterSpacing: '0.08em' }}>Koastcast</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 800, color: 'var(--foam)', letterSpacing: '0.08em' }}>Koastcast</span>
         </div>
 
         {/* Progress bar */}
@@ -246,7 +248,7 @@ export default function OnboardingPage() {
                 flex: 1,
                 height: 3,
                 borderRadius: 99,
-                background: i <= step ? '#06B6D4' : 'rgba(255,255,255,0.06)',
+                background: i <= step ? 'var(--cyan)' : 'var(--tile-border)',
                 transition: 'background 0.3s',
               }}
             />
@@ -257,7 +259,7 @@ export default function OnboardingPage() {
         <div style={{
           fontFamily: 'monospace',
           fontSize: 10,
-          color: 'rgba(255,255,255,0.3)',
+          color: 'var(--deep-text)',
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
           marginBottom: 16,
@@ -305,29 +307,29 @@ export default function OnboardingPage() {
               {locPermission === 'granted' ? (
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: 10,
-                  background: 'rgba(34,197,94,0.08)',
-                  border: '1px solid rgba(34,197,94,0.2)',
+                  background: '#F0FDF4',
+                  border: '1px solid #BBF7D0',
                   borderRadius: 12, padding: '12px 16px',
                 }}>
                   <div style={{
                     width: 8, height: 8, borderRadius: '50%',
-                    background: '#22c55e', boxShadow: '0 0 8px #22c55e',
+                    background: '#16A34A',
                     flexShrink: 0,
                   }} />
-                  <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#22c55e', letterSpacing: '0.04em' }}>
+                  <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#15803D', letterSpacing: '0.04em' }}>
                     Location enabled ✓
                   </span>
                 </div>
               ) : locPermission === 'denied' ? (
                 <div style={{
-                  background: 'rgba(239,68,68,0.06)',
-                  border: '1px solid rgba(239,68,68,0.15)',
+                  background: '#FEF2F2',
+                  border: '1px solid #FECACA',
                   borderRadius: 12, padding: '14px 16px',
                 }}>
-                  <p style={{ fontFamily: 'monospace', fontSize: 10, color: '#ef4444', letterSpacing: '0.04em', margin: '0 0 4px' }}>
+                  <p style={{ fontFamily: 'monospace', fontSize: 10, color: '#B91C1C', letterSpacing: '0.04em', margin: '0 0 4px' }}>
                     Location blocked
                   </p>
-                  <p style={{ fontFamily: 'monospace', fontSize: 9, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.02em', margin: 0 }}>
+                  <p style={{ fontFamily: 'monospace', fontSize: 9, color: 'var(--spray)', letterSpacing: '0.02em', margin: 0 }}>
                     Enable in your browser settings → Site Settings → Location
                   </p>
                 </div>
@@ -343,8 +345,8 @@ export default function OnboardingPage() {
                     width: '100%',
                     padding: '14px',
                     borderRadius: 12,
-                    background: 'linear-gradient(135deg, rgba(6,182,212,0.2), rgba(59,130,246,0.15))',
-                    border: '1px solid rgba(6,182,212,0.3)',
+                    background: 'var(--cyan-muted)',
+                    border: '1px solid var(--cyan)',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
@@ -353,7 +355,7 @@ export default function OnboardingPage() {
                     fontFamily: 'var(--font-display)',
                     fontSize: 14,
                     fontWeight: 700,
-                    color: '#06b6d4',
+                    color: 'var(--cyan-bright)',
                     letterSpacing: '0.02em',
                   }}
                 >
@@ -365,7 +367,7 @@ export default function OnboardingPage() {
               <p style={{
                 fontFamily: 'monospace',
                 fontSize: 9,
-                color: 'rgba(255,255,255,0.2)',
+                color: 'var(--deep-text)',
                 textAlign: 'center',
                 marginTop: 12,
                 marginBottom: 0,
@@ -393,7 +395,7 @@ export default function OnboardingPage() {
                       fontFamily: 'var(--font-display)',
                       fontSize: 13,
                       fontWeight: 700,
-                      color: data.skill_level === s.value ? '#06b6d4' : '#f0f6ff',
+                      color: data.skill_level === s.value ? 'var(--cyan-bright)' : 'var(--foam)',
                       marginBottom: 2,
                     }}>
                       {s.label}
@@ -401,7 +403,7 @@ export default function OnboardingPage() {
                     <div style={{
                       fontFamily: 'monospace',
                       fontSize: 10,
-                      color: 'rgba(255,255,255,0.4)',
+                      color: 'var(--spray)',
                       letterSpacing: '0.02em',
                     }}>
                       {s.desc}
@@ -430,7 +432,7 @@ export default function OnboardingPage() {
                       fontFamily: 'var(--font-display)',
                       fontSize: 12,
                       fontWeight: 700,
-                      color: data.board_type === b.value ? '#06b6d4' : '#f0f6ff',
+                      color: data.board_type === b.value ? 'var(--cyan-bright)' : 'var(--foam)',
                     }}>
                       {b.label}
                     </div>
@@ -449,7 +451,7 @@ export default function OnboardingPage() {
               <div style={{ marginBottom: 20 }}>
                 <label style={labelStyle}>
                   Minimum height —{' '}
-                  <span style={{ color: '#06b6d4', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
+                  <span style={{ color: 'var(--cyan-bright)', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
                     {mToFt(data.pref_min_height_m)}
                   </span>
                 </label>
@@ -457,7 +459,7 @@ export default function OnboardingPage() {
                   type="range" min={0.2} max={4} step={0.1}
                   value={data.pref_min_height_m}
                   onChange={e => update('pref_min_height_m', parseFloat(e.target.value))}
-                  style={{ width: '100%', accentColor: '#06b6d4' }}
+                  style={{ width: '100%', accentColor: 'var(--cyan)' }}
                 />
                 <div style={rangeHintRow}><span>Knee high</span><span>Overhead+</span></div>
               </div>
@@ -465,7 +467,7 @@ export default function OnboardingPage() {
               <div style={{ marginBottom: 20 }}>
                 <label style={labelStyle}>
                   Maximum height —{' '}
-                  <span style={{ color: '#06b6d4', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
+                  <span style={{ color: 'var(--cyan-bright)', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
                     {mToFt(data.pref_max_height_m)}
                   </span>
                 </label>
@@ -473,7 +475,7 @@ export default function OnboardingPage() {
                   type="range" min={0.5} max={10} step={0.1}
                   value={data.pref_max_height_m}
                   onChange={e => update('pref_max_height_m', parseFloat(e.target.value))}
-                  style={{ width: '100%', accentColor: '#06b6d4' }}
+                  style={{ width: '100%', accentColor: 'var(--cyan)' }}
                 />
                 <div style={rangeHintRow}><span>Waist high</span><span>Double overhead</span></div>
               </div>
@@ -481,7 +483,7 @@ export default function OnboardingPage() {
               <div>
                 <label style={labelStyle}>
                   Min period I care about —{' '}
-                  <span style={{ color: '#06b6d4', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
+                  <span style={{ color: 'var(--cyan-bright)', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
                     {data.pref_min_period_s.toFixed(0)}s
                   </span>
                 </label>
@@ -489,7 +491,7 @@ export default function OnboardingPage() {
                   type="range" min={5} max={18} step={0.5}
                   value={data.pref_min_period_s}
                   onChange={e => update('pref_min_period_s', parseFloat(e.target.value))}
-                  style={{ width: '100%', accentColor: '#06b6d4' }}
+                  style={{ width: '100%', accentColor: 'var(--cyan)' }}
                 />
                 <div style={rangeHintRow}><span>5s windswell</span><span>18s groundswell</span></div>
               </div>
@@ -505,7 +507,7 @@ export default function OnboardingPage() {
               <div style={{ marginBottom: 22 }}>
                 <label style={labelStyle}>
                   Offshore importance —{' '}
-                  <span style={{ color: '#06b6d4', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
+                  <span style={{ color: 'var(--cyan-bright)', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
                     {Math.round(data.pref_offshore_importance * 100)}%
                   </span>
                 </label>
@@ -513,7 +515,7 @@ export default function OnboardingPage() {
                   type="range" min={0} max={1} step={0.05}
                   value={data.pref_offshore_importance}
                   onChange={e => update('pref_offshore_importance', parseFloat(e.target.value))}
-                  style={{ width: '100%', accentColor: '#06b6d4' }}
+                  style={{ width: '100%', accentColor: 'var(--cyan)' }}
                 />
                 <div style={rangeHintRow}><span>Wind doesn&apos;t matter</span><span>Offshore only</span></div>
               </div>
@@ -521,7 +523,7 @@ export default function OnboardingPage() {
               <div style={{ marginBottom: 22 }}>
                 <label style={labelStyle}>
                   Crowd tolerance —{' '}
-                  <span style={{ color: '#06b6d4', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
+                  <span style={{ color: 'var(--cyan-bright)', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
                     {Math.round(data.pref_crowd_tolerance * 100)}%
                   </span>
                 </label>
@@ -529,14 +531,14 @@ export default function OnboardingPage() {
                   type="range" min={0} max={1} step={0.05}
                   value={data.pref_crowd_tolerance}
                   onChange={e => update('pref_crowd_tolerance', parseFloat(e.target.value))}
-                  style={{ width: '100%', accentColor: '#06b6d4' }}
+                  style={{ width: '100%', accentColor: 'var(--cyan)' }}
                 />
                 <div style={rangeHintRow}><span>Hate crowds</span><span>Don&apos;t mind</span></div>
               </div>
 
               <div style={{
-                background: 'rgba(6,182,212,0.05)',
-                border: '1px solid rgba(6,182,212,0.12)',
+                background: 'var(--cyan-muted)',
+                border: '1px solid rgba(14,165,233,0.2)',
                 borderRadius: 14,
                 padding: '14px 16px',
               }}>
@@ -544,7 +546,7 @@ export default function OnboardingPage() {
                   fontFamily: 'var(--font-display)',
                   fontSize: 13,
                   fontWeight: 700,
-                  color: '#f0f6ff',
+                  color: 'var(--foam)',
                   margin: '0 0 4px',
                 }}>
                   You&apos;re all set, {data.display_name || 'surfer'}!
@@ -552,7 +554,7 @@ export default function OnboardingPage() {
                 <p style={{
                   fontFamily: 'monospace',
                   fontSize: 10,
-                  color: 'rgba(255,255,255,0.4)',
+                  color: 'var(--spray)',
                   letterSpacing: '0.03em',
                   margin: 0,
                 }}>
@@ -609,7 +611,7 @@ export default function OnboardingPage() {
               cursor: 'pointer',
               fontFamily: 'monospace',
               fontSize: 10,
-              color: 'rgba(255,255,255,0.2)',
+              color: 'var(--deep-text)',
               letterSpacing: '0.06em',
               marginTop: 16,
               padding: '4px 0',

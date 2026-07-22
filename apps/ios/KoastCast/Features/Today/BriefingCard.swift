@@ -13,7 +13,7 @@ struct BriefingCard: View {
                 Image(systemName: "sparkles").foregroundStyle(Theme.accent)
                 Text("Morning Briefing")
                     .font(Theme.display(15, weight: .bold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Theme.textPrimary)
                 Spacer()
                 Text("AI").font(Theme.data(10)).foregroundStyle(Theme.accent)
                     .padding(.horizontal, 8).padding(.vertical, 3)

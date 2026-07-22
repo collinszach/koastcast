@@ -86,7 +86,7 @@ export default function ForgotPasswordPage() {
     <div
       style={{
         minHeight: '100vh',
-        background: 'var(--deep)',
+        background: 'var(--paper)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -94,20 +94,12 @@ export default function ForgotPasswordPage() {
         position: 'relative',
       }}
     >
-      {/* Background radial glow */}
+      {/* Fine dot grid texture — same convention as spot-detail hero */}
       <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse at 50% 100%, rgba(6,182,212,0.07) 0%, transparent 60%)',
-        }}
-      />
-      {/* Dot grid */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.015]"
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
           backgroundImage:
-            'radial-gradient(circle, rgba(6,182,212,0.8) 1px, transparent 1px)',
+            'radial-gradient(circle, rgba(18,24,31,0.8) 1px, transparent 1px)',
           backgroundSize: '28px 28px',
         }}
       />
@@ -125,7 +117,7 @@ export default function ForgotPasswordPage() {
               borderRadius: 10,
               fontFamily: 'var(--font-data)',
               fontSize: 12,
-              color: '#FCD34D',
+              color: 'var(--amber-bright)',
               lineHeight: 1.5,
             }}
           >
@@ -141,8 +133,7 @@ export default function ForgotPasswordPage() {
               width: 52,
               height: 52,
               borderRadius: 16,
-              background: 'linear-gradient(135deg, #8B5CF6 0%, #06B6D4 60%, #10B981 100%)',
-              boxShadow: '0 8px 32px rgba(6,182,212,0.35)',
+              background: 'var(--cyan)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -220,12 +211,12 @@ export default function ForgotPasswordPage() {
               style={{
                 marginBottom: 16,
                 padding: '10px 14px',
-                background: 'rgba(239,68,68,0.1)',
-                border: '1px solid rgba(239,68,68,0.2)',
+                background: '#FEF2F2',
+                border: '1px solid #FECACA',
                 borderRadius: 8,
                 fontFamily: 'var(--font-data)',
                 fontSize: 12,
-                color: '#FCA5A5',
+                color: '#B91C1C',
               }}
             >
               Too many failed attempts. Please wait {cooldown}s before trying again.
@@ -265,7 +256,7 @@ export default function ForgotPasswordPage() {
                 style={{
                   fontSize: 12,
                   fontFamily: 'var(--font-data)',
-                  color: message.type === 'error' ? '#FCA5A5' : 'var(--cyan)',
+                  color: message.type === 'error' ? '#B91C1C' : 'var(--cyan-bright)',
                   lineHeight: 1.5,
                 }}
               >
@@ -301,7 +292,7 @@ export default function ForgotPasswordPage() {
         >
           <Link
             href="/auth/login"
-            style={{ color: 'var(--cyan)', textDecoration: 'none' }}
+            style={{ color: 'var(--cyan-bright)', textDecoration: 'none' }}
           >
             &larr; Back to sign in
           </Link>

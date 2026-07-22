@@ -1028,7 +1028,7 @@ const COMMUNITY_REPORTS = [
     age: '5 days ago',
     likes: 17,
     initials: 'MW',
-    avatarColor: '#22D3EE',
+    avatarColor: '#0EA5E9',
   },
 ]
 
@@ -1046,25 +1046,25 @@ const WEEK_FORECAST = [
 // ─── Condition config ──────────────────────────────────────────────────────────
 
 const COND_CONFIG: Record<TrailConditionKey, { color: string; bg: string; border: string; label: string }> = {
-  DRY:    { color: '#10B981', bg: 'rgba(16,185,129,0.12)',  border: 'rgba(16,185,129,0.3)',  label: 'DRY ✓'  },
-  WET:    { color: '#3B82F6', bg: 'rgba(59,130,246,0.12)',  border: 'rgba(59,130,246,0.3)',  label: 'WET'     },
-  MUDDY:  { color: '#F59E0B', bg: 'rgba(245,158,11,0.12)',  border: 'rgba(245,158,11,0.3)',  label: 'MUDDY'   },
-  SNOW:   { color: '#A78BFA', bg: 'rgba(167,139,250,0.12)', border: 'rgba(167,139,250,0.3)', label: 'SNOW'    },
-  CLOSED: { color: '#EF4444', bg: 'rgba(239,68,68,0.12)',   border: 'rgba(239,68,68,0.3)',   label: 'CLOSED'  },
-  ICY:    { color: '#93C5FD', bg: 'rgba(147,197,253,0.12)', border: 'rgba(147,197,253,0.3)', label: 'ICY'     },
+  DRY:    { color: '#059669', bg: 'rgba(5,150,105,0.10)',   border: 'rgba(5,150,105,0.3)',   label: 'DRY ✓'  },
+  WET:    { color: '#2563EB', bg: 'rgba(37,99,235,0.10)',   border: 'rgba(37,99,235,0.3)',   label: 'WET'     },
+  MUDDY:  { color: '#B45309', bg: 'rgba(180,83,9,0.10)',    border: 'rgba(180,83,9,0.3)',    label: 'MUDDY'   },
+  SNOW:   { color: '#7C3AED', bg: 'rgba(124,58,237,0.10)',  border: 'rgba(124,58,237,0.3)',  label: 'SNOW'    },
+  CLOSED: { color: '#DC2626', bg: 'rgba(220,38,38,0.10)',   border: 'rgba(220,38,38,0.3)',   label: 'CLOSED'  },
+  ICY:    { color: '#0891B2', bg: 'rgba(8,145,178,0.10)',   border: 'rgba(8,145,178,0.3)',   label: 'ICY'     },
 }
 
 const DIFF_CONFIG: Record<DifficultyKey, { color: string; bg: string; border: string }> = {
-  EASY:     { color: '#10B981', bg: 'rgba(16,185,129,0.12)',  border: 'rgba(16,185,129,0.25)'  },
-  MODERATE: { color: '#F59E0B', bg: 'rgba(245,158,11,0.12)',  border: 'rgba(245,158,11,0.25)'  },
-  HARD:     { color: '#F97316', bg: 'rgba(249,115,22,0.12)',  border: 'rgba(249,115,22,0.25)'  },
-  EXPERT:   { color: '#EF4444', bg: 'rgba(239,68,68,0.12)',   border: 'rgba(239,68,68,0.25)'  },
+  EASY:     { color: '#059669', bg: 'rgba(5,150,105,0.10)',  border: 'rgba(5,150,105,0.25)'  },
+  MODERATE: { color: '#B45309', bg: 'rgba(180,83,9,0.10)',   border: 'rgba(180,83,9,0.25)'  },
+  HARD:     { color: '#C2410C', bg: 'rgba(194,65,12,0.10)',  border: 'rgba(194,65,12,0.25)'  },
+  EXPERT:   { color: '#DC2626', bg: 'rgba(220,38,38,0.10)',  border: 'rgba(220,38,38,0.25)'  },
 }
 
 // Path color by condition
 function pathColor(cond: Trail['condition']): string {
   const map: Record<Trail['condition'], string> = {
-    dry: '#10B981', wet: '#3B82F6', muddy: '#F59E0B', snow: '#93C5FD', closed: '#EF4444', icy: '#93C5FD',
+    dry: '#059669', wet: '#2563EB', muddy: '#B45309', snow: '#7C3AED', closed: '#DC2626', icy: '#0891B2',
   }
   return map[cond]
 }
@@ -1119,10 +1119,10 @@ function TrailCard({
         padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 12,
         cursor: 'pointer',
         border: selected
-          ? '1px solid rgba(34,211,238,0.6)'
-          : '1px solid rgba(255,255,255,0.06)',
+          ? '1px solid rgba(5,150,105,0.55)'
+          : '1px solid var(--tile-border)',
         boxShadow: selected
-          ? '0 0 0 2px rgba(34,211,238,0.25), 0 4px 24px rgba(34,211,238,0.12)'
+          ? '0 0 0 2px rgba(5,150,105,0.18), var(--tile-shadow)'
           : undefined,
         transition: 'border 0.15s, box-shadow 0.15s',
       }}
@@ -1164,8 +1164,8 @@ function TrailCard({
       {/* Surface + season */}
       <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
         <span style={{
-          fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--deep-text)',
-          background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)',
+          fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--spray)',
+          background: 'var(--paper-sunken)', border: '1px solid var(--tile-border)',
           padding: '2px 8px', borderRadius: 20, letterSpacing: '0.04em',
         }}>
           {trail.surface}
@@ -1219,9 +1219,9 @@ function TrailCard({
         style={{
           alignSelf: 'flex-start',
           fontFamily: 'var(--font-data)', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em',
-          color: selected ? '#22D3EE' : 'var(--spray)',
-          background: selected ? 'rgba(34,211,238,0.1)' : 'rgba(255,255,255,0.04)',
-          border: `1px solid ${selected ? 'rgba(34,211,238,0.3)' : 'rgba(255,255,255,0.08)'}`,
+          color: selected ? 'var(--trail-bright)' : 'var(--spray)',
+          background: selected ? 'var(--trail-muted)' : 'var(--paper-sunken)',
+          border: `1px solid ${selected ? 'rgba(5,150,105,0.3)' : 'var(--tile-border-strong)'}`,
           padding: '5px 14px', borderRadius: 20, cursor: 'pointer',
           transition: 'all 0.15s',
         }}
@@ -1362,22 +1362,22 @@ function WeeklyForecast() {
             <div key={day} style={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
               padding: '10px 4px', borderRadius: 10,
-              background: f.hike ? 'rgba(16,185,129,0.06)' : 'rgba(239,68,68,0.04)',
-              border: `1px solid ${f.hike ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.1)'}`,
+              background: f.hike ? 'rgba(5,150,105,0.06)' : 'rgba(220,38,38,0.04)',
+              border: `1px solid ${f.hike ? 'rgba(5,150,105,0.15)' : 'rgba(220,38,38,0.1)'}`,
             }}>
               <span style={{ fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--spray)', letterSpacing: '0.06em' }}>{day}</span>
               <span style={{ fontSize: 18 }}>{f.cond}</span>
               <span style={{ fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--mist)', letterSpacing: '0.02em' }}>
                 {f.tempLow}–{f.tempHigh}°F
               </span>
-              <span style={{ fontFamily: 'var(--font-data)', fontSize: 9, color: f.rain > 50 ? '#3B82F6' : 'var(--spray)', letterSpacing: '0.02em' }}>
+              <span style={{ fontFamily: 'var(--font-data)', fontSize: 9, color: f.rain > 50 ? '#2563EB' : 'var(--spray)', letterSpacing: '0.02em' }}>
                 {f.rain}%
               </span>
               <span style={{
                 fontFamily: 'var(--font-data)', fontSize: 8, fontWeight: 700, letterSpacing: '0.06em',
-                color: f.hike ? '#10B981' : '#EF4444',
-                background: f.hike ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)',
-                border: `1px solid ${f.hike ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.15)'}`,
+                color: f.hike ? '#059669' : '#DC2626',
+                background: f.hike ? 'rgba(5,150,105,0.1)' : 'rgba(220,38,38,0.1)',
+                border: `1px solid ${f.hike ? 'rgba(5,150,105,0.2)' : 'rgba(220,38,38,0.15)'}`,
                 padding: '2px 6px', borderRadius: 20,
               }}>
                 {f.hike ? 'HIKE ✓' : 'AVOID'}
@@ -1408,7 +1408,7 @@ function ConditionsTable({ trails }: { trails: Trail[] }) {
               <th key={col} style={{
                 fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--spray)',
                 letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'left',
-                padding: '6px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)',
+                padding: '6px 12px', borderBottom: '1px solid var(--tile-border)',
               }}>
                 {col}
               </th>
@@ -1422,7 +1422,7 @@ function ConditionsTable({ trails }: { trails: Trail[] }) {
             const condC = COND_CONFIG[ck]
             const diffC = DIFF_CONFIG[dk]
             return (
-              <tr key={trail.id} style={{ background: idx % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
+              <tr key={trail.id} style={{ background: idx % 2 === 0 ? 'transparent' : 'var(--paper-sunken)' }}>
                 <td style={{ padding: '8px 12px', fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 700, color: 'var(--foam)', whiteSpace: 'nowrap' }}>
                   {trail.name}
                 </td>
@@ -1458,9 +1458,9 @@ function ConditionsTable({ trails }: { trails: Trail[] }) {
                   <span style={{
                     display: 'inline-block',
                     fontFamily: 'var(--font-data)', fontSize: 9, fontWeight: 700, letterSpacing: '0.06em',
-                    color: trail.condition === 'closed' ? '#EF4444' : '#10B981',
-                    background: trail.condition === 'closed' ? 'rgba(239,68,68,0.1)' : 'rgba(16,185,129,0.1)',
-                    border: `1px solid ${trail.condition === 'closed' ? 'rgba(239,68,68,0.2)' : 'rgba(16,185,129,0.2)'}`,
+                    color: trail.condition === 'closed' ? '#DC2626' : '#059669',
+                    background: trail.condition === 'closed' ? 'rgba(220,38,38,0.1)' : 'rgba(5,150,105,0.1)',
+                    border: `1px solid ${trail.condition === 'closed' ? 'rgba(220,38,38,0.2)' : 'rgba(5,150,105,0.2)'}`,
                     padding: '2px 8px', borderRadius: 20,
                   }}>
                     {trail.condition === 'closed' ? 'CLOSED' : 'OPEN'}
@@ -1496,7 +1496,6 @@ function CommunityReports() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontFamily: 'var(--font-display)', fontSize: 11, fontWeight: 900,
                 color: '#fff', letterSpacing: '0.02em',
-                boxShadow: `0 0 10px ${report.avatarColor}50`,
               }}>
                 {report.initials}
               </div>
@@ -1519,7 +1518,7 @@ function CommunityReports() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <button style={{
                 display: 'flex', alignItems: 'center', gap: 5,
-                background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)',
+                background: 'var(--paper-sunken)', border: '1px solid var(--tile-border)',
                 borderRadius: 20, padding: '3px 10px', cursor: 'pointer',
                 fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--spray)',
               }}>
@@ -1586,7 +1585,7 @@ export default function TrailsPageClient() {
     <>
     <style>{`
       .tr-scroll::-webkit-scrollbar { width: 3px }
-      .tr-scroll::-webkit-scrollbar-thumb { background: rgba(6,182,212,0.2); border-radius: 2px }
+      .tr-scroll::-webkit-scrollbar-thumb { background: rgba(5,150,105,0.25); border-radius: 2px }
       .tr-scroll::-webkit-scrollbar-track { background: transparent }
     `}</style>
     <div
@@ -1621,9 +1620,9 @@ export default function TrailsPageClient() {
                   fontFamily: 'var(--font-data)', fontSize: 11, fontWeight: 700,
                   letterSpacing: '0.04em', padding: '6px 14px', borderRadius: 20,
                   cursor: 'pointer', border: 'none', transition: 'all 0.15s',
-                  background: active ? 'var(--trail)' : 'rgba(255,255,255,0.05)',
+                  background: active ? 'var(--trail)' : 'var(--paper-sunken)',
                   color: active ? '#fff' : 'var(--spray)',
-                  boxShadow: active ? '0 4px 16px rgba(16,185,129,0.3)' : 'none',
+                  boxShadow: active ? '0 2px 8px rgba(5,150,105,0.25)' : 'none',
                 }}
               >
                 {label}
@@ -1636,17 +1635,17 @@ export default function TrailsPageClient() {
       {/* ── Alert Banner ── */}
       <div style={{
         borderRadius: 12, overflow: 'hidden',
-        border: '1px solid rgba(239,68,68,0.25)',
-        background: 'rgba(239,68,68,0.06)',
+        border: '1px solid rgba(220,38,38,0.25)',
+        background: 'rgba(220,38,38,0.05)',
       }}>
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10,
           padding: '10px 16px',
-          borderBottom: '1px solid rgba(239,68,68,0.12)',
-          background: 'rgba(239,68,68,0.08)',
+          borderBottom: '1px solid rgba(220,38,38,0.12)',
+          background: 'rgba(220,38,38,0.07)',
         }}>
           <span style={{ fontSize: 14 }}>⚠</span>
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: 11, fontWeight: 800, color: '#EF4444', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: 11, fontWeight: 800, color: '#DC2626', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
             Active Alerts — {alertCount} closures in effect
           </span>
         </div>
@@ -1657,8 +1656,8 @@ export default function TrailsPageClient() {
           ].map(({ icon, text }) => (
             <div key={text} style={{
               display: 'flex', alignItems: 'center', gap: 10,
-              padding: '9px 16px', borderBottom: '1px solid rgba(239,68,68,0.08)',
-              fontFamily: 'var(--font-data)', fontSize: 11, color: '#FCA5A5', letterSpacing: '0.02em',
+              padding: '9px 16px', borderBottom: '1px solid rgba(220,38,38,0.08)',
+              fontFamily: 'var(--font-data)', fontSize: 11, color: '#B91C1C', letterSpacing: '0.02em',
             }}>
               <span>{icon}</span>
               <span>{text}</span>
@@ -1670,15 +1669,15 @@ export default function TrailsPageClient() {
       {/* ── Conditions Summary Strip ── */}
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
         {[
-          { label: 'TRAILS TOTAL',     value: TRAILS.length, color: '#22D3EE' },
-          { label: 'TRAILS OPEN',      value: openCount,     color: '#10B981' },
-          { label: 'BEST CONDITIONS',  value: bestCount,     color: '#22D3EE' },
-          { label: 'ALERTS',           value: alertCount,    color: '#EF4444' },
-          { label: 'SEASON',           value: 'Spring',      color: '#F59E0B', isText: true },
+          { label: 'TRAILS TOTAL',     value: TRAILS.length, color: '#0EA5E9' },
+          { label: 'TRAILS OPEN',      value: openCount,     color: '#059669' },
+          { label: 'BEST CONDITIONS',  value: bestCount,     color: '#059669' },
+          { label: 'ALERTS',           value: alertCount,    color: '#DC2626' },
+          { label: 'SEASON',           value: 'Spring',      color: '#B45309', isText: true },
         ].map(({ label, value, color, isText }) => (
           <div key={label} style={{
             display: 'flex', alignItems: 'center', gap: 8,
-            background: 'rgba(255,255,255,0.04)', border: `1px solid ${color}25`,
+            background: 'var(--paper-sunken)', border: `1px solid ${color}30`,
             borderRadius: 24, padding: '7px 16px',
           }}>
             <span style={{
@@ -1745,12 +1744,11 @@ export default function TrailsPageClient() {
             <div style={{
               display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12,
               padding: '8px 14px', borderRadius: 10,
-              background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.2)',
+              background: 'var(--trail-muted)', border: '1px solid rgba(5,150,105,0.25)',
             }}>
               <div style={{
                 width: 10, height: 10, borderRadius: '50%',
                 background: pathColor(t.condition),
-                boxShadow: `0 0 6px ${pathColor(t.condition)}`,
                 flexShrink: 0,
               }} />
               <span style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 700, color: 'var(--foam)' }}>
@@ -1780,7 +1778,7 @@ export default function TrailsPageClient() {
         <div style={{ display: 'flex', gap: 16, marginTop: 10, flexWrap: 'wrap' }}>
           {(Object.entries(COND_CONFIG) as [TrailConditionKey, typeof COND_CONFIG[TrailConditionKey]][]).map(([key, c]) => (
             <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <div style={{ width: 10, height: 10, borderRadius: '50%', background: c.color, boxShadow: `0 0 5px ${c.color}70` }} />
+              <div style={{ width: 10, height: 10, borderRadius: '50%', background: c.color }} />
               <span style={{ fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--spray)', letterSpacing: '0.06em' }}>{key}</span>
             </div>
           ))}

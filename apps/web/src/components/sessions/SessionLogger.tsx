@@ -131,13 +131,13 @@ export default function SessionLogger({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/70" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
 
       {/* Modal */}
-      <div className="relative bg-gray-900 border border-gray-700 rounded-2xl w-full max-w-lg shadow-2xl">
-        <div className="flex items-center justify-between p-5 border-b border-gray-800">
-          <h2 className="text-lg font-semibold text-white">Log Session</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors text-xl leading-none">
+      <div className="relative tile-elevated bg-[var(--paper-raised)] rounded-2xl w-full max-w-lg">
+        <div className="flex items-center justify-between p-5 border-b border-[var(--tile-border)]">
+          <h2 className="text-lg font-semibold text-[var(--foam)]">Log Session</h2>
+          <button onClick={onClose} className="text-[var(--spray)] hover:text-[var(--foam)] transition-colors text-xl leading-none">
             ×
           </button>
         </div>
@@ -145,7 +145,7 @@ export default function SessionLogger({
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
           {/* Spot selector */}
           <div>
-            <label className="block text-xs text-gray-400 mb-1.5">Spot *</label>
+            <label className="block text-xs text-[var(--spray)] mb-1.5">Spot *</label>
             <select
               value={form.spot_id}
               onChange={e => {
@@ -153,7 +153,7 @@ export default function SessionLogger({
                 update('spot_id', e.target.value)
                 update('spot_name', spot?.name || '')
               }}
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-blue-500"
+              className="ocean-input"
             >
               <option value="">Select a spot...</option>
               {spots.map(s => (
@@ -164,19 +164,19 @@ export default function SessionLogger({
 
           {/* Date */}
           <div>
-            <label className="block text-xs text-gray-400 mb-1.5">Date</label>
+            <label className="block text-xs text-[var(--spray)] mb-1.5">Date</label>
             <input
               type="date"
               value={form.session_date}
               onChange={e => update('session_date', e.target.value)}
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-blue-500"
+              className="ocean-input"
             />
           </div>
 
           {/* Conditions (optional) */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs text-gray-400 mb-1.5">Wave height (m)</label>
+              <label className="block text-xs text-[var(--spray)] mb-1.5">Wave height (m)</label>
               <input
                 type="number"
                 step="0.1"
@@ -185,11 +185,11 @@ export default function SessionLogger({
                 value={form.wave_height_face_m ?? ''}
                 onChange={e => update('wave_height_face_m', e.target.value ? parseFloat(e.target.value) : undefined)}
                 placeholder="e.g. 1.5"
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-blue-500 placeholder-gray-600"
+                className="ocean-input"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1.5">Period (s)</label>
+              <label className="block text-xs text-[var(--spray)] mb-1.5">Period (s)</label>
               <input
                 type="number"
                 step="0.5"
@@ -198,15 +198,15 @@ export default function SessionLogger({
                 value={form.wave_period_s ?? ''}
                 onChange={e => update('wave_period_s', e.target.value ? parseFloat(e.target.value) : undefined)}
                 placeholder="e.g. 12"
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-blue-500 placeholder-gray-600"
+                className="ocean-input"
               />
             </div>
           </div>
 
           {/* Quality rating */}
           <div>
-            <label className="block text-xs text-gray-400 mb-2">
-              Session quality: <span className="text-white font-medium">{form.quality_rating}/10 — {QUALITY_LABELS[form.quality_rating]}</span>
+            <label className="block text-xs text-[var(--spray)] mb-2">
+              Session quality: <span className="text-[var(--foam)] font-medium">{form.quality_rating}/10 — {QUALITY_LABELS[form.quality_rating]}</span>
             </label>
             <input
               type="range"
@@ -214,14 +214,14 @@ export default function SessionLogger({
               max={10}
               value={form.quality_rating}
               onChange={e => update('quality_rating', parseInt(e.target.value))}
-              className="w-full accent-blue-500"
+              className="w-full"
             />
           </div>
 
           {/* Crowd rating */}
           <div>
-            <label className="block text-xs text-gray-400 mb-2">
-              Crowd: <span className="text-white font-medium">{form.crowd_rating}/5 — {CROWD_LABELS[form.crowd_rating]}</span>
+            <label className="block text-xs text-[var(--spray)] mb-2">
+              Crowd: <span className="text-[var(--foam)] font-medium">{form.crowd_rating}/5 — {CROWD_LABELS[form.crowd_rating]}</span>
             </label>
             <input
               type="range"
@@ -229,24 +229,25 @@ export default function SessionLogger({
               max={5}
               value={form.crowd_rating}
               onChange={e => update('crowd_rating', parseInt(e.target.value))}
-              className="w-full accent-orange-500"
+              className="w-full"
+              style={{ accentColor: 'var(--amber)' }}
             />
           </div>
 
           {/* Notes */}
           <div>
-            <label className="block text-xs text-gray-400 mb-1.5">Notes (optional)</label>
+            <label className="block text-xs text-[var(--spray)] mb-1.5">Notes (optional)</label>
             <textarea
               value={form.notes}
               onChange={e => update('notes', e.target.value)}
               rows={3}
               placeholder="How was it? Any observations about the break, crowds, conditions..."
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-blue-500 placeholder-gray-600 resize-none"
+              className="ocean-input resize-none"
             />
           </div>
 
           {error && (
-            <div className="text-red-400 text-sm bg-red-950/50 border border-red-800 rounded-lg px-3 py-2">
+            <div className="text-red-700 text-sm bg-red-50 border border-red-200 rounded-lg px-3 py-2">
               {error}
             </div>
           )}
@@ -255,14 +256,15 @@ export default function SessionLogger({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg py-2.5 text-sm font-medium transition-colors"
+              className="flex-1 bg-[var(--paper-sunken)] hover:bg-[var(--tile-border)] text-[var(--mist)] rounded-lg py-2.5 text-sm font-medium transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white rounded-lg py-2.5 text-sm font-semibold transition-colors"
+              className="btn-ocean flex-1 disabled:opacity-50"
+              style={{ padding: '10px 20px' }}
             >
               {saving ? 'Saving...' : 'Log Session'}
             </button>

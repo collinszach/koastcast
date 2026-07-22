@@ -18,7 +18,8 @@ interface MockConditions {
   qualityScore: number
   condLabel: string
   condColor: string
-  condGlow: string
+  condBg: string
+  condBorder: string
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -45,27 +46,32 @@ function mockConditions(spot: Spot): MockConditions {
 
   let condLabel: string
   let condColor: string
-  let condGlow: string
+  let condBg: string
+  let condBorder: string
 
   if (qualityScore >= 8) {
     condLabel = 'FIRING'
-    condColor = '#EF4444'
-    condGlow = 'rgba(239,68,68,0.35)'
+    condColor = 'var(--q-firing)'
+    condBg = 'rgba(234,88,12,0.1)'
+    condBorder = 'rgba(234,88,12,0.35)'
   } else if (qualityScore >= 6) {
     condLabel = 'PUMPING'
-    condColor = '#F59E0B'
-    condGlow = 'rgba(245,158,11,0.35)'
+    condColor = 'var(--q-pumping)'
+    condBg = 'rgba(8,145,178,0.1)'
+    condBorder = 'rgba(8,145,178,0.35)'
   } else if (qualityScore >= 4) {
     condLabel = 'FUN'
-    condColor = '#10B981'
-    condGlow = 'rgba(16,185,129,0.35)'
+    condColor = 'var(--q-good)'
+    condBg = 'rgba(37,99,235,0.1)'
+    condBorder = 'rgba(37,99,235,0.35)'
   } else {
     condLabel = 'WORTH IT'
-    condColor = '#3B82F6'
-    condGlow = 'rgba(59,130,246,0.35)'
+    condColor = 'var(--q-ok)'
+    condBg = 'rgba(79,70,229,0.1)'
+    condBorder = 'rgba(79,70,229,0.35)'
   }
 
-  return { waveHeightFt, periodS, windKt, windDir, qualityScore, condLabel, condColor, condGlow }
+  return { waveHeightFt, periodS, windKt, windDir, qualityScore, condLabel, condColor, condBg, condBorder }
 }
 
 function dayQuality(spotName: string, dayIndex: number): number {
@@ -73,17 +79,17 @@ function dayQuality(spotName: string, dayIndex: number): number {
 }
 
 function dayColor(score: number): string {
-  if (score >= 8) return '#EF4444'
-  if (score >= 6) return '#F59E0B'
-  if (score >= 4) return '#10B981'
-  return '#3B82F6'
+  if (score >= 8) return 'var(--q-firing)'
+  if (score >= 6) return 'var(--q-pumping)'
+  if (score >= 4) return 'var(--q-good)'
+  return 'var(--q-ok)'
 }
 
-function dayGlow(score: number): string {
-  if (score >= 8) return 'rgba(239,68,68,0.4)'
-  if (score >= 6) return 'rgba(245,158,11,0.4)'
-  if (score >= 4) return 'rgba(16,185,129,0.4)'
-  return 'rgba(59,130,246,0.4)'
+function dayBg(score: number): string {
+  if (score >= 8) return 'rgba(234,88,12,0.12)'
+  if (score >= 6) return 'rgba(8,145,178,0.12)'
+  if (score >= 4) return 'rgba(37,99,235,0.12)'
+  return 'rgba(79,70,229,0.12)'
 }
 
 function distanceMiles(lat1: number, lng1: number, lat2: number, lng2: number): number {
@@ -108,7 +114,7 @@ function QualityRing({ score, color }: { score: number; color: string }) {
   const pct = score / 10
   return (
     <svg width={52} height={52} viewBox="0 0 52 52">
-      <circle cx={26} cy={26} r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth={4} />
+      <circle cx={26} cy={26} r={r} fill="none" stroke="var(--tile-border)" strokeWidth={4} />
       <circle
         cx={26}
         cy={26}
@@ -120,7 +126,6 @@ function QualityRing({ score, color }: { score: number; color: string }) {
         strokeDashoffset={circ * (1 - pct)}
         strokeLinecap="round"
         transform="rotate(-90 26 26)"
-        style={{ filter: `drop-shadow(0 0 4px ${color})` }}
       />
       <text
         x={26}
@@ -147,8 +152,8 @@ function SportTabs({ active, onChange }: { active: Sport; onChange: (s: Sport) =
       style={{
         display: 'flex',
         gap: 4,
-        background: 'rgba(6,12,24,0.7)',
-        border: '1px solid rgba(6,182,212,0.15)',
+        background: 'var(--tile-bg)',
+        border: '1px solid rgba(14,165,233,0.15)',
         borderRadius: 12,
         padding: 4,
       }}
@@ -167,10 +172,9 @@ function SportTabs({ active, onChange }: { active: Sport; onChange: (s: Sport) =
             fontSize: 13,
             letterSpacing: '0.12em',
             transition: 'all 0.2s',
-            background: active === s ? 'rgba(6,182,212,0.18)' : 'transparent',
-            color: active === s ? '#06B6D4' : 'rgba(148,163,184,0.7)',
-            boxShadow: active === s ? '0 0 16px rgba(6,182,212,0.2)' : 'none',
-            borderBottom: active === s ? '2px solid #06B6D4' : '2px solid transparent',
+            background: active === s ? 'var(--cyan-muted)' : 'transparent',
+            color: active === s ? 'var(--cyan-bright)' : 'var(--spray)',
+            borderBottom: active === s ? '2px solid var(--cyan)' : '2px solid transparent',
           }}
         >
           {s}
@@ -191,7 +195,7 @@ function RadiusSelector({ value, onChange }: { value: RadiusMi; onChange: (v: Ra
   ]
   return (
     <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-      <span style={{ color: 'rgba(148,163,184,0.6)', fontSize: 11, fontFamily: 'var(--font-data, monospace)', letterSpacing: '0.08em' }}>
+      <span style={{ color: 'var(--spray)', fontSize: 11, fontFamily: 'var(--font-data, monospace)', letterSpacing: '0.08em' }}>
         RADIUS
       </span>
       {opts.map(({ label, val }) => (
@@ -201,9 +205,9 @@ function RadiusSelector({ value, onChange }: { value: RadiusMi; onChange: (v: Ra
           style={{
             padding: '4px 12px',
             borderRadius: 6,
-            border: `1px solid ${value === val ? 'rgba(6,182,212,0.5)' : 'rgba(255,255,255,0.08)'}`,
-            background: value === val ? 'rgba(6,182,212,0.12)' : 'rgba(6,12,24,0.5)',
-            color: value === val ? '#06B6D4' : 'rgba(148,163,184,0.6)',
+            border: `1px solid ${value === val ? 'rgba(14,165,233,0.5)' : 'var(--tile-border)'}`,
+            background: value === val ? 'rgba(14,165,233,0.12)' : 'var(--tile-bg)',
+            color: value === val ? 'var(--cyan)' : 'var(--spray)',
             fontSize: 11,
             fontFamily: 'var(--font-data, monospace)',
             cursor: 'pointer',
@@ -286,9 +290,9 @@ function SpotPicker({
               gap: 6,
               padding: '6px 12px',
               borderRadius: 8,
-              background: 'rgba(6,182,212,0.1)',
-              border: '1px solid rgba(6,182,212,0.3)',
-              color: '#67E8F9',
+              background: 'rgba(14,165,233,0.1)',
+              border: '1px solid rgba(14,165,233,0.3)',
+              color: 'var(--cyan-bright)',
               fontSize: 12,
               fontFamily: 'var(--font-display, sans-serif)',
               fontWeight: 600,
@@ -315,7 +319,7 @@ function SpotPicker({
           </div>
         ))}
         {selected.length === 0 && (
-          <span style={{ color: 'rgba(148,163,184,0.4)', fontSize: 12, fontStyle: 'italic', alignSelf: 'center' }}>
+          <span style={{ color: 'var(--spray)', fontSize: 12, fontStyle: 'italic', alignSelf: 'center' }}>
             No spots selected — search to add up to 4
           </span>
         )}
@@ -332,7 +336,7 @@ function SpotPicker({
                 left: 12,
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: 'rgba(6,182,212,0.6)',
+                color: 'rgba(14,165,233,0.6)',
                 pointerEvents: 'none',
               }}
             />
@@ -345,10 +349,10 @@ function SpotPicker({
               style={{
                 width: '100%',
                 padding: '10px 12px 10px 34px',
-                background: 'rgba(6,12,24,0.8)',
-                border: '1px solid rgba(6,182,212,0.2)',
+                background: 'var(--tile-bg)',
+                border: '1px solid rgba(14,165,233,0.2)',
                 borderRadius: 8,
-                color: '#E2E8F0',
+                color: 'var(--mist)',
                 fontSize: 13,
                 fontFamily: 'var(--font-data, monospace)',
                 outline: 'none',
@@ -362,7 +366,7 @@ function SpotPicker({
                 right: 12,
                 top: '50%',
                 transform: `translateY(-50%) rotate(${open ? 180 : 0}deg)`,
-                color: 'rgba(148,163,184,0.4)',
+                color: 'var(--spray)',
                 pointerEvents: 'none',
                 transition: 'transform 0.2s',
               }}
@@ -377,12 +381,12 @@ function SpotPicker({
                 top: 'calc(100% + 4px)',
                 left: 0,
                 right: 0,
-                background: 'rgba(6,12,24,0.97)',
-                border: '1px solid rgba(6,182,212,0.2)',
+                background: 'var(--tile-bg)',
+                border: '1px solid rgba(14,165,233,0.2)',
                 borderRadius: 8,
                 zIndex: 50,
                 overflow: 'hidden',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
+                boxShadow: 'var(--tile-shadow)',
               }}
             >
               {filtered.map((s) => (
@@ -397,18 +401,18 @@ function SpotPicker({
                     padding: '10px 14px',
                     background: 'none',
                     border: 'none',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    borderBottom: '1px solid var(--tile-border)',
                     cursor: 'pointer',
-                    color: '#CBD5E1',
+                    color: 'var(--mist)',
                     textAlign: 'left',
                     transition: 'background 0.1s',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(6,182,212,0.07)')}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(14,165,233,0.07)')}
                   onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
                 >
-                  <MapPin size={12} style={{ color: 'rgba(6,182,212,0.6)', flexShrink: 0 }} />
+                  <MapPin size={12} style={{ color: 'rgba(14,165,233,0.6)', flexShrink: 0 }} />
                   <span style={{ fontSize: 13, fontWeight: 600 }}>{s.name}</span>
-                  <span style={{ fontSize: 11, color: 'rgba(148,163,184,0.5)', marginLeft: 'auto' }}>
+                  <span style={{ fontSize: 11, color: 'var(--spray)', marginLeft: 'auto' }}>
                     {s.region}
                   </span>
                 </button>
@@ -440,18 +444,14 @@ function ComparisonCard({
         flex: '1 1 220px',
         minWidth: 200,
         maxWidth: 320,
-        background: isBest
-          ? 'linear-gradient(145deg, rgba(6,12,24,0.95) 0%, rgba(6,30,40,0.95) 100%)'
-          : 'rgba(6,12,24,0.85)',
+        background: 'var(--tile-bg)',
         border: isBest
-          ? '1px solid rgba(6,182,212,0.45)'
-          : '1px solid rgba(6,182,212,0.1)',
+          ? '1px solid var(--cyan)'
+          : '1px solid var(--tile-border)',
         borderRadius: 16,
         overflow: 'hidden',
         position: 'relative',
-        boxShadow: isBest
-          ? '0 0 40px rgba(6,182,212,0.15), 0 4px 24px rgba(0,0,0,0.5)'
-          : '0 4px 24px rgba(0,0,0,0.4)',
+        boxShadow: 'var(--tile-shadow)',
         transition: 'all 0.25s',
       }}
     >
@@ -464,7 +464,7 @@ function ComparisonCard({
             left: 0,
             right: 0,
             height: 3,
-            background: 'linear-gradient(90deg, transparent, #06B6D4, transparent)',
+            background: 'linear-gradient(90deg, transparent, var(--cyan), transparent)',
           }}
         />
       )}
@@ -473,7 +473,7 @@ function ComparisonCard({
       <div
         style={{
           padding: '16px 16px 12px',
-          borderBottom: '1px solid rgba(255,255,255,0.05)',
+          borderBottom: '1px solid var(--tile-border)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
@@ -487,14 +487,14 @@ function ComparisonCard({
                 alignItems: 'center',
                 gap: 4,
                 marginBottom: 4,
-                color: '#06B6D4',
+                color: 'var(--cyan)',
                 fontSize: 10,
                 fontFamily: 'var(--font-data, monospace)',
                 letterSpacing: '0.1em',
                 fontWeight: 700,
               }}
             >
-              <Zap size={10} style={{ fill: '#06B6D4' }} />
+              <Zap size={10} style={{ fill: 'var(--cyan)' }} />
               BEST PICK
             </div>
           )}
@@ -507,7 +507,7 @@ function ComparisonCard({
                 fontFamily: 'var(--font-display, sans-serif)',
                 fontSize: 15,
                 fontWeight: 700,
-                color: isBest ? '#67E8F9' : '#E2E8F0',
+                color: isBest ? 'var(--cyan-bright)' : 'var(--mist)',
                 lineHeight: 1.2,
                 cursor: 'pointer',
               }}
@@ -518,7 +518,7 @@ function ComparisonCard({
           <div
             style={{
               fontSize: 11,
-              color: 'rgba(148,163,184,0.5)',
+              color: 'var(--spray)',
               fontFamily: 'var(--font-data, monospace)',
               marginTop: 2,
               letterSpacing: '0.04em',
@@ -533,7 +533,7 @@ function ComparisonCard({
             background: 'none',
             border: 'none',
             cursor: 'pointer',
-            color: 'rgba(148,163,184,0.3)',
+            color: 'var(--spray)',
             padding: 2,
             display: 'flex',
           }}
@@ -558,14 +558,13 @@ function ComparisonCard({
               display: 'inline-block',
               padding: '3px 10px',
               borderRadius: 5,
-              background: `${cond.condColor}18`,
-              border: `1px solid ${cond.condColor}45`,
+              background: cond.condBg,
+              border: `1px solid ${cond.condBorder}`,
               color: cond.condColor,
               fontSize: 11,
               fontWeight: 800,
               fontFamily: 'var(--font-data, monospace)',
               letterSpacing: '0.1em',
-              boxShadow: `0 0 10px ${cond.condGlow}`,
             }}
           >
             {cond.condLabel}
@@ -573,7 +572,7 @@ function ComparisonCard({
           <div
             style={{
               fontSize: 10,
-              color: 'rgba(148,163,184,0.4)',
+              color: 'var(--spray)',
               marginTop: 5,
               fontFamily: 'var(--font-data, monospace)',
               letterSpacing: '0.06em',
@@ -599,7 +598,7 @@ function ComparisonCard({
           label="WAVE"
           value={`${cond.waveHeightFt}ft`}
           sub={`${cond.periodS}s period`}
-          color="#06B6D4"
+          color="var(--cyan)"
         />
         {/* Wind */}
         <StatRow
@@ -634,16 +633,16 @@ function StatRow({
         alignItems: 'center',
         gap: 8,
         padding: '7px 10px',
-        background: 'rgba(255,255,255,0.03)',
+        background: 'var(--tile-border)',
         borderRadius: 8,
-        border: '1px solid rgba(255,255,255,0.04)',
+        border: '1px solid var(--tile-border)',
       }}
     >
       <div style={{ color, opacity: 0.7, display: 'flex', flexShrink: 0 }}>{icon}</div>
       <span
         style={{
           fontSize: 10,
-          color: 'rgba(148,163,184,0.5)',
+          color: 'var(--spray)',
           fontFamily: 'var(--font-data, monospace)',
           letterSpacing: '0.08em',
           width: 36,
@@ -666,7 +665,7 @@ function StatRow({
       <span
         style={{
           fontSize: 11,
-          color: 'rgba(148,163,184,0.45)',
+          color: 'var(--spray)',
           fontFamily: 'var(--font-data, monospace)',
           marginLeft: 2,
         }}
@@ -698,8 +697,8 @@ function WeekStrip({ spots }: { spots: Spot[] }) {
         const scores = spots.map((s) => dayQuality(s.name, di))
         const avg = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0
         const score = Math.round(avg)
-        const color = score > 0 ? dayColor(score) : '#334155'
-        const glow = score > 0 ? dayGlow(score) : 'transparent'
+        const color = score > 0 ? dayColor(score) : 'var(--q-flat)'
+        const bg = score > 0 ? dayBg(score) : 'var(--tile-border)'
 
         return (
           <div
@@ -710,17 +709,16 @@ function WeekStrip({ spots }: { spots: Spot[] }) {
               padding: '12px 8px',
               borderRadius: 10,
               background: isBest
-                ? 'rgba(6,182,212,0.08)'
-                : 'rgba(6,12,24,0.7)',
+                ? 'rgba(14,165,233,0.08)'
+                : 'var(--tile-bg)',
               border: isBest
-                ? '1px solid rgba(6,182,212,0.4)'
-                : '1px solid rgba(255,255,255,0.06)',
+                ? '1px solid rgba(14,165,233,0.4)'
+                : '1px solid var(--tile-border)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               gap: 6,
               position: 'relative',
-              boxShadow: isBest ? `0 0 20px rgba(6,182,212,0.15)` : 'none',
               transition: 'all 0.2s',
             }}
           >
@@ -732,9 +730,8 @@ function WeekStrip({ spots }: { spots: Spot[] }) {
                   left: '20%',
                   right: '20%',
                   height: 2,
-                  background: '#06B6D4',
+                  background: 'var(--cyan)',
                   borderRadius: 2,
-                  boxShadow: '0 0 8px rgba(6,182,212,0.8)',
                 }}
               />
             )}
@@ -743,7 +740,7 @@ function WeekStrip({ spots }: { spots: Spot[] }) {
                 fontSize: 10,
                 fontFamily: 'var(--font-data, monospace)',
                 fontWeight: 700,
-                color: isBest ? '#06B6D4' : 'rgba(148,163,184,0.5)',
+                color: isBest ? 'var(--cyan)' : 'var(--spray)',
                 letterSpacing: '0.08em',
               }}
             >
@@ -757,12 +754,11 @@ function WeekStrip({ spots }: { spots: Spot[] }) {
                     width: 32,
                     height: 32,
                     borderRadius: '50%',
-                    background: `${color}20`,
+                    background: bg,
                     border: `2px solid ${color}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    boxShadow: isBest ? `0 0 14px ${glow}` : 'none',
                   }}
                 >
                   <span
@@ -781,7 +777,7 @@ function WeekStrip({ spots }: { spots: Spot[] }) {
                     width: 40,
                     height: 4,
                     borderRadius: 2,
-                    background: `rgba(255,255,255,0.05)`,
+                    background: `var(--tile-border)`,
                     overflow: 'hidden',
                   }}
                 >
@@ -790,7 +786,6 @@ function WeekStrip({ spots }: { spots: Spot[] }) {
                       width: `${(score / 10) * 100}%`,
                       height: '100%',
                       background: color,
-                      boxShadow: `0 0 6px ${glow}`,
                       borderRadius: 2,
                     }}
                   />
@@ -802,8 +797,8 @@ function WeekStrip({ spots }: { spots: Spot[] }) {
                   width: 32,
                   height: 32,
                   borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.06)',
+                  background: 'var(--tile-border)',
+                  border: '1px solid var(--tile-border)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -827,9 +822,9 @@ function EmptyComparison() {
       style={{
         textAlign: 'center',
         padding: '64px 32px',
-        border: '1px dashed rgba(6,182,212,0.15)',
+        border: '1px dashed rgba(14,165,233,0.15)',
         borderRadius: 16,
-        background: 'rgba(6,12,24,0.4)',
+        background: 'var(--tile-bg)',
       }}
     >
       <div
@@ -837,15 +832,15 @@ function EmptyComparison() {
           width: 64,
           height: 64,
           borderRadius: '50%',
-          background: 'rgba(6,182,212,0.08)',
-          border: '1px solid rgba(6,182,212,0.2)',
+          background: 'rgba(14,165,233,0.08)',
+          border: '1px solid rgba(14,165,233,0.2)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           margin: '0 auto 16px',
         }}
       >
-        <TrendingUp size={28} style={{ color: 'rgba(6,182,212,0.5)' }} />
+        <TrendingUp size={28} style={{ color: 'rgba(14,165,233,0.5)' }} />
       </div>
       <div
         style={{
@@ -861,7 +856,7 @@ function EmptyComparison() {
       <div
         style={{
           fontSize: 13,
-          color: 'rgba(148,163,184,0.35)',
+          color: 'var(--spray)',
           fontFamily: 'var(--font-data, monospace)',
           maxWidth: 280,
           margin: '0 auto',
@@ -884,9 +879,9 @@ function ComingSoonSport({ sport }: { sport: Sport }) {
       style={{
         textAlign: 'center',
         padding: '80px 32px',
-        border: '1px dashed rgba(6,182,212,0.1)',
+        border: '1px dashed rgba(14,165,233,0.1)',
         borderRadius: 16,
-        background: 'rgba(6,12,24,0.4)',
+        background: 'var(--tile-bg)',
       }}
     >
       <div style={{ fontSize: 48, marginBottom: 16 }}>{icons[sport]}</div>
@@ -904,7 +899,7 @@ function ComingSoonSport({ sport }: { sport: Sport }) {
       <div
         style={{
           fontSize: 13,
-          color: 'rgba(148,163,184,0.4)',
+          color: 'var(--spray)',
           fontFamily: 'var(--font-data, monospace)',
           marginBottom: 24,
         }}
@@ -918,9 +913,9 @@ function ComingSoonSport({ sport }: { sport: Sport }) {
             display: 'inline-block',
             padding: '10px 24px',
             borderRadius: 8,
-            background: 'rgba(6,182,212,0.12)',
-            border: '1px solid rgba(6,182,212,0.3)',
-            color: '#06B6D4',
+            background: 'rgba(14,165,233,0.12)',
+            border: '1px solid rgba(14,165,233,0.3)',
+            color: 'var(--cyan)',
             fontSize: 13,
             fontWeight: 700,
             fontFamily: 'var(--font-display, sans-serif)',
@@ -1012,7 +1007,7 @@ export default function TripPlannerPage() {
               style={{
                 fontSize: 11,
                 fontFamily: 'var(--font-data, monospace)',
-                color: '#06B6D4',
+                color: 'var(--cyan)',
                 letterSpacing: '0.2em',
                 fontWeight: 700,
                 marginBottom: 6,
@@ -1025,7 +1020,7 @@ export default function TripPlannerPage() {
                 fontFamily: 'var(--font-display, sans-serif)',
                 fontSize: 'clamp(28px, 4vw, 42px)',
                 fontWeight: 900,
-                color: '#F8FAFC',
+                color: 'var(--foam)',
                 margin: 0,
                 lineHeight: 1,
                 letterSpacing: '-0.02em',
@@ -1038,7 +1033,7 @@ export default function TripPlannerPage() {
             <div
               style={{
                 fontSize: 13,
-                color: 'rgba(148,163,184,0.55)',
+                color: 'var(--spray)',
                 fontFamily: 'var(--font-data, monospace)',
                 lineHeight: 1.5,
               }}
@@ -1054,7 +1049,7 @@ export default function TripPlannerPage() {
         <div
           style={{
             height: 1,
-            background: 'linear-gradient(90deg, rgba(6,182,212,0.4), transparent)',
+            background: 'linear-gradient(90deg, rgba(14,165,233,0.4), transparent)',
             marginTop: 20,
           }}
         />
@@ -1084,8 +1079,8 @@ export default function TripPlannerPage() {
           <div
             style={{
               padding: '20px 24px',
-              background: 'rgba(6,12,24,0.7)',
-              border: '1px solid rgba(6,182,212,0.1)',
+              background: 'var(--tile-bg)',
+              border: '1px solid rgba(14,165,233,0.1)',
               borderRadius: 14,
               marginBottom: 24,
             }}
@@ -1094,7 +1089,7 @@ export default function TripPlannerPage() {
               style={{
                 fontSize: 10,
                 fontFamily: 'var(--font-data, monospace)',
-                color: 'rgba(6,182,212,0.7)',
+                color: 'rgba(14,165,233,0.7)',
                 letterSpacing: '0.15em',
                 fontWeight: 700,
                 marginBottom: 14,
@@ -1103,7 +1098,7 @@ export default function TripPlannerPage() {
               SELECT SPOTS TO COMPARE
             </div>
             {loading ? (
-              <div style={{ color: 'rgba(148,163,184,0.4)', fontSize: 13, fontFamily: 'var(--font-data, monospace)' }}>
+              <div style={{ color: 'var(--spray)', fontSize: 13, fontFamily: 'var(--font-data, monospace)' }}>
                 Loading spots…
               </div>
             ) : (
@@ -1125,7 +1120,7 @@ export default function TripPlannerPage() {
               style={{
                 fontSize: 10,
                 fontFamily: 'var(--font-data, monospace)',
-                color: 'rgba(6,182,212,0.7)',
+                color: 'rgba(14,165,233,0.7)',
                 letterSpacing: '0.15em',
                 fontWeight: 700,
                 marginBottom: 14,
@@ -1161,8 +1156,8 @@ export default function TripPlannerPage() {
             <div
               style={{
                 padding: '20px 24px',
-                background: 'rgba(6,12,24,0.7)',
-                border: '1px solid rgba(6,182,212,0.1)',
+                background: 'var(--tile-bg)',
+                border: '1px solid rgba(14,165,233,0.1)',
                 borderRadius: 14,
                 marginBottom: 24,
               }}
@@ -1175,12 +1170,12 @@ export default function TripPlannerPage() {
                   marginBottom: 16,
                 }}
               >
-                <Calendar size={13} style={{ color: 'rgba(6,182,212,0.7)' }} />
+                <Calendar size={13} style={{ color: 'rgba(14,165,233,0.7)' }} />
                 <span
                   style={{
                     fontSize: 10,
                     fontFamily: 'var(--font-data, monospace)',
-                    color: 'rgba(6,182,212,0.7)',
+                    color: 'rgba(14,165,233,0.7)',
                     letterSpacing: '0.15em',
                     fontWeight: 700,
                   }}
@@ -1192,7 +1187,7 @@ export default function TripPlannerPage() {
                     style={{
                       marginLeft: 4,
                       fontSize: 10,
-                      color: 'rgba(148,163,184,0.35)',
+                      color: 'var(--spray)',
                       fontFamily: 'var(--font-data, monospace)',
                     }}
                   >
@@ -1217,7 +1212,7 @@ export default function TripPlannerPage() {
               <div
                 style={{
                   fontSize: 12,
-                  color: 'rgba(148,163,184,0.4)',
+                  color: 'var(--spray)',
                   fontFamily: 'var(--font-data, monospace)',
                   alignSelf: 'center',
                 }}
@@ -1232,9 +1227,9 @@ export default function TripPlannerPage() {
                   gap: 6,
                   padding: '8px 16px',
                   borderRadius: 8,
-                  border: '1px solid rgba(6,182,212,0.2)',
-                  background: 'rgba(6,182,212,0.06)',
-                  color: '#67E8F9',
+                  border: '1px solid rgba(14,165,233,0.2)',
+                  background: 'rgba(14,165,233,0.06)',
+                  color: 'var(--cyan-bright)',
                   fontSize: 12,
                   fontWeight: 600,
                   fontFamily: 'var(--font-display, sans-serif)',
@@ -1253,9 +1248,9 @@ export default function TripPlannerPage() {
                   gap: 6,
                   padding: '8px 16px',
                   borderRadius: 8,
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  background: 'rgba(255,255,255,0.03)',
-                  color: 'rgba(148,163,184,0.6)',
+                  border: '1px solid var(--tile-border)',
+                  background: 'var(--tile-border)',
+                  color: 'var(--spray)',
                   fontSize: 12,
                   fontWeight: 600,
                   fontFamily: 'var(--font-display, sans-serif)',

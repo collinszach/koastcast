@@ -107,7 +107,7 @@ function SettingToggle({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '10px 0',
-        borderBottom: '1px solid rgba(6,182,212,0.06)',
+        borderBottom: '1px solid rgba(14,165,233,0.06)',
       }}
     >
       <div>
@@ -143,10 +143,10 @@ function SettingToggle({
           height: 24,
           borderRadius: 12,
           cursor: 'pointer',
-          background: value ? '#06B6D4' : 'rgba(30,41,59,0.8)',
+          background: value ? 'var(--cyan)' : 'var(--paper-sunken)',
           border: value
-            ? '1px solid rgba(6,182,212,0.5)'
-            : '1px solid rgba(6,182,212,0.15)',
+            ? '1px solid rgba(14,165,233,0.5)'
+            : '1px solid rgba(14,165,233,0.15)',
           position: 'relative',
           transition: 'all 0.2s',
           flexShrink: 0,
@@ -189,7 +189,7 @@ function SettingSelect({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '10px 0',
-        borderBottom: '1px solid rgba(6,182,212,0.06)',
+        borderBottom: '1px solid rgba(14,165,233,0.06)',
       }}
     >
       <div
@@ -213,11 +213,11 @@ function SettingSelect({
               borderRadius: 6,
               cursor: 'pointer',
               background:
-                value === opt ? 'rgba(6,182,212,0.2)' : 'rgba(6,13,26,0.6)',
+                value === opt ? 'rgba(14,165,233,0.2)' : 'var(--tile-bg)',
               border:
                 value === opt
-                  ? '1px solid rgba(6,182,212,0.4)'
-                  : '1px solid rgba(6,182,212,0.1)',
+                  ? '1px solid rgba(14,165,233,0.4)'
+                  : '1px solid rgba(14,165,233,0.1)',
               color:
                 value === opt ? 'var(--cyan-bright)' : 'var(--deep-text)',
               fontFamily: 'var(--font-data)',
@@ -502,8 +502,8 @@ export default function ProfilePage() {
             width: 56,
             height: 56,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, rgba(6,182,212,0.35) 0%, rgba(14,165,233,0.25) 100%)',
-            border: '2px solid rgba(6,182,212,0.4)',
+            background: 'linear-gradient(135deg, rgba(14,165,233,0.35) 0%, rgba(14,165,233,0.25) 100%)',
+            border: '2px solid rgba(14,165,233,0.4)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -543,8 +543,8 @@ export default function ProfilePage() {
                   fontSize: 9,
                   fontWeight: 700,
                   letterSpacing: '0.1em',
-                  color: '#D97706',
-                  background: 'rgba(217,119,6,0.12)',
+                  color: 'var(--amber-bright)',
+                  background: 'rgba(217,119,6,0.1)',
                   border: '1px solid rgba(217,119,6,0.3)',
                   padding: '2px 8px',
                   borderRadius: 20,
@@ -557,8 +557,8 @@ export default function ProfilePage() {
                   fontWeight: 700,
                   letterSpacing: '0.1em',
                   color: 'var(--cyan-bright)',
-                  background: 'rgba(6,182,212,0.12)',
-                  border: '1px solid rgba(6,182,212,0.3)',
+                  background: 'rgba(14,165,233,0.12)',
+                  border: '1px solid rgba(14,165,233,0.3)',
                   padding: '2px 8px',
                   borderRadius: 20,
                 }}>PRO</span>
@@ -569,9 +569,9 @@ export default function ProfilePage() {
                   fontSize: 9,
                   fontWeight: 700,
                   letterSpacing: '0.1em',
-                  color: '#A78BFA',
-                  background: 'rgba(167,139,250,0.12)',
-                  border: '1px solid rgba(167,139,250,0.3)',
+                  color: 'var(--snow-bright)',
+                  background: 'rgba(124,58,237,0.1)',
+                  border: '1px solid rgba(124,58,237,0.3)',
                   padding: '2px 8px',
                   borderRadius: 20,
                 }}>EXPLORER</span>
@@ -609,7 +609,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Change Password */}
-        <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(6,182,212,0.08)' }}>
+        <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(14,165,233,0.08)' }}>
           {!email || !isSupabaseConfigured() ? (
             <span style={{ fontFamily: 'var(--font-data)', fontSize: 12, color: 'var(--deep-text)' }}>
               Sign in to change your password
@@ -635,9 +635,9 @@ export default function ProfilePage() {
                 fontFamily: 'var(--font-data)',
                 fontSize: 12,
                 fontWeight: 600,
-                color: 'rgba(6,182,212,0.7)',
+                color: 'rgba(14,165,233,0.7)',
                 background: 'none',
-                border: '1px solid rgba(6,182,212,0.2)',
+                border: '1px solid rgba(14,165,233,0.2)',
                 borderRadius: 8,
                 padding: '7px 14px',
                 cursor: pwResetLoading ? 'not-allowed' : 'pointer',
@@ -674,8 +674,8 @@ export default function ProfilePage() {
               { value: surfStats.favoriteSpot !== '—' ? surfStats.favoriteSpot.split(' ')[0] : '—', label: 'Home Break' },
             ].map(({ value, label }) => (
               <div key={label} style={{
-                background: 'rgba(6,182,212,0.05)',
-                border: '1px solid rgba(6,182,212,0.1)',
+                background: 'rgba(14,165,233,0.05)',
+                border: '1px solid rgba(14,165,233,0.1)',
                 borderRadius: 10,
                 padding: '10px 8px',
                 textAlign: 'center',
@@ -739,11 +739,11 @@ export default function ProfilePage() {
                     padding: '6px 14px',
                     borderRadius: 8,
                     border: profile.skill_level === level
-                      ? '1px solid rgba(6,182,212,0.5)'
-                      : '1px solid rgba(6,182,212,0.1)',
+                      ? '1px solid rgba(14,165,233,0.5)'
+                      : '1px solid rgba(14,165,233,0.1)',
                     background: profile.skill_level === level
-                      ? 'rgba(6,182,212,0.15)'
-                      : 'rgba(6,13,26,0.6)',
+                      ? 'rgba(14,165,233,0.15)'
+                      : 'var(--tile-bg)',
                     color: profile.skill_level === level ? 'var(--cyan-bright)' : 'var(--spray)',
                     cursor: 'pointer',
                     transition: 'all 0.15s',
@@ -771,11 +771,11 @@ export default function ProfilePage() {
                     padding: '6px 14px',
                     borderRadius: 8,
                     border: profile.board_type === board
-                      ? '1px solid rgba(6,182,212,0.5)'
-                      : '1px solid rgba(6,182,212,0.1)',
+                      ? '1px solid rgba(14,165,233,0.5)'
+                      : '1px solid rgba(14,165,233,0.1)',
                     background: profile.board_type === board
-                      ? 'rgba(6,182,212,0.15)'
-                      : 'rgba(6,13,26,0.6)',
+                      ? 'rgba(14,165,233,0.15)'
+                      : 'var(--tile-bg)',
                     color: profile.board_type === board ? 'var(--cyan-bright)' : 'var(--spray)',
                     cursor: 'pointer',
                     transition: 'all 0.15s',
@@ -870,9 +870,9 @@ export default function ProfilePage() {
               <span style={{
                 fontFamily: 'var(--font-data)',
                 fontSize: 10,
-                background: 'rgba(6,182,212,0.12)',
+                background: 'rgba(14,165,233,0.12)',
                 color: 'var(--cyan)',
-                border: '1px solid rgba(6,182,212,0.25)',
+                border: '1px solid rgba(14,165,233,0.25)',
                 padding: '3px 10px',
                 borderRadius: 20,
                 letterSpacing: '0.06em',
@@ -892,7 +892,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Alert toggles */}
-          <div className="space-y-3 pt-3" style={{ borderTop: '1px solid rgba(6,182,212,0.08)' }}>
+          <div className="space-y-3 pt-3" style={{ borderTop: '1px solid rgba(14,165,233,0.08)' }}>
             {([
               { key: 'optimal_windows', label: 'Optimal window alerts', desc: '18h notice when your top-rated window is confirmed' },
               { key: 'swell_alerts',    label: 'Swell alerts',          desc: 'When a buoy exceeds your preferred height' },
@@ -911,8 +911,8 @@ export default function ProfilePage() {
                     width: 40,
                     height: 20,
                     borderRadius: 10,
-                    background: notifPrefs[key] ? 'var(--cyan)' : 'rgba(15,32,64,0.8)',
-                    border: notifPrefs[key] ? 'none' : '1px solid rgba(6,182,212,0.15)',
+                    background: notifPrefs[key] ? 'var(--cyan)' : 'var(--paper-sunken)',
+                    border: notifPrefs[key] ? 'none' : '1px solid rgba(14,165,233,0.15)',
                     cursor: 'pointer',
                   }}
                   aria-checked={!!notifPrefs[key]}
@@ -941,9 +941,9 @@ export default function ProfilePage() {
         {error && (
           <div style={{
             fontSize: 13,
-            color: '#FCA5A5',
-            background: 'rgba(239,68,68,0.08)',
-            border: '1px solid rgba(239,68,68,0.25)',
+            color: '#B91C1C',
+            background: '#FEF2F2',
+            border: '1px solid #FECACA',
             borderRadius: 10,
             padding: '10px 14px',
           }}>
@@ -1039,7 +1039,7 @@ export default function ProfilePage() {
         />
 
         {/* Min stoke alert slider */}
-        <div style={{ padding: '10px 0', borderBottom: '1px solid rgba(6,182,212,0.06)' }}>
+        <div style={{ padding: '10px 0', borderBottom: '1px solid rgba(14,165,233,0.06)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
             <div>
               <div style={{ fontFamily: 'var(--font-data)', fontSize: 13, color: 'var(--foam)', fontWeight: 600 }}>
@@ -1095,7 +1095,7 @@ export default function ProfilePage() {
         />
 
         {/* Forecast days — locked for free tier */}
-        <div style={{ padding: '10px 0', borderBottom: '1px solid rgba(6,182,212,0.06)' }}>
+        <div style={{ padding: '10px 0', borderBottom: '1px solid rgba(14,165,233,0.06)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: isProOrExplorer ? 8 : 0 }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -1108,7 +1108,7 @@ export default function ProfilePage() {
                     fontSize: 9,
                     fontWeight: 700,
                     letterSpacing: '0.1em',
-                    color: '#D97706',
+                    color: 'var(--amber-bright)',
                     background: 'rgba(217,119,6,0.1)',
                     border: '1px solid rgba(217,119,6,0.25)',
                     padding: '1px 6px',

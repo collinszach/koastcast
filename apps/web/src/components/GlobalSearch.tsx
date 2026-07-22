@@ -22,9 +22,9 @@ interface SearchResult {
 // ─── Accent colors per sport ──────────────────────────────────────────────────
 
 const ACCENT = {
-  surf:  '#06B6D4',
-  snow:  '#8B5CF6',
-  trail: '#10B981',
+  surf:  '#0891B2',
+  snow:  '#7C3AED',
+  trail: '#059669',
 } as const
 
 const LABEL = {
@@ -170,14 +170,14 @@ export default function GlobalSearch() {
       <div
         style={{
           width: '100%', display: 'flex', alignItems: 'center', gap: 8,
-          background: open ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.04)',
-          border: `1px solid ${open ? 'rgba(6,182,212,0.25)' : 'rgba(6,182,212,0.1)'}`,
+          background: open ? 'var(--cyan-muted)' : 'var(--paper-sunken)',
+          border: `1px solid ${open ? 'rgba(14,165,233,0.3)' : 'var(--tile-border)'}`,
           borderRadius: 10, padding: '7px 10px',
           transition: 'border-color 0.15s, background 0.15s',
           boxSizing: 'border-box',
         }}
       >
-        <Search size={12} style={{ color: '#2E5568', flexShrink: 0 }} />
+        <Search size={12} style={{ color: 'var(--deep-text)', flexShrink: 0 }} />
         <input
           ref={inputRef}
           value={query}
@@ -187,15 +187,15 @@ export default function GlobalSearch() {
           placeholder="Search spots, resorts, trails..."
           style={{
             flex: 1, background: 'none', border: 'none', outline: 'none',
-            fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-            letterSpacing: '0.04em', color: '#6B9BAD',
+            fontFamily: 'var(--font-data)', fontSize: 11,
+            letterSpacing: '0.04em', color: 'var(--mist)',
             minWidth: 0,
           }}
         />
         <kbd style={{
-          fontFamily: 'JetBrains Mono, monospace', fontSize: 9,
-          color: '#2E5568', background: 'rgba(255,255,255,0.04)',
-          border: '1px solid rgba(255,255,255,0.08)',
+          fontFamily: 'var(--font-data)', fontSize: 9,
+          color: 'var(--deep-text)', background: 'var(--paper-raised)',
+          border: '1px solid var(--tile-border)',
           borderRadius: 4, padding: '1px 5px', flexShrink: 0,
           letterSpacing: '0.04em',
         }}>⌘K</kbd>
@@ -205,10 +205,10 @@ export default function GlobalSearch() {
       {hasResults && (
         <div style={{
           position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0,
-          background: 'rgba(4,8,18,0.97)',
-          border: '1px solid rgba(6,182,212,0.12)',
+          background: 'var(--paper-raised)',
+          border: '1px solid var(--tile-border-strong)',
           borderRadius: 12, overflow: 'hidden',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.7)',
+          boxShadow: '0 12px 32px rgba(18,24,31,0.14)',
           zIndex: 100,
         }}>
           {groups.map(({ type, items }) => {
@@ -219,10 +219,10 @@ export default function GlobalSearch() {
                 {/* Section header */}
                 <div style={{
                   padding: '6px 12px 3px',
-                  fontFamily: 'JetBrains Mono, monospace',
+                  fontFamily: 'var(--font-data)',
                   fontSize: 8, fontWeight: 700,
                   color: accent, letterSpacing: '0.12em',
-                  borderTop: type !== groups[0].type ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                  borderTop: type !== groups[0].type ? '1px solid var(--tile-border)' : 'none',
                 }}>
                   {label}
                 </div>
@@ -235,7 +235,7 @@ export default function GlobalSearch() {
                       onClick={() => navigate(r.href)}
                       onMouseEnter={() => setActive(idx)}
                       style={{
-                        width: '100%', background: isActive ? `${accent}10` : 'none',
+                        width: '100%', background: isActive ? `${accent}14` : 'none',
                         border: 'none', cursor: 'pointer', padding: '7px 12px',
                         display: 'flex', alignItems: 'center', gap: 10,
                         textAlign: 'left', transition: 'background 0.08s',
@@ -245,23 +245,22 @@ export default function GlobalSearch() {
                       <div style={{
                         width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
                         background: isActive ? accent : `${accent}60`,
-                        boxShadow: isActive ? `0 0 6px ${accent}` : 'none',
                         transition: 'all 0.1s',
                       }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{
                           fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 700,
-                          color: isActive ? '#f0f6ff' : '#c8d8e8',
+                          color: isActive ? 'var(--foam)' : 'var(--mist)',
                           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                         }}>{r.name}</div>
                         <div style={{
-                          fontFamily: 'JetBrains Mono, monospace', fontSize: 9,
-                          color: 'rgba(255,255,255,0.28)', letterSpacing: '0.04em', marginTop: 1,
+                          fontFamily: 'var(--font-data)', fontSize: 9,
+                          color: 'var(--deep-text)', letterSpacing: '0.04em', marginTop: 1,
                         }}>{r.sub}</div>
                       </div>
                       {isActive && (
-                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ flexShrink: 0, opacity: 0.5 }}>
-                          <path d="M3.5 2L7 5 3.5 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ flexShrink: 0, opacity: 0.6 }}>
+                          <path d="M3.5 2L7 5 3.5 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       )}
                     </button>
@@ -277,11 +276,11 @@ export default function GlobalSearch() {
       {open && query.trim() && results.length === 0 && (
         <div style={{
           position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0,
-          background: 'rgba(4,8,18,0.97)',
-          border: '1px solid rgba(6,182,212,0.12)',
+          background: 'var(--paper-raised)',
+          border: '1px solid var(--tile-border-strong)',
           borderRadius: 12, padding: '14px 12px', zIndex: 100,
-          fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
-          color: 'rgba(255,255,255,0.2)', letterSpacing: '0.06em', textAlign: 'center',
+          fontFamily: 'var(--font-data)', fontSize: 10,
+          color: 'var(--deep-text)', letterSpacing: '0.06em', textAlign: 'center',
         }}>
           No results for "{query}"
         </div>

@@ -169,7 +169,7 @@ function LoginPageInner() {
     <div
       style={{
         minHeight: '100vh',
-        background: 'var(--deep)',
+        background: 'var(--paper)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -177,20 +177,12 @@ function LoginPageInner() {
         position: 'relative',
       }}
     >
-      {/* Background radial glow */}
+      {/* Fine dot grid texture — same convention as spot-detail hero */}
       <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse at 50% 100%, rgba(6,182,212,0.07) 0%, transparent 60%)',
-        }}
-      />
-      {/* Dot grid */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.015]"
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
           backgroundImage:
-            'radial-gradient(circle, rgba(6,182,212,0.8) 1px, transparent 1px)',
+            'radial-gradient(circle, rgba(18,24,31,0.8) 1px, transparent 1px)',
           backgroundSize: '28px 28px',
         }}
       />
@@ -208,7 +200,7 @@ function LoginPageInner() {
               borderRadius: 10,
               fontFamily: 'var(--font-data)',
               fontSize: 12,
-              color: '#FCD34D',
+              color: 'var(--amber-bright)',
               lineHeight: 1.5,
             }}
           >
@@ -217,7 +209,7 @@ function LoginPageInner() {
             <button
               onClick={continueAsGuest}
               style={{
-                color: '#06B6D4',
+                color: 'var(--cyan-bright)',
                 background: 'none',
                 border: 'none',
                 padding: 0,
@@ -239,8 +231,7 @@ function LoginPageInner() {
               width: 52,
               height: 52,
               borderRadius: 16,
-              background: 'linear-gradient(135deg, #8B5CF6 0%, #06B6D4 60%, #10B981 100%)',
-              boxShadow: '0 8px 32px rgba(6,182,212,0.35)',
+              background: 'var(--cyan)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -306,8 +297,8 @@ function LoginPageInner() {
             style={{
               display: 'flex',
               gap: 4,
-              background: 'rgba(6,182,212,0.06)',
-              border: '1px solid rgba(6,182,212,0.1)',
+              background: 'var(--paper-sunken)',
+              border: '1px solid var(--tile-border)',
               borderRadius: 10,
               padding: 4,
               marginBottom: 24,
@@ -328,9 +319,9 @@ function LoginPageInner() {
                   fontWeight: 600,
                   letterSpacing: '0.05em',
                   transition: 'all 0.15s',
-                  background: mode === m ? 'rgba(6,182,212,0.15)' : 'transparent',
-                  color: mode === m ? 'var(--cyan)' : 'var(--deep-text)',
-                  boxShadow: mode === m ? '0 0 0 1px rgba(6,182,212,0.25)' : 'none',
+                  background: mode === m ? 'var(--cyan-muted)' : 'transparent',
+                  color: mode === m ? 'var(--cyan-bright)' : 'var(--spray)',
+                  boxShadow: mode === m ? '0 0 0 1px rgba(14,165,233,0.25)' : 'none',
                 }}
               >
                 {m === 'magic' ? 'Magic Link' : 'Password'}
@@ -344,12 +335,12 @@ function LoginPageInner() {
               style={{
                 marginBottom: 16,
                 padding: '10px 14px',
-                background: 'rgba(239,68,68,0.1)',
-                border: '1px solid rgba(239,68,68,0.2)',
+                background: '#FEF2F2',
+                border: '1px solid #FECACA',
                 borderRadius: 8,
                 fontFamily: 'var(--font-data)',
                 fontSize: 12,
-                color: '#FCA5A5',
+                color: '#B91C1C',
               }}
             >
               Too many failed attempts. Please wait {cooldown}s before trying again.
@@ -391,7 +382,7 @@ function LoginPageInner() {
                   style={{
                     fontSize: 12,
                     fontFamily: 'var(--font-data)',
-                    color: message.type === 'error' ? '#FCA5A5' : 'var(--cyan)',
+                    color: message.type === 'error' ? '#B91C1C' : 'var(--cyan-bright)',
                   }}
                 >
                   {message.text}
@@ -532,7 +523,7 @@ function LoginPageInner() {
                   style={{
                     fontSize: 12,
                     fontFamily: 'var(--font-data)',
-                    color: message.type === 'error' ? '#FCA5A5' : 'var(--cyan)',
+                    color: message.type === 'error' ? '#B91C1C' : 'var(--cyan-bright)',
                   }}
                 >
                   {message.text}
@@ -558,7 +549,7 @@ function LoginPageInner() {
                   style={{
                     fontFamily: 'var(--font-data)',
                     fontSize: 11,
-                    color: 'rgba(6,182,212,0.6)',
+                    color: 'var(--cyan-bright)',
                     textDecoration: 'none',
                     letterSpacing: '0.04em',
                   }}
@@ -572,7 +563,7 @@ function LoginPageInner() {
           {/* Divider */}
           <div style={{ position: 'relative', margin: '24px 0' }}>
             <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center' }}>
-              <div style={{ width: '100%', height: 1, background: 'rgba(6,182,212,0.1)' }} />
+              <div style={{ width: '100%', height: 1, background: 'var(--tile-border)' }} />
             </div>
             <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
               <span
@@ -580,7 +571,7 @@ function LoginPageInner() {
                   fontFamily: 'var(--font-data)',
                   fontSize: 10,
                   color: 'var(--deep-text)',
-                  background: 'rgba(10,22,40,0.97)',
+                  background: 'var(--tile-bg)',
                   padding: '0 12px',
                   letterSpacing: '0.08em',
                   textTransform: 'uppercase',
@@ -596,8 +587,8 @@ function LoginPageInner() {
             onClick={handleGoogle}
             className="w-full flex items-center justify-center gap-3 transition-all"
             style={{
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              background: 'var(--paper-sunken)',
+              border: '1px solid var(--tile-border-strong)',
               borderRadius: 10,
               padding: '11px',
               color: 'var(--mist)',
@@ -608,10 +599,10 @@ function LoginPageInner() {
               marginBottom: 10,
             }}
             onMouseEnter={(e) =>
-              (e.currentTarget.style.background = 'rgba(255,255,255,0.09)')
+              (e.currentTarget.style.borderColor = 'var(--tile-border-strong)')
             }
             onMouseLeave={(e) =>
-              (e.currentTarget.style.background = 'rgba(255,255,255,0.06)')
+              (e.currentTarget.style.borderColor = 'var(--tile-border-strong)')
             }
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -641,22 +632,22 @@ function LoginPageInner() {
             className="w-full flex items-center justify-center gap-2 transition-all"
             style={{
               background: 'transparent',
-              border: '1px solid rgba(6,182,212,0.15)',
+              border: '1px solid var(--tile-border-strong)',
               borderRadius: 10,
               padding: '11px',
-              color: 'var(--deep-text)',
+              color: 'var(--spray)',
               fontFamily: 'var(--font-display)',
               fontWeight: 600,
               fontSize: 13,
               cursor: 'pointer',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(6,182,212,0.3)'
-              e.currentTarget.style.color = 'var(--spray)'
+              e.currentTarget.style.borderColor = 'var(--cyan)'
+              e.currentTarget.style.color = 'var(--mist)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(6,182,212,0.15)'
-              e.currentTarget.style.color = 'var(--deep-text)'
+              e.currentTarget.style.borderColor = 'var(--tile-border-strong)'
+              e.currentTarget.style.color = 'var(--spray)'
             }}
           >
             Continue as Guest
@@ -677,7 +668,7 @@ function LoginPageInner() {
           Don&apos;t have an account?{' '}
           <Link
             href="/auth/signup"
-            style={{ color: 'var(--cyan)', textDecoration: 'none' }}
+            style={{ color: 'var(--cyan-bright)', textDecoration: 'none' }}
           >
             Sign up
           </Link>
@@ -689,7 +680,7 @@ function LoginPageInner() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div style={{ minHeight: '100vh', background: 'var(--deep)' }} />}>
+    <Suspense fallback={<div style={{ minHeight: '100vh', background: 'var(--paper)' }} />}>
       <LoginPageInner />
     </Suspense>
   )

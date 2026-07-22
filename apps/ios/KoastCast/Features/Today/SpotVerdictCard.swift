@@ -11,7 +11,7 @@ struct SpotVerdictCard: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(spot.name)
                     .font(Theme.display(17, weight: .bold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Theme.textPrimary)
                 if let region = spot.region {
                     Text(region).font(Theme.body(12)).foregroundStyle(Theme.textTertiary)
                 }
@@ -38,14 +38,14 @@ struct SpotVerdictCard: View {
 
     private var miniRing: some View {
         ZStack {
-            Circle().stroke(Color.white.opacity(0.08), lineWidth: 6)
+            Circle().stroke(Theme.hairline, lineWidth: 6)
             Circle()
                 .trim(from: 0, to: min(1, quality / 100))
                 .stroke(Theme.qualityColor(quality), style: StrokeStyle(lineWidth: 6, lineCap: .round))
                 .rotationEffect(.degrees(-90))
             Text("\(Int((quality / 10).rounded()))")
                 .font(Theme.display(18))
-                .foregroundStyle(.white)
+                .foregroundStyle(Theme.textPrimary)
         }
         .frame(width: 52, height: 52)
     }

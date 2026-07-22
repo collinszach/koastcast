@@ -36,10 +36,9 @@ export default function SessionLogButton({
           left: 0,
           right: 0,
           zIndex: 50,
-          background: 'rgba(6,13,26,0.92)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          borderTop: '1px solid rgba(255,255,255,0.08)',
+          background: 'var(--paper-raised)',
+          borderTop: '1px solid var(--tile-border-strong)',
+          boxShadow: 'var(--tile-shadow)',
           padding: '12px 24px',
           paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
           display: 'flex',
@@ -48,15 +47,15 @@ export default function SessionLogButton({
         }}
       >
         <div>
-          <div style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>
+          <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--foam)' }}>
             {spotName}
           </div>
           {conditionsSummary && (
             <div
               style={{
                 fontSize: 12,
-                color: 'rgba(255,255,255,0.5)',
-                fontFamily: 'var(--font-jetbrains)',
+                color: 'var(--spray)',
+                fontFamily: 'var(--font-data)',
                 marginTop: 2,
               }}
             >
@@ -68,12 +67,12 @@ export default function SessionLogButton({
         <button
           onClick={() => setLoggerOpen(true)}
           style={{
-            background: 'rgba(6,182,212,0.15)',
-            border: '1px solid rgba(6,182,212,0.3)',
-            color: '#06B6D4',
+            background: 'rgba(14,165,233,0.15)',
+            border: '1px solid rgba(14,165,233,0.3)',
+            color: 'var(--cyan)',
             borderRadius: 10,
             padding: '10px 20px',
-            fontFamily: 'var(--font-syne)',
+            fontFamily: 'var(--font-display)',
             fontWeight: 700,
             fontSize: 13,
             cursor: 'pointer',
@@ -81,10 +80,10 @@ export default function SessionLogButton({
             transition: 'all 0.15s',
           }}
           onMouseEnter={e =>
-            (e.currentTarget.style.background = 'rgba(6,182,212,0.25)')
+            (e.currentTarget.style.background = 'rgba(14,165,233,0.25)')
           }
           onMouseLeave={e =>
-            (e.currentTarget.style.background = 'rgba(6,182,212,0.15)')
+            (e.currentTarget.style.background = 'rgba(14,165,233,0.15)')
           }
         >
           📋 LOG SESSION

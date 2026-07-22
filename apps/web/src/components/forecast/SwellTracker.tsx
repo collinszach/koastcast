@@ -44,10 +44,10 @@ interface Props {
 }
 
 const CONFIDENCE_CONFIG = {
-  high:       { color: 'text-green-400',  bg: 'bg-green-900/40',  border: 'border-green-700',  label: 'HIGH' },
-  medium:     { color: 'text-yellow-400', bg: 'bg-yellow-900/40', border: 'border-yellow-700', label: 'MEDIUM' },
-  low:        { color: 'text-orange-400', bg: 'bg-orange-900/40', border: 'border-orange-700', label: 'LOW' },
-  speculative:{ color: 'text-gray-400',   bg: 'bg-gray-800/40',   border: 'border-gray-700',   label: '?' },
+  high:       { color: 'text-green-700',  bg: 'bg-green-50',  border: 'border-green-200',  label: 'HIGH' },
+  medium:     { color: 'text-yellow-700', bg: 'bg-yellow-50', border: 'border-yellow-200', label: 'MEDIUM' },
+  low:        { color: 'text-orange-700', bg: 'bg-orange-50', border: 'border-orange-200', label: 'LOW' },
+  speculative:{ color: 'text-[var(--spray)]',   bg: 'bg-[var(--paper-sunken)]',   border: 'border-[var(--tile-border-strong)]',   label: '?' },
 }
 
 const ORIGIN_EMOJI: Record<string, string> = {
@@ -91,7 +91,7 @@ export default function SwellTracker({ spotId }: Props) {
     return (
       <div className="space-y-2 animate-pulse">
         {[1, 2, 3].map(i => (
-          <div key={i} className="h-16 bg-gray-800 rounded-xl" />
+          <div key={i} className="h-16 bg-[var(--paper-sunken)] rounded-xl" />
         ))}
       </div>
     )
@@ -99,17 +99,17 @@ export default function SwellTracker({ spotId }: Props) {
 
   if (!data || data.events.length === 0) {
     return (
-      <div className="text-center py-6 text-gray-500 text-sm">
+      <div className="text-center py-6 text-[var(--spray)] text-sm">
         <div className="text-2xl mb-2">🌊</div>
         No significant swell events detected in the next 16 days.
-        <div className="text-xs mt-1 text-gray-600">Check back — models update every 6 hours</div>
+        <div className="text-xs mt-1 text-[var(--deep-text)]">Check back — models update every 6 hours</div>
       </div>
     )
   }
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+      <div className="flex items-center justify-between text-xs text-[var(--spray)] mb-1">
         <span>{data.events.length} event{data.events.length !== 1 ? 's' : ''} detected</span>
         <span>Models update every 6h</span>
       </div>
@@ -135,12 +135,12 @@ export default function SwellTracker({ spotId }: Props) {
               {/* Main info */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-white font-medium text-sm">{event.name}</span>
+                  <span className="text-[var(--foam)] font-medium text-sm">{event.name}</span>
                   <span className={`text-xs font-bold px-1.5 py-0.5 rounded border ${cfg.bg} ${cfg.border} ${cfg.color}`}>
                     {cfg.label}
                   </span>
                 </div>
-                <div className="text-gray-400 text-xs mt-0.5">
+                <div className="text-[var(--spray)] text-xs mt-0.5">
                   {formatDaysAway(event.days_away)} · {event.peak_height_ft}ft @ {event.peak_period_s}s · {event.peak_direction_str}
                 </div>
               </div>
@@ -148,46 +148,46 @@ export default function SwellTracker({ spotId }: Props) {
               {/* Score + expand arrow */}
               <div className="text-right shrink-0">
                 <div className={`font-bold text-base ${cfg.color}`}>{event.score.toFixed(0)}</div>
-                <div className="text-gray-600 text-xs">score</div>
+                <div className="text-[var(--deep-text)] text-xs">score</div>
               </div>
 
-              <span className="text-gray-600 text-xs ml-1">{isExpanded ? '▲' : '▼'}</span>
+              <span className="text-[var(--deep-text)] text-xs ml-1">{isExpanded ? '▲' : '▼'}</span>
             </button>
 
             {/* Expanded detail */}
             {isExpanded && (
-              <div className="px-3 pb-3 space-y-3 border-t border-gray-700/50 pt-3">
+              <div className="px-3 pb-3 space-y-3 border-t border-[var(--tile-border-strong)] pt-3">
                 {/* Stats grid */}
                 <div className="grid grid-cols-3 gap-2 text-center">
-                  <div className="bg-gray-900/60 rounded-lg p-2">
-                    <div className="text-white font-bold text-lg">{event.peak_height_ft}ft</div>
-                    <div className="text-gray-500 text-xs">face height</div>
+                  <div className="bg-[var(--tile-bg)] rounded-lg p-2">
+                    <div className="text-[var(--foam)] font-bold text-lg">{event.peak_height_ft}ft</div>
+                    <div className="text-[var(--spray)] text-xs">face height</div>
                   </div>
-                  <div className="bg-gray-900/60 rounded-lg p-2">
-                    <div className="text-white font-bold text-lg">{event.peak_period_s}s</div>
-                    <div className="text-gray-500 text-xs">period</div>
+                  <div className="bg-[var(--tile-bg)] rounded-lg p-2">
+                    <div className="text-[var(--foam)] font-bold text-lg">{event.peak_period_s}s</div>
+                    <div className="text-[var(--spray)] text-xs">period</div>
                   </div>
-                  <div className="bg-gray-900/60 rounded-lg p-2">
-                    <div className="text-white font-bold text-lg">{event.peak_direction_str}</div>
-                    <div className="text-gray-500 text-xs">{event.peak_direction}° direction</div>
+                  <div className="bg-[var(--tile-bg)] rounded-lg p-2">
+                    <div className="text-[var(--foam)] font-bold text-lg">{event.peak_direction_str}</div>
+                    <div className="text-[var(--spray)] text-xs">{event.peak_direction}° direction</div>
                   </div>
                 </div>
 
                 {/* Timing */}
-                <div className="bg-gray-900/60 rounded-lg p-2.5 space-y-1">
+                <div className="bg-[var(--tile-bg)] rounded-lg p-2.5 space-y-1">
                   <div className="flex justify-between text-xs">
-                    <span className="text-gray-500">Peak</span>
-                    <span className="text-white font-medium">{formatPeakTime(event.peak_time)}</span>
+                    <span className="text-[var(--spray)]">Peak</span>
+                    <span className="text-[var(--foam)] font-medium">{formatPeakTime(event.peak_time)}</span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-gray-500">Duration</span>
-                    <span className="text-gray-300">{event.duration_h}h window</span>
+                    <span className="text-[var(--spray)]">Duration</span>
+                    <span className="text-[var(--mist)]">{event.duration_h}h window</span>
                   </div>
                 </div>
 
                 {/* Direction fit for this spot */}
                 {event.direction_fit && (
-                  <div className="text-xs text-gray-400 flex items-start gap-1.5">
+                  <div className="text-xs text-[var(--spray)] flex items-start gap-1.5">
                     <span>📐</span>
                     <span className="capitalize">{event.direction_fit}</span>
                   </div>
@@ -201,7 +201,7 @@ export default function SwellTracker({ spotId }: Props) {
 
                 {/* Speculative warning */}
                 {event.confidence === 'speculative' && (
-                  <p className="text-xs text-gray-500 italic">
+                  <p className="text-xs text-[var(--spray)] italic">
                     At 10+ days out, models are still resolving this event. Check back daily
                     as the forecast refines — size and timing may shift significantly.
                   </p>
@@ -212,7 +212,7 @@ export default function SwellTracker({ spotId }: Props) {
         )
       })}
 
-      <p className="text-xs text-gray-600 text-center pt-1">
+      <p className="text-xs text-[var(--deep-text)] text-center pt-1">
         Tap an event to track its development. Confidence increases as it approaches.
       </p>
     </div>

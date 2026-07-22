@@ -75,24 +75,26 @@ export default function SwellSpectrum({ snapshots }: SwellSpectrumProps) {
               </linearGradient>
             ))}
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--tile-border)" />
           <XAxis
             dataKey="period"
-            tick={{ fill: '#6b7280', fontSize: 10 }}
+            tick={{ fill: 'var(--spray)', fontSize: 10 }}
             tickFormatter={v => `${v}s`}
-            label={{ value: 'Period', position: 'insideBottomRight', offset: -4, fill: '#6b7280', fontSize: 10 }}
+            label={{ value: 'Period', position: 'insideBottomRight', offset: -4, fill: 'var(--spray)', fontSize: 10 }}
           />
           <YAxis
-            tick={{ fill: '#6b7280', fontSize: 10 }}
+            tick={{ fill: 'var(--spray)', fontSize: 10 }}
             tickFormatter={v => `${v.toFixed(2)}`}
           />
           <Tooltip
-            contentStyle={{ background: '#111827', border: '1px solid #374151', borderRadius: 8, fontSize: 11 }}
+            contentStyle={{ background: 'var(--paper-raised)', border: '1px solid var(--tile-border-strong)', borderRadius: 8, fontSize: 11 }}
+            labelStyle={{ color: 'var(--foam)' }}
+            itemStyle={{ color: 'var(--mist)' }}
             labelFormatter={v => `${v}s period`}
             formatter={(value: number, name: string) => [`${value.toFixed(3)} m²/Hz`, name]}
           />
           {snapshots.length > 1 && (
-            <Legend wrapperStyle={{ fontSize: 10, color: '#9ca3af' }} />
+            <Legend wrapperStyle={{ fontSize: 10, color: 'var(--spray)' }} />
           )}
           {snapshots.map((snap, i) => (
             <Area

@@ -46,7 +46,7 @@ function clusterSpots(spots: Spot[], zoom: number): ClusterItem[] {
 // Cluster marker CSS — injected once
 const CLUSTER_CSS = `
 .sm-cluster {
-  background: #06B6D4;
+  background: var(--cyan);
   color: white;
   border: 2px solid white;
   border-radius: 50%;
@@ -59,13 +59,16 @@ const CLUSTER_CSS = `
 `
 
 // ─── Condition config ──────────────────────────────────────────────────────────
+// Note: these badges render as Leaflet DivIcons floating over live map tile
+// imagery (dark basemap), independent of the app's light/dark chrome — kept
+// dark/high-contrast intentionally so pins stay legible against the map.
 
 const CM = {
-  firing:   { accent: '#ef4444', glow: 'rgba(239,68,68,0.6)',   pulse: 'sm-pulse-r', bg: 'rgba(6,13,26,0.92)', icon: '🔥' },
-  pumping:  { accent: '#f97316', glow: 'rgba(249,115,22,0.5)',  pulse: 'sm-pulse-o', bg: 'rgba(6,13,26,0.92)', icon: '🤙' },
-  fun:      { accent: '#22c55e', glow: 'rgba(34,197,94,0.4)',   pulse: null,         bg: 'rgba(6,13,26,0.92)', icon: '😎' },
-  worth_it: { accent: '#3b82f6', glow: 'rgba(59,130,246,0.35)', pulse: null,         bg: 'rgba(6,13,26,0.92)', icon: '🏄' },
-  flat:     { accent: '#4b5563', glow: 'rgba(75,85,99,0.2)',    pulse: null,         bg: 'rgba(6,13,26,0.92)', icon: '😴' },
+  firing:   { accent: '#EA580C', glow: 'rgba(234,88,12,0.6)',   pulse: 'sm-pulse-r', bg: 'rgba(6,13,26,0.92)', icon: '🔥' },
+  pumping:  { accent: '#0891B2', glow: 'rgba(8,145,178,0.5)',   pulse: 'sm-pulse-o', bg: 'rgba(6,13,26,0.92)', icon: '🤙' },
+  fun:      { accent: '#2563EB', glow: 'rgba(37,99,235,0.4)',   pulse: null,         bg: 'rgba(6,13,26,0.92)', icon: '😎' },
+  worth_it: { accent: '#4F46E5', glow: 'rgba(79,70,229,0.35)',  pulse: null,         bg: 'rgba(6,13,26,0.92)', icon: '🏄' },
+  flat:     { accent: '#64748B', glow: 'rgba(100,116,139,0.2)', pulse: null,         bg: 'rgba(6,13,26,0.92)', icon: '😴' },
   no_data:  { accent: '#2d3748', glow: 'transparent',           pulse: null,         bg: 'rgba(6,13,26,0.92)', icon: '—' },
 } as const
 
@@ -651,21 +654,21 @@ export default function SpotMap({
           style={{
             position: 'absolute', top: 14, right: 14, zIndex: 20,
             display: 'flex', alignItems: 'center', gap: 6,
-            background: 'rgba(4,8,18,0.92)', backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(59,130,246,0.45)',
+            background: 'var(--paper-raised)',
+            border: '1px solid var(--tile-border-strong)',
             borderRadius: 8, padding: '7px 12px',
-            cursor: 'pointer', color: '#93C5FD',
-            fontFamily: 'monospace', fontSize: 10, letterSpacing: '0.08em', fontWeight: 700,
-            boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
+            cursor: 'pointer', color: 'var(--cyan-bright)',
+            fontFamily: 'var(--font-data)', fontSize: 10, letterSpacing: '0.08em', fontWeight: 700,
+            boxShadow: 'var(--tile-shadow)',
             transition: 'background 0.12s, border-color 0.12s',
           }}
           onMouseEnter={e => {
-            (e.currentTarget as HTMLElement).style.background = 'rgba(59,130,246,0.15)'
-            ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(59,130,246,0.7)'
+            (e.currentTarget as HTMLElement).style.background = 'var(--cyan-muted)'
+            ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(14,165,233,0.5)'
           }}
           onMouseLeave={e => {
-            (e.currentTarget as HTMLElement).style.background = 'rgba(4,8,18,0.92)'
-            ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(59,130,246,0.45)'
+            (e.currentTarget as HTMLElement).style.background = 'var(--paper-raised)'
+            ;(e.currentTarget as HTMLElement).style.borderColor = 'var(--tile-border-strong)'
           }}
         >
           {/* Crosshair icon */}

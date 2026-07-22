@@ -64,12 +64,12 @@ async function loadData(slug: string) {
 }
 
 const CONDITION_CONFIG = {
-  firing:   { textColor: '#F97316', badgeBg: 'rgba(249,115,22,0.15)',   badgeBorder: 'rgba(249,115,22,0.35)',  heroClass: 'hero-firing',   label: '🔥 FIRING',   glow: '#F97316' },
-  pumping:  { textColor: '#06B6D4', badgeBg: 'rgba(6,182,212,0.15)',    badgeBorder: 'rgba(6,182,212,0.35)',   heroClass: 'hero-pumping',  label: '🤙 PUMPING',  glow: '#06B6D4' },
-  fun:      { textColor: '#3B82F6', badgeBg: 'rgba(59,130,246,0.15)',   badgeBorder: 'rgba(59,130,246,0.35)',  heroClass: 'hero-fun',      label: '😎 FUN',      glow: '#3B82F6' },
-  worth_it: { textColor: '#6366F1', badgeBg: 'rgba(99,102,241,0.15)',   badgeBorder: 'rgba(99,102,241,0.35)',  heroClass: 'hero-worth_it', label: '🏄 WORTH IT', glow: '#6366F1' },
-  flat:     { textColor: '#475569', badgeBg: 'rgba(71,85,105,0.2)',     badgeBorder: 'rgba(71,85,105,0.3)',    heroClass: 'hero-flat',     label: '😴 FLAT',     glow: '#475569' },
-  no_data:  { textColor: '#F59E0B', badgeBg: 'rgba(245,158,11,0.15)',   badgeBorder: 'rgba(245,158,11,0.3)',   heroClass: 'hero-no_data',  label: '📡 BASIC FORECAST', glow: '#2E5568' },
+  firing:   { textColor: 'var(--q-firing)',  badgeBg: 'rgba(234,88,12,0.1)',   badgeBorder: 'rgba(234,88,12,0.3)',   heroClass: 'hero-firing',   label: '🔥 FIRING',   glow: 'var(--q-firing)' },
+  pumping:  { textColor: 'var(--q-pumping)', badgeBg: 'rgba(8,145,178,0.1)',   badgeBorder: 'rgba(8,145,178,0.3)',   heroClass: 'hero-pumping',  label: '🤙 PUMPING',  glow: 'var(--q-pumping)' },
+  fun:      { textColor: 'var(--q-good)',    badgeBg: 'rgba(37,99,235,0.1)',   badgeBorder: 'rgba(37,99,235,0.3)',   heroClass: 'hero-fun',      label: '😎 FUN',      glow: 'var(--q-good)' },
+  worth_it: { textColor: 'var(--q-ok)',      badgeBg: 'rgba(79,70,229,0.1)',   badgeBorder: 'rgba(79,70,229,0.3)',   heroClass: 'hero-worth_it', label: '🏄 WORTH IT', glow: 'var(--q-ok)' },
+  flat:     { textColor: 'var(--q-flat)',    badgeBg: 'rgba(100,116,139,0.12)', badgeBorder: 'rgba(100,116,139,0.3)', heroClass: 'hero-flat',     label: '😴 FLAT',     glow: 'var(--q-flat)' },
+  no_data:  { textColor: 'var(--amber-bright)', badgeBg: 'rgba(217,119,6,0.12)', badgeBorder: 'rgba(217,119,6,0.3)', heroClass: 'hero-no_data',  label: '📡 BASIC FORECAST', glow: 'var(--deep-text)' },
 }
 
 export default async function SpotPage({ params }: PageProps) {
@@ -119,18 +119,10 @@ export default async function SpotPage({ params }: PageProps) {
     <div className="min-h-full">
 
       {/* ── HERO ── */}
-      <div className={`relative overflow-hidden ${config.heroClass}`}>
-        {/* Fine dot grid */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
-             style={{ backgroundImage: `radial-gradient(circle, rgba(6,182,212,0.8) 1px, transparent 1px)`, backgroundSize: '32px 32px' }} />
-
-        {/* Radial glow from bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
-             style={{ background: `radial-gradient(ellipse at 50% 100%, ${config.glow}18 0%, transparent 65%)` }} />
-
-        {/* Left-edge cyan trace */}
-        <div className="absolute top-0 left-0 w-[2px] h-full pointer-events-none"
-             style={{ background: `linear-gradient(180deg, transparent, ${config.glow}40, transparent)` }} />
+      <div className={`relative overflow-hidden horizon ${config.heroClass}`}>
+        {/* Fine dot grid texture */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+             style={{ backgroundImage: `radial-gradient(circle, rgba(18,24,31,0.8) 1px, transparent 1px)`, backgroundSize: '32px 32px' }} />
 
         <div className="relative max-w-5xl mx-auto px-4 pt-5 pb-9">
           {/* Back */}
@@ -166,8 +158,8 @@ export default async function SpotPage({ params }: PageProps) {
                     fontSize: 10,
                     fontWeight: 700,
                     color: 'var(--cyan-bright)',
-                    background: 'rgba(6,182,212,0.12)',
-                    border: '1px solid rgba(6,182,212,0.25)',
+                    background: 'rgba(14,165,233,0.12)',
+                    border: '1px solid rgba(14,165,233,0.25)',
                     padding: '2px 8px',
                     borderRadius: 20,
                     letterSpacing: '0.06em',
@@ -221,7 +213,6 @@ export default async function SpotPage({ params }: PageProps) {
                     fontWeight: 700,
                     lineHeight: 1,
                     color: 'var(--foam)',
-                    textShadow: `0 0 40px ${config.glow}45`,
                   }}>
                     {heightFt}<span style={{ fontSize: '1.5rem', color: 'var(--spray)', fontWeight: 400, marginLeft: 3 }}>ft</span>
                   </div>
@@ -247,7 +238,7 @@ export default async function SpotPage({ params }: PageProps) {
                   border: `1px solid ${config.badgeBorder}`,
                   padding: '6px 14px',
                   borderRadius: 10,
-                  boxShadow: label === 'no_data' ? `0 0 0 0 rgba(245,158,11,0.4)` : `0 4px 20px ${config.glow}20`,
+                  boxShadow: label === 'no_data' ? `0 0 0 0 rgba(217,119,6,0.4)` : 'none',
                   animation: label === 'no_data' ? 'offlinePulse 2s ease-in-out infinite' : undefined,
                 }}>
                   {config.label}
@@ -269,7 +260,7 @@ export default async function SpotPage({ params }: PageProps) {
           {/* Conditions data strip */}
           {currentHour ? (
             <div className="mt-6 pt-5 flex flex-wrap gap-x-7 gap-y-3"
-                 style={{ borderTop: '1px solid rgba(6,182,212,0.08)' }}>
+                 style={{ borderTop: '1px solid rgba(14,165,233,0.08)' }}>
               <CondStat label="Height"
                 value={formatWaveHeight(currentHour.wave_height_face_m ?? currentHour.wave_height_m)}
                 color={config.textColor} />
@@ -302,7 +293,7 @@ export default async function SpotPage({ params }: PageProps) {
               )}
             </div>
           ) : (
-            <div className="mt-6 pt-5" style={{ borderTop: '1px solid rgba(6,182,212,0.08)' }}>
+            <div className="mt-6 pt-5" style={{ borderTop: '1px solid rgba(14,165,233,0.08)' }}>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '28px 28px', marginBottom: 10 }}>
                 {['Height', 'Period', 'Swell', 'Wind', 'Tide'].map(lbl => (
                   <CondStat key={lbl} label={lbl} value="--" color="rgba(245,158,11,0.35)" offline />
@@ -325,7 +316,7 @@ export default async function SpotPage({ params }: PageProps) {
         <div className="absolute bottom-0 left-0 right-0 overflow-hidden leading-none pointer-events-none">
           <svg viewBox="0 0 1440 36" className="w-full animate-wave-drift" preserveAspectRatio="none" style={{ height: 36 }}>
             <path d="M0,18 C200,36 400,0 600,18 C800,36 1000,0 1200,18 C1350,30 1420,10 1440,18 L1440,36 L0,36 Z"
-                  fill="#060D1A" />
+                  fill="#F7F5F0" />
           </svg>
         </div>
       </div>
@@ -372,7 +363,7 @@ export default async function SpotPage({ params }: PageProps) {
                   fontFamily: 'var(--font-display)',
                   fontSize: 13,
                   fontWeight: 700,
-                  color: '#F59E0B',
+                  color: 'var(--amber-bright)',
                   marginBottom: 4,
                 }}>NUC server offline</div>
                 <p style={{
@@ -638,8 +629,8 @@ function WaterTempStat({ tempC, color }: { tempC: number; color: string }) {
         color: 'var(--spray)',
         letterSpacing: '0.06em',
         marginTop: 4,
-        background: 'rgba(6,182,212,0.08)',
-        border: '1px solid rgba(6,182,212,0.15)',
+        background: 'rgba(14,165,233,0.08)',
+        border: '1px solid rgba(14,165,233,0.15)',
         borderRadius: 4,
         padding: '2px 6px',
         display: 'inline-block',
@@ -685,7 +676,7 @@ function CondStat({ label, value, color, offline }: { label: string; value: stri
 function Card({ title, subtitle, children, accent }: { title?: string; subtitle?: string; children: ReactNode; accent?: string }) {
   return (
     <div className="glass-card p-5"
-         style={accent ? { boxShadow: `0 0 0 1px ${accent}12, 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(6,182,212,0.06)` } : {}}>
+         style={accent ? { borderTop: `2px solid ${accent}` } : {}}>
       {title && (
         <div className="flex items-baseline gap-2.5 mb-4">
           <h3 style={{

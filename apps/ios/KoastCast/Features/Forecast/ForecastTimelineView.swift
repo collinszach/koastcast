@@ -16,7 +16,7 @@ struct ForecastTimelineView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("7-day forecast")
                 .font(Theme.display(15, weight: .bold))
-                .foregroundStyle(.white)
+                .foregroundStyle(Theme.textPrimary)
 
             Chart {
                 ForEach(sampled) { h in

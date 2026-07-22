@@ -62,7 +62,7 @@ struct ExploreView: View {
             .sheet(item: $selected) { spot in
                 NavigationStack { SpotDetailView(spot: spot) }
                     .presentationDetents([.medium, .large])
-                    .presentationBackground(.ultraThinMaterial)
+                    .presentationBackground(Theme.bg)
             }
         }
     }
@@ -73,9 +73,10 @@ struct ExploreView: View {
             Text(region == nil ? "Explore" : "\(app.spots.count) spots · zoom in for detail")
                 .font(Theme.body(12))
         }
-        .foregroundStyle(.white)
+        .foregroundStyle(Theme.textPrimary)
         .padding(.horizontal, 14).padding(.vertical, 8)
-        .background(.ultraThinMaterial, in: Capsule())
+        .background(Theme.bgElevated, in: Capsule())
+        .overlay(Capsule().stroke(Theme.hairline, lineWidth: 1))
         .padding(.top, 6)
     }
 }

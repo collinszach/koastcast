@@ -8,12 +8,12 @@ import resortsData from '@/data/resorts.json'
 // ─── Condition config ──────────────────────────────────────────────────────────
 
 const SC = {
-  epic_powder:  { label: 'POWDER',       accent: '#a78bfa', bg: 'rgba(167,139,250,0.12)', border: 'rgba(167,139,250,0.3)' },
-  fresh_tracks: { label: 'FRESH TRACKS', accent: '#06b6d4', bg: 'rgba(6,182,212,0.12)',   border: 'rgba(6,182,212,0.3)'   },
-  good_snow:    { label: 'GOOD SNOW',    accent: '#3b82f6', bg: 'rgba(59,130,246,0.12)',  border: 'rgba(59,130,246,0.3)'  },
-  packed:       { label: 'PACKED',       accent: '#94a3b8', bg: 'rgba(148,163,184,0.08)', border: 'rgba(148,163,184,0.2)' },
-  icy:          { label: 'ICY',          accent: '#475569', bg: 'rgba(71,85,105,0.07)',   border: 'rgba(71,85,105,0.18)'  },
-  no_data:      { label: 'NO DATA',      accent: '#334155', bg: 'rgba(51,65,85,0.06)',    border: 'rgba(51,65,85,0.12)'   },
+  epic_powder:  { label: 'POWDER',       accent: 'var(--snow)',       bg: 'var(--snow-muted)',        border: 'rgba(124,58,237,0.3)'  },
+  fresh_tracks: { label: 'FRESH TRACKS', accent: 'var(--q-pumping)',  bg: 'rgba(8,145,178,0.10)',      border: 'rgba(8,145,178,0.28)'  },
+  good_snow:    { label: 'GOOD SNOW',    accent: 'var(--q-good)',     bg: 'rgba(37,99,235,0.08)',      border: 'rgba(37,99,235,0.22)'  },
+  packed:       { label: 'PACKED',       accent: 'var(--spray)',      bg: 'rgba(107,118,134,0.08)',    border: 'rgba(107,118,134,0.2)' },
+  icy:          { label: 'ICY',          accent: 'var(--deep-text)',  bg: 'rgba(168,176,188,0.08)',    border: 'rgba(168,176,188,0.18)'},
+  no_data:      { label: 'NO DATA',      accent: 'var(--deep-text)',  bg: 'rgba(168,176,188,0.05)',    border: 'rgba(168,176,188,0.12)'},
 } as const
 
 // ─── Mock snow (deterministic, same as SnowMapClient) ─────────────────────────
@@ -46,22 +46,19 @@ function matchesRegionGroup(resort: Resort, group: RegionGroup): boolean {
 
 function SkeletonCard() {
   return (
-    <div style={{
-      background: 'rgba(6,12,24,0.85)',
-      border: '1px solid rgba(139,92,246,0.08)',
-      borderRadius: 14,
+    <div className="tile" style={{
       padding: '14px 16px',
       display: 'flex',
       alignItems: 'center',
       gap: 12,
       animation: 'snow-skeleton-pulse 1.5s ease-in-out infinite',
     }}>
-      <div style={{ width: 44, height: 44, borderRadius: 8, background: 'rgba(255,255,255,0.05)', flexShrink: 0 }} />
+      <div style={{ width: 44, height: 44, borderRadius: 8, background: 'var(--paper-sunken)', flexShrink: 0 }} />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
-        <div style={{ height: 12, width: '60%', borderRadius: 6, background: 'rgba(255,255,255,0.05)' }} />
-        <div style={{ height: 9, width: '40%', borderRadius: 5, background: 'rgba(255,255,255,0.03)' }} />
+        <div style={{ height: 12, width: '60%', borderRadius: 6, background: 'var(--paper-sunken)' }} />
+        <div style={{ height: 9, width: '40%', borderRadius: 5, background: 'var(--paper-sunken)' }} />
       </div>
-      <div style={{ width: 48, height: 20, borderRadius: 10, background: 'rgba(255,255,255,0.04)', flexShrink: 0 }} />
+      <div style={{ width: 48, height: 20, borderRadius: 10, background: 'var(--paper-sunken)', flexShrink: 0 }} />
     </div>
   )
 }
@@ -94,20 +91,18 @@ function ResortListCard({ resort }: { resort: Resort }) {
   const vertFt   = metersToFeet(resort.vertical_m)
   const avgIn    = cmToInches(resort.annual_snowfall_cm)
 
-  const passColor = resort.pass === 'epic' ? '#3b82f6' : resort.pass === 'ikon' ? '#fb923c' : '#94a3b8'
+  const passColor = resort.pass === 'epic' ? 'var(--q-good)' : resort.pass === 'ikon' ? 'var(--amber)' : 'var(--spray)'
   const passLabel = resort.pass === 'epic' ? 'EPIC'      : resort.pass === 'ikon' ? 'IKON'      : 'INDEP'
 
   return (
     <a
       href={`/snow/${resort.slug}`}
+      className="tile"
       style={{
         display: 'flex',
         alignItems: 'center',
         gap: 12,
         padding: '13px 14px',
-        background: 'rgba(6,12,24,0.85)',
-        border: `1px solid rgba(139,92,246,0.08)`,
-        borderRadius: 14,
         textDecoration: 'none',
         transition: 'border-color 0.15s, background 0.15s',
         cursor: 'pointer',
@@ -116,11 +111,11 @@ function ResortListCard({ resort }: { resort: Resort }) {
       }}
       onMouseEnter={e => {
         (e.currentTarget as HTMLAnchorElement).style.borderColor = `${m.border}`
-        ;(e.currentTarget as HTMLAnchorElement).style.background = 'rgba(10,17,34,0.92)'
+        ;(e.currentTarget as HTMLAnchorElement).style.background = 'var(--paper-sunken)'
       }}
       onMouseLeave={e => {
-        (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(139,92,246,0.08)'
-        ;(e.currentTarget as HTMLAnchorElement).style.background = 'rgba(6,12,24,0.85)'
+        (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--tile-border)'
+        ;(e.currentTarget as HTMLAnchorElement).style.background = 'var(--tile-bg)'
       }}
     >
       {/* Left accent bar */}
@@ -132,27 +127,27 @@ function ResortListCard({ resort }: { resort: Resort }) {
       {/* New snow badge */}
       <div style={{
         width: 44, height: 44, borderRadius: 10, flexShrink: 0,
-        background: `${m.accent}10`, border: `1px solid ${m.accent}25`,
+        background: m.bg, border: `1px solid ${m.border}`,
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       }}>
         <span style={{
           fontFamily: 'var(--font-data, monospace)', fontSize: 15, fontWeight: 900,
-          color: (newSnow ?? 0) >= 6 ? '#22d3ee' : m.accent, lineHeight: 1, letterSpacing: '-0.02em',
+          color: (newSnow ?? 0) >= 6 ? 'var(--snow-bright)' : m.accent, lineHeight: 1, letterSpacing: '-0.02em',
         }}>{newSnow ?? '—'}</span>
-        <span style={{ fontFamily: 'var(--font-data, monospace)', fontSize: 7, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>in</span>
+        <span style={{ fontFamily: 'var(--font-data, monospace)', fontSize: 7, color: 'var(--deep-text)', letterSpacing: '0.04em' }}>in</span>
       </div>
 
       {/* Main info */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{
           fontFamily: 'var(--font-display, sans-serif)', fontSize: 13, fontWeight: 700,
-          color: '#dde4ee', lineHeight: 1.2, marginBottom: 3,
+          color: 'var(--foam)', lineHeight: 1.2, marginBottom: 3,
           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
         }}>{resort.name}</div>
-        <div style={{ fontFamily: 'var(--font-data, monospace)', fontSize: 8.5, color: 'rgba(255,255,255,0.28)', letterSpacing: '0.04em' }}>
+        <div style={{ fontFamily: 'var(--font-data, monospace)', fontSize: 8.5, color: 'var(--spray)', letterSpacing: '0.04em' }}>
           {resort.region} · {resort.state}
-          {vertFt != null && <span style={{ color: 'rgba(255,255,255,0.18)' }}> · {vertFt.toLocaleString()}ft vert</span>}
-          {avgIn  != null && <span style={{ color: 'rgba(255,255,255,0.18)' }}> · {avgIn}" avg</span>}
+          {vertFt != null && <span style={{ color: 'var(--deep-text)' }}> · {vertFt.toLocaleString()}ft vert</span>}
+          {avgIn  != null && <span style={{ color: 'var(--deep-text)' }}> · {avgIn}" avg</span>}
         </div>
       </div>
 
@@ -160,7 +155,7 @@ function ResortListCard({ resort }: { resort: Resort }) {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 5, flexShrink: 0 }}>
         <span style={{
           fontFamily: 'var(--font-data, monospace)', fontSize: 8, fontWeight: 700, letterSpacing: '0.06em',
-          color: passColor, background: `${passColor}18`, border: `1px solid ${passColor}30`,
+          color: passColor, background: 'var(--paper-sunken)', border: `1px solid ${passColor}`,
           padding: '2px 7px', borderRadius: 20,
         }}>{passLabel}</span>
         <span style={{
@@ -169,7 +164,7 @@ function ResortListCard({ resort }: { resort: Resort }) {
           padding: '2px 7px', borderRadius: 20, whiteSpace: 'nowrap',
         }}>❄ {m.label}</span>
         {baseDepth != null && (
-          <span style={{ fontFamily: 'var(--font-data, monospace)', fontSize: 7.5, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.03em' }}>
+          <span style={{ fontFamily: 'var(--font-data, monospace)', fontSize: 7.5, color: 'var(--spray)', letterSpacing: '0.03em' }}>
             {baseDepth}" base
           </span>
         )}
@@ -268,7 +263,7 @@ function SnowListView({ resorts }: { resorts: Resort[] }) {
 
   return (
     <div style={{
-      height: '100%', overflowY: 'auto', background: '#060d1a',
+      height: '100%', overflowY: 'auto', background: 'var(--deep)',
       padding: '0 0 40px',
     }}>
       <style>{`
@@ -276,25 +271,24 @@ function SnowListView({ resorts }: { resorts: Resort[] }) {
           0%, 100% { opacity: 1; }
           50%       { opacity: 0.45; }
         }
-        .snow-list-search::placeholder { color: rgba(255,255,255,0.2); }
-        .snow-list-search:focus { outline: none; border-color: rgba(139,92,246,0.35) !important; }
+        .snow-list-search::placeholder { color: var(--deep-text); }
+        .snow-list-search:focus { outline: none; border-color: var(--snow-dim) !important; }
       `}</style>
 
       {/* Header */}
       <div style={{
         padding: '24px 20px 20px',
-        borderBottom: '1px solid rgba(139,92,246,0.08)',
-        background: 'linear-gradient(180deg, rgba(139,92,246,0.04) 0%, transparent 100%)',
+        borderBottom: '1px solid var(--tile-border)',
+        background: 'var(--paper-raised)',
         position: 'sticky', top: 0, zIndex: 10,
-        backdropFilter: 'blur(20px)',
       }}>
         {/* Title row */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, flexWrap: 'wrap', gap: 8 }}>
           <div>
-            <h1 style={{ fontFamily: 'var(--font-display, sans-serif)', fontSize: 'clamp(1.4rem, 4vw, 1.9rem)', fontWeight: 900, color: '#f0f6ff', letterSpacing: '-0.03em', margin: 0, lineHeight: 1 }}>
+            <h1 style={{ fontFamily: 'var(--font-display, sans-serif)', fontSize: 'clamp(1.4rem, 4vw, 1.9rem)', fontWeight: 900, color: 'var(--foam)', letterSpacing: '-0.03em', margin: 0, lineHeight: 1 }}>
               Snow Resorts
             </h1>
-            <p style={{ fontFamily: 'var(--font-data, monospace)', fontSize: 9, color: 'rgba(255,255,255,0.28)', letterSpacing: '0.1em', marginTop: 4 }}>
+            <p style={{ fontFamily: 'var(--font-data, monospace)', fontSize: 9, color: 'var(--spray)', letterSpacing: '0.1em', marginTop: 4 }}>
               {resorts.length} RESORTS · {powderCount} WITH FRESH SNOW
             </p>
           </div>
@@ -302,8 +296,8 @@ function SnowListView({ resorts }: { resorts: Resort[] }) {
           <a href="/snow?view=map" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             fontFamily: 'var(--font-data, monospace)', fontSize: 9, fontWeight: 700,
-            color: '#a78bfa', background: 'rgba(139,92,246,0.08)',
-            border: '1px solid rgba(139,92,246,0.2)', padding: '6px 12px', borderRadius: 20,
+            color: 'var(--snow-bright)', background: 'var(--snow-muted)',
+            border: '1px solid rgba(124,58,237,0.25)', padding: '6px 12px', borderRadius: 20,
             textDecoration: 'none', letterSpacing: '0.06em',
           }}>
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.3"/><path d="M3.5 3.5L6.5 6.5M6.5 3.5L3.5 6.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/></svg>
@@ -313,9 +307,9 @@ function SnowListView({ resorts }: { resorts: Resort[] }) {
 
         {/* Search */}
         <div style={{ position: 'relative', marginBottom: 12 }}>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-50%)', opacity: 0.3, pointerEvents: 'none' }}>
-            <circle cx="5.5" cy="5.5" r="4" stroke="white" strokeWidth="1.5"/>
-            <path d="M8.5 8.5L11.5 11.5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-50%)', opacity: 0.4, pointerEvents: 'none' }}>
+            <circle cx="5.5" cy="5.5" r="4" stroke="var(--spray)" strokeWidth="1.5"/>
+            <path d="M8.5 8.5L11.5 11.5" stroke="var(--spray)" strokeWidth="1.5" strokeLinecap="round"/>
           </svg>
           <input
             className="snow-list-search"
@@ -325,9 +319,9 @@ function SnowListView({ resorts }: { resorts: Resort[] }) {
             style={{
               width: '100%', boxSizing: 'border-box',
               padding: '11px 12px 11px 32px',
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: 12, color: '#dde4ee',
+              background: 'var(--paper-sunken)',
+              border: '1px solid var(--tile-border-strong)',
+              borderRadius: 12, color: 'var(--foam)',
               fontFamily: 'var(--font-data, monospace)', fontSize: 12, letterSpacing: '0.02em',
               transition: 'border-color 0.15s',
             }}
@@ -342,9 +336,9 @@ function SnowListView({ resorts }: { resorts: Resort[] }) {
               <button key={key} onClick={() => setRegionGroup(key)} style={{
                 fontFamily: 'var(--font-data, monospace)', fontSize: 10, fontWeight: 600,
                 padding: '4px 13px', borderRadius: 20, cursor: 'pointer', letterSpacing: '0.05em',
-                border: `1px solid ${active ? 'rgba(139,92,246,0.45)' : 'rgba(255,255,255,0.08)'}`,
-                background: active ? 'rgba(139,92,246,0.14)' : 'rgba(255,255,255,0.04)',
-                color: active ? '#c4b5fd' : 'rgba(255,255,255,0.4)',
+                border: `1px solid ${active ? 'rgba(124,58,237,0.4)' : 'var(--tile-border)'}`,
+                background: active ? 'var(--snow-muted)' : 'var(--paper-sunken)',
+                color: active ? 'var(--snow-bright)' : 'var(--spray)',
                 transition: 'all 0.12s',
               }}>{label}</button>
             )
@@ -353,7 +347,7 @@ function SnowListView({ resorts }: { resorts: Resort[] }) {
 
         {/* Sort controls */}
         <div style={{ display: 'flex', gap: 5, overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: 2, flexWrap: 'wrap' }}>
-          <span style={{ fontFamily: 'var(--font-data, monospace)', fontSize: 8, color: 'rgba(255,255,255,0.22)', letterSpacing: '0.1em', alignSelf: 'center', whiteSpace: 'nowrap', marginRight: 2 }}>SORT BY</span>
+          <span style={{ fontFamily: 'var(--font-data, monospace)', fontSize: 8, color: 'var(--deep-text)', letterSpacing: '0.1em', alignSelf: 'center', whiteSpace: 'nowrap', marginRight: 2 }}>SORT BY</span>
           {SORT_OPTIONS.map(({ key, label }) => {
             const active = sortKey === key
             return (
@@ -361,9 +355,9 @@ function SnowListView({ resorts }: { resorts: Resort[] }) {
                 fontFamily: 'var(--font-data, monospace)', fontSize: 9, fontWeight: 600,
                 padding: '3px 11px', borderRadius: 20, cursor: 'pointer', letterSpacing: '0.04em',
                 whiteSpace: 'nowrap',
-                border: `1px solid ${active ? 'rgba(139,92,246,0.4)' : 'rgba(255,255,255,0.07)'}`,
-                background: active ? 'rgba(139,92,246,0.1)' : 'rgba(255,255,255,0.03)',
-                color: active ? '#a78bfa' : 'rgba(255,255,255,0.35)',
+                border: `1px solid ${active ? 'rgba(124,58,237,0.35)' : 'var(--tile-border)'}`,
+                background: active ? 'var(--snow-muted)' : 'var(--paper-sunken)',
+                color: active ? 'var(--snow-bright)' : 'var(--spray)',
                 transition: 'all 0.12s',
               }}>{label}</button>
             )
@@ -374,7 +368,7 @@ function SnowListView({ resorts }: { resorts: Resort[] }) {
       {/* Body */}
       <div style={{ padding: '16px 16px 0' }}>
         {/* Count */}
-        <p style={{ fontFamily: 'var(--font-data, monospace)', fontSize: 8, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.07em', marginBottom: 12 }}>
+        <p style={{ fontFamily: 'var(--font-data, monospace)', fontSize: 8, color: 'var(--deep-text)', letterSpacing: '0.07em', marginBottom: 12 }}>
           {sorted.length}{sorted.length !== resorts.length ? `/${resorts.length}` : ''} RESORTS
         </p>
 
@@ -383,13 +377,13 @@ function SnowListView({ resorts }: { resorts: Resort[] }) {
         ) : sorted.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px 20px' }}>
             <div style={{ fontSize: 32, marginBottom: 10, opacity: 0.3 }}>⛷</div>
-            <p style={{ fontFamily: 'var(--font-display, sans-serif)', fontSize: 13, color: 'rgba(255,255,255,0.25)', marginBottom: 12 }}>
+            <p style={{ fontFamily: 'var(--font-display, sans-serif)', fontSize: 13, color: 'var(--spray)', marginBottom: 12 }}>
               No resorts match
             </p>
             <button
               onClick={() => { setRegionGroup('all'); setSearchQuery('') }}
               style={{
-                fontFamily: 'var(--font-data, monospace)', fontSize: 9, color: '#a78bfa',
+                fontFamily: 'var(--font-data, monospace)', fontSize: 9, color: 'var(--snow-bright)',
                 background: 'none', border: 'none', cursor: 'pointer',
                 letterSpacing: '0.08em', textTransform: 'uppercase',
               }}

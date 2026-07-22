@@ -10,11 +10,11 @@ const MS_TO_KT = 1.944
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function qualityColor(score?: number | null): string {
-  if (score == null) return '#1E3A4F'
-  if (score >= 7)   return '#F97316'  // fire
-  if (score >= 5)   return '#06B6D4'  // cyan/pumping
-  if (score >= 3)   return '#3B82F6'  // blue/ok
-  return '#475569'                    // slate/flat
+  if (score == null) return 'var(--tile-border-strong)'
+  if (score >= 7)   return 'var(--q-firing)'
+  if (score >= 5)   return 'var(--q-pumping)'
+  if (score >= 3)   return 'var(--q-good)'
+  return 'var(--q-flat)'
 }
 
 function qualityLabel(score?: number | null): string {
@@ -26,12 +26,12 @@ function qualityLabel(score?: number | null): string {
 }
 
 function crowdColor(label?: string | null, score?: number | null): string {
-  if (label === 'empty' || (score != null && score > 0.8))   return '#22C55E'
-  if (label === 'light' || (score != null && score > 0.6))   return '#86EFAC'
-  if (label === 'moderate' || (score != null && score > 0.4)) return '#FCD34D'
-  if (label === 'busy' || (score != null && score > 0.2))    return '#F97316'
-  if (label === 'packed' || score != null)                    return '#EF4444'
-  return '#475569'
+  if (label === 'empty' || (score != null && score > 0.8))   return '#16A34A'
+  if (label === 'light' || (score != null && score > 0.6))   return '#65A30D'
+  if (label === 'moderate' || (score != null && score > 0.4)) return '#D97706'
+  if (label === 'busy' || (score != null && score > 0.2))    return '#EA580C'
+  if (label === 'packed' || score != null)                    return '#DC2626'
+  return '#64748B'
 }
 
 function toFt(m?: number | null): string {
@@ -100,8 +100,8 @@ function isCurrentHour(isoString: string, now: number): boolean {
 }
 
 // ─── Wind arrow SVG ──────────────────────────────────────────────────────────
-function WindArrow({ deg, size = 14, color = '#6B9BAD' }: { deg?: number | null; size?: number; color?: string }) {
-  if (deg == null) return <span style={{ color: '#2E5568', fontSize: size * 0.7 }}>—</span>
+function WindArrow({ deg, size = 14, color = 'var(--spray)' }: { deg?: number | null; size?: number; color?: string }) {
+  if (deg == null) return <span style={{ color: 'var(--deep-text)', fontSize: size * 0.7 }}>—</span>
   return (
     <svg
       width={size} height={size}
@@ -117,10 +117,10 @@ function WindArrow({ deg, size = 14, color = '#6B9BAD' }: { deg?: number | null;
 // ─── Tide state icon ─────────────────────────────────────────────────────────
 function TideIcon({ state }: { state?: string | null }) {
   if (!state) return null
-  if (state === 'rising')  return <span style={{ color: '#06B6D4', fontSize: 9 }}>↑</span>
-  if (state === 'falling') return <span style={{ color: '#6366F1', fontSize: 9 }}>↓</span>
-  if (state === 'high')    return <span style={{ color: '#F97316', fontSize: 9 }}>▲</span>
-  if (state === 'low')     return <span style={{ color: '#3B82F6', fontSize: 9 }}>▽</span>
+  if (state === 'rising')  return <span style={{ color: 'var(--cyan)', fontSize: 9 }}>↑</span>
+  if (state === 'falling') return <span style={{ color: 'var(--q-ok)', fontSize: 9 }}>↓</span>
+  if (state === 'high')    return <span style={{ color: 'var(--q-firing)', fontSize: 9 }}>▲</span>
+  if (state === 'low')     return <span style={{ color: 'var(--q-good)', fontSize: 9 }}>▽</span>
   return null
 }
 
@@ -179,13 +179,12 @@ function DayTab({
         gap: 4,
         padding: '10px 14px',
         borderRadius: 10,
-        border: isActive ? `1px solid ${color}55` : '1px solid rgba(6,182,212,0.07)',
-        background: isActive ? `${color}12` : 'rgba(6,13,26,0.5)',
+        border: isActive ? `1px solid ${color}55` : '1px solid var(--tile-border)',
+        background: isActive ? `${color}12` : 'var(--tile-bg)',
         cursor: 'pointer',
         transition: 'all 0.15s',
         minWidth: 60,
         flexShrink: 0,
-        boxShadow: isActive ? `0 0 12px ${color}22` : 'none',
       }}
     >
       <span style={{
@@ -206,7 +205,7 @@ function DayTab({
       </span>
 
       {/* Quality mini-bar */}
-      <div style={{ width: 32, height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
+      <div style={{ width: 32, height: 3, borderRadius: 2, background: 'var(--tile-border)', overflow: 'hidden' }}>
         <div style={{
           width: `${barPct}%`,
           height: '100%',
@@ -260,7 +259,7 @@ function WaveBarChart({ hours, clientNow }: { hours: ForecastHour[]; clientNow: 
             position: 'absolute',
             left: 0, right: 0,
             bottom: `${pct}%`,
-            borderTop: '1px dashed rgba(6,182,212,0.07)',
+            borderTop: '1px dashed rgba(14,165,233,0.07)',
             pointerEvents: 'none',
           }} />
         ))}
@@ -287,7 +286,7 @@ function WaveBarChart({ hours, clientNow }: { hours: ForecastHour[]; clientNow: 
             >
               {/* Wind direction arrow above bar */}
               <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)' }}>
-                <WindArrow deg={h.wind_direction} size={11} color={isCur ? 'var(--cyan-bright)' : '#2E5568'} />
+                <WindArrow deg={h.wind_direction} size={11} color={isCur ? 'var(--cyan-bright)' : 'var(--deep-text)'} />
               </div>
 
               {/* The bar */}
@@ -295,12 +294,7 @@ function WaveBarChart({ hours, clientNow }: { hours: ForecastHour[]; clientNow: 
                 width: '100%',
                 height: `${Math.max(4, pct * 72)}px`,
                 borderRadius: '3px 3px 1px 1px',
-                background: rawH > 0
-                  ? `linear-gradient(180deg, ${color} 0%, ${color}88 100%)`
-                  : 'rgba(255,255,255,0.04)',
-                boxShadow: rawH > 0 && pct > 0.3
-                  ? `0 0 8px ${color}55, 0 -2px 10px ${color}30`
-                  : 'none',
+                background: rawH > 0 ? color : 'var(--tile-border)',
                 transition: 'height 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                 outline: isCur ? `1px solid ${color}` : 'none',
                 outlineOffset: 1,
@@ -363,7 +357,7 @@ function SwellBreakdown({ hours }: { hours: ForecastHour[] }) {
 
   return (
     <div style={{
-      borderTop: '1px solid rgba(6,182,212,0.08)',
+      borderTop: '1px solid rgba(14,165,233,0.08)',
       marginTop: 6,
       paddingTop: 10,
       display: 'flex',
@@ -386,8 +380,7 @@ function SwellBreakdown({ hours }: { hours: ForecastHour[] }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{
             width: 6, height: 6, borderRadius: '50%',
-            background: '#06B6D4',
-            boxShadow: '0 0 6px #06B6D4',
+            background: 'var(--cyan)',
             flexShrink: 0,
           }} />
           <div>
@@ -406,7 +399,7 @@ function SwellBreakdown({ hours }: { hours: ForecastHour[] }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{
             width: 6, height: 6, borderRadius: '50%',
-            background: '#6366F1',
+            background: 'var(--q-ok)',
             flexShrink: 0,
           }} />
           <div>
@@ -443,10 +436,10 @@ function HourlyTable({ hours, clientNow }: { hours: ForecastHour[]; clientNow: n
   }
 
   return (
-    <div style={{ overflowX: 'auto', marginTop: 8, borderRadius: 10, border: '1px solid rgba(6,182,212,0.07)' }}>
+    <div style={{ overflowX: 'auto', marginTop: 8, borderRadius: 10, border: '1px solid rgba(14,165,233,0.07)' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 560 }}>
         <thead>
-          <tr style={{ borderBottom: '1px solid rgba(6,182,212,0.1)' }}>
+          <tr style={{ borderBottom: '1px solid rgba(14,165,233,0.1)' }}>
             <th style={{ ...COL_STYLE, textAlign: 'left' }}>Time</th>
             <th style={{ ...COL_STYLE, textAlign: 'left' }}>Surf</th>
             <th style={{ ...COL_STYLE, textAlign: 'left' }}>Period</th>
@@ -474,7 +467,7 @@ function HourlyTable({ hours, clientNow }: { hours: ForecastHour[]; clientNow: n
                     ? `${color}10`
                     : i % 2 === 0
                     ? 'transparent'
-                    : 'rgba(6,13,26,0.35)',
+                    : 'var(--paper-sunken)',
                   borderLeft: isCurrent ? `2px solid ${color}` : '2px solid transparent',
                   transition: 'background 0.15s',
                 }}
@@ -545,7 +538,7 @@ function HourlyTable({ hours, clientNow }: { hours: ForecastHour[]; clientNow: n
                 {/* SWELL DIR */}
                 <td style={{ padding: '7px 8px', whiteSpace: 'nowrap' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                    <WindArrow deg={swellDir} size={12} color='#06B6D4' />
+                    <WindArrow deg={swellDir} size={12} color='var(--cyan)' />
                     <span style={{
                       fontFamily: 'var(--font-data)',
                       fontSize: 11,
@@ -679,8 +672,8 @@ export default function ForecastTimeline({ hours }: { hours: ForecastHour[] }) {
 
       {/* ── Selected day panel ── */}
       <div style={{
-        background: 'rgba(6,13,26,0.5)',
-        border: '1px solid rgba(6,182,212,0.08)',
+        background: 'var(--tile-bg)',
+        border: '1px solid rgba(14,165,233,0.08)',
         borderRadius: 12,
         padding: '14px 12px',
       }}>

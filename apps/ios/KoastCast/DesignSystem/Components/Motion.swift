@@ -8,7 +8,7 @@ struct Shimmer: ViewModifier {
         content.overlay(
             GeometryReader { geo in
                 LinearGradient(
-                    colors: [.clear, .white.opacity(0.18), .clear],
+                    colors: [.clear, Theme.textPrimary.opacity(0.06), .clear],
                     startPoint: .leading, endPoint: .trailing
                 )
                 .frame(width: geo.size.width * 0.6)
@@ -31,7 +31,7 @@ extension View {
     /// A plain skeleton block.
     func skeleton(_ w: CGFloat? = nil, _ h: CGFloat, radius: CGFloat = 8) -> some View {
         RoundedRectangle(cornerRadius: radius, style: .continuous)
-            .fill(Color.white.opacity(0.07))
+            .fill(Theme.bgSunken)
             .frame(width: w, height: h)
             .shimmer()
     }

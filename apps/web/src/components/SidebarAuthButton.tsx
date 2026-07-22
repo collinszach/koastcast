@@ -90,7 +90,7 @@ export function SidebarAuthButton() {
         className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-xs transition-all"
         style={{
           color: 'var(--spray)',
-          border: '1px solid rgba(6,182,212,0.15)',
+          border: '1px solid rgba(14,165,233,0.15)',
           fontFamily: 'var(--font-display)',
           fontWeight: 600,
           letterSpacing: '0.04em',
@@ -98,11 +98,11 @@ export function SidebarAuthButton() {
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.color = 'var(--cyan)'
-          e.currentTarget.style.borderColor = 'rgba(6,182,212,0.3)'
+          e.currentTarget.style.borderColor = 'rgba(14,165,233,0.3)'
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.color = 'var(--spray)'
-          e.currentTarget.style.borderColor = 'rgba(6,182,212,0.15)'
+          e.currentTarget.style.borderColor = 'rgba(14,165,233,0.15)'
         }}
       >
         <LogIn className="w-3.5 h-3.5 flex-shrink-0" />

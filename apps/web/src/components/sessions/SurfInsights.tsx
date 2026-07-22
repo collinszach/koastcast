@@ -30,12 +30,12 @@ interface InsightsData {
 }
 
 const TYPE_COLORS: Record<string, string> = {
-  pattern:   'border-blue-800 bg-blue-950/30',
-  stat:      'border-gray-700 bg-gray-900/30',
-  board_tip: 'border-purple-800 bg-purple-950/30',
-  accuracy:  'border-cyan-800 bg-cyan-950/30',
-  tip:       'border-yellow-800 bg-yellow-950/30',
-  onboarding:'border-gray-700 bg-gray-900/30',
+  pattern:   'border-blue-200 bg-blue-50',
+  stat:      'border-[var(--tile-border-strong)] bg-[var(--paper-sunken)]',
+  board_tip: 'border-purple-200 bg-purple-50',
+  accuracy:  'border-cyan-200 bg-cyan-50',
+  tip:       'border-amber-200 bg-amber-50',
+  onboarding:'border-[var(--tile-border-strong)] bg-[var(--paper-sunken)]',
 }
 
 function MiniBarChart({ data }: { data: Record<string, number> }) {
@@ -47,10 +47,10 @@ function MiniBarChart({ data }: { data: Record<string, number> }) {
       {entries.map(([label, value]) => (
         <div key={label} className="flex-1 flex flex-col items-center gap-0.5">
           <div
-            className="w-full bg-blue-500/60 rounded-sm"
+            className="w-full bg-[var(--cyan)] rounded-sm"
             style={{ height: `${(value / max) * 100}%` }}
           />
-          <span className="text-gray-600 text-xs truncate w-full text-center" style={{ fontSize: '9px' }}>
+          <span className="text-[var(--spray)] text-xs truncate w-full text-center" style={{ fontSize: '9px' }}>
             {label.slice(0, 3)}
           </span>
         </div>
@@ -65,14 +65,14 @@ function SpotBreakdown({ data }: { data: Record<string, { avg: number; count: nu
     <div className="space-y-1.5 mt-2">
       {entries.map(([spot, { avg, count }]) => (
         <div key={spot} className="flex items-center gap-2">
-          <span className="text-gray-400 text-xs w-32 truncate">{spot}</span>
-          <div className="flex-1 bg-gray-800 rounded-full h-1.5">
+          <span className="text-[var(--spray)] text-xs w-32 truncate">{spot}</span>
+          <div className="flex-1 bg-[var(--paper-sunken)] rounded-full h-1.5">
             <div
-              className="bg-blue-500 h-1.5 rounded-full"
+              className="bg-[var(--cyan)] h-1.5 rounded-full"
               style={{ width: `${(avg / 10) * 100}%` }}
             />
           </div>
-          <span className="text-gray-400 text-xs w-12 text-right">{avg}/10 ({count})</span>
+          <span className="text-[var(--spray)] text-xs w-12 text-right">{avg}/10 ({count})</span>
         </div>
       ))}
     </div>
@@ -99,10 +99,10 @@ function CardChart({ card }: { card: InsightCard }) {
         {Object.entries(card.data.dow_avgs as Record<string, number>).map(([day, avg]) => (
           <div key={day} className="flex-1 text-center">
             <div
-              className="mx-auto rounded-sm bg-blue-500/60"
+              className="mx-auto rounded-sm bg-[var(--cyan)]"
               style={{ width: '100%', height: `${(avg / 10) * 40}px` }}
             />
-            <span className="text-gray-600 text-xs">{day.slice(0, 2)}</span>
+            <span className="text-[var(--spray)] text-xs">{day.slice(0, 2)}</span>
           </div>
         ))}
       </div>
@@ -115,13 +115,13 @@ function CardChart({ card }: { card: InsightCard }) {
     const crd = card.data.crowded_avg as number
     return (
       <div className="flex gap-3 mt-2">
-        <div className="flex-1 bg-gray-800 rounded-lg p-2 text-center">
-          <div className="text-green-400 font-bold">{unc.toFixed(1)}</div>
-          <div className="text-gray-500 text-xs">uncrowded</div>
+        <div className="flex-1 bg-[var(--paper-sunken)] rounded-lg p-2 text-center">
+          <div className="text-green-700 font-bold">{unc.toFixed(1)}</div>
+          <div className="text-[var(--spray)] text-xs">uncrowded</div>
         </div>
-        <div className="flex-1 bg-gray-800 rounded-lg p-2 text-center">
-          <div className="text-orange-400 font-bold">{crd.toFixed(1)}</div>
-          <div className="text-gray-500 text-xs">crowded</div>
+        <div className="flex-1 bg-[var(--paper-sunken)] rounded-lg p-2 text-center">
+          <div className="text-orange-700 font-bold">{crd.toFixed(1)}</div>
+          <div className="text-[var(--spray)] text-xs">crowded</div>
         </div>
       </div>
     )
@@ -146,7 +146,7 @@ export default function SurfInsights() {
     return (
       <div className="space-y-3 animate-pulse">
         {[1, 2, 3].map(i => (
-          <div key={i} className="h-20 bg-gray-800 rounded-xl" />
+          <div key={i} className="h-20 bg-[var(--tile-border)] rounded-xl" />
         ))}
       </div>
     )
@@ -154,7 +154,7 @@ export default function SurfInsights() {
 
   if (!data) {
     return (
-      <div className="text-center py-8 text-gray-500 text-sm">
+      <div className="text-center py-8 text-[var(--spray)] text-sm">
         <div className="text-2xl mb-2">📊</div>
         Sign in to see your personalized surf insights
       </div>
@@ -163,7 +163,7 @@ export default function SurfInsights() {
 
   if (data.insights.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500 text-sm">
+      <div className="text-center py-8 text-[var(--spray)] text-sm">
         <div className="text-2xl mb-2">📔</div>
         No insights yet — log your first session to get started
       </div>
@@ -172,7 +172,7 @@ export default function SurfInsights() {
 
   return (
     <div className="space-y-3">
-      <div className="text-xs text-gray-500 flex justify-between">
+      <div className="text-xs text-[var(--spray)] flex justify-between">
         <span>Based on {data.session_count} logged sessions</span>
         <span>Updates as you log more</span>
       </div>
@@ -180,20 +180,20 @@ export default function SurfInsights() {
       {data.insights.map((card, i) => (
         <div
           key={i}
-          className={`rounded-xl border p-4 ${TYPE_COLORS[card.type] ?? 'border-gray-700 bg-gray-900/30'}`}
+          className={`rounded-xl border p-4 ${TYPE_COLORS[card.type] ?? 'border-[var(--tile-border-strong)] bg-[var(--paper-sunken)]'}`}
         >
           <div className="flex items-start gap-3">
             <span className="text-xl shrink-0 mt-0.5">{card.icon}</span>
             <div className="flex-1 min-w-0">
-              <h3 className="text-white font-medium text-sm leading-snug">{card.title}</h3>
-              <p className="text-gray-400 text-xs leading-relaxed mt-1">{card.body}</p>
+              <h3 className="text-[var(--foam)] font-medium text-sm leading-snug">{card.title}</h3>
+              <p className="text-[var(--spray)] text-xs leading-relaxed mt-1">{card.body}</p>
               <CardChart card={card} />
             </div>
           </div>
         </div>
       ))}
 
-      <p className="text-xs text-gray-600 text-center pt-1">
+      <p className="text-xs text-[var(--deep-text)] text-center pt-1">
         Log more sessions to unlock deeper pattern analysis
       </p>
     </div>

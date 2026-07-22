@@ -61,11 +61,11 @@ function precipToEmoji(mm: number): string {
   return '⛈️'
 }
 function uvRisk(uv: number): { label: string; color: string } {
-  if (uv < 3)  return { label: 'Low',       color: '#10B981' }
-  if (uv < 6)  return { label: 'Moderate',  color: '#F59E0B' }
-  if (uv < 8)  return { label: 'High',      color: '#EF4444' }
-  if (uv < 11) return { label: 'Very High', color: '#8B5CF6' }
-  return { label: 'Extreme', color: '#EC4899' }
+  if (uv < 3)  return { label: 'Low',       color: '#059669' }
+  if (uv < 6)  return { label: 'Moderate',  color: '#B45309' }
+  if (uv < 8)  return { label: 'High',      color: '#DC2626' }
+  if (uv < 11) return { label: 'Very High', color: '#7C3AED' }
+  return { label: 'Extreme', color: '#DB2777' }
 }
 
 function distMi(lat1: number, lng1: number, lat2: number, lng2: number) {
@@ -106,10 +106,10 @@ function rateActivity(
   score = Math.max(5, Math.min(100, score))
 
   let label: string, color: string, detail: string
-  if (score >= 80)      { label = 'Excellent'; color = '#10B981'; detail = '' }
-  else if (score >= 60) { label = 'Good';      color = '#06B6D4'; detail = '' }
-  else if (score >= 40) { label = 'Fair';      color = '#F59E0B'; detail = '' }
-  else                  { label = 'Poor';      color = '#EF4444'; detail = '' }
+  if (score >= 80)      { label = 'Excellent'; color = '#059669'; detail = '' }
+  else if (score >= 60) { label = 'Good';      color = '#0EA5E9'; detail = '' }
+  else if (score >= 40) { label = 'Fair';      color = '#B45309'; detail = '' }
+  else                  { label = 'Poor';      color = '#DC2626'; detail = '' }
 
   if (type === 'surf') {
     if (score >= 80)      detail = 'Light offshores, great conditions'
@@ -164,7 +164,7 @@ function Label({ children }: { children: string }) {
       fontSize: 9,
       fontWeight: 700,
       letterSpacing: '0.18em',
-      color: '#2E5568',
+      color: 'var(--spray)',
       textTransform: 'uppercase',
       marginBottom: 8,
     }}>
@@ -188,11 +188,11 @@ function DataCard({
 }) {
   return (
     <div style={{
-      background: 'rgba(6,13,26,0.72)',
-      border: '1px solid rgba(6,182,212,0.13)',
+      background: 'var(--tile-bg)',
+      border: '1px solid var(--tile-border)',
       borderRadius: 14,
       padding: '16px 18px',
-      backdropFilter: 'blur(24px)',
+      boxShadow: 'var(--tile-shadow)',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
         <span style={{ fontSize: 18 }}>{icon}</span>
@@ -201,7 +201,7 @@ function DataCard({
           fontSize: 9,
           fontWeight: 600,
           letterSpacing: '0.16em',
-          color: '#2E5568',
+          color: 'var(--spray)',
           textTransform: 'uppercase',
         }}>{label}</span>
       </div>
@@ -209,13 +209,13 @@ function DataCard({
         fontFamily: 'JetBrains Mono, monospace',
         fontSize: 22,
         fontWeight: 700,
-        color: accent ?? '#E0F7FA',
+        color: accent ?? 'var(--foam)',
         letterSpacing: '-0.02em',
         lineHeight: 1,
         marginBottom: sub ? 6 : 0,
       }}>{value}</div>
       {sub && (
-        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#6B9BAD', marginTop: 4 }}>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--spray)', marginTop: 4 }}>
           {sub}
         </div>
       )}
@@ -256,10 +256,11 @@ function HourlyChart({ data, startIdx }: { data: WeatherData; startIdx: number }
 
   return (
     <div style={{
-      background: 'rgba(6,13,26,0.72)',
-      border: '1px solid rgba(6,182,212,0.13)',
+      background: 'var(--tile-bg)',
+      border: '1px solid var(--tile-border)',
       borderRadius: 14,
       padding: '20px 24px',
+      boxShadow: 'var(--tile-shadow)',
     }}>
       <Label>24-Hour Forecast</Label>
       <div style={{ overflowX: 'auto' }}>
@@ -273,12 +274,12 @@ function HourlyChart({ data, startIdx }: { data: WeatherData; startIdx: number }
               key={f}
               x1={20} y1={H - 20 - f * (H - 40)}
               x2={W - 20} y2={H - 20 - f * (H - 40)}
-              stroke="rgba(6,182,212,0.06)" strokeWidth={1}
+              stroke="var(--tile-border)" strokeWidth={1}
             />
           ))}
 
-          <path d={tempFill} fill="rgba(6,182,212,0.07)" />
-          <path d={tempPath} fill="none" stroke="#06B6D4" strokeWidth={2.5} strokeLinejoin="round" strokeLinecap="round" />
+          <path d={tempFill} fill="rgba(14,165,233,0.08)" />
+          <path d={tempPath} fill="none" stroke="var(--cyan)" strokeWidth={2.5} strokeLinejoin="round" strokeLinecap="round" />
 
           {slice.time.map((t, i) => {
             const h = new Date(t).getHours()
@@ -287,11 +288,11 @@ function HourlyChart({ data, startIdx }: { data: WeatherData; startIdx: number }
             const y = H - 20 - ((slice.temp[i] - tempMin) / tempRange) * (H - 40)
             return (
               <g key={i}>
-                <circle cx={x} cy={y} r={3.5} fill="#06B6D4" />
+                <circle cx={x} cy={y} r={3.5} fill="var(--cyan)" />
                 <text
                   x={x} y={y - 8}
                   textAnchor="middle"
-                  fill="#22D3EE"
+                  fill="var(--cyan-bright)"
                   style={{ font: '600 9px JetBrains Mono, monospace' }}
                 >
                   {Math.round(slice.temp[i])}°
@@ -309,7 +310,7 @@ function HourlyChart({ data, startIdx }: { data: WeatherData; startIdx: number }
                 key={i}
                 x={x - 3} y={H - 20 - barH}
                 width={6} height={barH}
-                fill="rgba(6,182,212,0.35)"
+                fill="rgba(14,165,233,0.35)"
                 rx={2}
               />
             )
@@ -325,13 +326,13 @@ function HourlyChart({ data, startIdx }: { data: WeatherData; startIdx: number }
                 <rect
                   x={x - 4} y={H + 4}
                   width={8} height={Math.max(2, windH)}
-                  fill="rgba(245,158,11,0.6)"
+                  fill="rgba(180,83,9,0.6)"
                   rx={2}
                 />
                 <text
                   x={x} y={H + 32}
                   textAnchor="middle"
-                  fill="#6B9BAD"
+                  fill="var(--spray)"
                   style={{ font: '500 9px JetBrains Mono, monospace' }}
                 >
                   {msToKnots(slice.wind[i])}kt
@@ -350,7 +351,7 @@ function HourlyChart({ data, startIdx }: { data: WeatherData; startIdx: number }
                 key={`l${i}`}
                 x={x} y={H + 50}
                 textAnchor="middle"
-                fill="#2E5568"
+                fill="var(--deep-text)"
                 style={{ font: '600 9px JetBrains Mono, monospace', letterSpacing: '0.05em' }}
               >
                 {label}
@@ -359,12 +360,12 @@ function HourlyChart({ data, startIdx }: { data: WeatherData; startIdx: number }
           })}
 
           <g transform={`translate(${W - 140}, 8)`}>
-            <rect x={0} y={0} width={8} height={3} fill="#06B6D4" rx={1} />
-            <text x={12} y={4} fill="#6B9BAD" style={{ font: '9px JetBrains Mono, monospace' }}>Temp (°C)</text>
-            <rect x={0} y={12} width={8} height={3} fill="rgba(6,182,212,0.35)" rx={1} />
-            <text x={12} y={16} fill="#6B9BAD" style={{ font: '9px JetBrains Mono, monospace' }}>Precip</text>
-            <rect x={0} y={24} width={8} height={3} fill="rgba(245,158,11,0.6)" rx={1} />
-            <text x={12} y={28} fill="#6B9BAD" style={{ font: '9px JetBrains Mono, monospace' }}>Wind (kt)</text>
+            <rect x={0} y={0} width={8} height={3} fill="var(--cyan)" rx={1} />
+            <text x={12} y={4} fill="var(--spray)" style={{ font: '9px JetBrains Mono, monospace' }}>Temp (°C)</text>
+            <rect x={0} y={12} width={8} height={3} fill="rgba(14,165,233,0.35)" rx={1} />
+            <text x={12} y={16} fill="var(--spray)" style={{ font: '9px JetBrains Mono, monospace' }}>Precip</text>
+            <rect x={0} y={24} width={8} height={3} fill="rgba(180,83,9,0.6)" rx={1} />
+            <text x={12} y={28} fill="var(--spray)" style={{ font: '9px JetBrains Mono, monospace' }}>Wind (kt)</text>
           </g>
         </svg>
       </div>
@@ -376,10 +377,11 @@ function HourlyChart({ data, startIdx }: { data: WeatherData; startIdx: number }
 function SevenDayForecast({ daily }: { daily: WeatherData['daily'] }) {
   return (
     <div style={{
-      background: 'rgba(6,13,26,0.72)',
-      border: '1px solid rgba(6,182,212,0.13)',
+      background: 'var(--tile-bg)',
+      border: '1px solid var(--tile-border)',
       borderRadius: 14,
       padding: '20px 24px',
+      boxShadow: 'var(--tile-shadow)',
     }}>
       <Label>7-Day Forecast</Label>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -401,39 +403,39 @@ function SevenDayForecast({ daily }: { daily: WeatherData['daily'] }) {
               gap: 12,
               padding: '10px 12px',
               borderRadius: 10,
-              background: i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent',
+              background: i % 2 === 0 ? 'var(--paper-sunken)' : 'transparent',
             }}>
-              <span style={{ fontFamily: 'Syne, system-ui, sans-serif', fontSize: 13, fontWeight: 600, color: i === 0 ? '#22D3EE' : '#B0D4DC' }}>
+              <span style={{ fontFamily: 'Syne, system-ui, sans-serif', fontSize: 13, fontWeight: 600, color: i === 0 ? 'var(--cyan-bright)' : 'var(--mist)' }}>
                 {dayLabel}
               </span>
               <span style={{ fontSize: 16 }}>{icon}</span>
               <span style={{
                 fontFamily: 'JetBrains Mono, monospace',
                 fontSize: 11,
-                color: '#E0F7FA',
+                color: 'var(--foam)',
                 fontWeight: 600,
               }}>
                 {Math.round(tMax)}° / {Math.round(tMin)}°
               </span>
-              <div style={{ height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.05)', overflow: 'hidden' }}>
+              <div style={{ height: 4, borderRadius: 2, background: 'var(--tile-border)', overflow: 'hidden' }}>
                 <div style={{
                   height: '100%',
                   width: `${Math.round(((tMax - tMin) / 15) * 100)}%`,
-                  background: 'linear-gradient(90deg, #06B6D4, #F59E0B)',
+                  background: 'linear-gradient(90deg, var(--cyan), var(--amber))',
                   borderRadius: 2,
                 }} />
               </div>
               <span style={{
                 fontFamily: 'JetBrains Mono, monospace',
                 fontSize: 10,
-                color: precip > 1 ? '#60A5FA' : '#2E5568',
+                color: precip > 1 ? 'var(--cyan-bright)' : 'var(--deep-text)',
               }}>
                 {precipIcon} {precip.toFixed(1)}mm
               </span>
               <span style={{
                 fontFamily: 'JetBrains Mono, monospace',
                 fontSize: 10,
-                color: wind > 10 ? '#F59E0B' : '#6B9BAD',
+                color: wind > 10 ? 'var(--amber-bright)' : 'var(--spray)',
               }}>
                 💨 {msToKnots(wind)}kt
               </span>
@@ -464,24 +466,25 @@ function ActivityRatings({ data, startIdx }: { data: WeatherData; startIdx: numb
 
   return (
     <div style={{
-      background: 'rgba(6,13,26,0.72)',
-      border: '1px solid rgba(6,182,212,0.13)',
+      background: 'var(--tile-bg)',
+      border: '1px solid var(--tile-border)',
       borderRadius: 14,
       padding: '20px 24px',
+      boxShadow: 'var(--tile-shadow)',
     }}>
       <Label>Outdoor Activity Ratings</Label>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
         {activities.map(({ icon, label, rating }) => (
           <div key={label} style={{
-            background: 'rgba(255,255,255,0.02)',
-            border: `1px solid ${rating.color}22`,
+            background: 'var(--paper-sunken)',
+            border: `1px solid ${rating.color}33`,
             borderRadius: 12,
             padding: '16px 18px',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
               <span style={{ fontSize: 20 }}>{icon}</span>
               <div>
-                <div style={{ fontFamily: 'Syne, system-ui, sans-serif', fontSize: 13, fontWeight: 700, color: '#E0F7FA' }}>
+                <div style={{ fontFamily: 'Syne, system-ui, sans-serif', fontSize: 13, fontWeight: 700, color: 'var(--foam)' }}>
                   {label}
                 </div>
                 <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: rating.color, marginTop: 1 }}>
@@ -489,7 +492,7 @@ function ActivityRatings({ data, startIdx }: { data: WeatherData; startIdx: numb
                 </div>
               </div>
             </div>
-            <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3, marginBottom: 8, overflow: 'hidden' }}>
+            <div style={{ height: 6, background: 'var(--tile-border)', borderRadius: 3, marginBottom: 8, overflow: 'hidden' }}>
               <div style={{
                 height: '100%',
                 width: `${rating.score}%`,
@@ -498,7 +501,7 @@ function ActivityRatings({ data, startIdx }: { data: WeatherData; startIdx: numb
                 transition: 'width 0.5s ease',
               }} />
             </div>
-            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#6B9BAD', lineHeight: 1.5 }}>
+            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--spray)', lineHeight: 1.5 }}>
               {rating.detail}
             </div>
           </div>
@@ -600,11 +603,11 @@ export default function WeatherPageClient() {
   const uvInfo = uvRisk(uvIndex)
 
   return (
-    <div style={{ width: '100%', height: '100%', overflowY: 'auto', background: '#060D1A' }}>
+    <div style={{ width: '100%', height: '100%', overflowY: 'auto', background: 'var(--deep)' }}>
       {/* Nav-removal notice */}
-      <div style={{ fontSize: 12, color: 'var(--deep-text)', background: 'rgba(6,182,212,0.05)', padding: '8px 16px', borderBottom: '1px solid rgba(6,182,212,0.08)' }}>
+      <div style={{ fontSize: 12, color: 'var(--spray)', background: 'var(--cyan-muted)', padding: '8px 16px', borderBottom: '1px solid var(--tile-border)' }}>
         Weather data is also available as a map overlay in{' '}
-        <a href="/map" style={{ color: '#06B6D4', textDecoration: 'underline' }}>Spots →</a>
+        <a href="/map" style={{ color: 'var(--cyan-bright)', textDecoration: 'underline' }}>Spots →</a>
       </div>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 24px 64px' }}>
 
@@ -613,8 +616,8 @@ export default function WeatherPageClient() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
             <div style={{
               width: 32, height: 32, borderRadius: 10,
-              background: 'rgba(245,158,11,0.12)',
-              border: '1px solid rgba(245,158,11,0.25)',
+              background: 'rgba(180,83,9,0.12)',
+              border: '1px solid rgba(180,83,9,0.25)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 16,
             }}>☁️</div>
@@ -622,7 +625,7 @@ export default function WeatherPageClient() {
               <div style={{
                 fontFamily: 'JetBrains Mono, monospace',
                 fontSize: 9, fontWeight: 700,
-                color: '#F59E0B', letterSpacing: '0.2em', textTransform: 'uppercase',
+                color: 'var(--amber-bright)', letterSpacing: '0.2em', textTransform: 'uppercase',
               }}>
                 KOASTCAST · WEATHER INTELLIGENCE
               </div>
@@ -632,14 +635,14 @@ export default function WeatherPageClient() {
               marginLeft: 'auto',
               display: 'flex', alignItems: 'center', gap: 6,
               fontFamily: 'JetBrains Mono, monospace', fontSize: 9, fontWeight: 600,
-              color: '#10B981', letterSpacing: '0.12em',
-              background: 'rgba(16,185,129,0.1)',
-              border: '1px solid rgba(16,185,129,0.2)',
+              color: '#059669', letterSpacing: '0.12em',
+              background: 'rgba(5,150,105,0.1)',
+              border: '1px solid rgba(5,150,105,0.2)',
               borderRadius: 20, padding: '4px 10px',
             }}>
               <div style={{
                 width: 5, height: 5, borderRadius: '50%',
-                background: '#10B981',
+                background: '#059669',
                 animation: 'bio-pulse-trail 2s ease-in-out infinite',
               }} />
               LIVE DATA
@@ -651,7 +654,7 @@ export default function WeatherPageClient() {
             <h1 style={{
               fontFamily: 'Syne, system-ui, sans-serif',
               fontSize: 32, fontWeight: 800,
-              color: '#E0F7FA', letterSpacing: '-0.03em',
+              color: 'var(--foam)', letterSpacing: '-0.03em',
               margin: 0,
             }}>
               Weather Intelligence
@@ -659,7 +662,7 @@ export default function WeatherPageClient() {
             {location && (
               <span style={{
                 fontSize: 11,
-                color: '#06B6D4',
+                color: 'var(--cyan-bright)',
                 fontFamily: 'JetBrains Mono, monospace',
                 letterSpacing: '0.08em',
               }}>
@@ -667,7 +670,7 @@ export default function WeatherPageClient() {
               </span>
             )}
           </div>
-          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginTop: 4, fontFamily: 'JetBrains Mono, monospace' }}>
+          <div style={{ fontSize: 13, color: 'var(--spray)', marginTop: 4, fontFamily: 'JetBrains Mono, monospace' }}>
             {selectedSpot ? `${selectedSpot.name} · ${selectedSpot.region}` : 'Select a location'}
           </div>
         </div>
@@ -679,11 +682,11 @@ export default function WeatherPageClient() {
             onChange={e => setSearch(e.target.value)}
             placeholder="🔍 Search spots..."
             style={{
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: 'var(--paper-raised)',
+              border: '1px solid var(--tile-border-strong)',
               borderRadius: 10,
               padding: '8px 14px',
-              color: 'white',
+              color: 'var(--foam)',
               fontSize: 13,
               width: '100%',
               marginBottom: 8,
@@ -709,13 +712,13 @@ export default function WeatherPageClient() {
                   cursor: 'pointer',
                   border: 'none',
                   background: selectedSpot?.slug === spot.slug
-                    ? 'rgba(6,182,212,0.15)'
-                    : 'rgba(255,255,255,0.05)',
+                    ? 'var(--cyan-muted)'
+                    : 'var(--paper-sunken)',
                   color: selectedSpot?.slug === spot.slug
-                    ? '#06B6D4'
-                    : 'rgba(255,255,255,0.5)',
+                    ? 'var(--cyan-bright)'
+                    : 'var(--spray)',
                   borderBottom: selectedSpot?.slug === spot.slug
-                    ? '2px solid #06B6D4'
+                    ? '2px solid var(--cyan)'
                     : '2px solid transparent',
                   transition: 'all 0.15s',
                   whiteSpace: 'nowrap',
@@ -729,7 +732,7 @@ export default function WeatherPageClient() {
               <span style={{
                 fontFamily: 'JetBrains Mono, monospace',
                 fontSize: 11,
-                color: 'rgba(255,255,255,0.3)',
+                color: 'var(--deep-text)',
                 padding: '6px 14px',
               }}>
                 No spots match &quot;{search}&quot;
@@ -740,25 +743,26 @@ export default function WeatherPageClient() {
 
         {/* ── Current conditions hero ──────────────────────────────────── */}
         <div style={{
-          background: 'rgba(6,13,26,0.72)',
-          border: '1px solid rgba(245,158,11,0.15)',
+          background: 'var(--tile-bg)',
+          border: '1px solid var(--tile-border-strong)',
           borderRadius: 16,
           padding: '28px 32px',
           marginBottom: 20,
           position: 'relative',
           overflow: 'hidden',
+          boxShadow: 'var(--tile-shadow)',
         }}>
           <div style={{
             position: 'absolute', top: -60, right: -60,
             width: 200, height: 200,
-            background: 'radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(180,83,9,0.06) 0%, transparent 70%)',
             pointerEvents: 'none',
           }} />
 
           {loading && (
             <div style={{
               position: 'absolute', top: 12, right: 16,
-              fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: '#F59E0B',
+              fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--amber-bright)',
               letterSpacing: '0.12em',
             }}>
               UPDATING...
@@ -771,7 +775,7 @@ export default function WeatherPageClient() {
                 <span style={{
                   fontFamily: 'JetBrains Mono, monospace',
                   fontSize: 72, fontWeight: 700,
-                  color: '#06B6D4', lineHeight: 1,
+                  color: 'var(--cyan-bright)', lineHeight: 1,
                   letterSpacing: '-0.04em',
                 }}>
                   {Math.round(curTemp)}
@@ -779,24 +783,24 @@ export default function WeatherPageClient() {
                 <span style={{
                   fontFamily: 'JetBrains Mono, monospace',
                   fontSize: 28, fontWeight: 400,
-                  color: '#6B9BAD', marginTop: 8,
+                  color: 'var(--spray)', marginTop: 8,
                 }}>°C</span>
                 <span style={{
                   fontFamily: 'JetBrains Mono, monospace',
                   fontSize: 18, fontWeight: 400,
-                  color: '#2E5568', marginTop: 14, marginLeft: 4,
+                  color: 'var(--deep-text)', marginTop: 14, marginLeft: 4,
                 }}>/ {cToF(curTemp)}°F</span>
               </div>
               <div style={{
                 fontFamily: 'Syne, system-ui, sans-serif',
                 fontSize: 18, fontWeight: 700,
-                color: '#B0D4DC', marginTop: 4,
+                color: 'var(--mist)', marginTop: 4,
               }}>
                 {selectedSpot?.name ?? '—'}
               </div>
               <div style={{
                 fontFamily: 'JetBrains Mono, monospace',
-                fontSize: 11, color: '#6B9BAD', marginTop: 6,
+                fontSize: 11, color: 'var(--spray)', marginTop: 6,
               }}>
                 {cloudToEmoji(curCloud)} {Math.round(curCloud)}% cloud cover
               </div>
@@ -810,21 +814,21 @@ export default function WeatherPageClient() {
               minWidth: 260,
             }}>
               <div style={{ padding: '12px 0' }}>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: '#2E5568', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Wind</div>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, fontWeight: 700, color: '#F59E0B' }}>{msToKnots(curWind)}kt</div>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#6B9BAD', marginTop: 2 }}>{degToCompass(curWindDir)} {Math.round(curWindDir)}°</div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Wind</div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, fontWeight: 700, color: 'var(--amber-bright)' }}>{msToKnots(curWind)}kt</div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--spray)', marginTop: 2 }}>{degToCompass(curWindDir)} {Math.round(curWindDir)}°</div>
               </div>
               <div style={{ padding: '12px 0' }}>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: '#2E5568', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Visibility</div>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, fontWeight: 700, color: '#E0F7FA' }}>{curVis.toFixed(0)}km</div>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#6B9BAD', marginTop: 2 }}>{(curVis * 0.621).toFixed(0)}mi</div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Visibility</div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, fontWeight: 700, color: 'var(--foam)' }}>{curVis.toFixed(0)}km</div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--spray)', marginTop: 2 }}>{(curVis * 0.621).toFixed(0)}mi</div>
               </div>
               <div style={{ padding: '12px 0' }}>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: '#2E5568', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Feels Like</div>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, fontWeight: 700, color: '#22D3EE' }}>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Feels Like</div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, fontWeight: 700, color: 'var(--cyan-bright)' }}>
                   {Math.round(curTemp - curWind * 0.4)}°C
                 </div>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#6B9BAD', marginTop: 2 }}>wind chill</div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--spray)', marginTop: 2 }}>wind chill</div>
               </div>
             </div>
           </div>
@@ -858,7 +862,7 @@ export default function WeatherPageClient() {
         {/* ── Footer note ──────────────────────────────────────────────── */}
         <div style={{
           fontFamily: 'JetBrains Mono, monospace',
-          fontSize: 9, color: '#2E5568', letterSpacing: '0.1em',
+          fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.1em',
           textAlign: 'center', marginTop: 16,
         }}>
           DATA: OPEN-METEO · ECMWF · NOAA · REFRESHES EVERY 5 MIN

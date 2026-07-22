@@ -51,15 +51,15 @@
 		<true/>
 	</dict>
 	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleLightContent</string>
+	<string>UIStatusBarStyleDarkContent</string>
 	<key>UIUserInterfaceStyle</key>
-	<string>Dark</string>
+	<string>Light</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Syne.ttf</string>
-		<string>SyneSemiBold.ttf</string>
-		<string>SyneBold.ttf</string>
-		<string>SyneExtraBold.ttf</string>
+		<string>Archivo-Regular.ttf</string>
+		<string>ArchivoSemiBold.ttf</string>
+		<string>ArchivoBold.ttf</string>
+		<string>ArchivoBlack.ttf</string>
 		<string>JetBrainsMono.ttf</string>
 		<string>JetBrainsMonoMedium.ttf</string>
 		<string>JetBrainsMonoBold.ttf</string>

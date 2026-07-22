@@ -46,7 +46,7 @@ struct SpotDetailView: View {
                     app.toggleSaved(spot)
                 } label: {
                     Image(systemName: app.isSaved(spot) ? "heart.fill" : "heart")
-                        .foregroundStyle(app.isSaved(spot) ? Theme.accent : .white)
+                        .foregroundStyle(app.isSaved(spot) ? Theme.accent : Theme.textSecondary)
                         .symbolEffect(.bounce, value: app.isSaved(spot))
                 }
             }
@@ -109,7 +109,7 @@ struct SpotDetailView: View {
 
     private func condition(_ label: String, _ value: String) -> some View {
         VStack(spacing: 4) {
-            Text(value).font(Theme.data(16, weight: .bold)).foregroundStyle(.white)
+            Text(value).font(Theme.data(16, weight: .bold)).foregroundStyle(Theme.textPrimary)
             Text(label).font(Theme.body(10)).foregroundStyle(Theme.textTertiary)
         }
         .frame(maxWidth: .infinity)
@@ -165,7 +165,7 @@ struct SpotDetailView: View {
             Image(systemName: "sparkles").foregroundStyle(Theme.accent)
             Text("Ask Koast about \(spot.name)")
                 .font(Theme.body(14, weight: .medium))
-                .foregroundStyle(.white)
+                .foregroundStyle(Theme.textPrimary)
             Spacer()
             Image(systemName: "chevron.right").foregroundStyle(Theme.textTertiary)
         }
@@ -188,15 +188,15 @@ struct SpotDetailView: View {
 private struct SpotDetailSkeleton: View {
     private func block(_ h: CGFloat) -> some View {
         RoundedRectangle(cornerRadius: 20, style: .continuous)
-            .fill(Color.white.opacity(0.06))
+            .fill(Theme.bgSunken)
             .frame(height: h)
             .shimmer()
     }
     var body: some View {
         VStack(spacing: 20) {
-            Circle().fill(Color.white.opacity(0.07))
+            Circle().fill(Theme.bgSunken)
                 .frame(width: 132, height: 132).shimmer()
-            RoundedRectangle(cornerRadius: 6).fill(Color.white.opacity(0.06))
+            RoundedRectangle(cornerRadius: 6).fill(Theme.bgSunken)
                 .frame(width: 140, height: 14).shimmer()
             block(70)
             block(170)

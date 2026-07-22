@@ -181,8 +181,8 @@ export default function GearRecommendation({ spotId, faceHeightM, wavePeriodS, w
   if (loading) {
     return (
       <div className="animate-pulse space-y-2">
-        <div className="h-14 bg-gray-800 rounded-xl" />
-        <div className="h-14 bg-gray-800 rounded-xl" />
+        <div className="h-14 bg-[var(--paper-sunken)] rounded-xl" />
+        <div className="h-14 bg-[var(--paper-sunken)] rounded-xl" />
       </div>
     )
   }
@@ -193,42 +193,42 @@ export default function GearRecommendation({ spotId, faceHeightM, wavePeriodS, w
     <div className="space-y-2">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <span className="text-xs text-gray-500">
+        <span className="text-xs text-[var(--spray)]">
           {rec.is_personalized ? '🎯 From your quiver' : '📖 Generic recommendation'}
         </span>
-        <span className="text-xs text-gray-600">{rec.conditions_summary}</span>
+        <span className="text-xs text-[var(--deep-text)]">{rec.conditions_summary}</span>
       </div>
 
       {/* Board recommendation */}
-      <div className="bg-gray-800/60 rounded-xl p-3 flex items-center gap-3">
+      <div className="bg-[var(--paper-sunken)] rounded-xl p-3 flex items-center gap-3">
         <div className="text-2xl w-8 text-center shrink-0">🏄</div>
         <div className="flex-1 min-w-0">
-          <div className="text-white font-medium text-sm truncate">{rec.board_name}</div>
-          <div className="text-gray-400 text-xs leading-snug mt-0.5">{rec.board_reason}</div>
+          <div className="text-[var(--foam)] font-medium text-sm truncate">{rec.board_name}</div>
+          <div className="text-[var(--spray)] text-xs leading-snug mt-0.5">{rec.board_reason}</div>
         </div>
       </div>
 
       {/* Wetsuit recommendation */}
-      <div className="bg-gray-800/60 rounded-xl p-3 flex items-center gap-3">
+      <div className="bg-[var(--paper-sunken)] rounded-xl p-3 flex items-center gap-3">
         <div className="text-2xl w-8 text-center shrink-0">🤿</div>
         <div className="flex-1 min-w-0">
-          <div className="text-white font-medium text-sm truncate">
+          <div className="text-[var(--foam)] font-medium text-sm truncate">
             {rec.wetsuit_name ?? 'Wetsuit data unavailable'}
           </div>
-          <div className="text-gray-400 text-xs leading-snug mt-0.5">{rec.wetsuit_reason}</div>
+          <div className="text-[var(--spray)] text-xs leading-snug mt-0.5">{rec.wetsuit_reason}</div>
         </div>
         {rec.water_temp_f != null && (
           <div className="text-right shrink-0">
-            <div className="text-blue-400 font-bold text-sm">{rec.water_temp_f.toFixed(0)}°F</div>
-            <div className="text-gray-600 text-xs">water</div>
+            <div className="text-blue-700 font-bold text-sm">{rec.water_temp_f.toFixed(0)}°F</div>
+            <div className="text-[var(--deep-text)] text-xs">water</div>
           </div>
         )}
       </div>
 
       {!rec.is_personalized && (
-        <p className="text-xs text-gray-600 text-center">
+        <p className="text-xs text-[var(--deep-text)] text-center">
           Add your boards &amp; wetsuits in{' '}
-          <a href="/profile#quiver" className="text-blue-500 hover:text-blue-400">your profile</a>
+          <a href="/profile#quiver" className="text-blue-600 hover:text-blue-700">your profile</a>
           {' '}for personalized picks
         </p>
       )}

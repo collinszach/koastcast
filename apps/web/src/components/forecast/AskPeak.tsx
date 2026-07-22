@@ -121,7 +121,7 @@ export default function AskPeak({ spotId, spotName, isPremium = true }: AskPeakP
     return (
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 text-white font-semibold px-4 py-3 rounded-2xl shadow-2xl transition-all flex items-center gap-2 text-sm hover:scale-105 active:scale-95"
+        className="fixed bottom-6 right-6 z-40 text-[var(--foam)] font-semibold px-4 py-3 rounded-2xl shadow-2xl transition-all flex items-center gap-2 text-sm hover:scale-105 active:scale-95"
         style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)', boxShadow: '0 8px 32px rgba(14,165,233,0.4)' }}
       >
         <span className="text-base">🌊</span> Ask AI
@@ -141,13 +141,13 @@ export default function AskPeak({ spotId, spotName, isPremium = true }: AskPeakP
             🌊
           </div>
           <div>
-            <div className="text-white text-sm font-bold">Ask Stoke AI</div>
+            <div className="text-[var(--foam)] text-sm font-bold">Ask Stoke AI</div>
             <div className="text-slate-500 text-xs">{spotName} · on-device Phi-4</div>
           </div>
         </div>
         <button
           onClick={() => setOpen(false)}
-          className="text-slate-500 hover:text-white w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-all text-lg leading-none"
+          className="text-slate-500 hover:text-[var(--foam)] w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-all text-lg leading-none"
         >
           ×
         </button>
@@ -162,8 +162,8 @@ export default function AskPeak({ spotId, spotName, isPremium = true }: AskPeakP
               <button
                 key={i}
                 onClick={() => sendMessage(q)}
-                className="w-full text-left text-xs text-slate-400 hover:text-white px-3 py-2.5 rounded-xl transition-all hover:scale-[1.01]"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                className="w-full text-left text-xs text-slate-400 hover:text-[var(--foam)] px-3 py-2.5 rounded-xl transition-all hover:scale-[1.01]"
+                style={{ background: 'var(--tile-border)', border: '1px solid var(--tile-border)' }}
               >
                 {q}
               </button>
@@ -176,12 +176,12 @@ export default function AskPeak({ spotId, spotName, isPremium = true }: AskPeakP
             <div
               className={`max-w-[85%] px-3 py-2.5 rounded-xl text-sm leading-relaxed ${
                 msg.role === 'user'
-                  ? 'text-white'
+                  ? 'text-[var(--foam)]'
                   : 'text-slate-200'
               }`}
               style={msg.role === 'user'
                 ? { background: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)' }
-                : { background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }
+                : { background: 'var(--tile-border)', border: '1px solid var(--tile-border)' }
               }
             >
               {msg.content}
@@ -203,13 +203,13 @@ export default function AskPeak({ spotId, spotName, isPremium = true }: AskPeakP
           onKeyDown={e => e.key === 'Enter' && !e.shiftKey && sendMessage(input)}
           placeholder="Ask about surf conditions..."
           disabled={loading}
-          className="flex-1 rounded-xl px-3 py-2 text-white text-xs placeholder-slate-600 focus:outline-none disabled:opacity-50"
-          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+          className="flex-1 rounded-xl px-3 py-2 text-[var(--foam)] text-xs placeholder-slate-600 focus:outline-none disabled:opacity-50"
+          style={{ background: 'var(--tile-border)', border: '1px solid var(--tile-border-strong)' }}
         />
         <button
           onClick={() => sendMessage(input)}
           disabled={loading || !input.trim()}
-          className="disabled:opacity-40 text-white px-3 py-2 rounded-xl text-xs font-bold transition-all hover:scale-105 active:scale-95"
+          className="disabled:opacity-40 text-[var(--foam)] px-3 py-2 rounded-xl text-xs font-bold transition-all hover:scale-105 active:scale-95"
           style={{ background: loading ? '#334155' : 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)' }}
         >
           {loading ? '···' : '↑'}

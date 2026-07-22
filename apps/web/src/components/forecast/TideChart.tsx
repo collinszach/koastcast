@@ -140,13 +140,13 @@ export default function TideChart({
           .filter(c => c.is_high || c.is_low)
           .map((c, i) => (
             <g key={i}>
-              <circle cx={c.x} cy={c.y} r={3} fill={c.is_high ? '#f97316' : '#3b82f6'} />
+              <circle cx={c.x} cy={c.y} r={3} fill={c.is_high ? '#EA580C' : '#2563EB'} />
               <text
                 x={c.x}
                 y={c.is_high ? c.y - 7 : c.y + 14}
                 textAnchor="middle"
                 fontSize={8}
-                fill={c.is_high ? '#f97316' : '#93c5fd'}
+                fill={c.is_high ? '#EA580C' : '#2563EB'}
               >
                 {c.height_m.toFixed(1)}m
               </text>
@@ -161,7 +161,7 @@ export default function TideChart({
               y1={padding.top}
               x2={nowX}
               y2={svgHeight - padding.bottom}
-              stroke="#fbbf24"
+              stroke="#D97706"
               strokeWidth={1}
               strokeDasharray="3 3"
             />
@@ -170,7 +170,7 @@ export default function TideChart({
               y={svgHeight - padding.bottom + 10}
               textAnchor="middle"
               fontSize={8}
-              fill="#fbbf24"
+              fill="#D97706"
             >
               Now
             </text>

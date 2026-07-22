@@ -58,7 +58,7 @@ struct SessionsView: View {
     private func sessionRow(_ s: LoggedSession) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Text(s.spotName).font(Theme.display(16, weight: .bold)).foregroundStyle(.white)
+                Text(s.spotName).font(Theme.display(16, weight: .bold)).foregroundStyle(Theme.textPrimary)
                 Spacer()
                 Text(s.date, format: .dateTime.month().day())
                     .font(Theme.body(12)).foregroundStyle(Theme.textTertiary)
@@ -80,7 +80,7 @@ struct SessionsView: View {
         Text(s).font(Theme.data(11))
             .foregroundStyle(Theme.textSecondary)
             .padding(.horizontal, 8).padding(.vertical, 3)
-            .background(Color.white.opacity(0.05), in: Capsule())
+            .background(Theme.bgSunken, in: Capsule())
     }
 
     private var avgRating: String {

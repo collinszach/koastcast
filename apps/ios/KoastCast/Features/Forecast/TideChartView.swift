@@ -13,7 +13,7 @@ struct TideChartView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Tide")
                 .font(Theme.display(15, weight: .bold))
-                .foregroundStyle(.white)
+                .foregroundStyle(Theme.textPrimary)
 
             Chart {
                 ForEach(points) { h in
@@ -36,7 +36,7 @@ struct TideChartView: View {
                     .interpolationMethod(.catmullRom)
                 }
                 RuleMark(x: .value("Now", Date()))
-                    .foregroundStyle(.white.opacity(0.5))
+                    .foregroundStyle(Theme.textTertiary.opacity(0.6))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
             }
             .chartYAxis {

@@ -149,7 +149,8 @@ function computeStats(sessions: RawSession[]): SessionStats {
 function StatCard({ value, label }: { value: string | number; label: string }) {
   return (
     <div style={{
-      background: 'rgba(255,255,255,0.04)',
+      background: 'var(--paper-sunken)',
+      border: '1px solid var(--tile-border)',
       borderRadius: 12,
       padding: '16px 14px',
       flex: '1 1 0',
@@ -167,7 +168,7 @@ function StatCard({ value, label }: { value: string | number; label: string }) {
       }}>{value || '—'}</div>
       <div style={{
         fontSize: 10,
-        color: 'rgba(255,255,255,0.4)',
+        color: 'var(--spray)',
         textTransform: 'uppercase',
         letterSpacing: '0.1em',
         fontWeight: 500,
@@ -179,7 +180,8 @@ function StatCard({ value, label }: { value: string | number; label: string }) {
 function SkeletonStatCard() {
   return (
     <div style={{
-      background: 'rgba(255,255,255,0.04)',
+      background: 'var(--paper-sunken)',
+      border: '1px solid var(--tile-border)',
       borderRadius: 12,
       padding: '16px 14px',
       flex: '1 1 0',
@@ -297,29 +299,8 @@ export default function SessionsPage() {
         </div>
         <button
           onClick={() => setShowLogger(true)}
-          className="flex-shrink-0"
-          style={{
-            padding: '10px 20px',
-            fontSize: 12,
-            fontFamily: 'var(--font-display)',
-            fontWeight: 700,
-            letterSpacing: '0.06em',
-            color: '#0A1628',
-            background: 'linear-gradient(135deg, #22D3EE 0%, #06B6D4 60%, #0891B2 100%)',
-            border: 'none',
-            borderRadius: 10,
-            cursor: 'pointer',
-            boxShadow: '0 0 0 1px rgba(6,182,212,0.4), 0 4px 20px rgba(6,182,212,0.25)',
-            transition: 'transform 0.15s, box-shadow 0.15s',
-          }}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)'
-            ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 0 1px rgba(6,182,212,0.5), 0 8px 28px rgba(6,182,212,0.35)'
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)'
-            ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 0 1px rgba(6,182,212,0.4), 0 4px 20px rgba(6,182,212,0.25)'
-          }}
+          className="btn-ocean flex-shrink-0"
+          style={{ padding: '10px 20px', fontSize: 12 }}
         >
           + LOG SESSION
         </button>
@@ -374,10 +355,11 @@ export default function SessionsPage() {
         {/* Best session highlight */}
         {statsLoaded && stats.bestSession && (
           <div style={{
-            background: 'rgba(255,255,255,0.04)',
+            background: 'var(--paper-sunken)',
+            border: '1px solid var(--tile-border)',
             borderRadius: 10,
             padding: '12px 16px',
-            borderLeft: '3px solid #06B6D4',
+            borderLeft: '3px solid var(--cyan)',
           }}>
             <div style={{
               fontFamily: 'var(--font-data)',
@@ -406,7 +388,7 @@ export default function SessionsPage() {
               <span style={{
                 fontFamily: 'var(--font-data)',
                 fontSize: 11,
-                color: '#06B6D4',
+                color: 'var(--cyan-bright)',
                 fontWeight: 600,
               }}>
                 {stats.bestSession.rating}/10
@@ -429,10 +411,7 @@ export default function SessionsPage() {
       {/* Analytics charts — only when ≥ 2 sessions                         */}
       {/* ------------------------------------------------------------------ */}
       {allSessions.length >= 2 && (
-        <div style={{
-          background: 'rgba(6,12,24,0.85)',
-          border: '1px solid rgba(6,182,212,0.08)',
-          borderRadius: 16,
+        <div className="tile" style={{
           padding: 20,
           marginBottom: 16,
         }}>
@@ -440,7 +419,7 @@ export default function SessionsPage() {
           <div style={{
             fontFamily: 'var(--font-display)',
             fontSize: 11,
-            color: '#06B6D4',
+            color: 'var(--cyan-bright)',
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
             marginBottom: 16,
@@ -456,40 +435,40 @@ export default function SessionsPage() {
               <div style={{
                 fontFamily: 'var(--font-data)',
                 fontSize: 9,
-                color: 'rgba(255,255,255,0.35)',
+                color: 'var(--spray)',
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 marginBottom: 8,
               }}>Sessions / Month</div>
               <ResponsiveContainer width="100%" height={140}>
                 <BarChart data={monthlyData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.08)" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--tile-border)" vertical={false} />
                   <XAxis
                     dataKey="month"
-                    tick={{ fontSize: 9, fill: '#475569', fontFamily: 'var(--font-data)' }}
+                    tick={{ fontSize: 9, fill: 'var(--spray)', fontFamily: 'var(--font-data)' }}
                     axisLine={false}
                     tickLine={false}
                   />
                   <YAxis
                     allowDecimals={false}
-                    tick={{ fontSize: 9, fill: '#475569', fontFamily: 'var(--font-data)' }}
+                    tick={{ fontSize: 9, fill: 'var(--spray)', fontFamily: 'var(--font-data)' }}
                     axisLine={false}
                     tickLine={false}
                   />
                   <Tooltip
-                    cursor={{ fill: 'rgba(6,182,212,0.06)' }}
+                    cursor={{ fill: 'var(--tile-border)' }}
                     contentStyle={{
-                      background: 'rgba(6,12,24,0.95)',
-                      border: '1px solid rgba(6,182,212,0.2)',
+                      background: 'var(--paper-raised)',
+                      border: '1px solid var(--tile-border-strong)',
                       borderRadius: 8,
                       fontFamily: 'var(--font-data)',
                       fontSize: 11,
-                      color: '#e2e8f0',
+                      color: 'var(--foam)',
                     }}
-                    itemStyle={{ color: '#06B6D4' }}
+                    itemStyle={{ color: 'var(--cyan-bright)' }}
                     formatter={(value: number) => [value, 'sessions']}
                   />
-                  <Bar dataKey="count" fill="#06B6D4" radius={[3, 3, 0, 0]} maxBarSize={28} />
+                  <Bar dataKey="count" fill="var(--cyan)" radius={[3, 3, 0, 0]} maxBarSize={28} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -499,47 +478,47 @@ export default function SessionsPage() {
               <div style={{
                 fontFamily: 'var(--font-data)',
                 fontSize: 9,
-                color: 'rgba(255,255,255,0.35)',
+                color: 'var(--spray)',
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 marginBottom: 8,
               }}>Quality Distribution</div>
               <ResponsiveContainer width="100%" height={120}>
                 <BarChart data={qualityDistData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.08)" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--tile-border)" vertical={false} />
                   <XAxis
                     dataKey="rating"
-                    tick={{ fontSize: 9, fill: '#475569', fontFamily: 'var(--font-data)' }}
+                    tick={{ fontSize: 9, fill: 'var(--spray)', fontFamily: 'var(--font-data)' }}
                     axisLine={false}
                     tickLine={false}
                   />
                   <YAxis
                     allowDecimals={false}
-                    tick={{ fontSize: 9, fill: '#475569', fontFamily: 'var(--font-data)' }}
+                    tick={{ fontSize: 9, fill: 'var(--spray)', fontFamily: 'var(--font-data)' }}
                     axisLine={false}
                     tickLine={false}
                   />
                   <Tooltip
-                    cursor={{ fill: 'rgba(6,182,212,0.06)' }}
+                    cursor={{ fill: 'var(--tile-border)' }}
                     contentStyle={{
-                      background: 'rgba(6,12,24,0.95)',
-                      border: '1px solid rgba(6,182,212,0.2)',
+                      background: 'var(--paper-raised)',
+                      border: '1px solid var(--tile-border-strong)',
                       borderRadius: 8,
                       fontFamily: 'var(--font-data)',
                       fontSize: 11,
-                      color: '#e2e8f0',
+                      color: 'var(--foam)',
                     }}
-                    itemStyle={{ color: '#06B6D4' }}
+                    itemStyle={{ color: 'var(--cyan-bright)' }}
                     formatter={(value: number) => [value, 'sessions']}
                   />
                   <Bar dataKey="count" radius={[3, 3, 0, 0]} maxBarSize={22}>
                     {qualityDistData.map((entry) => {
                       const r = entry.rating
                       const color =
-                        r <= 4 ? '#475569' :
-                        r <= 6 ? '#3B82F6' :
-                        r <= 8 ? '#06B6D4' :
-                                 '#F97316'
+                        r <= 4 ? 'var(--q-flat)' :
+                        r <= 6 ? 'var(--q-good)' :
+                        r <= 8 ? 'var(--q-pumping)' :
+                                 'var(--q-firing)'
                       return <Cell key={`qd-${r}`} fill={color} />
                     })}
                   </Bar>
@@ -554,7 +533,7 @@ export default function SessionsPage() {
               <div style={{
                 fontFamily: 'var(--font-data)',
                 fontSize: 9,
-                color: 'rgba(255,255,255,0.35)',
+                color: 'var(--spray)',
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 marginBottom: 8,
@@ -565,11 +544,11 @@ export default function SessionsPage() {
                   layout="vertical"
                   margin={{ top: 0, right: 16, left: 4, bottom: 0 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.08)" horizontal={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--tile-border)" horizontal={false} />
                   <XAxis
                     type="number"
                     allowDecimals={false}
-                    tick={{ fontSize: 9, fill: '#475569', fontFamily: 'var(--font-data)' }}
+                    tick={{ fontSize: 9, fill: 'var(--spray)', fontFamily: 'var(--font-data)' }}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -577,24 +556,24 @@ export default function SessionsPage() {
                     type="category"
                     dataKey="spot"
                     width={84}
-                    tick={{ fontSize: 9, fill: '#94a3b8', fontFamily: 'var(--font-data)' }}
+                    tick={{ fontSize: 9, fill: 'var(--mist)', fontFamily: 'var(--font-data)' }}
                     axisLine={false}
                     tickLine={false}
                   />
                   <Tooltip
-                    cursor={{ fill: 'rgba(139,92,246,0.06)' }}
+                    cursor={{ fill: 'var(--snow-muted)' }}
                     contentStyle={{
-                      background: 'rgba(6,12,24,0.95)',
-                      border: '1px solid rgba(139,92,246,0.25)',
+                      background: 'var(--paper-raised)',
+                      border: '1px solid rgba(124,58,237,0.25)',
                       borderRadius: 8,
                       fontFamily: 'var(--font-data)',
                       fontSize: 11,
-                      color: '#e2e8f0',
+                      color: 'var(--foam)',
                     }}
-                    itemStyle={{ color: '#8B5CF6' }}
+                    itemStyle={{ color: 'var(--snow-bright)' }}
                     formatter={(value: number) => [value, 'sessions']}
                   />
-                  <Bar dataKey="count" fill="#8B5CF6" radius={[0, 3, 3, 0]} maxBarSize={14} />
+                  <Bar dataKey="count" fill="var(--snow)" radius={[0, 3, 3, 0]} maxBarSize={14} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -621,9 +600,9 @@ export default function SessionsPage() {
           <div style={{
             fontFamily: 'var(--font-data)',
             fontSize: 10,
-            color: 'var(--cyan)',
-            background: 'rgba(6,182,212,0.1)',
-            border: '1px solid rgba(6,182,212,0.2)',
+            color: 'var(--cyan-bright)',
+            background: 'var(--cyan-muted)',
+            border: '1px solid rgba(14,165,233,0.25)',
             padding: '3px 10px',
             borderRadius: 20,
             letterSpacing: '0.08em',
@@ -673,8 +652,8 @@ export default function SessionsPage() {
                 style={{
                   appearance: 'none',
                   WebkitAppearance: 'none',
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  background: 'var(--paper-sunken)',
+                  border: '1px solid var(--tile-border-strong)',
                   borderRadius: 20,
                   color: spotFilter ? 'var(--foam)' : 'var(--spray)',
                   fontFamily: 'var(--font-data)',
@@ -713,12 +692,12 @@ export default function SessionsPage() {
                       padding: '5px 10px',
                       borderRadius: 20,
                       border: active
-                        ? '1px solid rgba(6,182,212,0.5)'
-                        : '1px solid rgba(255,255,255,0.1)',
+                        ? '1px solid rgba(14,165,233,0.5)'
+                        : '1px solid var(--tile-border-strong)',
                       background: active
-                        ? 'rgba(6,182,212,0.15)'
-                        : 'rgba(255,255,255,0.06)',
-                      color: active ? '#06B6D4' : 'var(--spray)',
+                        ? 'var(--cyan-muted)'
+                        : 'var(--paper-sunken)',
+                      color: active ? 'var(--cyan-bright)' : 'var(--spray)',
                       fontFamily: 'var(--font-data)',
                       fontSize: 11,
                       cursor: 'pointer',
@@ -750,8 +729,8 @@ export default function SessionsPage() {
                 onChange={e => setSearchQuery(e.target.value)}
                 style={{
                   width: '100%',
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  background: 'var(--paper-sunken)',
+                  border: '1px solid var(--tile-border-strong)',
                   borderRadius: 20,
                   color: 'var(--foam)',
                   fontFamily: 'var(--font-data)',

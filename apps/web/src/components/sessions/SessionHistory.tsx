@@ -96,7 +96,7 @@ export default function SessionHistory({
             style={{
               height: 72,
               borderRadius: 12,
-              background: 'rgba(255,255,255,0.04)',
+              background: 'var(--tile-border)',
               animation: 'pulse 1.5s ease-in-out infinite',
             }}
           />
@@ -175,8 +175,8 @@ export default function SessionHistory({
                 <div
                   key={session.id}
                   style={{
-                    background: 'rgba(6,13,26,0.6)',
-                    border: '1px solid rgba(6,182,212,0.08)',
+                    background: 'var(--tile-bg)',
+                    border: '1px solid var(--tile-border)',
                     borderRadius: 14,
                     padding: '14px 16px',
                     display: 'flex',
@@ -303,8 +303,8 @@ function EmptySessionState() {
           <div
             key={i}
             style={{
-              background: 'rgba(6,13,26,0.6)',
-              border: '1px solid rgba(6,182,212,0.08)',
+              background: 'var(--tile-bg)',
+              border: '1px solid var(--tile-border)',
               borderRadius: 14,
               padding: '14px 16px',
               marginBottom: 8,
@@ -312,8 +312,7 @@ function EmptySessionState() {
               alignItems: 'flex-start',
               justifyContent: 'space-between',
               gap: 12,
-              opacity: 0.32,
-              filter: 'blur(0.4px)',
+              opacity: 0.45,
               userSelect: 'none',
             }}
           >
@@ -372,7 +371,8 @@ function EmptySessionState() {
             fontSize: 11,
             color: 'var(--spray)',
             letterSpacing: '0.06em',
-            background: 'rgba(6,13,26,0.7)',
+            background: 'var(--paper-raised)',
+            border: '1px solid var(--tile-border-strong)',
             padding: '4px 12px',
             borderRadius: 20,
           }}>No sessions logged yet</span>
@@ -381,8 +381,8 @@ function EmptySessionState() {
 
       {/* How it works */}
       <div style={{
-        background: 'rgba(6,13,26,0.5)',
-        border: '1px solid rgba(6,182,212,0.1)',
+        background: 'var(--paper-sunken)',
+        border: '1px solid var(--tile-border)',
         borderRadius: 12,
         padding: '16px 18px',
       }}>
@@ -401,8 +401,8 @@ function EmptySessionState() {
                 width: 28,
                 height: 28,
                 borderRadius: 8,
-                background: 'rgba(6,182,212,0.1)',
-                border: '1px solid rgba(6,182,212,0.18)',
+                background: 'var(--cyan-muted)',
+                border: '1px solid rgba(14,165,233,0.25)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

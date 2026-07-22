@@ -49,7 +49,7 @@ export default function GlobalMap({ spots, height = 340 }: Props) {
       spots.forEach(spot => {
         if (!spot.lat || !spot.lng) return
         const q = spot.quality_score ?? 5
-        const color = q >= 7 ? '#06B6D4' : q >= 5 ? '#22C55E' : q >= 3 ? '#EAB308' : '#6B7280'
+        const color = q >= 7 ? '#0891B2' : q >= 5 ? '#16A34A' : q >= 3 ? '#CA8A04' : '#64748B'
 
         const icon = L.divIcon({
           className: '',

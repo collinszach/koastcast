@@ -104,7 +104,7 @@ export function computeStokeScore(input: StokeInput, spot: SpotOptimal): StokeRe
   let label: string
   let color: string
   if (score >= 8) { label = 'Epic'; color = '#10B981' }
-  else if (score >= 6) { label = 'Good'; color = '#06B6D4' }
+  else if (score >= 6) { label = 'Good'; color = '#0891B2' }
   else if (score >= 4) { label = 'Fair'; color = '#F59E0B' }
   else if (score >= 2) { label = 'Poor'; color = '#F97316' }
   else { label = 'Flat'; color = '#6B7280' }

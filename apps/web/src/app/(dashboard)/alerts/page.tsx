@@ -116,8 +116,8 @@ function LabeledSlider({
   return (
     <div
       style={{
-        background: enabled ? 'rgba(6,182,212,0.06)' : 'rgba(255,255,255,0.02)',
-        border: `1px solid ${enabled ? 'rgba(6,182,212,0.2)' : 'rgba(255,255,255,0.06)'}`,
+        background: enabled ? 'rgba(14,165,233,0.06)' : 'var(--paper-sunken)',
+        border: `1px solid ${enabled ? 'rgba(14,165,233,0.2)' : 'var(--tile-border)'}`,
         borderRadius: 10,
         padding: '12px 14px',
         transition: 'background 0.15s, border-color 0.15s',
@@ -140,7 +140,7 @@ function LabeledSlider({
             <span style={{
               fontFamily: 'var(--font-data)',
               fontSize: 13,
-              color: '#06B6D4',
+              color: 'var(--cyan)',
               fontWeight: 700,
             }}>
               {value}{unit}
@@ -153,7 +153,7 @@ function LabeledSlider({
               width: 36,
               height: 20,
               borderRadius: 10,
-              background: enabled ? '#06B6D4' : 'rgba(255,255,255,0.1)',
+              background: enabled ? 'var(--cyan)' : 'var(--tile-border-strong)',
               border: 'none',
               cursor: 'pointer',
               position: 'relative',
@@ -172,7 +172,7 @@ function LabeledSlider({
               borderRadius: '50%',
               background: 'white',
               transition: 'left 0.2s',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.4)',
+              boxShadow: '0 1px 3px rgba(18,24,31,0.3)',
             }} />
           </button>
         </div>
@@ -188,7 +188,7 @@ function LabeledSlider({
           onChange={e => onChange(Number(e.target.value))}
           style={{
             width: '100%',
-            accentColor: '#06B6D4',
+            accentColor: 'var(--cyan)',
             cursor: 'pointer',
             height: 4,
           }}
@@ -298,8 +298,8 @@ function AlertForm({
   return (
     <div
       style={{
-        background: 'rgba(6,12,24,0.92)',
-        border: '1px solid rgba(6,182,212,0.18)',
+        background: 'var(--tile-bg)',
+        border: '1px solid rgba(14,165,233,0.18)',
         borderRadius: 16,
         padding: 24,
         marginBottom: 28,
@@ -310,7 +310,7 @@ function AlertForm({
           fontFamily: 'var(--font-display)',
           fontSize: 15,
           fontWeight: 700,
-          color: '#06B6D4',
+          color: 'var(--cyan)',
           letterSpacing: '0.06em',
           textTransform: 'uppercase',
         }}>
@@ -320,7 +320,7 @@ function AlertForm({
           onClick={onCancel}
           style={{
             background: 'none',
-            border: '1px solid rgba(255,255,255,0.1)',
+            border: '1px solid var(--tile-border-strong)',
             borderRadius: 8,
             color: 'var(--deep-text)',
             cursor: 'pointer',
@@ -358,8 +358,8 @@ function AlertForm({
               autoComplete="off"
               style={{
                 width: '100%',
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(6,182,212,0.18)',
+                background: 'var(--paper-raised)',
+                border: '1px solid rgba(14,165,233,0.18)',
                 borderRadius: 10,
                 padding: '10px 36px 10px 14px',
                 color: 'var(--foam)',
@@ -391,11 +391,11 @@ function AlertForm({
                 right: 0,
                 zIndex: 50,
                 marginTop: 4,
-                background: 'rgba(6,12,24,0.98)',
-                border: '1px solid rgba(6,182,212,0.2)',
+                background: 'var(--tile-bg)',
+                border: '1px solid rgba(14,165,233,0.2)',
                 borderRadius: 10,
                 overflow: 'hidden',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
+                boxShadow: '0 8px 32px rgba(18,24,31,0.18)',
               }}
             >
               {filteredSpots.map(s => (
@@ -409,13 +409,13 @@ function AlertForm({
                     padding: '10px 14px',
                     background: 'none',
                     border: 'none',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    borderBottom: '1px solid var(--tile-border)',
                     cursor: 'pointer',
                     color: 'var(--foam)',
                     fontFamily: 'var(--font-display)',
                     fontSize: 13,
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(6,182,212,0.08)' }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(14,165,233,0.08)' }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'none' }}
                 >
                   {s.name}
@@ -440,8 +440,8 @@ function AlertForm({
             onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
             style={{
               width: '100%',
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(6,182,212,0.18)',
+              background: 'var(--paper-raised)',
+              border: '1px solid rgba(14,165,233,0.18)',
               borderRadius: 10,
               padding: '10px 14px',
               color: 'var(--foam)',
@@ -514,9 +514,9 @@ function AlertForm({
                     fontWeight: 600,
                     letterSpacing: '0.04em',
                     cursor: 'pointer',
-                    border: `1px solid ${on ? '#06B6D4' : 'rgba(255,255,255,0.1)'}`,
-                    background: on ? 'rgba(6,182,212,0.15)' : 'rgba(255,255,255,0.03)',
-                    color: on ? '#22D3EE' : 'var(--deep-text)',
+                    border: `1px solid ${on ? 'var(--cyan)' : 'var(--tile-border-strong)'}`,
+                    background: on ? 'rgba(14,165,233,0.15)' : 'var(--paper-sunken)',
+                    color: on ? 'var(--cyan-bright)' : 'var(--deep-text)',
                     transition: 'all 0.15s',
                   }}
                 >
@@ -543,13 +543,13 @@ function AlertForm({
                     padding: '10px 14px',
                     borderRadius: 10,
                     textAlign: 'left',
-                    border: `1px solid ${on ? '#06B6D4' : 'rgba(255,255,255,0.08)'}`,
-                    background: on ? 'rgba(6,182,212,0.12)' : 'rgba(255,255,255,0.02)',
+                    border: `1px solid ${on ? 'var(--cyan)' : 'var(--tile-border-strong)'}`,
+                    background: on ? 'rgba(14,165,233,0.12)' : 'var(--paper-sunken)',
                     cursor: 'pointer',
                     transition: 'all 0.15s',
                   }}
                 >
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, color: on ? '#22D3EE' : 'var(--foam)', marginBottom: 2 }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, color: on ? 'var(--cyan-bright)' : 'var(--foam)', marginBottom: 2 }}>
                     {w.label}
                   </div>
                   <div style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: 'var(--deep-text)' }}>
@@ -575,9 +575,9 @@ function AlertForm({
               fontWeight: 700,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              border: '1px solid #06B6D4',
-              background: canSave ? 'rgba(6,182,212,0.15)' : 'rgba(255,255,255,0.03)',
-              color: canSave ? '#22D3EE' : 'var(--deep-text)',
+              border: '1px solid var(--cyan)',
+              background: canSave ? 'rgba(14,165,233,0.15)' : 'var(--paper-sunken)',
+              color: canSave ? 'var(--cyan-bright)' : 'var(--deep-text)',
               cursor: canSave ? 'pointer' : 'not-allowed',
               transition: 'all 0.15s',
             }}
@@ -592,8 +592,8 @@ function AlertForm({
               fontFamily: 'var(--font-display)',
               fontSize: 13,
               fontWeight: 600,
-              border: '1px solid rgba(255,255,255,0.1)',
-              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid var(--tile-border-strong)',
+              background: 'var(--paper-sunken)',
               color: 'var(--deep-text)',
               cursor: 'pointer',
               transition: 'all 0.15s',
@@ -623,8 +623,8 @@ function AlertCard({
   return (
     <div
       style={{
-        background: 'rgba(6,12,24,0.85)',
-        border: `1px solid ${alert.active ? 'rgba(6,182,212,0.12)' : 'rgba(255,255,255,0.06)'}`,
+        background: 'var(--tile-bg)',
+        border: `1px solid ${alert.active ? 'rgba(14,165,233,0.12)' : 'var(--tile-border)'}`,
         borderRadius: 16,
         padding: '18px 20px',
         transition: 'border-color 0.2s',
@@ -644,8 +644,8 @@ function AlertCard({
             flexShrink: 0,
             marginTop: 2,
             ...(alert.active
-              ? { background: 'rgba(6,182,212,0.15)', color: '#22D3EE', border: '1px solid rgba(6,182,212,0.3)' }
-              : { background: 'rgba(255,255,255,0.05)', color: 'var(--deep-text)', border: '1px solid rgba(255,255,255,0.08)' }
+              ? { background: 'rgba(14,165,233,0.15)', color: 'var(--cyan-bright)', border: '1px solid rgba(14,165,233,0.3)' }
+              : { background: 'var(--paper-sunken)', color: 'var(--deep-text)', border: '1px solid var(--tile-border-strong)' }
             ),
           }}
         >
@@ -686,7 +686,7 @@ function AlertCard({
             width: 40,
             height: 22,
             borderRadius: 11,
-            background: alert.active ? '#06B6D4' : 'rgba(255,255,255,0.1)',
+            background: alert.active ? 'var(--cyan)' : 'var(--tile-border-strong)',
             border: 'none',
             cursor: 'pointer',
             position: 'relative',
@@ -705,7 +705,7 @@ function AlertCard({
             borderRadius: '50%',
             background: 'white',
             transition: 'left 0.2s',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.4)',
+            boxShadow: '0 1px 3px rgba(18,24,31,0.3)',
           }} />
         </button>
       </div>
@@ -714,7 +714,7 @@ function AlertCard({
       <div style={{
         fontFamily: 'var(--font-data)',
         fontSize: 12,
-        color: '#06B6D4',
+        color: 'var(--cyan)',
         marginBottom: 6,
         letterSpacing: '0.02em',
       }}>
@@ -743,9 +743,9 @@ function AlertCard({
               style={{
                 padding: '4px 12px',
                 borderRadius: 6,
-                border: '1px solid rgba(239,68,68,0.4)',
-                background: 'rgba(239,68,68,0.12)',
-                color: '#F87171',
+                border: '1px solid #FECACA',
+                background: '#FEF2F2',
+                color: '#DC2626',
                 fontFamily: 'var(--font-display)',
                 fontSize: 12,
                 fontWeight: 600,
@@ -759,8 +759,8 @@ function AlertCard({
               style={{
                 padding: '4px 12px',
                 borderRadius: 6,
-                border: '1px solid rgba(255,255,255,0.1)',
-                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid var(--tile-border-strong)',
+                background: 'var(--paper-sunken)',
                 color: 'var(--deep-text)',
                 fontFamily: 'var(--font-display)',
                 fontSize: 12,
@@ -779,7 +779,7 @@ function AlertCard({
               gap: 6,
               padding: '5px 10px',
               borderRadius: 8,
-              border: '1px solid rgba(255,255,255,0.06)',
+              border: '1px solid var(--tile-border)',
               background: 'none',
               color: 'var(--deep-text)',
               fontFamily: 'var(--font-display)',
@@ -788,12 +788,12 @@ function AlertCard({
               transition: 'color 0.15s, border-color 0.15s',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.color = '#F87171'
-              e.currentTarget.style.borderColor = 'rgba(239,68,68,0.3)'
+              e.currentTarget.style.color = '#DC2626'
+              e.currentTarget.style.borderColor = '#FCA5A5'
             }}
             onMouseLeave={e => {
               e.currentTarget.style.color = 'var(--deep-text)'
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'
+              e.currentTarget.style.borderColor = 'var(--tile-border)'
             }}
             aria-label="Delete alert"
           >
@@ -823,14 +823,14 @@ function EmptyState({ onNew }: { onNew: () => void }) {
         width: 72,
         height: 72,
         borderRadius: 20,
-        background: 'rgba(6,182,212,0.06)',
-        border: '1px solid rgba(6,182,212,0.12)',
+        background: 'rgba(14,165,233,0.06)',
+        border: '1px solid rgba(14,165,233,0.12)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 4,
       }}>
-        <Bell className="w-8 h-8" style={{ color: 'rgba(6,182,212,0.35)' }} />
+        <Bell className="w-8 h-8" style={{ color: 'rgba(14,165,233,0.35)' }} />
       </div>
       <div style={{
         fontFamily: 'var(--font-display)',
@@ -862,19 +862,17 @@ function EmptyState({ onNew }: { onNew: () => void }) {
           letterSpacing: '0.06em',
           textTransform: 'uppercase',
           border: 'none',
-          background: 'linear-gradient(135deg, rgba(6,182,212,0.9) 0%, rgba(6,182,212,0.7) 100%)',
-          color: '#060D1A',
+          background: 'var(--cyan)',
+          color: '#FFFFFF',
           cursor: 'pointer',
-          boxShadow: '0 4px 20px rgba(6,182,212,0.25)',
-          transition: 'opacity 0.15s, box-shadow 0.15s',
+          boxShadow: 'var(--tile-shadow)',
+          transition: 'opacity 0.15s, background 0.15s',
         }}
         onMouseEnter={e => {
-          e.currentTarget.style.opacity = '0.9'
-          e.currentTarget.style.boxShadow = '0 4px 28px rgba(6,182,212,0.4)'
+          e.currentTarget.style.background = 'var(--cyan-bright)'
         }}
         onMouseLeave={e => {
-          e.currentTarget.style.opacity = '1'
-          e.currentTarget.style.boxShadow = '0 4px 20px rgba(6,182,212,0.25)'
+          e.currentTarget.style.background = 'var(--cyan)'
         }}
       >
         Create Your First Alert
@@ -934,7 +932,7 @@ export default function AlertsPage() {
     <div
       style={{
         minHeight: '100%',
-        background: '#060D1A',
+        background: 'var(--deep)',
         overflowY: 'auto',
         overscrollBehavior: 'contain',
         WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
@@ -949,7 +947,7 @@ export default function AlertsPage() {
               fontFamily: 'var(--font-display)',
               fontSize: 28,
               fontWeight: 800,
-              color: '#06B6D4',
+              color: 'var(--cyan)',
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
               margin: 0,
@@ -981,15 +979,15 @@ export default function AlertsPage() {
                 fontSize: 13,
                 fontWeight: 700,
                 letterSpacing: '0.04em',
-                border: '1px solid #06B6D4',
-                background: 'rgba(6,182,212,0.08)',
-                color: '#22D3EE',
+                border: '1px solid var(--cyan)',
+                background: 'rgba(14,165,233,0.08)',
+                color: 'var(--cyan-bright)',
                 cursor: 'pointer',
                 flexShrink: 0,
                 transition: 'background 0.15s',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(6,182,212,0.15)' }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(6,182,212,0.08)' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(14,165,233,0.15)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(14,165,233,0.08)' }}
             >
               <Plus className="w-4 h-4" />
               New Alert

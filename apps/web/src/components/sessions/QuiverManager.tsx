@@ -167,7 +167,7 @@ export default function QuiverManager() {
 
   if (loading) {
     return <div className="animate-pulse space-y-2">
-      {[1,2,3].map(i => <div key={i} className="h-12 bg-gray-800 rounded-lg" />)}
+      {[1,2,3].map(i => <div key={i} className="h-12 bg-[var(--tile-border)] rounded-lg" />)}
     </div>
   }
 
@@ -188,7 +188,7 @@ export default function QuiverManager() {
             key={t}
             onClick={() => setTab(t)}
             className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-              tab === t ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:text-white'
+              tab === t ? 'bg-[var(--cyan)] text-white' : 'bg-[var(--paper-sunken)] text-[var(--spray)] hover:text-[var(--foam)]'
             }`}
           >
             {t === 'boards' ? `🏄 Boards (${boards.length})` : `🤿 Wetsuits (${wetsuits.length})`}
@@ -200,16 +200,16 @@ export default function QuiverManager() {
       {tab === 'boards' && (
         <div className="space-y-2">
           {boards.map(board => (
-            <div key={board.id} className="bg-gray-800 rounded-xl p-3 flex items-center justify-between">
+            <div key={board.id} className="bg-[var(--paper-sunken)] border border-[var(--tile-border)] rounded-xl p-3 flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-white font-medium text-sm">{board.name}</span>
+                  <span className="text-[var(--foam)] font-medium text-sm">{board.name}</span>
                   {board.primary_board && (
-                    <span className="text-xs bg-blue-900 text-blue-300 px-1.5 py-0.5 rounded">primary</span>
+                    <span className="text-xs bg-[var(--cyan-muted)] text-[var(--cyan-bright)] px-1.5 py-0.5 rounded">primary</span>
                   )}
-                  <span className="text-xs bg-gray-700 text-gray-400 px-1.5 py-0.5 rounded">{board.board_type}</span>
+                  <span className="text-xs bg-[var(--tile-border)] text-[var(--spray)] px-1.5 py-0.5 rounded">{board.board_type}</span>
                 </div>
-                <div className="text-gray-500 text-xs mt-0.5 flex gap-3">
+                <div className="text-[var(--spray)] text-xs mt-0.5 flex gap-3">
                   {board.length_ft && <span>{board.length_ft}ft</span>}
                   {board.volume_L && <span>{board.volume_L}L</span>}
                   {board.best_wave_min_ft && board.best_wave_max_ft && (
@@ -219,7 +219,7 @@ export default function QuiverManager() {
               </div>
               <button
                 onClick={() => retireBoard(board.id)}
-                className="text-gray-600 hover:text-red-400 text-xs transition-colors"
+                className="text-[var(--deep-text)] hover:text-red-600 text-xs transition-colors"
               >
                 retire
               </button>
@@ -229,16 +229,16 @@ export default function QuiverManager() {
           {!showAddBoard ? (
             <button
               onClick={() => setShowAddBoard(true)}
-              className="w-full bg-gray-800 hover:bg-gray-700 border border-dashed border-gray-600 rounded-xl p-3 text-gray-400 text-sm transition-colors"
+              className="w-full bg-[var(--paper-sunken)] hover:bg-[var(--tile-border)] border border-dashed border-[var(--tile-border-strong)] rounded-xl p-3 text-[var(--spray)] text-sm transition-colors"
             >
               + Add board
             </button>
           ) : (
-            <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 space-y-3">
-              <div className="text-sm font-medium text-white mb-2">Add board</div>
+            <div className="bg-[var(--paper-sunken)] border border-[var(--tile-border-strong)] rounded-xl p-4 space-y-3">
+              <div className="text-sm font-medium text-[var(--foam)] mb-2">Add board</div>
 
               <input
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500"
+                className="ocean-input"
                 placeholder="Name (e.g. 'my fish', 'the step-up') *"
                 value={newBoard.name}
                 onChange={e => setNewBoard(p => ({ ...p, name: e.target.value }))}
@@ -246,25 +246,25 @@ export default function QuiverManager() {
 
               <div className="grid grid-cols-2 gap-2">
                 <input
-                  className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500"
+                  className="ocean-input"
                   placeholder="Brand"
                   value={newBoard.brand}
                   onChange={e => setNewBoard(p => ({ ...p, brand: e.target.value }))}
                 />
                 <input
-                  className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500"
+                  className="ocean-input"
                   placeholder="Model"
                   value={newBoard.model}
                   onChange={e => setNewBoard(p => ({ ...p, model: e.target.value }))}
                 />
                 <input
-                  className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500"
+                  className="ocean-input"
                   placeholder="Length (ft, e.g. 6.2)"
                   value={newBoard.length_ft}
                   onChange={e => setNewBoard(p => ({ ...p, length_ft: e.target.value }))}
                 />
                 <input
-                  className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500"
+                  className="ocean-input"
                   placeholder="Volume (L, e.g. 34.5)"
                   value={newBoard.volume_L}
                   onChange={e => setNewBoard(p => ({ ...p, volume_L: e.target.value }))}
@@ -272,7 +272,7 @@ export default function QuiverManager() {
               </div>
 
               <select
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm"
+                className="ocean-input"
                 value={newBoard.board_type}
                 onChange={e => setNewBoard(p => ({ ...p, board_type: e.target.value }))}
               >
@@ -281,13 +281,13 @@ export default function QuiverManager() {
 
               <div className="grid grid-cols-2 gap-2">
                 <input
-                  className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500"
+                  className="ocean-input"
                   placeholder="Best conditions min (ft)"
                   value={newBoard.best_wave_min_ft}
                   onChange={e => setNewBoard(p => ({ ...p, best_wave_min_ft: e.target.value }))}
                 />
                 <input
-                  className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500"
+                  className="ocean-input"
                   placeholder="Best conditions max (ft)"
                   value={newBoard.best_wave_max_ft}
                   onChange={e => setNewBoard(p => ({ ...p, best_wave_max_ft: e.target.value }))}
@@ -298,13 +298,14 @@ export default function QuiverManager() {
                 <button
                   onClick={saveBoard}
                   disabled={saving || !newBoard.name}
-                  className="flex-1 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white rounded-lg py-2 text-sm font-medium transition-colors"
+                  className="flex-1 btn-ocean disabled:opacity-50"
+                  style={{ padding: '8px 16px' }}
                 >
                   {saving ? 'Saving…' : 'Add board'}
                 </button>
                 <button
                   onClick={() => setShowAddBoard(false)}
-                  className="px-4 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg text-sm transition-colors"
+                  className="px-4 bg-[var(--tile-border)] hover:bg-[var(--tile-border-strong)] text-[var(--mist)] rounded-lg text-sm transition-colors"
                 >
                   Cancel
                 </button>
@@ -318,13 +319,13 @@ export default function QuiverManager() {
       {tab === 'wetsuits' && (
         <div className="space-y-2">
           {wetsuits.map(ws => (
-            <div key={ws.id} className="bg-gray-800 rounded-xl p-3 flex items-center justify-between">
+            <div key={ws.id} className="bg-[var(--paper-sunken)] border border-[var(--tile-border)] rounded-xl p-3 flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-white font-medium text-sm">{ws.name}</span>
-                  <span className="text-xs bg-gray-700 text-gray-400 px-1.5 py-0.5 rounded">{ws.thickness}</span>
+                  <span className="text-[var(--foam)] font-medium text-sm">{ws.name}</span>
+                  <span className="text-xs bg-[var(--tile-border)] text-[var(--spray)] px-1.5 py-0.5 rounded">{ws.thickness}</span>
                 </div>
-                <div className="text-gray-500 text-xs mt-0.5 flex gap-3">
+                <div className="text-[var(--spray)] text-xs mt-0.5 flex gap-3">
                   {ws.temp_min_f && ws.temp_max_f && (
                     <span>{ws.temp_min_f}–{ws.temp_max_f}°F</span>
                   )}
@@ -335,7 +336,7 @@ export default function QuiverManager() {
               </div>
               <button
                 onClick={() => retireWetsuit(ws.id)}
-                className="text-gray-600 hover:text-red-400 text-xs transition-colors"
+                className="text-[var(--deep-text)] hover:text-red-600 text-xs transition-colors"
               >
                 retire
               </button>
@@ -345,16 +346,16 @@ export default function QuiverManager() {
           {!showAddWetsuit ? (
             <button
               onClick={() => setShowAddWetsuit(true)}
-              className="w-full bg-gray-800 hover:bg-gray-700 border border-dashed border-gray-600 rounded-xl p-3 text-gray-400 text-sm transition-colors"
+              className="w-full bg-[var(--paper-sunken)] hover:bg-[var(--tile-border)] border border-dashed border-[var(--tile-border-strong)] rounded-xl p-3 text-[var(--spray)] text-sm transition-colors"
             >
               + Add wetsuit
             </button>
           ) : (
-            <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 space-y-3">
-              <div className="text-sm font-medium text-white mb-2">Add wetsuit</div>
+            <div className="bg-[var(--paper-sunken)] border border-[var(--tile-border-strong)] rounded-xl p-4 space-y-3">
+              <div className="text-sm font-medium text-[var(--foam)] mb-2">Add wetsuit</div>
 
               <input
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500"
+                className="ocean-input"
                 placeholder="Name (e.g. '4/3 winter suit') *"
                 value={newWetsuit.name}
                 onChange={e => setNewWetsuit(p => ({ ...p, name: e.target.value }))}
@@ -362,26 +363,26 @@ export default function QuiverManager() {
 
               <div className="grid grid-cols-2 gap-2">
                 <input
-                  className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500"
+                  className="ocean-input"
                   placeholder="Brand"
                   value={newWetsuit.brand}
                   onChange={e => setNewWetsuit(p => ({ ...p, brand: e.target.value }))}
                 />
                 <select
-                  className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm"
+                  className="ocean-input"
                   value={newWetsuit.thickness}
                   onChange={e => setNewWetsuit(p => ({ ...p, thickness: e.target.value }))}
                 >
                   {WETSUIT_THICKNESSES.map(t => <option key={t} value={t}>{t}</option>)}
                 </select>
                 <input
-                  className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500"
+                  className="ocean-input"
                   placeholder="Min temp (°F)"
                   value={newWetsuit.temp_min_f}
                   onChange={e => setNewWetsuit(p => ({ ...p, temp_min_f: e.target.value }))}
                 />
                 <input
-                  className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500"
+                  className="ocean-input"
                   placeholder="Max temp (°F)"
                   value={newWetsuit.temp_max_f}
                   onChange={e => setNewWetsuit(p => ({ ...p, temp_max_f: e.target.value }))}
@@ -390,7 +391,7 @@ export default function QuiverManager() {
 
               <div className="flex gap-4">
                 {(['booties', 'gloves', 'hood'] as const).map(acc => (
-                  <label key={acc} className="flex items-center gap-1.5 text-sm text-gray-300 cursor-pointer">
+                  <label key={acc} className="flex items-center gap-1.5 text-sm text-[var(--mist)] cursor-pointer">
                     <input
                       type="checkbox"
                       checked={newWetsuit[acc]}
@@ -406,13 +407,14 @@ export default function QuiverManager() {
                 <button
                   onClick={saveWetsuit}
                   disabled={saving || !newWetsuit.name}
-                  className="flex-1 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white rounded-lg py-2 text-sm font-medium transition-colors"
+                  className="flex-1 btn-ocean disabled:opacity-50"
+                  style={{ padding: '8px 16px' }}
                 >
                   {saving ? 'Saving…' : 'Add wetsuit'}
                 </button>
                 <button
                   onClick={() => setShowAddWetsuit(false)}
-                  className="px-4 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg text-sm transition-colors"
+                  className="px-4 bg-[var(--tile-border)] hover:bg-[var(--tile-border-strong)] text-[var(--mist)] rounded-lg text-sm transition-colors"
                 >
                   Cancel
                 </button>

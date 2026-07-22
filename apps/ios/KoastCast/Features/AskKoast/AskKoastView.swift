@@ -70,8 +70,12 @@ struct AskKoastView: View {
                 .foregroundStyle(m.role == .user ? Theme.bg : Theme.textPrimary)
                 .padding(.horizontal, 14).padding(.vertical, 10)
                 .background(
-                    m.role == .user ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(.ultraThinMaterial),
+                    m.role == .user ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Theme.bgElevated),
                     in: RoundedRectangle(cornerRadius: 16, style: .continuous)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(m.role == .user ? Color.clear : Theme.hairline, lineWidth: 1)
                 )
             if m.role == .koast { Spacer(minLength: 40) }
         }
@@ -91,8 +95,9 @@ struct AskKoastView: View {
             TextField("Ask about conditions…", text: $input)
                 .textFieldStyle(.plain)
                 .padding(.horizontal, 14).padding(.vertical, 11)
-                .background(.ultraThinMaterial, in: Capsule())
-                .foregroundStyle(.white)
+                .background(Theme.bgElevated, in: Capsule())
+                .overlay(Capsule().stroke(Theme.hairline, lineWidth: 1))
+                .foregroundStyle(Theme.textPrimary)
                 .onSubmit { send(input) }
             Button { send(input) } label: {
                 Image(systemName: "arrow.up.circle.fill")

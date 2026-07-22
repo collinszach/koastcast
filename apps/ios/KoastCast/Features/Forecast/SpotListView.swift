@@ -89,7 +89,7 @@ private struct SpotRow: View {
             qualityDot
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
-                    Text(spot.name).font(Theme.display(15, weight: .semibold)).foregroundStyle(.white)
+                    Text(spot.name).font(Theme.display(15, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                     if saved { Image(systemName: "heart.fill").font(.system(size: 9)).foregroundStyle(Theme.accent) }
                 }
                 Text([spot.region, spot.breakType?.capitalized].compactMap { $0 }.joined(separator: " · "))
@@ -107,7 +107,7 @@ private struct SpotRow: View {
 
     private var qualityDot: some View {
         Circle()
-            .fill(spot.qualityScore.map { Theme.qualityColor($0 * 10) } ?? Color.white.opacity(0.18))
+            .fill(spot.qualityScore.map { Theme.qualityColor($0 * 10) } ?? Theme.textTertiary.opacity(0.35))
             .frame(width: 10, height: 10)
     }
 }

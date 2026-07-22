@@ -48,19 +48,19 @@ interface Props {
 }
 
 const RISK_CONFIG = {
-  low:     { bg: 'bg-green-950/50',  border: 'border-green-800',  badge: 'bg-green-900 text-green-300',  label: 'LOW RISK'     },
-  moderate:{ bg: 'bg-yellow-950/50', border: 'border-yellow-800', badge: 'bg-yellow-900 text-yellow-300',label: 'MODERATE RISK'},
-  high:    { bg: 'bg-orange-950/50', border: 'border-orange-800', badge: 'bg-orange-900 text-orange-300',label: 'HIGH RISK'    },
-  extreme: { bg: 'bg-red-950/50',    border: 'border-red-800',    badge: 'bg-red-900 text-red-300',      label: 'EXTREME RISK' },
-  unknown: { bg: 'bg-gray-900/50',   border: 'border-gray-700',   badge: 'bg-gray-800 text-gray-400',    label: 'UNKNOWN RISK' },
+  low:     { bg: 'bg-green-50',  border: 'border-green-200',  badge: 'bg-green-100 text-green-700',  label: 'LOW RISK'     },
+  moderate:{ bg: 'bg-yellow-50', border: 'border-yellow-200', badge: 'bg-yellow-100 text-yellow-700',label: 'MODERATE RISK'},
+  high:    { bg: 'bg-orange-50', border: 'border-orange-200', badge: 'bg-orange-100 text-orange-700',label: 'HIGH RISK'    },
+  extreme: { bg: 'bg-red-50',    border: 'border-red-200',    badge: 'bg-red-100 text-red-700',      label: 'EXTREME RISK' },
+  unknown: { bg: 'bg-[var(--paper-sunken)]',   border: 'border-[var(--tile-border-strong)]',   badge: 'bg-[var(--paper-sunken)] text-[var(--spray)]',    label: 'UNKNOWN RISK' },
 }
 
 const RIP_COLORS = {
-  low:     'text-green-400',
-  moderate:'text-yellow-400',
-  high:    'text-orange-400',
-  extreme: 'text-red-400',
-  unknown: 'text-gray-400',
+  low:     'text-green-700',
+  moderate:'text-yellow-700',
+  high:    'text-orange-700',
+  extreme: 'text-red-700',
+  unknown: 'text-[var(--spray)]',
 }
 
 export default function SafetyPanel({ spotId, spotName }: Props) {
@@ -84,9 +84,9 @@ export default function SafetyPanel({ spotId, spotName }: Props) {
 
   if (loading) {
     return (
-      <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-4 animate-pulse">
-        <div className="h-4 bg-gray-800 rounded w-32 mb-2" />
-        <div className="h-3 bg-gray-800 rounded w-48" />
+      <div className="bg-[var(--tile-bg)] border border-[var(--tile-border)] rounded-2xl p-4 animate-pulse">
+        <div className="h-4 bg-[var(--paper-sunken)] rounded w-32 mb-2" />
+        <div className="h-3 bg-[var(--paper-sunken)] rounded w-48" />
       </div>
     )
   }
@@ -109,7 +109,7 @@ export default function SafetyPanel({ spotId, spotName }: Props) {
         <div className="flex items-center gap-3">
           <span className="text-base">🛡️</span>
           <div>
-            <span className="text-white text-sm font-semibold">Safety & Hazards</span>
+            <span className="text-[var(--foam)] text-sm font-semibold">Safety & Hazards</span>
             {!expanded && data.overall_risk !== 'unknown' && (
               <span className={`ml-2 text-xs px-2 py-0.5 rounded-full font-medium ${cfg.badge}`}>
                 {cfg.label}
@@ -117,7 +117,7 @@ export default function SafetyPanel({ spotId, spotName }: Props) {
             )}
           </div>
         </div>
-        <span className="text-gray-500 text-sm">{expanded ? '▲' : '▼'}</span>
+        <span className="text-[var(--spray)] text-sm">{expanded ? '▲' : '▼'}</span>
       </button>
 
       {expanded && (
@@ -128,47 +128,47 @@ export default function SafetyPanel({ spotId, spotName }: Props) {
           </div>
 
           {/* Water quality */}
-          <div className="bg-gray-900/60 rounded-xl p-3">
+          <div className="bg-[var(--tile-bg)] rounded-xl p-3">
             <div className="flex items-center gap-2 mb-1">
               <span>{data.water_quality.safe ? '💧' : '⚠️'}</span>
-              <span className="text-sm font-medium text-white">Water Quality</span>
-              <span className={`text-xs font-medium ${data.water_quality.safe ? 'text-green-400' : 'text-red-400'}`}>
+              <span className="text-sm font-medium text-[var(--foam)]">Water Quality</span>
+              <span className={`text-xs font-medium ${data.water_quality.safe ? 'text-green-700' : 'text-red-700'}`}>
                 {data.water_quality.safe ? 'OK' : 'WARNING'}
               </span>
             </div>
-            <p className="text-gray-400 text-xs leading-relaxed">{data.water_quality.reason}</p>
+            <p className="text-[var(--spray)] text-xs leading-relaxed">{data.water_quality.reason}</p>
             {data.water_quality.advisory && (
-              <p className="text-amber-300 text-xs mt-2 leading-relaxed">{data.water_quality.advisory}</p>
+              <p className="text-amber-700 text-xs mt-2 leading-relaxed">{data.water_quality.advisory}</p>
             )}
           </div>
 
           {/* Rip current */}
-          <div className="bg-gray-900/60 rounded-xl p-3">
+          <div className="bg-[var(--tile-bg)] rounded-xl p-3">
             <div className="flex items-center gap-2 mb-1">
               <span>🌊</span>
-              <span className="text-sm font-medium text-white">Rip Current Risk</span>
+              <span className="text-sm font-medium text-[var(--foam)]">Rip Current Risk</span>
               <span className={`text-xs font-bold uppercase ${RIP_COLORS[data.rip_current.risk_level]}`}>
                 {data.rip_current.risk_level}
               </span>
             </div>
-            <p className="text-gray-400 text-xs leading-relaxed">{data.rip_current.description}</p>
-            <p className="text-gray-600 text-xs mt-1">Source: {data.rip_current.source}</p>
+            <p className="text-[var(--spray)] text-xs leading-relaxed">{data.rip_current.description}</p>
+            <p className="text-[var(--deep-text)] text-xs mt-1">Source: {data.rip_current.source}</p>
           </div>
 
           {/* Surf advisory */}
           {data.surf_advisory?.active && (
-            <div className="bg-red-950/60 border border-red-800 rounded-xl p-3">
+            <div className="bg-red-50 border border-red-200 rounded-xl p-3">
               <div className="flex items-center gap-2 mb-1">
                 <span>🚨</span>
-                <span className="text-sm font-medium text-red-300">
+                <span className="text-sm font-medium text-red-700">
                   {data.surf_advisory.type.replace(/_/g, ' ').toUpperCase()} IN EFFECT
                 </span>
               </div>
               {data.surf_advisory.headline && (
-                <p className="text-red-200 text-xs font-medium mb-1">{data.surf_advisory.headline}</p>
+                <p className="text-red-700 text-xs font-medium mb-1">{data.surf_advisory.headline}</p>
               )}
               {data.surf_advisory.description && (
-                <p className="text-red-300/80 text-xs leading-relaxed line-clamp-4">
+                <p className="text-red-700/80 text-xs leading-relaxed line-clamp-4">
                   {data.surf_advisory.description}
                 </p>
               )}
@@ -177,15 +177,15 @@ export default function SafetyPanel({ spotId, spotName }: Props) {
 
           {/* Static hazards */}
           {data.static_hazards.length > 0 && (
-            <div className="bg-gray-900/60 rounded-xl p-3">
+            <div className="bg-[var(--tile-bg)] rounded-xl p-3">
               <div className="flex items-center gap-2 mb-2">
                 <span>⚠️</span>
-                <span className="text-sm font-medium text-white">Known Hazards at {spotName}</span>
+                <span className="text-sm font-medium text-[var(--foam)]">Known Hazards at {spotName}</span>
               </div>
               <ul className="space-y-1.5">
                 {data.static_hazards.map((h, i) => (
-                  <li key={i} className="text-xs text-gray-400 flex gap-2">
-                    <span className="text-gray-600 shrink-0 mt-0.5">•</span>
+                  <li key={i} className="text-xs text-[var(--spray)] flex gap-2">
+                    <span className="text-[var(--deep-text)] shrink-0 mt-0.5">•</span>
                     {h}
                   </li>
                 ))}
@@ -194,7 +194,7 @@ export default function SafetyPanel({ spotId, spotName }: Props) {
           )}
 
           {!hasAlerts && (
-            <p className="text-gray-500 text-xs text-center py-2">
+            <p className="text-[var(--spray)] text-xs text-center py-2">
               No active advisories — always assess conditions before paddling out
             </p>
           )}

@@ -101,10 +101,10 @@ function AgreementBadge({ modelForecasts }: { modelForecasts: Record<string, Mod
 
   const { label, color } =
     avgSpread < 0.1
-      ? { label: 'Models agree', color: 'text-green-400' }
+      ? { label: 'Models agree', color: 'text-green-700' }
       : avgSpread < 0.25
-      ? { label: 'Mild uncertainty', color: 'text-yellow-400' }
-      : { label: 'Models disagree', color: 'text-red-400' }
+      ? { label: 'Mild uncertainty', color: 'text-yellow-700' }
+      : { label: 'Models disagree', color: 'text-red-700' }
 
   return (
     <span className={`text-xs font-medium ${color}`}>
@@ -117,10 +117,10 @@ export default function ModelComparison({ modelForecasts, isPremium = true }: Mo
   const models = Object.keys(modelForecasts).filter(k => k !== 'ensemble')
   if (models.length === 0) {
     return (
-      <div className="text-gray-500 text-sm text-center py-8">
+      <div className="text-[var(--spray)] text-sm text-center py-8">
         Enable ensemble mode to compare models.
         <br />
-        <span className="text-xs">Append <code className="text-gray-400">?ensemble=true</code> to the forecast URL.</span>
+        <span className="text-xs">Append <code className="text-[var(--spray)]">?ensemble=true</code> to the forecast URL.</span>
       </div>
     )
   }
@@ -131,7 +131,7 @@ export default function ModelComparison({ modelForecasts, isPremium = true }: Mo
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <div className="text-xs text-gray-500">Wave height (ft) — next 72h</div>
+        <div className="text-xs text-[var(--spray)]">Wave height (ft) — next 72h</div>
         <AgreementBadge modelForecasts={modelForecasts} />
       </div>
 

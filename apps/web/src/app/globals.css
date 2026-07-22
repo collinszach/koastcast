@@ -1,65 +1,82 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────
-   Koastcast DESIGN SYSTEM — Multi-sport outdoor intelligence
-   Surf (cyan) · Snow (violet) · Trails (emerald)
+   Koastcast DESIGN SYSTEM — surf-report utility
+   Warm paper base · flat data tiles · Surf (cyan)
+   Snow (violet) · Trails (emerald) · Weather (amber)
    ───────────────────────────────────────────── */
 
 :root {
-  /* Core palette */
-  --abyss:        #030810;
-  --deep:         #060D1A;
-  --mid:          #0A1628;
-  --surface:      #0F2040;
-  --elevated:     #132845;
+  /* Core palette — warm paper, not clinical white */
+  --abyss:        #EFEBE2;   /* sunken surfaces (scrollbar track, footers) */
+  --deep:         #F7F5F0;   /* page background */
+  --mid:          #FFFFFF;   /* raised surfaces */
+  --surface:      #FFFFFF;   /* card surfaces */
+  --elevated:     #FFFFFF;   /* elevated card surfaces */
 
-  /* Cyan bioluminescent accent */
-  --cyan:         #06B6D4;
-  --cyan-bright:  #22D3EE;
-  --cyan-dim:     #0891B2;
-  --cyan-muted:   #164E63;
+  /* Aliases used by new tile/stat-tile utilities */
+  --paper:         var(--deep);
+  --paper-raised:  var(--mid);
+  --paper-sunken:  var(--abyss);
+  --ink:           var(--foam);
+  --ink-mid:       var(--mist);
+  --ink-soft:      var(--spray);
+  --ink-faint:     var(--deep-text);
+
+  /* Cyan — surf accent */
+  --cyan:         #0EA5E9;
+  --cyan-bright:  #0284C7;
+  --cyan-dim:     #38BDF8;
+  --cyan-muted:   #E0F2FE;
 
   /* Teal secondary */
-  --teal:         #14B8A6;
-  --teal-dim:     #0F766E;
+  --teal:         #0D9488;
+  --teal-dim:     #14B8A6;
 
-  /* Snow accent - violet/ice */
-  --snow:         #8B5CF6;
-  --snow-bright:  #A78BFA;
-  --snow-dim:     #7C3AED;
-  --snow-muted:   #2E1065;
+  /* Snow accent - violet */
+  --snow:         #7C3AED;
+  --snow-bright:  #6D28D9;
+  --snow-dim:     #A78BFA;
+  --snow-muted:   #EDE9FE;
 
   /* Trail/Nature accent - emerald */
-  --trail:        #10B981;
-  --trail-bright: #34D399;
-  --trail-dim:    #059669;
-  --trail-muted:  #064E3B;
+  --trail:        #059669;
+  --trail-bright: #047857;
+  --trail-dim:    #34D399;
+  --trail-muted:  #D1FAE5;
 
   /* Amber for weather/wind */
-  --amber:        #F59E0B;
-  --amber-bright: #FCD34D;
-  --amber-dim:    #D97706;
+  --amber:        #D97706;
+  --amber-bright: #B45309;
+  --amber-dim:    #FBBF24;
 
   /* Text */
-  --foam:         #E0F7FA;       /* near-white headings */
-  --mist:         #B0D4DC;       /* body text */
-  --spray:        #6B9BAD;       /* secondary text */
-  --deep-text:    #2E5568;       /* disabled / very muted */
+  --foam:         #12181F;   /* headings — near-black on paper */
+  --mist:         #3A4450;   /* body text */
+  --spray:        #6B7686;   /* secondary text */
+  --deep-text:    #A8B0BC;   /* disabled / very muted */
 
-  /* Quality color system */
-  --q-firing:     #F97316;       /* 9-10: fire */
-  --q-pumping:    #06B6D4;       /* 7-8: teal = pumping */
-  --q-good:       #3B82F6;       /* 5-6: blue = fun */
-  --q-ok:         #6366F1;       /* 3-4: indigo = worth it */
-  --q-flat:       #475569;       /* <3: slate = flat */
+  /* Quality color system — tuned for contrast on a light base */
+  --q-firing:     #EA580C;   /* 9-10: fire */
+  --q-pumping:    #0891B2;   /* 7-8: teal = pumping */
+  --q-good:       #2563EB;   /* 5-6: blue = fun */
+  --q-ok:         #4F46E5;   /* 3-4: indigo = worth it */
+  --q-flat:       #64748B;   /* <3: slate = flat */
 
-  /* Glass card */
-  --glass-bg:     rgba(6, 13, 26, 0.72);
-  --glass-border: rgba(6, 182, 212, 0.13);
-  --glass-glow:   rgba(6, 182, 212, 0.06);
+  /* Tile surface (replaces glass) */
+  --tile-bg:            var(--paper-raised);
+  --tile-border:        rgba(18, 24, 31, 0.10);
+  --tile-border-strong: rgba(18, 24, 31, 0.18);
+  --tile-shadow:        0 1px 2px rgba(18,24,31,0.04), 0 4px 14px rgba(18,24,31,0.05);
+
+  /* Legacy glass tokens — kept only so nothing that still reads
+     var(--glass-*) breaks; new code should use --tile-* instead. */
+  --glass-bg:     var(--tile-bg);
+  --glass-border: var(--tile-border);
+  --glass-glow:   rgba(14, 165, 233, 0.05);
 
   /* Fonts */
-  --font-display: var(--font-syne), 'Syne', system-ui, sans-serif;
+  --font-display: var(--font-archivo), 'Archivo', system-ui, sans-serif;
   --font-body:    var(--font-inter), 'Inter', system-ui, sans-serif;
   --font-data:    var(--font-jetbrains), 'JetBrains Mono', 'Fira Code', monospace;
 
@@ -79,40 +96,6 @@
   --font-mono: var(--font-jetbrains);
 }
 
-/* ─── Light Theme ─── */
-html.light {
-  --abyss:        #F1F5F9;
-  --deep:         #F8FAFC;
-  --mid:          #F1F5F9;
-  --surface:      #E2E8F0;
-  --elevated:     #CBD5E1;
-
-  --foam:         #0F172A;       /* headings: dark */
-  --mist:         #1E293B;       /* body text: dark */
-  --spray:        #334155;       /* secondary text */
-  --deep-text:    #475569;       /* muted */
-
-  --cyan:         #0284C7;
-  --cyan-bright:  #0369A1;
-  --cyan-dim:     #0369A1;
-  --cyan-muted:   #BAE6FD;
-
-  --glass-bg:     rgba(248, 250, 252, 0.92);
-  --glass-border: rgba(2, 132, 199, 0.15);
-  --glass-glow:   rgba(2, 132, 199, 0.06);
-
-  /* Legacy compat aliases */
-  --background:   var(--deep);
-  --foreground:   var(--foam);
-  --ocean-deep:   var(--deep);
-  --ocean-mid:    var(--mid);
-  --ocean-surface: var(--surface);
-  --teal-glow:    var(--cyan);
-
-  background-color: #F8FAFC;
-  color: #0F172A;
-}
-
 /* ─── Base ─── */
 html { scroll-behavior: smooth; }
 
@@ -128,7 +111,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   color: var(--foam);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 /* Data numbers — JetBrains Mono everywhere */
@@ -139,51 +122,128 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-data);
 }
 
-/* ─── Glass Card Utility ─── */
+/* ─── Tile utility — flat surf-report surface, replaces glass-card ─── */
+.tile {
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border);
+  border-radius: 14px;
+  box-shadow: var(--tile-shadow);
+}
+
+.tile-elevated {
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border-strong);
+  border-radius: 14px;
+  box-shadow: 0 2px 4px rgba(18,24,31,0.05), 0 8px 24px rgba(18,24,31,0.07);
+}
+
+/* Optional colored top-edge rule for flagship/hero tiles */
+.tile-accent {
+  position: relative;
+}
+.tile-accent::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 14px; right: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--tile-accent-color, var(--cyan));
+}
+
+/* Big legible data readout: number + label + unit */
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.stat-tile .stat-value {
+  font-family: var(--font-data);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--foam);
+  letter-spacing: -0.01em;
+}
+.stat-tile .stat-unit {
+  font-family: var(--font-data);
+  font-size: 13px;
+  color: var(--spray);
+  margin-left: 2px;
+}
+.stat-tile .stat-label {
+  font-family: var(--font-data);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--spray);
+}
+
+/* Section label — small-caps with a colored left rule (mirrors iOS sectionLabel) */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-data);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan-bright);
+}
+.section-label::before {
+  content: '';
+  width: 3px;
+  height: 12px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+/* ─── Legacy glass-card — flattened to the tile look so components
+   that still use the class name (BuoyReadings, auth pages, etc.)
+   pick up the new system without a rewrite ─── */
 .glass-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(6,182,212,0.06);
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border);
+  border-radius: 14px;
+  box-shadow: var(--tile-shadow);
 }
 
 .glass-card-elevated {
-  background: rgba(10, 22, 40, 0.85);
-  border: 1px solid rgba(6, 182, 212, 0.18);
-  border-radius: 16px;
-  backdrop-filter: blur(32px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(6,182,212,0.08);
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border-strong);
+  border-radius: 14px;
+  box-shadow: 0 2px 4px rgba(18,24,31,0.05), 0 8px 24px rgba(18,24,31,0.07);
 }
 
 /* ─── Buttons ─── */
 .btn-ocean {
-  background: linear-gradient(135deg, var(--cyan) 0%, var(--cyan-dim) 100%);
-  color: var(--deep);
+  background: var(--cyan);
+  color: #FFFFFF;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 13px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   padding: 10px 20px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
   transition: all 0.15s;
-  box-shadow: 0 4px 16px rgba(6,182,212,0.3);
+  box-shadow: 0 2px 8px rgba(14,165,233,0.25);
 }
 .btn-ocean:hover {
+  background: var(--cyan-bright);
   transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(6,182,212,0.45);
+  box-shadow: 0 4px 14px rgba(14,165,233,0.32);
 }
 .btn-ocean:active { transform: translateY(0); }
 
 /* ─── Form inputs ─── */
 .ocean-input {
   width: 100%;
-  background: rgba(6, 13, 26, 0.8);
-  border: 1px solid rgba(6,182,212,0.15);
+  background: var(--paper-raised);
+  border: 1px solid var(--tile-border-strong);
   border-radius: 10px;
   padding: 10px 14px;
   color: var(--foam);
@@ -194,29 +254,29 @@ h1, h2, h3, h4, h5, h6 {
 }
 .ocean-input:focus {
   border-color: var(--cyan);
-  box-shadow: 0 0 0 3px rgba(6,182,212,0.12);
+  box-shadow: 0 0 0 3px rgba(14,165,233,0.15);
 }
-.ocean-input::placeholder { color: var(--deep-text); }
+.ocean-input::placeholder { color: var(--ink-faint); }
 
 /* ─── Leaflet Overrides ─── */
 .leaflet-container { font-family: var(--font-body), sans-serif; }
 
 .leaflet-control-attribution {
   font-size: 10px;
-  background: rgba(6, 13, 26, 0.9) !important;
-  color: var(--deep-text) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: var(--spray) !important;
 }
 
 .leaflet-popup-content-wrapper {
-  background: rgba(10, 22, 40, 0.97) !important;
-  border: 1px solid rgba(6,182,212,0.2) !important;
+  background: var(--paper-raised) !important;
+  border: 1px solid var(--tile-border-strong) !important;
   border-radius: 14px !important;
   padding: 0 !important;
-  box-shadow: 0 24px 48px rgba(0,0,0,0.7) !important;
+  box-shadow: 0 16px 40px rgba(18,24,31,0.18) !important;
   overflow: hidden;
   min-width: 220px;
 }
-.leaflet-popup-tip { background: rgba(10, 22, 40, 0.97) !important; }
+.leaflet-popup-tip { background: var(--paper-raised) !important; }
 .leaflet-popup-close-button {
   color: var(--spray) !important;
   font-size: 20px !important;
@@ -232,8 +292,8 @@ h1, h2, h3, h4, h5, h6 {
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: var(--abyss); }
-::-webkit-scrollbar-thumb { background: var(--cyan-muted); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: var(--cyan-dim); }
+::-webkit-scrollbar-thumb { background: var(--cyan-dim); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
 
 /* ─── Animations ─── */
 
@@ -252,10 +312,10 @@ h1, h2, h3, h4, h5, h6 {
 .animate-fade-up       { animation: fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .animate-fade-up-delay { animation: fade-up 0.55s 0.18s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-/* Bioluminescent pulse for live indicator */
+/* Live indicator pulse (flat — no glow) */
 @keyframes bio-pulse {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(6,182,212,0.6); }
-  50%       { opacity: 0.7; box-shadow: 0 0 0 6px rgba(6,182,212,0); }
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
 }
 .animate-bio-pulse { animation: bio-pulse 2s ease-in-out infinite; }
 
@@ -267,14 +327,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 .animate-wave-drift { animation: wave-drift 10s ease-in-out infinite; }
 
-/* Spot marker pulses */
+/* Spot marker pulses (flat ring, no glow) */
 @keyframes pulse-cyan {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(6,182,212,0.7), 0 2px 10px rgba(0,0,0,0.6); }
-  50%       { box-shadow: 0 0 0 12px rgba(6,182,212,0), 0 2px 10px rgba(0,0,0,0.6); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(14,165,233,0.35), 0 2px 6px rgba(18,24,31,0.15); }
+  50%       { box-shadow: 0 0 0 8px rgba(14,165,233,0), 0 2px 6px rgba(18,24,31,0.15); }
 }
 @keyframes pulse-fire {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.7), 0 2px 10px rgba(0,0,0,0.6); }
-  50%       { box-shadow: 0 0 0 12px rgba(249,115,22,0), 0 2px 10px rgba(0,0,0,0.6); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(234,88,12,0.35), 0 2px 6px rgba(18,24,31,0.15); }
+  50%       { box-shadow: 0 0 0 8px rgba(234,88,12,0), 0 2px 6px rgba(18,24,31,0.15); }
 }
 .marker-firing  { animation: pulse-fire 2s ease-in-out infinite; }
 .marker-pumping { animation: pulse-cyan 2.5s ease-in-out infinite; }
@@ -295,72 +355,63 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Amber pulse for offline mode badge */
 @keyframes offlinePulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.45); }
-  50%       { box-shadow: 0 0 0 8px rgba(245,158,11,0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217,119,6,0.35); }
+  50%       { box-shadow: 0 0 0 8px rgba(217,119,6,0); }
 }
 .skeleton {
   background: linear-gradient(90deg,
-    rgba(6,182,212,0.06) 25%,
-    rgba(6,182,212,0.12) 50%,
-    rgba(6,182,212,0.06) 75%
+    rgba(18,24,31,0.04) 25%,
+    rgba(18,24,31,0.08) 50%,
+    rgba(18,24,31,0.04) 75%
   );
   background-size: 200% auto;
   animation: shimmer 1.8s ease-in-out infinite;
   border-radius: 8px;
 }
 
-/* ─── Hero gradient classes (condition-based) ─── */
-
-/* Surf */
-.hero-firing   { background: linear-gradient(160deg, #1a0800 0%, #0e0500 40%, var(--deep) 100%); }
-.hero-pumping  { background: linear-gradient(160deg, #001a26 0%, #000f1a 40%, var(--deep) 100%); }
-.hero-fun      { background: linear-gradient(160deg, #001226 0%, #000d1e 40%, var(--deep) 100%); }
-.hero-worth_it { background: linear-gradient(160deg, #080e26 0%, #04081a 40%, var(--deep) 100%); }
-.hero-flat     { background: linear-gradient(160deg, #080c14 0%, #060910 40%, var(--deep) 100%); }
-.hero-no_data  { background: var(--deep); }
-
-/* Snow hero gradients */
-.hero-epic_powder  { background: linear-gradient(160deg, #1a0d2e 0%, #0d0617 40%, var(--deep) 100%); }
-.hero-fresh_tracks { background: linear-gradient(160deg, #001a26 0%, #000f1a 40%, var(--deep) 100%); }
-.hero-good_snow    { background: linear-gradient(160deg, #001226 0%, #000d1e 40%, var(--deep) 100%); }
-.hero-packed       { background: linear-gradient(160deg, #0c111a 0%, #080c12 40%, var(--deep) 100%); }
-
-/* Trail hero gradients */
-.hero-prime   { background: linear-gradient(160deg, #021a0d 0%, #010e07 40%, var(--deep) 100%); }
-.hero-good    { background: linear-gradient(160deg, #011426 0%, #000c1a 40%, var(--deep) 100%); }
-.hero-fair    { background: linear-gradient(160deg, #1a1000 0%, #0e0800 40%, var(--deep) 100%); }
-.hero-caution { background: linear-gradient(160deg, #1a0800 0%, #0e0400 40%, var(--deep) 100%); }
-.hero-closed  { background: linear-gradient(160deg, #1a0000 0%, #0e0000 40%, var(--deep) 100%); }
-
-/* ─── Cyan glow accents ─── */
-.cyan-glow-text {
-  color: var(--cyan);
-  text-shadow: 0 0 20px rgba(6,182,212,0.5);
+/* ─── Horizon motif (replaces gradient "hero" blobs) ───
+   A flat sky/sea split used behind flagship/hero sections instead of
+   the old glow gradients — one visual signature, no stock photography. */
+.horizon {
+  position: relative;
+  background: var(--paper-raised);
+  border-bottom: 1px solid var(--tile-border);
+  overflow: hidden;
+}
+.horizon::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 3px;
+  background: var(--horizon-color, var(--cyan));
+  opacity: 0.6;
 }
 
-.cyan-glow-border {
-  border-color: rgba(6,182,212,0.25);
-  box-shadow: 0 0 0 1px rgba(6,182,212,0.1), 0 4px 16px rgba(6,182,212,0.08);
-}
+/* Condition-based horizon accent colors (swap-in for old .hero-* gradients) */
+.hero-firing,   .hero-epic_powder, .hero-prime   { --horizon-color: var(--q-firing); }
+.hero-pumping,  .hero-fresh_tracks, .hero-good   { --horizon-color: var(--q-pumping); }
+.hero-fun,      .hero-good_snow,   .hero-fair    { --horizon-color: var(--q-good); }
+.hero-worth_it, .hero-packed,      .hero-caution { --horizon-color: var(--q-ok); }
+.hero-flat,     .hero-no_data,     .hero-closed  { --horizon-color: var(--q-flat); }
 
 /* ─── Nav active pill ─── */
 .nav-active {
-  background: rgba(6,182,212,0.1);
-  border: 1px solid rgba(6,182,212,0.2);
+  background: var(--cyan-muted);
+  border: 1px solid rgba(14,165,233,0.25);
   color: var(--cyan-bright);
 }
 
 /* Sport-specific nav active states */
 .nav-active-snow {
-  background: rgba(139,92,246,0.1);
-  border: 1px solid rgba(139,92,246,0.2);
-  color: #A78BFA;
+  background: var(--snow-muted);
+  border: 1px solid rgba(124,58,237,0.2);
+  color: var(--snow-bright);
 }
 
 .nav-active-trail {
-  background: rgba(16,185,129,0.1);
-  border: 1px solid rgba(16,185,129,0.2);
-  color: #34D399;
+  background: var(--trail-muted);
+  border: 1px solid rgba(5,150,105,0.2);
+  color: var(--trail-bright);
 }
 
 /* ─── Range inputs ─── */
@@ -368,7 +419,7 @@ input[type="range"] { accent-color: var(--cyan); }
 
 /* ─── Toggle switch ─── */
 .ocean-toggle-on  { background: var(--cyan); }
-.ocean-toggle-off { background: var(--mid); border: 1px solid rgba(6,182,212,0.15); }
+.ocean-toggle-off { background: var(--paper-sunken); border: 1px solid var(--tile-border-strong); }
 
 /* ─── Forecast card quality bar colors (CSS vars for easy theming) ─── */
 .q-firing  { --q-color: var(--q-firing); }
@@ -377,15 +428,15 @@ input[type="range"] { accent-color: var(--cyan); }
 .q-ok      { --q-color: var(--q-ok); }
 .q-flat    { --q-color: var(--q-flat); }
 
-/* ─── Multi-sport live indicator pulses ─── */
+/* ─── Multi-sport live indicator pulses (flat, no glow) ─── */
 @keyframes bio-pulse-snow {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(139,92,246,0.6); }
-  50%       { opacity: 0.7; box-shadow: 0 0 0 6px rgba(139,92,246,0); }
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
 }
 .animate-bio-pulse-snow { animation: bio-pulse-snow 2s ease-in-out infinite; }
 
 @keyframes bio-pulse-trail {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16,185,129,0.6); }
-  50%       { opacity: 0.7; box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
 }
 .animate-bio-pulse-trail { animation: bio-pulse-trail 2s ease-in-out infinite; }

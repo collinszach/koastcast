@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from 'next'
-import { Syne, JetBrains_Mono, Inter } from 'next/font/google'
+import { Archivo, JetBrains_Mono, Inter } from 'next/font/google'
 import './globals.css'
 
-const syne = Syne({
-  variable: '--font-syne',
+const archivo = Archivo({
+  variable: '--font-archivo',
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['600', '700', '800', '900'],
 })
 
 const jetbrainsMono = JetBrains_Mono({
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#060D1A',
+  themeColor: '#F7F5F0',
   width: 'device-width',
   initialScale: 1,
 }
@@ -66,10 +66,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${syne.variable} ${jetbrainsMono.variable} ${inter.variable} antialiased min-h-screen`}
-        style={{ background: '#060D1A', color: '#E0F7FA' }}
+        className={`${archivo.variable} ${jetbrainsMono.variable} ${inter.variable} antialiased min-h-screen`}
+        style={{ background: '#F7F5F0', color: '#12181F' }}
         suppressHydrationWarning
       >
         {children}

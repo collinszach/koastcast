@@ -29,7 +29,7 @@ const MS_TO_KT = 1.944
 
 const WIND_BANDS = [
   { label: 'Calm',           min: 0,  max: 5,  color: '#10B981', bg: 'rgba(16,185,129,0.1)' },
-  { label: 'Light Breeze',   min: 5,  max: 10, color: '#06B6D4', bg: 'rgba(6,182,212,0.1)'  },
+  { label: 'Light Breeze',   min: 5,  max: 10, color: '#0EA5E9', bg: 'rgba(14,165,233,0.1)'  },
   { label: 'Moderate',       min: 10, max: 15, color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' },
   { label: 'Fresh Breeze',   min: 15, max: 20, color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' },
   { label: 'Strong',         min: 20, max: 999,color: '#EF4444', bg: 'rgba(239,68,68,0.1)'  },
@@ -53,7 +53,7 @@ function windQuality(windDir: number, offshoreDir: number): {
 } {
   const diff = angleDiff(windDir, offshoreDir)
   if (diff <= 30)  return { label: 'Offshore',    color: '#10B981', score: 100 - diff }
-  if (diff <= 60)  return { label: 'Cross-Off',   color: '#06B6D4', score: 80 - diff }
+  if (diff <= 60)  return { label: 'Cross-Off',   color: '#0EA5E9', score: 80 - diff }
   if (diff <= 90)  return { label: 'Cross-Shore', color: '#F59E0B', score: 60 - diff }
   if (diff <= 135) return { label: 'Cross-On',    color: '#F97316', score: 30 }
   return { label: 'Onshore', color: '#EF4444', score: 10 }
@@ -112,9 +112,9 @@ function CompassRose({ windDir }: { windDir: number }) {
 
   return (
     <svg viewBox="0 0 180 180" style={{ width: 180, height: 180, display: 'block' }}>
-      <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(6,182,212,0.15)" strokeWidth={1.5} />
-      <circle cx={cx} cy={cy} r={r * 0.6} fill="none" stroke="rgba(6,182,212,0.08)" strokeWidth={1} />
-      <circle cx={cx} cy={cy} r={4} fill="rgba(6,182,212,0.3)" />
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="var(--tile-border-strong)" strokeWidth={1.5} />
+      <circle cx={cx} cy={cy} r={r * 0.6} fill="none" stroke="var(--tile-border)" strokeWidth={1} />
+      <circle cx={cx} cy={cy} r={4} fill="var(--tile-border-strong)" />
 
       {Array.from({ length: 36 }, (_, i) => {
         const deg = i * 10
@@ -126,7 +126,7 @@ function CompassRose({ windDir }: { windDir: number }) {
             key={deg}
             x1={inner.x} y1={inner.y}
             x2={outer.x} y2={outer.y}
-            stroke={isCard ? 'rgba(6,182,212,0.5)' : 'rgba(6,182,212,0.2)'}
+            stroke={isCard ? 'var(--tile-border-strong)' : 'var(--tile-border)'}
             strokeWidth={isCard ? 1.5 : 0.8}
           />
         )
@@ -140,7 +140,7 @@ function CompassRose({ windDir }: { windDir: number }) {
             key={label}
             x={pos.x} y={pos.y + 3.5}
             textAnchor="middle"
-            fill={isN ? '#22D3EE' : 'rgba(6,182,212,0.5)'}
+            fill={isN ? 'var(--cyan-bright)' : 'var(--spray)'}
             style={{ font: `${isN ? 700 : 500} ${isN ? 10 : 8}px JetBrains Mono, monospace` }}
           >
             {label}
@@ -156,19 +156,19 @@ function CompassRose({ windDir }: { windDir: number }) {
       />
       <polygon
         points={`${needleTip.x},${needleTip.y} ${needleLeft.x},${needleLeft.y} ${cx},${cy}`}
-        fill="#06B6D4"
+        fill="var(--cyan)"
         opacity={0.9}
       />
       <polygon
         points={`${needleTip.x},${needleTip.y} ${needleRight.x},${needleRight.y} ${cx},${cy}`}
-        fill="#22D3EE"
+        fill="var(--cyan-bright)"
         opacity={0.7}
       />
 
       <text
         x={cx} y={cy + 22}
         textAnchor="middle"
-        fill="#06B6D4"
+        fill="var(--cyan)"
         style={{ font: '700 10px JetBrains Mono, monospace' }}
       >
         {degToCompass(windDir)}
@@ -217,12 +217,13 @@ function WindTimeline({ data, startIdx }: { data: WindData; startIdx: number }) 
 
   return (
     <div style={{
-      background: 'rgba(6,13,26,0.72)',
-      border: '1px solid rgba(6,182,212,0.13)',
+      background: 'var(--tile-bg)',
+      border: '1px solid var(--tile-border)',
       borderRadius: 14,
+      boxShadow: 'var(--tile-shadow)',
       padding: '20px 24px',
     }}>
-      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: '#2E5568', textTransform: 'uppercase', marginBottom: 12 }}>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--spray)', textTransform: 'uppercase', marginBottom: 12 }}>
         48-Hour Wind Timeline
       </div>
       <div style={{ overflowX: 'auto' }}>
@@ -233,20 +234,20 @@ function WindTimeline({ data, startIdx }: { data: WindData; startIdx: number }) 
         >
           <defs>
             <linearGradient id="speedGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%"   stopColor="#06B6D4" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#06B6D4" stopOpacity="0.02" />
+              <stop offset="0%"   stopColor="var(--cyan)" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="var(--cyan)" stopOpacity="0.02" />
             </linearGradient>
           </defs>
 
           {gridVals.map(v => (
             <g key={v}>
-              <line x1={20} y1={toY(v)} x2={W - 20} y2={toY(v)} stroke="rgba(6,182,212,0.07)" strokeWidth={1} />
-              <text x={16} y={toY(v) + 3} textAnchor="end" fill="#2E5568" style={{ font: '8px JetBrains Mono, monospace' }}>{v}</text>
+              <line x1={20} y1={toY(v)} x2={W - 20} y2={toY(v)} stroke="var(--tile-border)" strokeWidth={1} />
+              <text x={16} y={toY(v) + 3} textAnchor="end" fill="var(--spray)" style={{ font: '8px JetBrains Mono, monospace' }}>{v}</text>
             </g>
           ))}
 
           <path d={speedFill} fill="url(#speedGrad)" />
-          <path d={speedPath} fill="none" stroke="#06B6D4" strokeWidth={2} strokeLinejoin="round" />
+          <path d={speedPath} fill="none" stroke="var(--cyan)" strokeWidth={2} strokeLinejoin="round" />
           <path d={gustPath} fill="none" stroke="rgba(245,158,11,0.7)" strokeWidth={1.5} strokeDasharray="4,3" strokeLinejoin="round" />
 
           {arrowIdxs.map(i => {
@@ -267,7 +268,7 @@ function WindTimeline({ data, startIdx }: { data: WindData; startIdx: number }) 
                   points={`${x + dx / 2},${H - 8 + dy / 2} ${x + dx / 2 - dy * 0.3},${H - 8 + dy / 2 - dx * 0.3} ${x + dx / 2 + dy * 0.3},${H - 8 + dy / 2 + dx * 0.3}`}
                   fill="#F59E0B"
                 />
-                <text x={x} y={H + 4} textAnchor="middle" fill="#6B9BAD" style={{ font: '8px JetBrains Mono, monospace' }}>
+                <text x={x} y={H + 4} textAnchor="middle" fill="var(--spray)" style={{ font: '8px JetBrains Mono, monospace' }}>
                   {degToCompass(dir)}
                 </text>
               </g>
@@ -282,17 +283,17 @@ function WindTimeline({ data, startIdx }: { data: WindData; startIdx: number }) 
               ? new Date(t).toLocaleDateString('en-US', { weekday: 'short' })
               : h === 12 ? '12pm' : h < 12 ? `${h}am` : `${h - 12}pm`
             return (
-              <text key={i} x={x} y={H + 22} textAnchor="middle" fill={h === 0 ? '#B0D4DC' : '#2E5568'} style={{ font: `${h === 0 ? 600 : 500} 8px JetBrains Mono, monospace` }}>
+              <text key={i} x={x} y={H + 22} textAnchor="middle" fill={h === 0 ? 'var(--mist)' : 'var(--spray)'} style={{ font: `${h === 0 ? 600 : 500} 8px JetBrains Mono, monospace` }}>
                 {label}
               </text>
             )
           })}
 
           <g transform={`translate(${W - 170}, 4)`}>
-            <line x1={0} y1={5} x2={16} y2={5} stroke="#06B6D4" strokeWidth={2} />
-            <text x={20} y={8} fill="#6B9BAD" style={{ font: '9px JetBrains Mono, monospace' }}>Speed (kt)</text>
+            <line x1={0} y1={5} x2={16} y2={5} stroke="var(--cyan)" strokeWidth={2} />
+            <text x={20} y={8} fill="var(--spray)" style={{ font: '9px JetBrains Mono, monospace' }}>Speed (kt)</text>
             <line x1={0} y1={19} x2={16} y2={19} stroke="rgba(245,158,11,0.7)" strokeWidth={1.5} strokeDasharray="4,3" />
-            <text x={20} y={22} fill="#6B9BAD" style={{ font: '9px JetBrains Mono, monospace' }}>Gusts (kt)</text>
+            <text x={20} y={22} fill="var(--spray)" style={{ font: '9px JetBrains Mono, monospace' }}>Gusts (kt)</text>
           </g>
         </svg>
       </div>
@@ -321,15 +322,16 @@ function OffshoreAnalyzer({
   if (ranked.length === 0) {
     return (
       <div style={{
-        background: 'rgba(6,13,26,0.72)',
-        border: '1px solid rgba(6,182,212,0.13)',
+        background: 'var(--tile-bg)',
+        border: '1px solid var(--tile-border)',
         borderRadius: 14,
+        boxShadow: 'var(--tile-shadow)',
         padding: '20px 24px',
       }}>
-        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: '#2E5568', textTransform: 'uppercase', marginBottom: 14 }}>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--spray)', textTransform: 'uppercase', marginBottom: 14 }}>
           Offshore Wind Analyzer · {degToCompass(windDir)} {Math.round(windDir)}° · {windKt.toFixed(0)}kt
         </div>
-        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#2E5568' }}>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--spray)' }}>
           No nearby spots with wind data available
         </div>
       </div>
@@ -338,12 +340,13 @@ function OffshoreAnalyzer({
 
   return (
     <div style={{
-      background: 'rgba(6,13,26,0.72)',
-      border: '1px solid rgba(6,182,212,0.13)',
+      background: 'var(--tile-bg)',
+      border: '1px solid var(--tile-border)',
       borderRadius: 14,
+      boxShadow: 'var(--tile-shadow)',
       padding: '20px 24px',
     }}>
-      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: '#2E5568', textTransform: 'uppercase', marginBottom: 14 }}>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--spray)', textTransform: 'uppercase', marginBottom: 14 }}>
         Offshore Wind Analyzer · {degToCompass(windDir)} {Math.round(windDir)}° · {windKt.toFixed(0)}kt
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -351,26 +354,26 @@ function OffshoreAnalyzer({
           <div key={spot.name} style={{
             display: 'flex', alignItems: 'center', gap: 12,
             padding: '12px 14px',
-            background: 'rgba(255,255,255,0.02)',
+            background: 'var(--paper-sunken)',
             border: `1px solid ${spot.quality.color}22`,
             borderRadius: 10,
           }}>
             <div style={{
               fontFamily: 'JetBrains Mono, monospace', fontSize: 11, fontWeight: 700,
-              color: rank === 0 ? spot.quality.color : '#2E5568',
+              color: rank === 0 ? spot.quality.color : 'var(--spray)',
               width: 18, textAlign: 'center', flexShrink: 0,
             }}>
               {rank + 1}
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: 'Syne, system-ui, sans-serif', fontSize: 13, fontWeight: 600, color: '#E0F7FA' }}>
+              <div style={{ fontFamily: 'Syne, system-ui, sans-serif', fontSize: 13, fontWeight: 600, color: 'var(--foam)' }}>
                 {spot.name}
               </div>
-              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: '#6B9BAD', marginTop: 2 }}>
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--spray)', marginTop: 2 }}>
                 Optimal offshore: {degToCompass(spot.offshoreDir)} ({spot.offshoreDir}°)
               </div>
             </div>
-            <div style={{ width: 80, height: 4, background: 'rgba(255,255,255,0.06)', borderRadius: 2, overflow: 'hidden', flexShrink: 0 }}>
+            <div style={{ width: 80, height: 4, background: 'var(--tile-border)', borderRadius: 2, overflow: 'hidden', flexShrink: 0 }}>
               <div style={{
                 height: '100%',
                 width: `${Math.max(5, spot.quality.score)}%`,
@@ -398,12 +401,13 @@ function WindBands({ currentKt }: { currentKt: number }) {
   const active = currentWindBand(currentKt)
   return (
     <div style={{
-      background: 'rgba(6,13,26,0.72)',
-      border: '1px solid rgba(6,182,212,0.13)',
+      background: 'var(--tile-bg)',
+      border: '1px solid var(--tile-border)',
       borderRadius: 14,
+      boxShadow: 'var(--tile-shadow)',
       padding: '20px 24px',
     }}>
-      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: '#2E5568', textTransform: 'uppercase', marginBottom: 14 }}>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--spray)', textTransform: 'uppercase', marginBottom: 14 }}>
         Wind Speed Reference · Current: {currentKt.toFixed(1)}kt
       </div>
       <div style={{ display: 'flex', height: 12, borderRadius: 6, overflow: 'hidden', marginBottom: 14 }}>
@@ -427,20 +431,20 @@ function WindBands({ currentKt }: { currentKt: number }) {
             <div key={b.label} style={{
               padding: '8px 12px',
               borderRadius: 8,
-              background: isCurrent ? b.bg : 'rgba(255,255,255,0.02)',
-              border: `1px solid ${isCurrent ? b.color + '55' : 'rgba(255,255,255,0.05)'}`,
+              background: isCurrent ? b.bg : 'var(--paper-sunken)',
+              border: `1px solid ${isCurrent ? b.color + '55' : 'var(--tile-border)'}`,
               flex: '1 1 100px',
             }}>
               <div style={{
                 fontFamily: 'JetBrains Mono, monospace', fontSize: 10, fontWeight: 700,
-                color: isCurrent ? b.color : '#6B9BAD',
+                color: isCurrent ? b.color : 'var(--spray)',
                 marginBottom: 3,
               }}>
                 {b.label}
               </div>
               <div style={{
                 fontFamily: 'JetBrains Mono, monospace', fontSize: 9,
-                color: isCurrent ? b.color : '#2E5568',
+                color: isCurrent ? b.color : 'var(--spray)',
               }}>
                 {b.max === 999 ? `${b.min}kt+` : `${b.min}–${b.max}kt`}
               </div>
@@ -602,7 +606,7 @@ export default function WindPage() {
       label:  'Current Direction',
       value:  `${degToCompass(curDir)} (${Math.round(curDir)}°)`,
       detail: 'Live from Open-Meteo',
-      color:  '#06B6D4',
+      color:  'var(--cyan)',
     },
     {
       label:  'Current Speed',
@@ -627,11 +631,11 @@ export default function WindPage() {
   ]
 
   return (
-    <div style={{ width: '100%', height: '100%', overflowY: 'auto', background: '#060D1A' }}>
+    <div style={{ width: '100%', height: '100%', overflowY: 'auto', background: 'var(--deep)' }}>
       {/* Nav-removal notice */}
-      <div style={{ fontSize: 12, color: 'var(--deep-text)', background: 'rgba(6,182,212,0.05)', padding: '8px 16px', borderBottom: '1px solid rgba(6,182,212,0.08)' }}>
+      <div style={{ fontSize: 12, color: 'var(--deep-text)', background: 'var(--cyan-muted)', padding: '8px 16px', borderBottom: '1px solid var(--tile-border)' }}>
         Wind data is available as a layer on the{' '}
-        <a href="/map" style={{ color: '#06B6D4', textDecoration: 'underline' }}>Spots map →</a>
+        <a href="/map" style={{ color: 'var(--cyan)', textDecoration: 'underline' }}>Spots map →</a>
       </div>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 24px 64px' }}>
 
@@ -640,22 +644,22 @@ export default function WindPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
             <div style={{
               width: 32, height: 32, borderRadius: 10,
-              background: 'rgba(6,182,212,0.12)',
-              border: '1px solid rgba(6,182,212,0.25)',
+              background: 'var(--cyan-muted)',
+              border: '1px solid var(--tile-border-strong)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 16,
             }}>🌬️</div>
             <div style={{
               fontFamily: 'JetBrains Mono, monospace',
               fontSize: 9, fontWeight: 700,
-              color: '#06B6D4', letterSpacing: '0.2em', textTransform: 'uppercase',
+              color: 'var(--cyan)', letterSpacing: '0.2em', textTransform: 'uppercase',
             }}>
               KOASTCAST · WIND ANALYSIS
             </div>
             {loading && (
               <div style={{
                 marginLeft: 'auto',
-                fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: '#06B6D4',
+                fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--cyan)',
                 letterSpacing: '0.12em',
               }}>
                 FETCHING WIND DATA...
@@ -674,12 +678,12 @@ export default function WindPage() {
           <h1 style={{
             fontFamily: 'Syne, system-ui, sans-serif',
             fontSize: 32, fontWeight: 800,
-            color: '#E0F7FA', letterSpacing: '-0.03em',
+            color: 'var(--foam)', letterSpacing: '-0.03em',
             margin: 0,
           }}>
             Wind Analysis
           </h1>
-          <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: '#6B9BAD', marginTop: 6 }}>
+          <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--spray)', marginTop: 6 }}>
             {selectedSpot
               ? `${selectedSpot.name} · ${selectedSpot.region}`
               : 'Select a location'}
@@ -688,9 +692,10 @@ export default function WindPage() {
 
         {/* ── Spot Selector ────────────────────────────────────────────── */}
         <div style={{
-          background: 'rgba(6,13,26,0.72)',
-          border: '1px solid rgba(6,182,212,0.13)',
+          background: 'var(--tile-bg)',
+          border: '1px solid var(--tile-border)',
           borderRadius: 14,
+          boxShadow: 'var(--tile-shadow)',
           padding: '16px 20px',
           marginBottom: 20,
         }}>
@@ -712,10 +717,10 @@ export default function WindPage() {
             onChange={e => setSearch(e.target.value)}
             placeholder="🔍 Search spots..."
             style={{
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: 'var(--paper-sunken)',
+              border: '1px solid var(--tile-border-strong)',
               borderRadius: 10, padding: '8px 14px',
-              color: 'white', fontSize: 13, width: '100%',
+              color: 'var(--foam)', fontSize: 13, width: '100%',
               marginBottom: 8, outline: 'none',
               boxSizing: 'border-box',
             }}
@@ -729,13 +734,13 @@ export default function WindPage() {
                   flexShrink: 0, padding: '6px 14px', borderRadius: 20,
                   fontSize: 12, fontWeight: 600, cursor: 'pointer', border: 'none',
                   background: selectedSpot?.slug === spot.slug
-                    ? 'rgba(6,182,212,0.15)'
-                    : 'rgba(255,255,255,0.05)',
+                    ? 'var(--cyan-muted)'
+                    : 'var(--paper-sunken)',
                   color: selectedSpot?.slug === spot.slug
-                    ? '#06B6D4'
-                    : 'rgba(255,255,255,0.5)',
+                    ? 'var(--cyan-bright)'
+                    : 'var(--spray)',
                   borderBottom: selectedSpot?.slug === spot.slug
-                    ? '2px solid #06B6D4'
+                    ? '2px solid var(--cyan)'
                     : '2px solid transparent',
                   transition: 'all 0.15s', whiteSpace: 'nowrap',
                   fontFamily: 'JetBrains Mono, monospace',
@@ -749,21 +754,15 @@ export default function WindPage() {
 
         {/* ── Wind Hero ────────────────────────────────────────────────── */}
         <div style={{
-          background: 'rgba(6,13,26,0.72)',
-          border: '1px solid rgba(6,182,212,0.15)',
+          background: 'var(--tile-bg)',
+          border: '1px solid var(--tile-border-strong)',
           borderRadius: 16,
           padding: '28px 32px',
           marginBottom: 20,
+          boxShadow: 'var(--tile-shadow)',
           position: 'relative',
           overflow: 'hidden',
         }}>
-          <div style={{
-            position: 'absolute', top: -80, left: -80,
-            width: 260, height: 260,
-            background: 'radial-gradient(circle, rgba(6,182,212,0.06) 0%, transparent 70%)',
-            pointerEvents: 'none',
-          }} />
-
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 40, flexWrap: 'wrap' }}>
             <div style={{ flexShrink: 0 }}>
               <CompassRose windDir={curDir} />
@@ -779,8 +778,8 @@ export default function WindPage() {
                 }}>
                   {curKnots.toFixed(0)}
                 </span>
-                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, color: '#6B9BAD', paddingBottom: 8 }}>kt</span>
-                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 14, color: '#2E5568', paddingBottom: 10 }}>
+                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, color: 'var(--spray)', paddingBottom: 8 }}>kt</span>
+                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 14, color: 'var(--spray)', paddingBottom: 10 }}>
                   {curSpeedMs.toFixed(1)}m/s
                 </span>
               </div>
@@ -799,19 +798,19 @@ export default function WindPage() {
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
                 <div>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: '#2E5568', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Direction</div>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, fontWeight: 700, color: '#E0F7FA' }}>{degToCompass(curDir)}</div>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#6B9BAD' }}>{Math.round(curDir)}°</div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--spray)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Direction</div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, fontWeight: 700, color: 'var(--foam)' }}>{degToCompass(curDir)}</div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--spray)' }}>{Math.round(curDir)}°</div>
                 </div>
                 <div>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: '#2E5568', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Gusts</div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--spray)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Gusts</div>
                   <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, fontWeight: 700, color: '#F59E0B' }}>{curGustKt.toFixed(0)}kt</div>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#6B9BAD' }}>max gust</div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--spray)' }}>max gust</div>
                 </div>
                 <div>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: '#2E5568', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Quality</div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--spray)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Quality</div>
                   <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, fontWeight: 700, color: curQuality.color }}>{curQuality.label}</div>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#6B9BAD' }}>for surf</div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--spray)' }}>for surf</div>
                 </div>
               </div>
             </div>
@@ -825,7 +824,7 @@ export default function WindPage() {
               borderRadius: 12,
               minWidth: 120,
             }}>
-              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: '#2E5568', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--spray)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                 Surf Rating
               </div>
               <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 36, fontWeight: 800, color: curQuality.color, lineHeight: 1 }}>
@@ -859,30 +858,31 @@ export default function WindPage() {
 
         {/* ── Live Wind Stats ────────────────────────────────────────────── */}
         <div style={{
-          background: 'rgba(6,13,26,0.72)',
-          border: '1px solid rgba(6,182,212,0.13)',
+          background: 'var(--tile-bg)',
+          border: '1px solid var(--tile-border)',
           borderRadius: 14,
+          boxShadow: 'var(--tile-shadow)',
           padding: '20px 24px',
           marginBottom: 20,
         }}>
-          <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: '#2E5568', textTransform: 'uppercase', marginBottom: 14 }}>
+          <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--spray)', textTransform: 'uppercase', marginBottom: 14 }}>
             Live Conditions · {selectedSpot?.name ?? '—'}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
             {liveStats.map(({ label, value, detail, color }) => (
               <div key={label} style={{
                 padding: '14px 16px',
-                background: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.04)',
+                background: 'var(--paper-sunken)',
+                border: '1px solid var(--tile-border)',
                 borderRadius: 10,
               }}>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: '#2E5568', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--spray)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>
                   {label}
                 </div>
                 <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 18, fontWeight: 700, color, marginBottom: 4 }}>
                   {value}
                 </div>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#6B9BAD', lineHeight: 1.5 }}>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: 'var(--spray)', lineHeight: 1.5 }}>
                   {detail}
                 </div>
               </div>
@@ -893,7 +893,7 @@ export default function WindPage() {
         {/* ── Footer ───────────────────────────────────────────────────── */}
         <div style={{
           fontFamily: 'JetBrains Mono, monospace',
-          fontSize: 9, color: '#2E5568', letterSpacing: '0.1em',
+          fontSize: 9, color: 'var(--spray)', letterSpacing: '0.1em',
           textAlign: 'center',
         }}>
           DATA: OPEN-METEO · ECMWF SEAMLESS MODEL · 3-DAY FORECAST

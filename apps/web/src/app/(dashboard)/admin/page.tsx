@@ -109,8 +109,8 @@ export default async function AdminPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
-        <p className="text-gray-500 text-sm">Internal metrics — not for public consumption</p>
+        <h1 className="text-2xl font-bold text-[var(--foam)]">Admin Dashboard</h1>
+        <p className="text-[var(--spray)] text-sm">Internal metrics — not for public consumption</p>
       </div>
 
       {/* KPI row */}
@@ -135,10 +135,10 @@ export default async function AdminPage() {
             .map(([day, count]) => (
               <div key={day} className="flex-1 flex flex-col items-center gap-1">
                 <div
-                  className="w-full bg-blue-600 rounded-t"
+                  className="w-full bg-[var(--cyan)] rounded-t"
                   style={{ height: `${Math.max(8, (count / Math.max(...Object.values(stats.sessionsByDay))) * 80)}px` }}
                 />
-                <div className="text-gray-600 text-[10px]">{day.slice(5)}</div>
+                <div className="text-[var(--deep-text)] text-[10px]">{day.slice(5)}</div>
               </div>
             ))}
         </div>
@@ -148,19 +148,19 @@ export default async function AdminPage() {
       <Section title="User tier breakdown">
         <div className="space-y-2">
           {[
-            { label: 'Free', count: stats.freeCount, color: 'bg-gray-600' },
-            { label: 'Pro ($4.99)', count: stats.proUsers, color: 'bg-blue-500' },
-            { label: 'Explorer ($9.99)', count: stats.explorerUsers, color: 'bg-purple-500' },
+            { label: 'Free', count: stats.freeCount, color: 'bg-[var(--spray)]' },
+            { label: 'Pro ($4.99)', count: stats.proUsers, color: 'bg-[var(--cyan)]' },
+            { label: 'Explorer ($9.99)', count: stats.explorerUsers, color: 'bg-[var(--amber)]' },
           ].map(({ label, count, color }) => (
             <div key={label} className="flex items-center gap-3">
-              <div className="text-gray-400 text-sm w-32">{label}</div>
-              <div className="flex-1 bg-gray-800 rounded-full h-2 overflow-hidden">
+              <div className="text-[var(--spray)] text-sm w-32">{label}</div>
+              <div className="flex-1 bg-[var(--paper-sunken)] rounded-full h-2 overflow-hidden">
                 <div
                   className={`h-full rounded-full ${color}`}
                   style={{ width: stats.totalUsers ? `${(count / stats.totalUsers) * 100}%` : '0%' }}
                 />
               </div>
-              <div className="text-gray-300 text-sm w-12 text-right">{count}</div>
+              <div className="text-[var(--mist)] text-sm w-12 text-right">{count}</div>
             </div>
           ))}
         </div>
@@ -171,13 +171,13 @@ export default async function AdminPage() {
         <div className="space-y-2">
           {stats.topSpots.map((spot, i) => (
             <div key={spot.slug} className="flex items-center gap-3">
-              <span className="text-gray-600 text-xs w-5">{i + 1}</span>
-              <span className="text-gray-300 text-sm flex-1">{spot.name}</span>
-              <span className="text-gray-500 text-xs">{spot.count} sessions</span>
+              <span className="text-[var(--deep-text)] text-xs w-5">{i + 1}</span>
+              <span className="text-[var(--mist)] text-sm flex-1">{spot.name}</span>
+              <span className="text-[var(--spray)] text-xs">{spot.count} sessions</span>
             </div>
           ))}
           {stats.topSpots.length === 0 && (
-            <p className="text-gray-600 text-sm">No session data yet.</p>
+            <p className="text-[var(--deep-text)] text-sm">No session data yet.</p>
           )}
         </div>
       </Section>
@@ -188,22 +188,22 @@ export default async function AdminPage() {
           {stats.trainingRuns.map((run, i) => (
             <div key={i} className="flex items-center gap-3 text-sm">
               <span className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                run.status === 'completed' ? 'bg-green-500' :
-                run.status === 'failed' ? 'bg-red-500' : 'bg-yellow-500'
+                run.status === 'completed' ? 'bg-[var(--q-pumping)]' :
+                run.status === 'failed' ? 'bg-red-600' : 'bg-[var(--amber)]'
               }`} />
-              <span className="text-gray-400 capitalize w-32">{run.model_type}</span>
+              <span className="text-[var(--spray)] capitalize w-32">{run.model_type}</span>
               {run.mae != null && (
-                <span className="text-gray-500 text-xs">MAE {Number(run.mae).toFixed(4)}</span>
+                <span className="text-[var(--spray)] text-xs">MAE {Number(run.mae).toFixed(4)}</span>
               )}
               {run.finished_at && (
-                <span className="text-gray-600 text-xs ml-auto">
+                <span className="text-[var(--deep-text)] text-xs ml-auto">
                   {new Date(run.finished_at).toLocaleDateString()}
                 </span>
               )}
             </div>
           ))}
           {stats.trainingRuns.length === 0 && (
-            <p className="text-gray-600 text-sm">No training runs logged yet.</p>
+            <p className="text-[var(--deep-text)] text-sm">No training runs logged yet.</p>
           )}
         </div>
       </Section>
@@ -213,18 +213,18 @@ export default async function AdminPage() {
 
 function KPI({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
-      <div className="text-gray-500 text-xs mb-1">{label}</div>
-      <div className="text-white font-bold text-2xl">{value}</div>
-      {sub && <div className="text-gray-600 text-xs mt-0.5">{sub}</div>}
+    <div className="tile rounded-xl p-4">
+      <div className="text-[var(--spray)] text-xs mb-1">{label}</div>
+      <div className="text-[var(--foam)] font-bold text-2xl">{value}</div>
+      {sub && <div className="text-[var(--deep-text)] text-xs mt-0.5">{sub}</div>}
     </div>
   )
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-      <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">{title}</h2>
+    <div className="tile rounded-xl p-5">
+      <h2 className="section-label mb-4">{title}</h2>
       {children}
     </div>
   )

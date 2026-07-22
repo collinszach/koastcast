@@ -17,16 +17,15 @@ struct ScoreRing: View {
         VStack(spacing: 10) {
             ZStack {
                 Circle()
-                    .stroke(Color.white.opacity(0.06), lineWidth: 11)
+                    .stroke(Theme.hairline, lineWidth: 11)
                 Circle()
                     .trim(from: 0, to: animatedProgress)
                     .stroke(color, style: StrokeStyle(lineWidth: 11, lineCap: .round))
                     .rotationEffect(.degrees(-90))
-                    .shadow(color: color.opacity(0.5), radius: 8)
                 VStack(spacing: 0) {
                     Text("\(shown)")
                         .font(Theme.display(40))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Theme.textPrimary)
                         .contentTransition(.numericText())
                         .monospacedDigit()
                     if !emoji.isEmpty {

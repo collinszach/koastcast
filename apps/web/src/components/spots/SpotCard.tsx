@@ -12,12 +12,12 @@ interface SpotCardProps {
 }
 
 const CONDITION_STYLES: Record<string, { accent: string; color: string; bg: string; border: string; label: string }> = {
-  firing:   { accent: '#F97316', color: '#F97316', bg: 'rgba(249,115,22,0.08)',  border: 'rgba(249,115,22,0.2)',  label: '🔥 FIRING'   },
-  pumping:  { accent: '#06B6D4', color: '#06B6D4', bg: 'rgba(6,182,212,0.08)',   border: 'rgba(6,182,212,0.2)',   label: '🤙 PUMPING'  },
-  fun:      { accent: '#3B82F6', color: '#3B82F6', bg: 'rgba(59,130,246,0.08)',  border: 'rgba(59,130,246,0.2)',  label: '😎 FUN'      },
-  worth_it: { accent: '#6366F1', color: '#6366F1', bg: 'rgba(99,102,241,0.08)',  border: 'rgba(99,102,241,0.2)',  label: '🏄 WORTH IT' },
-  flat:     { accent: '#334155', color: '#475569', bg: 'rgba(30,42,60,0.4)',     border: 'rgba(51,65,85,0.3)',    label: 'FLAT'        },
-  no_data:  { accent: '#1E2A3C', color: '#2E5568', bg: 'rgba(15,22,36,0.4)',     border: 'rgba(30,42,60,0.3)',    label: 'NO DATA'     },
+  firing:   { accent: '#EA580C', color: '#EA580C', bg: 'rgba(234,88,12,0.08)',   border: 'rgba(234,88,12,0.25)',  label: '🔥 FIRING'   },
+  pumping:  { accent: '#0891B2', color: '#0891B2', bg: 'rgba(8,145,178,0.08)',   border: 'rgba(8,145,178,0.25)',  label: '🤙 PUMPING'  },
+  fun:      { accent: '#2563EB', color: '#2563EB', bg: 'rgba(37,99,235,0.08)',   border: 'rgba(37,99,235,0.25)',  label: '😎 FUN'      },
+  worth_it: { accent: '#4F46E5', color: '#4F46E5', bg: 'rgba(79,70,229,0.08)',   border: 'rgba(79,70,229,0.25)',  label: '🏄 WORTH IT' },
+  flat:     { accent: '#64748B', color: '#64748B', bg: 'var(--paper-sunken)',    border: 'var(--tile-border-strong)', label: 'FLAT'    },
+  no_data:  { accent: '#A8B0BC', color: 'var(--deep-text)', bg: 'var(--paper-sunken)', border: 'var(--tile-border)', label: 'NO DATA' },
 }
 
 export default function SpotCard({ spot }: SpotCardProps) {
@@ -48,19 +48,19 @@ export default function SpotCard({ spot }: SpotCardProps) {
       <div
         className="relative rounded-xl overflow-hidden transition-all duration-200"
         style={{
-          background: 'rgba(6, 12, 24, 0.85)',
-          border: `1px solid rgba(6,182,212,0.08)`,
-          boxShadow: `0 2px 16px rgba(0,0,0,0.3)`,
+          background: 'var(--tile-bg)',
+          border: `1px solid var(--tile-border)`,
+          boxShadow: `var(--tile-shadow)`,
         }}
         onMouseEnter={e => {
           e.currentTarget.style.transform = 'translateY(-2px) scale(1.01)'
-          e.currentTarget.style.borderColor = `rgba(6,182,212,0.18)`
-          e.currentTarget.style.boxShadow = `0 6px 24px rgba(0,0,0,0.4)`
+          e.currentTarget.style.borderColor = `rgba(14,165,233,0.3)`
+          e.currentTarget.style.boxShadow = `0 6px 20px rgba(18,24,31,0.1)`
         }}
         onMouseLeave={e => {
           e.currentTarget.style.transform = ''
-          e.currentTarget.style.borderColor = 'rgba(6,182,212,0.08)'
-          e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.3)'
+          e.currentTarget.style.borderColor = 'var(--tile-border)'
+          e.currentTarget.style.boxShadow = 'var(--tile-shadow)'
         }}
       >
         {/* Left condition accent */}
@@ -109,7 +109,7 @@ export default function SpotCard({ spot }: SpotCardProps) {
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
                   padding: 2, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: saved ? '#06B6D4' : '#2E5568',
+                  color: saved ? 'var(--cyan)' : 'var(--deep-text)',
                   transition: 'color 0.15s',
                 }}
                 aria-label={saved ? 'Remove from saved' : 'Save spot'}
@@ -117,8 +117,8 @@ export default function SpotCard({ spot }: SpotCardProps) {
                 <Bookmark
                   size={14}
                   style={{
-                    fill: saved ? '#06B6D4' : 'none',
-                    stroke: saved ? '#06B6D4' : '#2E5568',
+                    fill: saved ? 'var(--cyan)' : 'none',
+                    stroke: saved ? 'var(--cyan)' : 'var(--deep-text)',
                     transition: 'fill 0.15s, stroke 0.15s',
                   }}
                 />
@@ -153,7 +153,7 @@ export default function SpotCard({ spot }: SpotCardProps) {
 
           {/* Footer */}
           <div className="flex items-center justify-between pt-2"
-               style={{ borderTop: '1px solid rgba(6,182,212,0.07)', fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.06em' }}>
+               style={{ borderTop: '1px solid var(--tile-border)', fontFamily: 'var(--font-data)', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.06em' }}>
             <div className="flex items-center gap-1.5">
               <span style={{ textTransform: 'capitalize' }}>{spot.break_type}</span>
               {spot.skill_minimum && (

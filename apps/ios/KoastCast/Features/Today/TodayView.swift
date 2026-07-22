@@ -54,7 +54,7 @@ struct TodayView: View {
                 .foregroundStyle(Theme.textSecondary)
             Text("KoastCast")
                 .font(Theme.display(30, weight: .black))
-                .foregroundStyle(.white)
+                .foregroundStyle(Theme.textPrimary)
         }
     }
 

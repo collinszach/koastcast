@@ -72,18 +72,18 @@ function OceanPlaceholder() {
           <stop offset="100%" stopColor="#051220" />
         </linearGradient>
         <linearGradient id="wave1" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#06B6D4" stopOpacity="0.4" />
+          <stop offset="0%" stopColor="var(--cyan)" stopOpacity="0.4" />
           <stop offset="100%" stopColor="#0891B2" stopOpacity="0.1" />
         </linearGradient>
       </defs>
       <rect width="800" height="300" fill="url(#sky)" />
-      <ellipse cx="400" cy="280" rx="300" ry="30" fill="#06B6D4" opacity="0.06" />
+      <ellipse cx="400" cy="280" rx="300" ry="30" fill="var(--cyan)" opacity="0.06" />
       <rect y="275" width="800" height="175" fill="url(#ocean)" />
       <path d="M0,200 L80,170 L140,165 L200,175 L260,180 L300,275 L0,275 Z" fill="#061422" opacity="0.8" />
       <path d="M-20,310 C60,295 120,325 200,308 C280,291 340,318 420,305 C500,292 560,315 640,302 C720,289 780,308 820,300 L820,320 C780,315 720,300 640,312 C560,324 500,305 420,318 C340,331 280,308 200,322 C120,336 60,310 -20,322 Z"
         fill="url(#wave1)" />
       <path d="M-20,345 C80,328 160,355 260,340 C360,325 440,350 540,337 C640,324 720,345 820,335 L820,360 C720,368 640,348 540,358 C440,368 360,345 260,358 C160,371 80,348 -20,360 Z"
-        fill="rgba(6,182,212,0.2)" />
+        fill="rgba(14,165,233,0.2)" />
       <path d="M150,318 C180,305 220,300 260,310 C300,320 320,315 340,308 C360,301 370,295 380,302 C390,309 395,318 400,322 C405,326 395,328 380,325 C365,322 350,315 330,318 C310,321 290,325 270,322 C250,319 220,320 190,325 C165,330 150,325 150,318 Z"
         fill="white" opacity="0.3" />
       <path d="M140,322 C170,318 200,322 240,318 C280,314 310,320 350,316 L360,325 C320,328 285,322 245,326 C205,330 175,327 145,332 Z"
@@ -134,7 +134,7 @@ export default function SpotCams({ spot }: { spot: Spot }) {
           borderRadius: 12,
           overflow: 'hidden',
           background: 'linear-gradient(180deg, #0A1628 0%, #060D1A 40%, #081520 100%)',
-          border: '1px solid rgba(6,182,212,0.12)',
+          border: '1px solid rgba(14,165,233,0.12)',
         }}
       >
         {/* Feed layer */}
@@ -165,8 +165,8 @@ export default function SpotCams({ spot }: { spot: Spot }) {
             display: 'flex',
             alignItems: 'center',
             gap: 6,
-            background: 'rgba(6,13,26,0.85)',
-            border: '1px solid rgba(6,182,212,0.2)',
+            background: 'var(--tile-bg)',
+            border: '1px solid rgba(14,165,233,0.2)',
             borderRadius: 6,
             padding: '5px 10px',
           }}>
@@ -190,7 +190,7 @@ export default function SpotCams({ spot }: { spot: Spot }) {
           {activeCam && (
             <div style={{
               background: 'rgba(6,13,26,0.75)',
-              border: '1px solid rgba(6,182,212,0.12)',
+              border: '1px solid rgba(14,165,233,0.12)',
               borderRadius: 6,
               padding: '4px 10px',
             }}>
@@ -223,7 +223,7 @@ export default function SpotCams({ spot }: { spot: Spot }) {
         }}>
           <div style={{
             background: 'rgba(6,13,26,0.75)',
-            border: '1px solid rgba(6,182,212,0.12)',
+            border: '1px solid rgba(14,165,233,0.12)',
             borderRadius: 6,
             padding: '4px 10px',
           }}>
@@ -256,7 +256,7 @@ export default function SpotCams({ spot }: { spot: Spot }) {
             alignItems: 'center',
             gap: 1,
             padding: '10px 14px',
-            background: 'linear-gradient(0deg, rgba(6,13,26,0.9) 0%, transparent 100%)',
+            background: 'linear-gradient(0deg, var(--tile-bg) 0%, transparent 100%)',
             zIndex: 10,
           }}>
             {spot.cams!.map((cam, i) => (
@@ -267,10 +267,10 @@ export default function SpotCams({ spot }: { spot: Spot }) {
                   flex: 1,
                   padding: '6px 8px',
                   borderRadius: 6,
-                  background: i === activeIndex ? 'rgba(6,182,212,0.15)' : 'rgba(6,13,26,0.5)',
+                  background: i === activeIndex ? 'rgba(14,165,233,0.15)' : 'var(--tile-bg)',
                   border: i === activeIndex
-                    ? '1px solid rgba(6,182,212,0.3)'
-                    : '1px solid rgba(6,182,212,0.06)',
+                    ? '1px solid rgba(14,165,233,0.3)'
+                    : '1px solid rgba(14,165,233,0.06)',
                   cursor: 'pointer',
                   textAlign: 'center',
                   transition: 'all 0.15s',
@@ -297,8 +297,8 @@ export default function SpotCams({ spot }: { spot: Spot }) {
             zIndex: 10,
           }}>
             <div style={{
-              background: 'rgba(6,13,26,0.85)',
-              border: '1px solid rgba(6,182,212,0.15)',
+              background: 'var(--tile-bg)',
+              border: '1px solid rgba(14,165,233,0.15)',
               borderRadius: 8,
               padding: '8px 20px',
             }}>

@@ -89,7 +89,7 @@ export default function ResetPasswordPage() {
     <div
       style={{
         minHeight: '100vh',
-        background: 'var(--deep)',
+        background: 'var(--paper)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -97,20 +97,12 @@ export default function ResetPasswordPage() {
         position: 'relative',
       }}
     >
-      {/* Background radial glow */}
+      {/* Fine dot grid texture — same convention as spot-detail hero */}
       <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse at 50% 100%, rgba(6,182,212,0.07) 0%, transparent 60%)',
-        }}
-      />
-      {/* Dot grid */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.015]"
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
           backgroundImage:
-            'radial-gradient(circle, rgba(6,182,212,0.8) 1px, transparent 1px)',
+            'radial-gradient(circle, rgba(18,24,31,0.8) 1px, transparent 1px)',
           backgroundSize: '28px 28px',
         }}
       />
@@ -128,7 +120,7 @@ export default function ResetPasswordPage() {
               borderRadius: 10,
               fontFamily: 'var(--font-data)',
               fontSize: 12,
-              color: '#FCD34D',
+              color: 'var(--amber-bright)',
               lineHeight: 1.5,
             }}
           >
@@ -144,8 +136,7 @@ export default function ResetPasswordPage() {
               width: 52,
               height: 52,
               borderRadius: 16,
-              background: 'linear-gradient(135deg, #8B5CF6 0%, #06B6D4 60%, #10B981 100%)',
-              boxShadow: '0 8px 32px rgba(6,182,212,0.35)',
+              background: 'var(--cyan)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -291,7 +282,7 @@ export default function ResetPasswordPage() {
                             flex: 1,
                             height: 3,
                             borderRadius: 2,
-                            background: i <= strength.score ? strength.color : 'rgba(255,255,255,0.08)',
+                            background: i <= strength.score ? strength.color : 'var(--tile-border)',
                             transition: 'background 0.2s',
                           }}
                         />
@@ -379,7 +370,7 @@ export default function ResetPasswordPage() {
                       style={{
                         fontFamily: 'var(--font-data)',
                         fontSize: 10,
-                        color: newPassword === confirmPassword ? '#10B981' : '#EF4444',
+                        color: newPassword === confirmPassword ? 'var(--trail)' : '#DC2626',
                         letterSpacing: '0.05em',
                       }}
                     >
@@ -394,7 +385,7 @@ export default function ResetPasswordPage() {
                   style={{
                     fontSize: 12,
                     fontFamily: 'var(--font-data)',
-                    color: message.type === 'error' ? '#FCA5A5' : 'var(--cyan)',
+                    color: message.type === 'error' ? '#B91C1C' : 'var(--cyan-bright)',
                     lineHeight: 1.5,
                   }}
                 >
@@ -431,7 +422,7 @@ export default function ResetPasswordPage() {
         >
           <Link
             href="/auth/login"
-            style={{ color: 'var(--cyan)', textDecoration: 'none' }}
+            style={{ color: 'var(--cyan-bright)', textDecoration: 'none' }}
           >
             &larr; Back to sign in
           </Link>

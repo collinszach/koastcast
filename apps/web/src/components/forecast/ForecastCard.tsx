@@ -9,12 +9,12 @@ interface ForecastCardProps {
 
 /** Maps quality score → ocean design system colors */
 function qualityColor(score?: number | null): string {
-  if (score == null) return '#2E5568'
-  if (score >= 8) return '#F97316'   // firing: fire orange
-  if (score >= 6) return '#06B6D4'   // pumping: bioluminescent teal
-  if (score >= 4) return '#3B82F6'   // good/fun: ocean blue
-  if (score >= 2) return '#6366F1'   // worth it: deep indigo
-  return '#475569'                    // flat: slate
+  if (score == null) return 'var(--deep-text)'
+  if (score >= 8) return 'var(--q-firing)'
+  if (score >= 6) return 'var(--q-pumping)'
+  if (score >= 4) return 'var(--q-good)'
+  if (score >= 2) return 'var(--q-ok)'
+  return 'var(--q-flat)'
 }
 
 function qualityLabel(score?: number | null): string {
@@ -30,8 +30,8 @@ function formatHour(ts: string): string {
   return new Date(ts).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true })
 }
 
-function DirectionArrow({ degrees, size = 13, color = '#2E5568' }: { degrees?: number | null; size?: number; color?: string }) {
-  if (degrees == null) return <span style={{ color: '#2E5568', fontSize: 10 }}>--</span>
+function DirectionArrow({ degrees, size = 13, color = 'var(--deep-text)' }: { degrees?: number | null; size?: number; color?: string }) {
+  if (degrees == null) return <span style={{ color: 'var(--deep-text)', fontSize: 10 }}>--</span>
   return (
     <svg width={size} height={size} viewBox="0 0 24 24"
          style={{ transform: `rotate(${degrees}deg)`, display: 'inline-block', flexShrink: 0 }}>
@@ -51,15 +51,11 @@ export default function ForecastCard({ hour, isSelected, onClick }: ForecastCard
         isSelected ? 'scale-[1.06]' : 'hover:scale-[1.03]'
       }`}
       style={{
-        background: isSelected
-          ? `linear-gradient(170deg, ${color}14 0%, rgba(6,13,26,0.92) 100%)`
-          : 'rgba(6, 13, 26, 0.75)',
+        background: 'var(--tile-bg)',
         border: isSelected
-          ? `1px solid ${color}45`
-          : '1px solid rgba(6,182,212,0.08)',
-        boxShadow: isSelected
-          ? `0 8px 32px ${color}20, 0 0 0 1px ${color}20`
-          : '0 2px 12px rgba(0,0,0,0.3)',
+          ? `1px solid ${color}66`
+          : '1px solid var(--tile-border)',
+        boxShadow: isSelected ? '0 6px 20px rgba(18,24,31,0.1)' : 'var(--tile-shadow)',
       }}
     >
       {/* Top quality bar */}
@@ -87,7 +83,6 @@ export default function ForecastCard({ hour, isSelected, onClick }: ForecastCard
             fontWeight: 700,
             lineHeight: 1,
             color: isSelected ? color : 'var(--foam)',
-            textShadow: isSelected ? `0 0 20px ${color}40` : 'none',
             transition: 'color 0.15s',
           }}>
             {formatWaveHeight(hour.wave_height_face_m ?? hour.wave_height_m)}
@@ -107,12 +102,12 @@ export default function ForecastCard({ hour, isSelected, onClick }: ForecastCard
           <span style={{ fontFamily: 'var(--font-data)', fontSize: 11, fontWeight: 600, color: 'var(--spray)' }}>
             {formatPeriod(hour.wave_period_s)}
           </span>
-          <DirectionArrow degrees={hour.swell_direction ?? hour.wave_direction} color="#2E5568" />
+          <DirectionArrow degrees={hour.swell_direction ?? hour.wave_direction} color="var(--deep-text)" />
         </div>
 
         {/* Wind */}
         <div className="flex items-center justify-center gap-1.5 mb-3">
-          <DirectionArrow degrees={hour.wind_direction} size={10} color="#2E5568" />
+          <DirectionArrow degrees={hour.wind_direction} size={10} color="var(--deep-text)" />
           <span style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: 'var(--deep-text)' }}>
             {formatWindSpeed(hour.wind_speed_ms)}
           </span>
@@ -121,7 +116,7 @@ export default function ForecastCard({ hour, isSelected, onClick }: ForecastCard
         {/* Quality pill */}
         {score != null && (
           <div className="flex items-center justify-between">
-            <div className="w-full rounded-full overflow-hidden" style={{ height: 2, background: 'rgba(255,255,255,0.05)' }}>
+            <div className="w-full rounded-full overflow-hidden" style={{ height: 2, background: 'var(--tile-border)' }}>
               <div className="h-full rounded-full transition-all duration-500"
                    style={{ width: `${score * 10}%`, background: color }} />
             </div>
@@ -153,7 +148,7 @@ export default function ForecastCard({ hour, isSelected, onClick }: ForecastCard
         {/* Crowd indicator */}
         {hour.crowd_score != null && (
           <div className="flex items-center gap-1 mt-1.5">
-            <div className="flex-1 rounded-full overflow-hidden" style={{ height: 2, background: 'rgba(255,255,255,0.04)' }}>
+            <div className="flex-1 rounded-full overflow-hidden" style={{ height: 2, background: 'var(--tile-border)' }}>
               <div className="h-full rounded-full"
                    style={{
                      width: `${hour.crowd_score * 100}%`,

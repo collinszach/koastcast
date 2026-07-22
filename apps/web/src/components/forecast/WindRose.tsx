@@ -71,7 +71,7 @@ export default function WindRose({
           cy={cy}
           r={maxR * ratio}
           fill="none"
-          stroke="#1f2937"
+          stroke="var(--tile-border-strong)"
           strokeWidth={ratio === 1.0 ? 1 : 0.5}
         />
       ))}
@@ -84,8 +84,8 @@ export default function WindRose({
         const label = polarToCartesian(cx, cy, maxR + 12, angle)
         return (
           <g key={dir}>
-            <line x1={inner.x} y1={inner.y} x2={outer.x} y2={outer.y} stroke="#374151" strokeWidth={0.5} />
-            <text x={label.x} y={label.y + 3} textAnchor="middle" fontSize={8} fill="#6b7280">
+            <line x1={inner.x} y1={inner.y} x2={outer.x} y2={outer.y} stroke="var(--tile-border)" strokeWidth={0.5} />
+            <text x={label.x} y={label.y + 3} textAnchor="middle" fontSize={8} fill="var(--spray)">
               {dir}
             </text>
           </g>
@@ -99,13 +99,13 @@ export default function WindRose({
             const tip = polarToCartesian(cx, cy, maxR - 4, offshoreDirection)
             return (
               <>
-                <line x1={cx} y1={cy} x2={tip.x} y2={tip.y} stroke="#3b82f6" strokeWidth={1.5} strokeDasharray="4 2" />
+                <line x1={cx} y1={cy} x2={tip.x} y2={tip.y} stroke="var(--cyan-bright)" strokeWidth={1.5} strokeDasharray="4 2" />
                 <text
                   x={tip.x}
                   y={tip.y - 4}
                   textAnchor="middle"
                   fontSize={7}
-                  fill="#3b82f6"
+                  fill="var(--cyan-bright)"
                 >
                   offshore
                 </text>
@@ -140,7 +140,7 @@ export default function WindRose({
       })}
 
       {/* Center dot */}
-      <circle cx={cx} cy={cy} r={3} fill="#4b5563" />
+      <circle cx={cx} cy={cy} r={3} fill="var(--deep-text)" />
 
       {/* Speed legend */}
       <g transform={`translate(4, ${size - 36})`}>
@@ -151,7 +151,7 @@ export default function WindRose({
         ].map((l, i) => (
           <g key={l.label} transform={`translate(${i * 36}, 0)`}>
             <circle cx={4} cy={4} r={3} fill={l.color} />
-            <text x={10} y={7} fontSize={7} fill="#9ca3af">{l.label}</text>
+            <text x={10} y={7} fontSize={7} fill="var(--spray)">{l.label}</text>
           </g>
         ))}
       </g>

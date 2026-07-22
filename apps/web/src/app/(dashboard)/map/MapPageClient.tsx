@@ -13,10 +13,10 @@ import { useLocation } from '@/lib/location'
 const SpotMap = dynamic(() => import('@/components/spots/SpotMap'), {
   ssr: false,
   loading: () => (
-    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#020508' }}>
+    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--paper)' }}>
       <div style={{ textAlign: 'center' }}>
-        <div style={{ width: 32, height: 32, borderRadius: '50%', border: '2px solid rgba(6,182,212,0.15)', borderTopColor: '#06b6d4', animation: 'spin 0.8s linear infinite', margin: '0 auto 12px' }} />
-        <p style={{ fontFamily: 'monospace', fontSize: 9, color: 'rgba(6,182,212,0.3)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>loading map</p>
+        <div style={{ width: 32, height: 32, borderRadius: '50%', border: '2px solid var(--cyan-muted)', borderTopColor: 'var(--cyan)', animation: 'spin 0.8s linear infinite', margin: '0 auto 12px' }} />
+        <p style={{ fontFamily: 'monospace', fontSize: 9, color: 'var(--spray)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>loading map</p>
       </div>
     </div>
   ),
@@ -46,12 +46,12 @@ function meetsQualityThreshold(spot: Spot, filter: QualityFilter): boolean {
 // ─── Condition palette ─────────────────────────────────────────────────────────
 
 const COND = {
-  firing:   { accent: '#ef4444', bg: 'rgba(239,68,68,0.1)',  label: 'FIRING',   icon: '🔥' },
-  pumping:  { accent: '#f97316', bg: 'rgba(249,115,22,0.1)', label: 'PUMPING',  icon: '🤙' },
-  fun:      { accent: '#22c55e', bg: 'rgba(34,197,94,0.1)',  label: 'FUN',      icon: '😎' },
-  worth_it: { accent: '#3b82f6', bg: 'rgba(59,130,246,0.1)', label: 'WORTH IT', icon: '🏄' },
-  flat:     { accent: '#4b5563', bg: 'rgba(75,85,99,0.1)',   label: 'FLAT',     icon: '😴' },
-  no_data:  { accent: '#374151', bg: 'rgba(30,40,55,0.3)',   label: 'NO DATA',  icon: '—'  },
+  firing:   { accent: '#EA580C', bg: 'rgba(234,88,12,0.1)',   label: 'FIRING',   icon: '🔥' },
+  pumping:  { accent: '#0891B2', bg: 'rgba(8,145,178,0.1)',   label: 'PUMPING',  icon: '🤙' },
+  fun:      { accent: '#2563EB', bg: 'rgba(37,99,235,0.1)',   label: 'FUN',      icon: '😎' },
+  worth_it: { accent: '#4F46E5', bg: 'rgba(79,70,229,0.1)',   label: 'WORTH IT', icon: '🏄' },
+  flat:     { accent: '#64748B', bg: 'rgba(100,116,139,0.1)', label: 'FLAT',     icon: '😴' },
+  no_data:  { accent: '#6B7686', bg: 'var(--paper-sunken)',   label: 'NO DATA',  icon: '—'  },
 } as const
 
 function cond(qs?: number | null) { return COND[getConditionLabel(qs)] }
@@ -75,7 +75,7 @@ function ForecastBars({ hours }: { hours: FH[] }) {
   const max = Math.max(...slice.map(h => (h.wave_height_face_m ?? h.wave_height_m) ?? 0), 0.5)
   return (
     <div>
-      <p style={{ fontFamily: 'monospace', fontSize: 8, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>24-HOUR TREND</p>
+      <p style={{ fontFamily: 'monospace', fontSize: 8, color: 'var(--deep-text)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>24-HOUR TREND</p>
       <div style={{ display: 'flex', alignItems: 'flex-end', gap: 1.5, height: 28 }}>
         {slice.map((h, i) => {
           const ht = (h.wave_height_face_m ?? h.wave_height_m) ?? 0
@@ -85,7 +85,8 @@ function ForecastBars({ hours }: { hours: FH[] }) {
             <div key={i} style={{
               flex: 1, minWidth: 2,
               height: `${Math.max(10, pct * 100)}%`,
-              background: i === 0 ? c.accent : `${c.accent}60`,
+              background: c.accent,
+              opacity: i === 0 ? 1 : 0.45,
               borderRadius: '2px 2px 0 0',
             }} />
           )
@@ -95,7 +96,7 @@ function ForecastBars({ hours }: { hours: FH[] }) {
         {[0, 8, 16, 23].map(i => {
           const h = slice[i]; if (!h) return null
           const hr = new Date(h.forecast_time).getHours()
-          return <span key={i} style={{ fontFamily: 'monospace', fontSize: 7, color: 'rgba(255,255,255,0.18)', letterSpacing: '0.04em' }}>
+          return <span key={i} style={{ fontFamily: 'monospace', fontSize: 7, color: 'var(--deep-text)', letterSpacing: '0.04em' }}>
             {hr === 0 ? '12a' : hr < 12 ? `${hr}a` : hr === 12 ? '12p' : `${hr-12}p`}
           </span>
         })}
@@ -153,14 +154,14 @@ function DetailPanel({ spot, onClose }: { spot: Spot; onClose: () => void }) {
       {/* Header */}
       <div style={{
         padding: '16px 16px 14px',
-        borderBottom: `1px solid ${m.accent}20`,
-        background: `linear-gradient(to bottom, ${m.accent}08, transparent)`,
+        borderBottom: '1px solid var(--tile-border)',
+        background: 'var(--paper-raised)',
         flexShrink: 0,
       }}>
         <button onClick={onClose} style={{
           display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12,
           background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-          fontFamily: 'monospace', fontSize: 9, color: 'rgba(255,255,255,0.3)',
+          fontFamily: 'monospace', fontSize: 9, color: 'var(--spray)',
           letterSpacing: '0.1em', textTransform: 'uppercase',
         }}>
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
@@ -171,12 +172,12 @@ function DetailPanel({ spot, onClose }: { spot: Spot; onClose: () => void }) {
 
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
           <div>
-            <p style={{ fontFamily: 'monospace', fontSize: 8, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 5 }}>
+            <p style={{ fontFamily: 'monospace', fontSize: 8, color: 'var(--spray)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 5 }}>
               {spot.region} · {spot.break_type}
             </p>
             <h2 style={{
               fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 800,
-              color: '#f0f6ff', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0,
+              color: 'var(--foam)', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0,
             }}>{spot.name}</h2>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, marginTop: 2 }}>
@@ -191,15 +192,15 @@ function DetailPanel({ spot, onClose }: { spot: Spot; onClose: () => void }) {
               ref={bookmarkBtnRef}
               onClick={handleBookmark}
               style={{
-                background: 'rgba(255,255,255,0.06)', border: `1px solid ${saved ? 'rgba(6,182,212,0.3)' : 'rgba(255,255,255,0.08)'}`,
+                background: 'var(--paper-sunken)', border: `1px solid ${saved ? 'rgba(14,165,233,0.35)' : 'var(--tile-border)'}`,
                 borderRadius: 8, padding: '5px 6px', cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: saved ? '#06B6D4' : 'rgba(255,255,255,0.3)',
+                color: saved ? 'var(--cyan)' : 'var(--spray)',
                 transition: 'color 0.15s, border-color 0.15s',
               }}
               aria-label={saved ? 'Remove from saved' : 'Save spot'}
             >
-              <Bookmark size={13} style={{ fill: saved ? '#06B6D4' : 'none', stroke: 'currentColor', transition: 'fill 0.15s' }} />
+              <Bookmark size={13} style={{ fill: saved ? 'var(--cyan)' : 'none', stroke: 'currentColor', transition: 'fill 0.15s' }} />
             </button>
           </div>
         </div>
@@ -213,18 +214,17 @@ function DetailPanel({ spot, onClose }: { spot: Spot; onClose: () => void }) {
           <span style={{
             fontFamily: 'monospace', fontSize: 64, fontWeight: 900, lineHeight: 1,
             letterSpacing: '-0.04em',
-            color: isOffline ? 'rgba(255,255,255,0.06)' : loading ? 'rgba(255,255,255,0.08)' : m.accent,
-            filter: (!isOffline && !loading && hFt != null) ? `drop-shadow(0 0 20px ${m.accent}60)` : 'none',
-            transition: 'color 0.4s, filter 0.4s',
+            color: isOffline ? 'var(--deep-text)' : loading ? 'var(--deep-text)' : m.accent,
+            transition: 'color 0.4s',
           }}>
             {isOffline ? '—' : loading ? '—' : (hFt ?? '—')}
           </span>
           <div>
-            <p style={{ fontFamily: 'monospace', fontSize: 10, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.06em', marginBottom: 2 }}>
+            <p style={{ fontFamily: 'monospace', fontSize: 10, color: 'var(--spray)', letterSpacing: '0.06em', marginBottom: 2 }}>
               {isOffline ? 'OFFLINE' : 'FEET FACE'}
             </p>
             {!isOffline && per != null && !loading && (
-              <p style={{ fontFamily: 'monospace', fontSize: 11, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.02em' }}>
+              <p style={{ fontFamily: 'monospace', fontSize: 11, color: 'var(--mist)', letterSpacing: '0.02em' }}>
                 {formatPeriod(per)} period
               </p>
             )}
@@ -233,11 +233,11 @@ function DetailPanel({ spot, onClose }: { spot: Spot; onClose: () => void }) {
 
         {isOffline ? (
           <div style={{
-            background: 'rgba(249,115,22,0.06)', border: '1px solid rgba(249,115,22,0.15)',
+            background: 'rgba(234,88,12,0.06)', border: '1px solid rgba(234,88,12,0.15)',
             borderRadius: 10, padding: '12px 14px', textAlign: 'center',
           }}>
-            <p style={{ fontFamily: 'monospace', fontSize: 9, color: 'rgba(249,115,22,0.6)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>NUC backend offline</p>
-            <p style={{ fontFamily: 'monospace', fontSize: 9, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.04em' }}>Live conditions unavailable</p>
+            <p style={{ fontFamily: 'monospace', fontSize: 9, color: 'rgba(234,88,12,0.6)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>NUC backend offline</p>
+            <p style={{ fontFamily: 'monospace', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.04em' }}>Live conditions unavailable</p>
           </div>
         ) : (
           <>
@@ -249,15 +249,15 @@ function DetailPanel({ spot, onClose }: { spot: Spot; onClose: () => void }) {
                 { label: 'Score', val: qs   != null ? `${qs.toFixed(1)}` : null, unit: '/10' },
               ].map(({ label, val, unit }) => (
                 <div key={label} style={{
-                  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)',
+                  background: 'var(--paper-sunken)', border: '1px solid var(--tile-border)',
                   borderRadius: 10, padding: '10px 10px 8px',
                 }}>
-                  <p style={{ fontFamily: 'monospace', fontSize: 7, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>{label}</p>
+                  <p style={{ fontFamily: 'monospace', fontSize: 7, color: 'var(--deep-text)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>{label}</p>
                   {loading ? (
-                    <div style={{ height: 12, borderRadius: 3, background: 'rgba(255,255,255,0.06)', animation: 'det-shimmer 1.4s ease-in-out infinite' }} />
+                    <div style={{ height: 12, borderRadius: 3, background: 'var(--tile-border)', animation: 'det-shimmer 1.4s ease-in-out infinite' }} />
                   ) : (
-                    <p style={{ fontFamily: 'monospace', fontSize: 13, fontWeight: 700, color: val ? '#e2e8f0' : 'rgba(255,255,255,0.12)', letterSpacing: val ? '-0.01em' : 0 }}>
-                      {val ?? '—'}{unit && val ? <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>{unit}</span> : ''}
+                    <p style={{ fontFamily: 'monospace', fontSize: 13, fontWeight: 700, color: val ? 'var(--foam)' : 'var(--deep-text)', letterSpacing: val ? '-0.01em' : 0 }}>
+                      {val ?? '—'}{unit && val ? <span style={{ fontSize: 9, color: 'var(--spray)', fontWeight: 400 }}>{unit}</span> : ''}
                     </p>
                   )}
                 </div>
@@ -266,7 +266,7 @@ function DetailPanel({ spot, onClose }: { spot: Spot; onClose: () => void }) {
 
             {/* 24h bars */}
             {hours.length > 1 && (
-              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, padding: '12px 12px 10px' }}>
+              <div style={{ background: 'var(--paper-sunken)', border: '1px solid var(--tile-border)', borderRadius: 10, padding: '12px 12px 10px' }}>
                 <ForecastBars hours={hours} />
               </div>
             )}
@@ -274,8 +274,8 @@ function DetailPanel({ spot, onClose }: { spot: Spot; onClose: () => void }) {
         )}
 
         {/* Optimal conditions */}
-        <div style={{ background: 'rgba(6,182,212,0.04)', border: '1px solid rgba(6,182,212,0.1)', borderRadius: 10, padding: '10px 12px' }}>
-          <p style={{ fontFamily: 'monospace', fontSize: 7, color: 'rgba(6,182,212,0.5)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 8 }}>Optimal conditions</p>
+        <div style={{ background: 'rgba(14,165,233,0.04)', border: '1px solid rgba(14,165,233,0.1)', borderRadius: 10, padding: '10px 12px' }}>
+          <p style={{ fontFamily: 'monospace', fontSize: 7, color: 'rgba(14,165,233,0.5)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 8 }}>Optimal conditions</p>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
             {[
               { label: 'Size',   val: `${formatWaveHeight(spot.optimal_size_min)}–${formatWaveHeight(spot.optimal_size_max)}` },
@@ -283,8 +283,8 @@ function DetailPanel({ spot, onClose }: { spot: Spot; onClose: () => void }) {
               { label: 'Swell',  val: spot.optimal_swell_direction != null ? `${spot.optimal_swell_direction}°` : '—' },
             ].map(({ label, val }) => (
               <div key={label}>
-                <p style={{ fontFamily: 'monospace', fontSize: 7, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>{label}</p>
-                <p style={{ fontFamily: 'monospace', fontSize: 11, fontWeight: 600, color: 'rgba(6,182,212,0.8)' }}>{val}</p>
+                <p style={{ fontFamily: 'monospace', fontSize: 7, color: 'var(--deep-text)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 3 }}>{label}</p>
+                <p style={{ fontFamily: 'monospace', fontSize: 11, fontWeight: 600, color: 'rgba(14,165,233,0.8)' }}>{val}</p>
               </div>
             ))}
           </div>
@@ -292,13 +292,13 @@ function DetailPanel({ spot, onClose }: { spot: Spot; onClose: () => void }) {
 
         {spot.description && (
           <p style={{
-            fontFamily: 'var(--font-display)', fontSize: 11, color: 'rgba(255,255,255,0.3)',
+            fontFamily: 'var(--font-display)', fontSize: 11, color: 'var(--spray)',
             lineHeight: 1.7, borderLeft: `2px solid ${m.accent}30`, paddingLeft: 10,
           }}>{spot.description}</p>
         )}
 
         {spot.nearest_buoy_id && (
-          <p style={{ fontFamily: 'monospace', fontSize: 8, color: 'rgba(255,255,255,0.15)', letterSpacing: '0.06em' }}>
+          <p style={{ fontFamily: 'monospace', fontSize: 8, color: 'var(--deep-text)', letterSpacing: '0.06em' }}>
             NDBC #{spot.nearest_buoy_id}{spot.swan_enabled ? ' · ⚡ SWAN physics' : ''}
           </p>
         )}
@@ -310,14 +310,14 @@ function DetailPanel({ spot, onClose }: { spot: Spot; onClose: () => void }) {
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
           width: '100%', padding: '14px 0', borderRadius: 12, textDecoration: 'none',
           background: isOffline
-            ? 'rgba(255,255,255,0.04)'
+            ? 'var(--paper-sunken)'
             : `linear-gradient(135deg, ${m.accent}ee 0%, ${m.accent}99 100%)`,
-          color: isOffline ? 'rgba(255,255,255,0.25)' : '#fff',
+          color: isOffline ? 'var(--spray)' : '#fff',
           fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 800, letterSpacing: '0.01em',
           boxShadow: isOffline ? 'none' : `0 4px 24px ${m.accent}50`,
           animation: isOffline ? 'none' : 'cta-glow 2.5s ease-in-out infinite',
           '--cta-glow': `${m.accent}50`,
-          border: isOffline ? '1px solid rgba(255,255,255,0.06)' : `1px solid ${m.accent}40`,
+          border: isOffline ? '1px solid var(--tile-border)' : `1px solid ${m.accent}40`,
         } as unknown as Record<string, string>}>
           Full 16-Day Forecast
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -349,35 +349,35 @@ function SpotRow({ spot, selected, onClick, distMiles }: { spot: Spot; selected:
         initial={{ opacity: 0, x: -6 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.25, ease: 'easeOut' }}
-        whileHover={!selected ? { background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.1)', x: 2 } : undefined}
+        whileHover={!selected ? { background: 'var(--paper-sunken)', borderColor: 'var(--tile-border-strong)', x: 2 } : undefined}
         whileTap={{ scale: 0.99 }}
         style={{
         display: 'flex', alignItems: 'center', gap: 12, padding: '11px 12px',
         borderRadius: 10, position: 'relative', overflow: 'hidden',
-        background: selected ? `${m.accent}10` : 'rgba(255,255,255,0.02)',
-        border: `1px solid ${selected ? `${m.accent}30` : 'rgba(255,255,255,0.05)'}`,
+        background: selected ? `${m.accent}10` : 'var(--paper-sunken)',
+        border: `1px solid ${selected ? `${m.accent}30` : 'var(--tile-border)'}`,
       }}>
         {/* Left color bar */}
         <div style={{
           position: 'absolute', left: 0, top: 4, bottom: 4, width: 2,
-          borderRadius: 2, background: hasData ? m.accent : 'rgba(249,115,22,0.3)',
+          borderRadius: 2, background: hasData ? m.accent : 'rgba(234,88,12,0.3)',
         }} />
 
         {/* Wave height badge */}
         <div style={{
           width: 40, height: 40, borderRadius: 8, flexShrink: 0,
-          background: hasData ? m.bg : 'rgba(249,115,22,0.06)',
-          border: `1px solid ${hasData ? `${m.accent}20` : 'rgba(249,115,22,0.12)'}`,
+          background: hasData ? m.bg : 'rgba(234,88,12,0.06)',
+          border: `1px solid ${hasData ? `${m.accent}20` : 'rgba(234,88,12,0.12)'}`,
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
           gap: 0,
         }}>
           {hFt != null ? (
             <>
               <span style={{ fontFamily: 'monospace', fontSize: 16, fontWeight: 900, color: m.accent, lineHeight: 1, letterSpacing: '-0.02em' }}>{hFt}</span>
-              <span style={{ fontFamily: 'monospace', fontSize: 7, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>ft</span>
+              <span style={{ fontFamily: 'monospace', fontSize: 7, color: 'var(--spray)', letterSpacing: '0.04em' }}>ft</span>
             </>
           ) : (
-            <span style={{ fontFamily: 'monospace', fontSize: hasData ? 14 : 8, color: hasData ? m.accent : 'rgba(249,115,22,0.4)', fontWeight: hasData ? 700 : 600, letterSpacing: hasData ? '-0.02em' : '0.04em' }}>
+            <span style={{ fontFamily: 'monospace', fontSize: hasData ? 14 : 8, color: hasData ? m.accent : 'rgba(234,88,12,0.4)', fontWeight: hasData ? 700 : 600, letterSpacing: hasData ? '-0.02em' : '0.04em' }}>
               {hasData ? m.icon : 'OFF\nLINE'}
             </span>
           )}
@@ -387,27 +387,27 @@ function SpotRow({ spot, selected, onClick, distMiles }: { spot: Spot; selected:
         <div style={{ flex: 1, minWidth: 0, maxWidth: '100%', overflow: 'hidden' }}>
           <p style={{
             fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700,
-            color: selected ? m.accent : '#dde4ee', lineHeight: 1.2,
+            color: selected ? m.accent : 'var(--foam)', lineHeight: 1.2,
             overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
             transition: 'color 0.15s', marginBottom: 3,
           }}>{spot.name}</p>
-          <p style={{ fontFamily: 'monospace', fontSize: 8.5, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>
+          <p style={{ fontFamily: 'monospace', fontSize: 8.5, color: 'var(--spray)', letterSpacing: '0.04em' }}>
             {spot.region} · {spot.break_type}
             {distMiles != null && (
-              <span style={{ color: 'rgba(59,130,246,0.7)', marginLeft: 5 }}>
+              <span style={{ color: 'rgba(79,70,229,0.7)', marginLeft: 5 }}>
                 · {distMiles < 10 ? distMiles.toFixed(1) : Math.round(distMiles)}mi
               </span>
             )}
           </p>
           {hasData && (per != null || wSpd != null) && (
-            <p style={{ fontFamily: 'monospace', fontSize: 8.5, color: 'rgba(255,255,255,0.35)', marginTop: 3, letterSpacing: '0.02em' }}>
+            <p style={{ fontFamily: 'monospace', fontSize: 8.5, color: 'var(--spray)', marginTop: 3, letterSpacing: '0.02em' }}>
               {per != null ? formatPeriod(per) : ''}
               {per != null && wSpd != null ? ' · ' : ''}
               {wSpd != null ? `${directionArrow(wDir)} ${formatWindSpeed(wSpd)}` : ''}
             </p>
           )}
           {!hasData && (
-            <p style={{ fontFamily: 'monospace', fontSize: 8, color: 'rgba(249,115,22,0.4)', marginTop: 2, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            <p style={{ fontFamily: 'monospace', fontSize: 8, color: 'rgba(234,88,12,0.4)', marginTop: 2, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               no live data
             </p>
           )}
@@ -476,12 +476,12 @@ function SpotList({
   onNearMe: () => void
 }) {
   const condOptions = ([
-    { key: 'all'      as CondFilter, label: 'All',  accent: '#06b6d4' },
-    { key: 'firing'   as CondFilter, label: '🔥',   accent: '#ef4444' },
-    { key: 'pumping'  as CondFilter, label: '🤙',   accent: '#f97316' },
-    { key: 'fun'      as CondFilter, label: '😎',   accent: '#22c55e' },
-    { key: 'worth_it' as CondFilter, label: '🏄',   accent: '#3b82f6' },
-    { key: 'flat'     as CondFilter, label: 'Flat', accent: '#4b5563' },
+    { key: 'all'      as CondFilter, label: 'All',  accent: 'var(--cyan)' },
+    { key: 'firing'   as CondFilter, label: '🔥',   accent: '#EA580C' },
+    { key: 'pumping'  as CondFilter, label: '🤙',   accent: '#EA580C' },
+    { key: 'fun'      as CondFilter, label: '😎',   accent: '#2563EB' },
+    { key: 'worth_it' as CondFilter, label: '🏄',   accent: '#4F46E5' },
+    { key: 'flat'     as CondFilter, label: 'Flat', accent: '#64748B' },
   ]).filter(o => o.key === 'all' || (condCounts[o.key] ?? 0) > 0 || condFilter === o.key)
 
   return (
@@ -491,25 +491,25 @@ function SpotList({
         {/* Live status banner */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: 7, marginBottom: 10,
-          background: offline ? 'rgba(249,115,22,0.06)' : 'rgba(6,182,212,0.05)',
-          border: `1px solid ${offline ? 'rgba(249,115,22,0.15)' : 'rgba(6,182,212,0.15)'}`,
+          background: offline ? 'rgba(234,88,12,0.06)' : 'rgba(14,165,233,0.05)',
+          border: `1px solid ${offline ? 'rgba(234,88,12,0.15)' : 'rgba(14,165,233,0.15)'}`,
           borderRadius: 8, padding: '7px 10px',
         }}>
           <div style={{
             width: 5, height: 5, borderRadius: '50%', flexShrink: 0,
-            background: offline ? '#f97316' : '#06b6d4',
-            boxShadow: offline ? 'none' : '0 0 5px #06b6d4',
+            background: offline ? '#EA580C' : 'var(--cyan)',
+            boxShadow: offline ? 'none' : '0 0 5px var(--cyan)',
             animation: offline ? 'none' : 'offline-blink 2s ease-in-out infinite',
           }} />
           {offline ? (
             <>
-              <span style={{ fontFamily: 'monospace', fontSize: 9, fontWeight: 700, color: '#f97316', letterSpacing: '0.08em' }}>Local data</span>
-              <span style={{ fontFamily: 'monospace', fontSize: 9, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.03em' }}>· NUC offline</span>
+              <span style={{ fontFamily: 'monospace', fontSize: 9, fontWeight: 700, color: '#EA580C', letterSpacing: '0.08em' }}>Local data</span>
+              <span style={{ fontFamily: 'monospace', fontSize: 9, color: 'var(--deep-text)', letterSpacing: '0.03em' }}>· NUC offline</span>
             </>
           ) : (
             <>
-              <span style={{ fontFamily: 'monospace', fontSize: 9, fontWeight: 700, color: '#06b6d4', letterSpacing: '0.06em' }}>Live</span>
-              <span style={{ fontFamily: 'monospace', fontSize: 9, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.03em' }}>· {spots.length} spots</span>
+              <span style={{ fontFamily: 'monospace', fontSize: 9, fontWeight: 700, color: 'var(--cyan)', letterSpacing: '0.06em' }}>Live</span>
+              <span style={{ fontFamily: 'monospace', fontSize: 9, color: 'var(--spray)', letterSpacing: '0.03em' }}>· {spots.length} spots</span>
             </>
           )}
         </div>
@@ -517,10 +517,10 @@ function SpotList({
         {/* Stats bar */}
         <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 10 }}>
           {([
-            { key: 'firing',   icon: '🔥', color: '#ef4444' },
-            { key: 'pumping',  icon: '🤙', color: '#f97316' },
-            { key: 'fun',      icon: '😎', color: '#22c55e' },
-            { key: 'flat',     icon: '😴', color: '#4b5563' },
+            { key: 'firing',   icon: '🔥', color: '#EA580C' },
+            { key: 'pumping',  icon: '🤙', color: '#EA580C' },
+            { key: 'fun',      icon: '😎', color: '#2563EB' },
+            { key: 'flat',     icon: '😴', color: '#64748B' },
           ] as const).filter(s => (condCounts[s.key] ?? 0) > 0).map(s => (
             <button
               key={s.key}
@@ -553,8 +553,8 @@ function SpotList({
               placeholder="Search spots..."
               style={{
                 width: '100%', padding: '8px 10px 8px 30px', boxSizing: 'border-box',
-                background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 8, color: '#dde4ee', outline: 'none',
+                background: 'var(--paper-sunken)', border: '1px solid var(--tile-border-strong)',
+                borderRadius: 8, color: 'var(--foam)', outline: 'none',
                 fontFamily: 'monospace', fontSize: 11, letterSpacing: '0.02em',
               }}
             />
@@ -568,19 +568,19 @@ function SpotList({
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
               flexShrink: 0, padding: '7px 9px', borderRadius: 8, cursor: locPermission === 'denied' ? 'not-allowed' : 'pointer',
               background: userLocation
-                ? 'rgba(59,130,246,0.15)'
+                ? 'rgba(79,70,229,0.15)'
                 : locPermission === 'denied'
-                  ? 'rgba(239,68,68,0.07)'
-                  : 'rgba(255,255,255,0.04)',
-              border: `1px solid ${userLocation ? 'rgba(59,130,246,0.4)' : locPermission === 'denied' ? 'rgba(239,68,68,0.2)' : 'rgba(255,255,255,0.08)'}`,
-              color: userLocation ? '#93C5FD' : locPermission === 'denied' ? '#F87171' : 'rgba(255,255,255,0.3)',
+                  ? 'rgba(234,88,12,0.07)'
+                  : 'var(--paper-sunken)',
+              border: `1px solid ${userLocation ? 'rgba(79,70,229,0.4)' : locPermission === 'denied' ? 'rgba(234,88,12,0.2)' : 'var(--tile-border-strong)'}`,
+              color: userLocation ? 'var(--cyan-bright)' : locPermission === 'denied' ? '#DC2626' : 'var(--spray)',
               opacity: locPermission === 'denied' ? 0.6 : 1,
               transition: 'all 0.12s',
             }}
             aria-label="Near Me"
           >
             {locating ? (
-              <div style={{ width: 11, height: 11, borderRadius: '50%', border: '1.5px solid rgba(59,130,246,0.3)', borderTopColor: '#93C5FD', animation: 'spin 0.7s linear infinite' }} />
+              <div style={{ width: 11, height: 11, borderRadius: '50%', border: '1.5px solid rgba(79,70,229,0.3)', borderTopColor: 'var(--cyan-bright)', animation: 'spin 0.7s linear infinite' }} />
             ) : (
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="3" fill="currentColor"/>
@@ -603,9 +603,9 @@ function SpotList({
                   padding: '4px 10px', borderRadius: 20, fontSize: 10,
                   fontFamily: 'var(--font-data)', fontWeight: 700, letterSpacing: '0.08em',
                   cursor: 'pointer', border: '1px solid',
-                  background: active ? 'rgba(6,182,212,0.15)' : 'rgba(6,13,26,0.4)',
-                  borderColor: active ? 'rgba(6,182,212,0.4)' : 'rgba(6,182,212,0.08)',
-                  color: active ? 'var(--cyan-bright, #06b6d4)' : 'rgba(148,163,184,0.6)',
+                  background: active ? 'rgba(14,165,233,0.15)' : 'var(--tile-bg)',
+                  borderColor: active ? 'rgba(14,165,233,0.4)' : 'rgba(14,165,233,0.08)',
+                  color: active ? 'var(--cyan-bright, var(--cyan))' : 'rgba(148,163,184,0.6)',
                   transition: 'all 0.12s',
                 }}
               >
@@ -624,9 +624,9 @@ function SpotList({
                 <button key={o.key} onClick={() => onCondFilterChange(o.key)} style={{
                   fontFamily: 'monospace', fontSize: 9, fontWeight: 600, padding: '3px 9px',
                   borderRadius: 20, cursor: 'pointer', letterSpacing: '0.04em',
-                  border: `1px solid ${active ? `${o.accent}50` : 'rgba(255,255,255,0.07)'}`,
-                  background: active ? `${o.accent}14` : 'rgba(255,255,255,0.02)',
-                  color: active ? o.accent : 'rgba(255,255,255,0.35)',
+                  border: `1px solid ${active ? `${o.accent}50` : 'var(--tile-border)'}`,
+                  background: active ? `${o.accent}14` : 'var(--paper-sunken)',
+                  color: active ? o.accent : 'var(--spray)',
                   transition: 'all 0.12s',
                 }}>
                   {o.label}
@@ -639,7 +639,7 @@ function SpotList({
           </div>
 
           {/* Sort toggle */}
-          <div style={{ display: 'flex', flexShrink: 0, border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, overflow: 'hidden' }}>
+          <div style={{ display: 'flex', flexShrink: 0, border: '1px solid var(--tile-border-strong)', borderRadius: 8, overflow: 'hidden' }}>
             {(['quality', 'name'] as const).map(s => (
               <button
                 key={s}
@@ -647,10 +647,10 @@ function SpotList({
                 style={{
                   fontFamily: 'monospace', fontSize: 8, padding: '3px 7px',
                   cursor: 'pointer', letterSpacing: '0.04em', textTransform: 'uppercase',
-                  background: sortBy === s ? 'rgba(6,182,212,0.15)' : 'transparent',
-                  color: sortBy === s ? '#06b6d4' : 'rgba(255,255,255,0.3)',
+                  background: sortBy === s ? 'rgba(14,165,233,0.15)' : 'transparent',
+                  color: sortBy === s ? 'var(--cyan)' : 'var(--spray)',
                   border: 'none', transition: 'all 0.12s',
-                  borderRight: s === 'quality' ? '1px solid rgba(255,255,255,0.08)' : 'none',
+                  borderRight: s === 'quality' ? '1px solid var(--tile-border-strong)' : 'none',
                 }}
               >
                 {s === 'quality' ? '★' : 'A–Z'}
@@ -660,24 +660,24 @@ function SpotList({
         </div>
 
         {/* Spot count */}
-        <p style={{ fontFamily: 'monospace', fontSize: 8, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.06em', marginTop: 6 }}>
-          <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11 }}>
+        <p style={{ fontFamily: 'monospace', fontSize: 8, color: 'var(--deep-text)', letterSpacing: '0.06em', marginTop: 6 }}>
+          <span style={{ color: 'var(--mist)', fontSize: 11 }}>
             {filtered.length} spots in view
             {filtered.length < totalFiltered && ` · ${totalFiltered - filtered.length} outside`}
           </span>
         </p>
       </div>
 
-      <div style={{ height: 1, background: 'rgba(255,255,255,0.05)', flexShrink: 0 }} />
+      <div style={{ height: 1, background: 'var(--tile-border)', flexShrink: 0 }} />
 
       {/* Spot list */}
-      <div className="sm-scroll" style={{ flex: 1, overflowY: 'auto', minHeight: 0, overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch', padding: '8px 10px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(6,182,212,0.2) transparent' }}>
+      <div className="sm-scroll" style={{ flex: 1, overflowY: 'auto', minHeight: 0, overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch', padding: '8px 10px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(14,165,233,0.2) transparent' }}>
         {filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '40px 16px' }}>
             <p style={{ fontSize: 24, marginBottom: 8, opacity: 0.3 }}>🌊</p>
-            <p style={{ fontFamily: 'var(--font-display)', fontSize: 12, color: 'rgba(255,255,255,0.25)', marginBottom: 12 }}>No spots match</p>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: 12, color: 'var(--spray)', marginBottom: 12 }}>No spots match</p>
             <button onClick={() => { onCondFilterChange('all'); onQualityFilterChange('all'); onSearchChange('') }} style={{
-              fontFamily: 'monospace', fontSize: 9, color: '#06b6d4', background: 'none', border: 'none',
+              fontFamily: 'monospace', fontSize: 9, color: 'var(--cyan)', background: 'none', border: 'none',
               cursor: 'pointer', letterSpacing: '0.08em', textTransform: 'uppercase',
             }}>Clear filters</button>
           </div>
@@ -708,12 +708,12 @@ const KEYFRAMES = `
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes det-shimmer { 0%,100% { opacity:0.4; } 50% { opacity:0.8; } }
   @keyframes offline-blink { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
-  @keyframes cta-glow { 0%,100% { box-shadow: 0 4px 20px var(--cta-glow,rgba(6,182,212,0.4)); } 50% { box-shadow: 0 6px 30px var(--cta-glow,rgba(6,182,212,0.7)), 0 0 60px var(--cta-glow,rgba(6,182,212,0.2)); } }
+  @keyframes cta-glow { 0%,100% { box-shadow: 0 4px 20px var(--cta-glow,rgba(14,165,233,0.4)); } 50% { box-shadow: 0 6px 30px var(--cta-glow,rgba(14,165,233,0.7)), 0 0 60px var(--cta-glow,rgba(14,165,233,0.2)); } }
   /* Custom scrollbar for panel lists */
   .sm-scroll::-webkit-scrollbar { width: 3px; }
   .sm-scroll::-webkit-scrollbar-track { background: transparent; }
-  .sm-scroll::-webkit-scrollbar-thumb { background: rgba(6,182,212,0.2); border-radius: 2px; }
-  .sm-scroll::-webkit-scrollbar-thumb:hover { background: rgba(6,182,212,0.4); }
+  .sm-scroll::-webkit-scrollbar-thumb { background: rgba(14,165,233,0.2); border-radius: 2px; }
+  .sm-scroll::-webkit-scrollbar-thumb:hover { background: rgba(14,165,233,0.4); }
 `
 
 // ─── Haversine distance ────────────────────────────────────────────────────────
@@ -802,7 +802,7 @@ export default function MapPageClient({ spots, offline = false }: { spots: Spot[
       el.style.cssText = `
         width: 18px; height: 18px; border-radius: 50%;
         background: #3B82F6; border: 3px solid white;
-        box-shadow: 0 0 0 4px rgba(59,130,246,0.3), 0 0 20px rgba(59,130,246,0.5);
+        box-shadow: 0 0 0 4px rgba(79,70,229,0.3), 0 0 20px rgba(79,70,229,0.5);
         cursor: default;
       `
       const icon = L.divIcon({ html: el, className: '', iconSize: [18, 18], iconAnchor: [9, 9] })
@@ -918,16 +918,15 @@ export default function MapPageClient({ spots, offline = false }: { spots: Spot[
           <div style={{
             position: 'absolute', top: 0, left: 0, right: 0, zIndex: 30,
             display: 'flex', alignItems: 'center', gap: 8,
-            background: 'rgba(245,158,11,0.1)',
-            border: '1px solid rgba(245,158,11,0.2)',
+            background: 'rgba(217,119,6,0.08)',
+            border: '1px solid rgba(217,119,6,0.25)',
             borderTop: 'none',
             padding: '7px 14px',
-            backdropFilter: 'blur(12px)',
           }}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }} aria-hidden="true">
-              <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="#FCD34D" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"/>
+              <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="#B45309" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"/>
             </svg>
-            <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#FCD34D', letterSpacing: '0.04em', flex: 1 }}>
+            <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#B45309', letterSpacing: '0.04em', flex: 1 }}>
               Live data unavailable — showing cached forecast data. NUC API offline.
             </span>
             <button
@@ -935,12 +934,12 @@ export default function MapPageClient({ spots, offline = false }: { spots: Spot[
               aria-label="Dismiss banner"
               style={{
                 background: 'none', border: 'none', cursor: 'pointer', padding: '2px 4px',
-                color: 'rgba(252,211,77,0.5)', flexShrink: 0, lineHeight: 1,
+                color: 'rgba(180,83,9,0.5)', flexShrink: 0, lineHeight: 1,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 transition: 'color 0.12s',
               }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#FCD34D' }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(252,211,77,0.5)' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#B45309' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(180,83,9,0.5)' }}
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -970,25 +969,25 @@ export default function MapPageClient({ spots, offline = false }: { spots: Spot[
             {mapStyles.map(s => (
               <button key={s.key} onClick={() => setMapStyle(s.key)} style={{
                 fontFamily: 'monospace', fontSize: 12, padding: '5px 9px', borderRadius: 8, cursor: 'pointer',
-                border: `1px solid ${mapStyle === s.key ? 'rgba(6,182,212,0.4)' : 'rgba(255,255,255,0.07)'}`,
-                background: mapStyle === s.key ? 'rgba(6,182,212,0.12)' : 'rgba(6,10,22,0.85)',
-                color: mapStyle === s.key ? '#06b6d4' : 'rgba(255,255,255,0.35)',
-                backdropFilter: 'blur(12px)', transition: 'all 0.12s',
+                border: `1px solid ${mapStyle === s.key ? 'rgba(14,165,233,0.4)' : 'var(--tile-border)'}`,
+                background: mapStyle === s.key ? 'rgba(14,165,233,0.12)' : 'var(--tile-bg)',
+                color: mapStyle === s.key ? 'var(--cyan)' : 'var(--spray)',
+     transition: 'all 0.12s',
               }}>{s.icon}</button>
             ))}
           </div>
           {/* Condition legend */}
-          <div style={{ background: 'rgba(4,8,18,0.9)', backdropFilter: 'blur(16px)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div style={{ background: 'var(--tile-bg)', border: '1px solid var(--tile-border)', borderRadius: 10, padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 4 }}>
             {(['firing','pumping','fun','worth_it','flat'] as const).map(k => (
               <div key={k} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                 <div style={{ width: 6, height: 6, borderRadius: '50%', background: COND[k].accent, flexShrink: 0, boxShadow: `0 0 4px ${COND[k].accent}80` }} />
-                <span style={{ fontFamily: 'monospace', fontSize: 8, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.04em', textTransform: 'capitalize' }}>{COND[k].label}</span>
+                <span style={{ fontFamily: 'monospace', fontSize: 8, color: 'var(--spray)', letterSpacing: '0.04em', textTransform: 'capitalize' }}>{COND[k].label}</span>
               </div>
             ))}
             {offline && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 7, borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: 2, paddingTop: 4 }}>
-                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#374151', flexShrink: 0 }} />
-                <span style={{ fontFamily: 'monospace', fontSize: 8, color: 'rgba(249,115,22,0.5)', letterSpacing: '0.04em' }}>OFFLINE</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 7, borderTop: '1px solid var(--tile-border)', marginTop: 2, paddingTop: 4 }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#64748B', flexShrink: 0 }} />
+                <span style={{ fontFamily: 'monospace', fontSize: 8, color: 'rgba(234,88,12,0.5)', letterSpacing: '0.04em' }}>OFFLINE</span>
               </div>
             )}
           </div>
@@ -1009,19 +1008,19 @@ export default function MapPageClient({ spots, offline = false }: { spots: Spot[
                   style={{
                     display: 'flex', alignItems: 'center', gap: 6,
                     background: locPermission === 'denied'
-                      ? 'rgba(239,68,68,0.08)'
-                      : userLocation ? 'rgba(59,130,246,0.15)' : 'rgba(6,13,26,0.92)',
-                    border: `1px solid ${locPermission === 'denied' ? 'rgba(239,68,68,0.35)' : userLocation ? 'rgba(59,130,246,0.5)' : 'rgba(59,130,246,0.4)'}`,
+                      ? 'rgba(234,88,12,0.08)'
+                      : userLocation ? 'rgba(79,70,229,0.15)' : 'var(--tile-bg)',
+                    border: `1px solid ${locPermission === 'denied' ? 'rgba(234,88,12,0.35)' : userLocation ? 'rgba(79,70,229,0.5)' : 'rgba(79,70,229,0.4)'}`,
                     borderRadius: 6, padding: '6px 12px',
                     cursor: locPermission === 'denied' ? 'not-allowed' : 'pointer',
-                    color: locPermission === 'denied' ? '#F87171' : '#93C5FD',
+                    color: locPermission === 'denied' ? '#DC2626' : 'var(--cyan-bright)',
                     fontFamily: 'var(--font-data)', fontSize: 11,
-                    backdropFilter: 'blur(20px)', boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+                    boxShadow: 'var(--tile-shadow)',
                     whiteSpace: 'nowrap', opacity: locPermission === 'denied' ? 0.75 : 1,
                   }}
                 >
                   {locating ? (
-                    <div style={{ width: 12, height: 12, borderRadius: '50%', border: '1.5px solid rgba(59,130,246,0.3)', borderTopColor: '#93C5FD', animation: 'spin 0.7s linear infinite' }} />
+                    <div style={{ width: 12, height: 12, borderRadius: '50%', border: '1.5px solid rgba(79,70,229,0.3)', borderTopColor: 'var(--cyan-bright)', animation: 'spin 0.7s linear infinite' }} />
                   ) : (
                     <span style={{ fontSize: 12 }}>{locPermission === 'denied' ? '🚫' : '📍'}</span>
                   )}
@@ -1034,9 +1033,9 @@ export default function MapPageClient({ spots, offline = false }: { spots: Spot[
           {/* Location error tooltip */}
           {locError && (
             <div style={{
-              background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)',
+              background: 'rgba(234,88,12,0.12)', border: '1px solid rgba(234,88,12,0.25)',
               borderRadius: 8, padding: '5px 10px',
-              fontFamily: 'monospace', fontSize: 9, color: '#ef4444',
+              fontFamily: 'monospace', fontSize: 9, color: '#EA580C',
               letterSpacing: '0.04em', whiteSpace: 'nowrap',
             }}>
               {locError}
@@ -1050,19 +1049,19 @@ export default function MapPageClient({ spots, offline = false }: { spots: Spot[
           style={{
             position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)',
             zIndex: 20, width: 20, height: 48,
-            background: 'rgba(4,8,18,0.92)', backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255,255,255,0.08)', borderRight: 'none',
+            background: 'var(--tile-bg)',
+            border: '1px solid var(--tile-border-strong)', borderRight: 'none',
             borderRadius: '8px 0 0 8px', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: 'rgba(255,255,255,0.3)', transition: 'color 0.15s, background 0.15s',
+            color: 'var(--spray)', transition: 'color 0.15s, background 0.15s',
           }}
           onMouseEnter={e => {
-            (e.currentTarget as HTMLElement).style.color = '#06b6d4'
-            ;(e.currentTarget as HTMLElement).style.background = 'rgba(6,182,212,0.1)'
+            (e.currentTarget as HTMLElement).style.color = 'var(--cyan)'
+            ;(e.currentTarget as HTMLElement).style.background = 'rgba(14,165,233,0.1)'
           }}
           onMouseLeave={e => {
-            (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.3)'
-            ;(e.currentTarget as HTMLElement).style.background = 'rgba(4,8,18,0.92)'
+            (e.currentTarget as HTMLElement).style.color = 'var(--spray)'
+            ;(e.currentTarget as HTMLElement).style.background = 'var(--tile-bg)'
           }}
           aria-label={sidebarOpen ? 'Collapse sidebar' : 'Open spots list'}
           title={sidebarOpen ? 'Collapse sidebar' : 'Open spots list'}
@@ -1083,8 +1082,8 @@ export default function MapPageClient({ spots, offline = false }: { spots: Spot[
         <div style={{
           width: SIDEBAR_W,
           height: '100%',
-          background: 'rgba(4,8,18,0.97)',
-          borderLeft: '1px solid rgba(255,255,255,0.07)',
+          background: 'var(--paper-raised)',
+          borderLeft: '1px solid var(--tile-border)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
@@ -1142,21 +1141,21 @@ export default function MapPageClient({ spots, offline = false }: { spots: Spot[
         <div style={{
           position: 'absolute', top: 14, right: 14, zIndex: 20,
           display: 'flex', alignItems: 'center', gap: 8,
-          background: 'rgba(4,8,18,0.9)', backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255,255,255,0.09)', borderRadius: 10,
-          padding: '8px 14px', boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+          background: 'var(--tile-bg)',
+          border: '1px solid var(--tile-border-strong)', borderRadius: 10,
+          padding: '8px 14px', boxShadow: 'var(--tile-shadow)',
           pointerEvents: 'none',
         }}>
           {offline ? (
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#f97316', flexShrink: 0 }} />
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#EA580C', flexShrink: 0 }} />
           ) : (
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#06b6d4', boxShadow: '0 0 6px #06b6d4', flexShrink: 0, animation: 'offline-blink 2s ease-in-out infinite' }} />
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--cyan)', boxShadow: '0 0 6px var(--cyan)', flexShrink: 0, animation: 'offline-blink 2s ease-in-out infinite' }} />
           )}
-          <span style={{ fontFamily: 'monospace', fontSize: 10, fontWeight: 700, color: '#c8d8e8', letterSpacing: '0.02em' }}>
-            {filtered.length}<span style={{ color: 'rgba(255,255,255,0.28)', fontWeight: 400 }}>{filtered.length !== spots.length ? `/${spots.length}` : ''} spots</span>
+          <span style={{ fontFamily: 'monospace', fontSize: 10, fontWeight: 700, color: 'var(--foam)', letterSpacing: '0.02em' }}>
+            {filtered.length}<span style={{ color: 'var(--spray)', fontWeight: 400 }}>{filtered.length !== spots.length ? `/${spots.length}` : ''} spots</span>
           </span>
           {hotCount > 0 && (
-            <span style={{ fontFamily: 'monospace', fontSize: 8, fontWeight: 700, color: '#ef4444', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)', padding: '2px 6px', borderRadius: 8 }}>
+            <span style={{ fontFamily: 'monospace', fontSize: 8, fontWeight: 700, color: '#EA580C', background: 'rgba(234,88,12,0.1)', border: '1px solid rgba(234,88,12,0.25)', padding: '2px 6px', borderRadius: 8 }}>
               🔥{hotCount}
             </span>
           )}
