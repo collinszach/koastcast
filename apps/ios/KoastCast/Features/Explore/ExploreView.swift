@@ -47,13 +47,12 @@ struct ExploreView: View {
                     Annotation(spot.name, coordinate: spot.coordinate!) {
                         SpotPin(quality: (spot.qualityScore ?? -1) * 10,
                                 selected: selected?.id == spot.id)
-                            .onTapGesture { selected = spot }
                     }
                     .tag(spot.id)
                 }
                 UserAnnotation()
             }
-            .mapStyle(.standard(elevation: .flat, emphasis: .muted, pointsOfInterest: .excludingAll))
+            .mapStyle(.standard(elevation: .flat, pointsOfInterest: .excludingAll))
             .onMapCameraChange(frequency: .onEnd) { ctx in
                 region = ctx.region
             }
