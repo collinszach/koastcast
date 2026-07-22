@@ -6,35 +6,61 @@ struct TodayView: View {
     @Environment(AppState.self) private var app
     @State private var showSettings = false
 
+    private var list: [Spot] { app.savedSpots.isEmpty ? Array(app.spots.prefix(3)) : app.savedSpots }
+
     var body: some View {
         NavigationStack {
-            ZStack {
-                Theme.oceanGradient.ignoresSafeArea()
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 18) {
-                        header
-                        BriefingCard(spots: app.savedSpots.isEmpty ? Array(app.spots.prefix(3)) : app.savedSpots)
-                        Text("Your spots")
-                            .sectionLabel()
-                            .padding(.top, Spacing.xs)
-                        let list = app.savedSpots.isEmpty ? Array(app.spots.prefix(3)) : app.savedSpots
-                        if list.isEmpty {
-                            ProgressView().tint(Theme.accent).frame(maxWidth: .infinity).padding(.vertical, 40)
-                        } else {
-                            ForEach(list) { spot in
-                                NavigationLink(value: spot) {
-                                    SpotVerdictCard(spot: spot, metrics: app.todayMetrics)
-                                }
-                                .pressable()
+            List {
+                Section {
+                    header
+                }
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 0, trailing: 20))
+
+                Section {
+                    BriefingCard(spots: app.savedSpots.isEmpty ? Array(app.spots.prefix(3)) : app.savedSpots)
+                }
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets(top: 18, leading: 20, bottom: 0, trailing: 20))
+
+                Section {
+                    Text("Your spots").sectionLabel()
+                    if list.isEmpty {
+                        ProgressView().tint(Theme.accent).frame(maxWidth: .infinity).padding(.vertical, 40)
+                            .listRowSeparator(.hidden)
+                    }
+                }
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets(top: 18, leading: 20, bottom: 0, trailing: 20))
+
+                ForEach(list) { spot in
+                    NavigationLink(value: spot) {
+                        SpotVerdictCard(spot: spot, metrics: app.todayMetrics)
+                    }
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: 10, leading: 20, bottom: 0, trailing: 20))
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        if app.isSaved(spot) {
+                            Button(role: .destructive) {
+                                Haptics.tap()
+                                app.toggleSaved(spot)
+                            } label: {
+                                Label("Remove", systemImage: "heart.slash.fill")
                             }
                         }
                     }
-                    .padding(20)
                 }
-                .refreshable {
-                    Haptics.tap()
-                    await app.refreshSpots()
-                }
+            }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .background(Theme.oceanGradient.ignoresSafeArea())
+            .refreshable {
+                Haptics.tap()
+                await app.refreshSpots()
             }
             .navigationDestination(for: Spot.self) { SpotDetailView(spot: $0) }
             .navigationBarTitleDisplayMode(.inline)
