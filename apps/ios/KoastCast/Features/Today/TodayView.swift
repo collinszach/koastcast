@@ -5,6 +5,7 @@ import SwiftUI
 struct TodayView: View {
     @Environment(AppState.self) private var app
     @State private var showSettings = false
+    @State private var showAddSpot = false
 
     private var list: [Spot] { app.savedSpots.isEmpty ? Array(app.spots.prefix(3)) : app.savedSpots }
 
@@ -26,7 +27,18 @@ struct TodayView: View {
                 .listRowInsets(EdgeInsets(top: 18, leading: 20, bottom: 0, trailing: 20))
 
                 Section {
-                    Text("Your spots").sectionLabel()
+                    HStack {
+                        Text("Your spots").sectionLabel()
+                        Spacer()
+                        Button {
+                            Haptics.tap()
+                            showAddSpot = true
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.body)
+                                .foregroundStyle(Theme.accent)
+                        }
+                    }
                     if list.isEmpty {
                         ProgressView().tint(Theme.accent).frame(maxWidth: .infinity).padding(.vertical, 40)
                             .listRowSeparator(.hidden)
@@ -78,6 +90,9 @@ struct TodayView: View {
             }
             .sheet(isPresented: $showSettings) {
                 TodaySettingsView()
+            }
+            .sheet(isPresented: $showAddSpot) {
+                AddSpotView()
             }
         }
     }
